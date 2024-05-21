@@ -14,6 +14,7 @@ Volcanos(chat.ONIMPORT, {
 		can.ui = can.onappend.layout(can, [html.PROJECT, [html.TABS, nfs.PATH, [html.CONTENT, html.PROFILE], html.DISPLAY, html.PLUG]])
 		can.ui._content = can.ui.content, can.ui._profile = can.ui.profile, can.ui._display = can.ui.display
 		can.onmotion.clear(can, can.ui.project), can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.tabs), can.onmotion.hidden(can, can.ui.plug)
+		can.db.value = {}
 		var show = !can.user.isMobile
 		switch (can.Mode()) {
 			case chat.SIMPLE: // no break

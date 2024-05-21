@@ -695,14 +695,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			var height = can.base.Min(target.offsetHeight*target.offsetHeight/target.scrollHeight, target.offsetHeight/4)
 			vbar.innerHTML = `${(target.scrollTop*100/(target.scrollHeight-target.offsetHeight)).toFixed(2)}%`
 			target.scrollHeight > target.offsetHeight && can.page.style(can, vbar, html.VISIBILITY, html.VISIBLE,
-				html.HEIGHT, height, html.RIGHT, target == can.ui.content? 0: -target.scrollLeft,
+				html.HEIGHT, height, html.RIGHT, target == can.ui.content? undefined: -target.scrollLeft,
 				html.TOP, target == can.ui.content? target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height):
 						can.base.Max(target.scrollTop+target.scrollTop/(target.scrollHeight-target.offsetHeight)*(target.offsetHeight-height)-10, target.scrollHeight-height),
 			)
 			var width = can.base.Min(target.offsetWidth*target.offsetWidth/target.scrollWidth, target.offsetWidth/4)
 			hbar.innerHTML = `${(target.scrollLeft*100/(target.scrollWidth-target.offsetWidth)).toFixed(2)}%`
 			target.scrollWidth > target.offsetWidth+10 && can.page.style(can, hbar, html.VISIBILITY, html.VISIBLE,
-				html.WIDTH, width, html.BOTTOM, target == can.ui.content? 0: -target.scrollTop,
+				html.WIDTH, width, html.BOTTOM, target == can.ui.content? undefined: -target.scrollTop,
 				html.LEFT, target == can.ui.content? target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width):
 						target.scrollLeft+target.scrollLeft/(target.scrollWidth-target.offsetWidth)*(target.offsetWidth-width),
 			)
@@ -795,6 +795,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				}
 				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, width, false)
 				if (can.ui.toggle) { can.ui.toggle.layout(), can.page.style(can, can.ui.toggle.profile, "right", can.ui.profile.offsetWidth+"px") }
+				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.vertical", function(target) {
+					can.page.style(can, target, "right", can.ui.profile.offsetWidth)
+				})
+				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.horizon", function(target) {
+					can.page.style(can, target, "bottom", can.ui.display.offsetHeight)
+				})
 			} cb && cb(content_height, content_width)
 		}, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) {
