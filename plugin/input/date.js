@@ -11,7 +11,7 @@ Volcanos(chat.ONFIGURE, {date: {
 			mdb.PREV, function() { now.setMonth(now.getMonth()-1), show(now) },
 			YEAR, function(event, can, button, value) { now.setFullYear(parseInt(value)), show(now) },
 			MONTH, function(event, can, button, value) { now.setMonth(parseInt(value)-1), show(now) },
-			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), show(now) },
+			mdb.NEXT, function() { now.setMonth(now.getMonth()+1), show(now) }
 		)
 		var ui = can.page.Append(can, can._action, ["time", "date"])
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)), TODAY], ui.time, meta)

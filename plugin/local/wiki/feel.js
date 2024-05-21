@@ -129,7 +129,7 @@ Volcanos(chat.ONACTION, {list: ["full",
 	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
 		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
 			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
-			canvas.toBlob((blob) => { cb([blob], nfs.PNG) })
+			canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
 		}
 	}) },
 	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {

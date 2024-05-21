@@ -25,7 +25,7 @@ Volcanos(chat.ONFIGURE, {
 				if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p,
 					nfs.USR_LEARNING, nfs.USR_INTSHELL,
 					nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES,
-					nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT,
+					nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT
 				)) { return }
 				if (p && paths.indexOf(p) == -1 && p[0] != nfs.PS) { paths.push(p) }
 			})

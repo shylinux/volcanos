@@ -184,7 +184,7 @@ Volcanos(chat.ONACTION, {list: [
 	oncontextmenu: function(event, can) { can.page.style(can, can.user.carte(event, can, can.ondetail)._target, {left: event.clientX, top: event.clientY}) },
 })
 Volcanos(chat.ONDETAIL, {list: [cli.START, nfs.COPY, html.LABEL, mdb.REMOVE], _trans: {copy: "复制", label: "标签"},
-	_select(can, name, cb) { if (!name) { return } var target = can.page.SelectOne(can, can.ui.svg, nfs.PT+name, cb); if (!target) { return }
+	_select: function(can, name, cb) { if (!name) { return } var target = can.page.SelectOne(can, can.ui.svg, nfs.PT+name, cb); if (!target) { return }
 		can.onimport._profile(can, target), can.onimport._display(can, target), can.onimport.layout(can); return target
 	},
 	_move: function(can, target, list) {

@@ -193,7 +193,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 				"Close Other", function(event) { target.click(), can.page.SelectChild(can, action, html.DIV_TABS, function(target) { target == tabs._target || target._close() }) },
 				"Rename Tabs", function(event) { can.user.input(event, can, [mdb.NAME], function(list) {
 					can.page.SelectOne(can, target, html.SPAN, function(target) { can.page.Modify(can, target, list[0]||tabs.name) })
-				}) }, menu.meta,
+				}) }, menu.meta
 			), ["Close", "Close Other", "Rename Tabs", ""].concat(can.base.getValid(menu.list, can.core.Item(menu.meta)), _action), function(event, button, meta) {
 				(meta[button]||menu)(can.request(event, tabs), button, meta)
 			})

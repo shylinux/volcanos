@@ -512,10 +512,10 @@ var svg = {
 	TEXT_LENGTH: "textLength",
 }
 try { module.exports = {
-	kit, ice,
-	ctx, mdb, web, aaa,
-	lex, yac, ssh, gdb,
-	tcp, nfs, cli, log,
-	code, wiki, chat, team, mall,
-	http, html, icon, svg
-} } catch {}
+	kit: kit, ice: ice,
+	ctx: ctx, mdb: mdb, web: web, aaa: aaa,
+	lex: lex, yac: lex, ssh: ssh, gdb: gdb,
+	tcp: tcp, nfs: nfs, cli: cli, log: log,
+	code: code, wiki: wiki, chat: chat, team: team, mall: mall,
+	http: http, html: html, icon: icon, svg: svg
+} } catch (e) {}

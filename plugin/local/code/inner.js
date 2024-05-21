@@ -177,7 +177,9 @@ Volcanos(chat.ONIMPORT, {
 					return can.onmotion.toggle(can, can.ui.profile, true), can.onimport.layout(can)
 				}
 			}
-			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) { can.ui.profile._plugin = sub, can.page.style(can, sub._output, html.MAX_WIDTH, "")
+			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) {
+				_msg._profile_plugin = sub
+				can.ui.profile._plugin = sub, can.page.style(can, sub._output, html.MAX_WIDTH, "")
 				sub.onaction.close = function() {
 					can._msg._profile_hidden = true
 					can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), ""),
@@ -265,7 +267,7 @@ Volcanos(chat.ONIMPORT, {
 		if (can.isCmdMode()) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(can.page.height())) }
 		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			var sub = can.ui.profile._plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, true)
+			var sub = can._msg._profile_plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, false)
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			sub.onimport.size(sub, height, width, false), can.page.style(can, sub._target, html.HEIGHT, height)
 		})

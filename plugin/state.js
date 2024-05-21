@@ -164,7 +164,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 				html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), ice.MODE, can.Mode()||"",
 				html.ACTION, can.page.isDisplay(can._action), html.STATUS, can.page.isDisplay(can._status),
 				html.OUTPUT, can.base.Copy({}, can._output.style, html.HEIGHT, html.WIDTH, html.MAX_HEIGHT, html.MAX_WIDTH),
-				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM), save(),
+				ctx.STYLE, can.base.Copy({}, can._target.style, html.LEFT, html.TOP, html.RIGHT, html.BOTTOM), save()
 			)), can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), false, mode)
 		} else { var back = (can._mode_list = can._mode_list||[]).pop(); if (!back) { return }
 			can.onmotion.toggle(can, can._action, back.action), can.onmotion.toggle(can, can._status, back.status)
@@ -306,7 +306,7 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
 		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
 			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
-			canvas.toBlob((blob) => { cb([blob], nfs.PNG) })
+			canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
 		}
 	}) },
 	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
