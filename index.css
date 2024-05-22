@@ -255,6 +255,9 @@ div.toggle { background-color:var(--hover-bg-color); color:var(--disable-fg-colo
 body.dark div.toggle:not(:hover) { color:silver; }
 div.toggle:hover { color:var(--hover-fg-color); }
 div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radius); border-bottom-right-radius:var(--plugin-radius); }
+div.output>div.layout { flex-grow:1; }
+// div.output>div.layout>div.layout { flex-grow:1; }
+div.output>div.layout>div.layout>div.content { flex-grow:1; }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
@@ -832,12 +835,15 @@ body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
 fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
+fieldset.iframe.float>form.option>div.item:not(.delete) { display:none; }
 fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe>div.status { display:none; }
+fieldset.iframe.float { border:0; }
 fieldset.desktop { border:0; }
 fieldset.desktop>legend { background-color:transparent; color:silver; }
 fieldset.desktop>form.option>div.item:not(.delete) { display:none; }
-fieldset.desktop>div.action>div.item.text input { display:none; }
+fieldset.desktop>form.option>div.item.delete { color:silver; }
+fieldset.desktop>div.action>div.item.text { display:none; }
 fieldset.desktop>div.action { color:silver; }
 fieldset.desktop>div.status { display:none; }
 fieldset.qrcode>div.output div.code { padding:0; }

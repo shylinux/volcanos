@@ -314,8 +314,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	_output: function(can, msg, display, cb, output, status, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
 		if (msg.IsErr()) { return can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
-		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/src/") && delete(Volcanos.meta.cache[display])
-		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/require/src/") && delete(Volcanos.meta.cache[display])
+		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/") && delete(Volcanos.meta.cache[display])
+		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/") && delete(Volcanos.meta.cache[display.split(".")[0]])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash: [""], value: {}}, ui: {layout: function() {}},
@@ -732,7 +732,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
 		can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
-		var count = 0, ui = {size: {}}; type = type||FLEX, target = target||can._output
+		var count = 0, ui = {size: {profile: 0.5}}; list = list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]], type = type||FLEX, target = target||can._output
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {
 			if (can.base.isString(item)) {
 				ui[item] = can.page.Append(can, target, [item])._target
@@ -749,58 +749,59 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER, aaa.APPLY, code.VIMER) && can.onmotion.hidden(can, target)
 				} else { can.page.Append(can, target, [item]) }
 			}
-		}); return list } ui.list = append(target, type, list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]])
-		function calc(item, size, total) { return !ui.size[item]? can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size: ui.size[item] < 1? total*ui.size[item]: ui.size[item] }
+		}); return list } ui.list = append(target, type, list)
+
+		function calc(item, size, total) { return ui.size[item]? ui.size[item] < 1? total*ui.size[item]: ui.size[item]: can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			var meta = {}
 			if (can.base.isArray(item)) { return }
+			if (can.user.isMobile && can.base.isIn(item, html.PROJECT, html.PROFILE)) { return }
 			if (can.base.isObject(item)) { var meta = item; item = item._index }
 			var target = ui[item]; if (!can.page.isDisplay(target)) { return }
-			if (item == html.CONTENT || item == ice.MAIN) { return defer.push(function() { can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width) }) }
-			if (type == FLOW) {
-				var h = calc(item, target.offsetHeight, height), w = meta.width||width
-				can.page.style(can, target, html.WIDTH, w); if (can.base.isObject(meta) && meta.layout) { meta.layout(h = _height/list.length, w) }
-				if (can.page.isDisplay(target)) { height -= h }
-			} else {
+			if (item == html.CONTENT || item == ice.MAIN) { return defer.push(function() {
+				can.page.style(can, target, html.HEIGHT, content_height = height, html.WIDTH, content_width = width)
+			}) }
+			if (type == FLEX) {
 				var w = calc(item, target.offsetWidth||target.style.width||_width/list.length, _width), h = meta.height||height
-				can.page.style(can, target, html.HEIGHT, h); if (can.base.isObject(meta) && meta.layout) { meta.layout(h, w = _width/list.length) }
-				if (can.user.isMobile && item == html.PROJECT) { return }
-				if (can.page.isDisplay(target)) { width -= w }
+				can.page.style(can, target, html.HEIGHT, h); if (can.page.isDisplay(target)) { width -= w }
+				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, w = _width/list.length) }
+			} else {
+				var h = calc(item, target.offsetHeight, height), w = meta.width||width
+				can.page.style(can, target, html.WIDTH, w); if (can.page.isDisplay(target)) { height -= h }
+				if (can.base.isObject(meta) && meta.layout) { meta.layout(h = _height/list.length, w) }
 			}
-		}), can.core.List(list, function(item) { if (can.base.isArray(item)) { layout(type == FLOW? FLEX: FLOW, item, height, width) } }) }
-		ui.project && can.user.isMobile && can.onmotion.hidden(can, ui.project); ui.filter = can.onappend.filter(can, ui.project)
+		}), can.core.List(list, function(item) {
+			if (can.base.isArray(item)) { layout(type == FLEX? FLOW: FLEX, item, height, width) }
+		}) }
+
+		ui.project && (can.user.isMobile && can.onmotion.hidden(can, ui.project), ui.filter = can.onappend.filter(can, ui.project))
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
-		can.onexport.session && can.onexport.session(can, "project.hide") == "true" && ui.project && can.onmotion.hidden(can, ui.project)
-		can.onexport.session && can.onexport.session(can, "display.show") == "true" && can.onmotion.toggle(can, ui.display, true)
-		can.onexport.session && can.onexport.session(can, "profile.show") == "true" && can.onmotion.toggle(can, ui.profile, true)
+		can.onexport.session && can.onexport.session(can, "project.hide") == ice.TRUE && ui.project && can.onmotion.hidden(can, ui.project)
+		can.onexport.session && can.onexport.session(can, "display.show") == ice.TRUE && can.onmotion.toggle(can, ui.display, true)
+		can.onexport.session && can.onexport.session(can, "profile.show") == ice.TRUE && can.onmotion.toggle(can, ui.profile, true)
+
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
 			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
-			if (can.db.value) { var _width = can.ConfWidth(); width = width-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0)
+			if (can.db.value) {
 				can.onexport.session(can, "project.hide", !can.page.isDisplay(can.ui.project))
 				can.onexport.session(can, "display.show", can.page.isDisplay(can.ui.display))
 				can.onexport.session(can, "profile.show", can.page.isDisplay(can.ui.profile))
-				if (can.isCmdMode()) {
+				if (can.isCmdMode()) { var _width = can.ConfWidth()
 					can.page.SelectChild(can, can._fields, "legend,form.option,div.header", function(target) { _width -= target.offsetWidth })
 					can.page.SelectChild(can, can._fields, "div.action", function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-1)
 						can.page.Select(can, target, "span.name", function(target, index, list) { can.page.style(can, target, html.MAX_WIDTH, (_width-50)/list.length-40) })
 					})
 				}
 				if (can.page.isDisplay(can.ui.display)) {
-					height = height/2, can.page.style(can, can.ui.content, html.HEIGHT, height), can.page.style(can, can.ui.display, html.HEIGHT, height)
-					can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, height-1, width, false)
+					can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, can.ui.display.offsetHeight-1, can.ui.display.offsetWidth, false)
 				}
 				if (can.page.isDisplay(can.ui.profile)) {
-					width = width/2, can.page.style(can, can.ui.content, html.WIDTH, width), can.page.style(can, can.ui.profile, html.WIDTH, width)
-					can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, height, width-1, false)
+					can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, content_height, content_width, false)
 				}
-				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, height, width, false)
+				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, content_height, content_width, false)
 				if (can.ui.toggle) { can.ui.toggle.layout(), can.page.style(can, can.ui.toggle.profile, "right", can.ui.profile.offsetWidth+"px") }
-				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.vertical", function(target) {
-					can.page.style(can, target, "right", can.ui.profile.offsetWidth)
-				})
-				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.horizon", function(target) {
-					can.page.style(can, target, "bottom", can.ui.display.offsetHeight)
-				})
+				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.vertical", function(target) { can.page.style(can, target, "right", can.ui.profile.offsetWidth) })
+				can.ui.content && can.page.SelectChild(can, can.ui.content.parentNode, "div.scrollbar.horizon", function(target) { can.page.style(can, target, "bottom", can.ui.display.offsetHeight) })
 			} cb && cb(content_height, content_width)
 		}, delay||0) }
 		can.onimport.layout = can.onimport.layout||function(can) {

@@ -272,6 +272,7 @@ Volcanos(chat.ONEXPORT, {
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
 	hash: function(can, hash) { hash = typeof hash == code.STRING? hash.split(":").concat(can.core.List(arguments).slice(2)||[]): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
 		can.misc.SearchHash(can, hash), can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), "hash"], hash)
+		return hash
 	},
 	session: function(can, key, value) { return can.sup.onexport.session(can.sup, key, value) },
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
