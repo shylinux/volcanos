@@ -190,20 +190,11 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}
 	},
-	display: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.HEIGHT, msg.Option(html.HEIGHT)), border = 1
-		var height = can.onexport.size(can, _msg.Option(html.HEIGHT)||0.5, can.ui.project.offsetHeight||can.ConfHeight())+border, width = can.ConfWidth()-can.ui.project.offsetWidth
-		can.page.style(can, can.ui.display, html.MAX_HEIGHT, height, html.MAX_WIDTH, width), can.ui.display = _msg._display = can.ui._display
-		if (can.ui.display._plugin && can.base.isIn(msg.Append(ctx.INDEX), web.CODE_XTERM)) {
-			if (can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))) {
-				return can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
-			}
-		}
-		can.onimport.process(can, msg, can.ui.display, height-border, width, function(sub) { can.ui.display._plugin = _msg._display = sub, can.page.style(can, sub._output, html.MAX_HEIGHT, "")
-			sub.onaction.close = function() { can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), ""), can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
-			sub.Conf(ctx.ARGS) && can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), JSON.stringify(sub.Conf(ctx.ARGS)))
-			if (sub._index == web.WIKI_WORD) { can.page.style(can, can.ui.display, html.HEIGHT, height+border, html.MAX_HEIGHT, height+border), can.onimport.layout(can); return }
-			var _height = can.base.Max(sub._target.offsetHeight+border, height); _msg.Option(html.HEIGHT, _height)
-			sub.onimport.size(sub, _height-border, width, true), can.onimport.layout(can)
+	display: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)], border = 1; can.ui.display = _msg._display = can.ui._display
+		var height = can.onexport.size(can, 0.5, can.ui.project.offsetHeight||can.ConfHeight()), width = can.ConfWidth()-can.ui.project.offsetWidth
+		can.onimport.process(can, msg, can.ui.display, height-border, width, function(sub) { can.ui.display._plugin = _msg._display = sub
+			sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
+			sub.onimport.size(sub, height-border, width, true), can.onimport.layout(can)
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)

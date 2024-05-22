@@ -256,7 +256,6 @@ body.dark div.toggle:not(:hover) { color:silver; }
 div.toggle:hover { color:var(--hover-fg-color); }
 div.toggle.project { top:20%; left:0; border-top-right-radius:var(--plugin-radius); border-bottom-right-radius:var(--plugin-radius); }
 div.output>div.layout { flex-grow:1; }
-// div.output>div.layout>div.layout { flex-grow:1; }
 div.output>div.layout>div.layout>div.content { flex-grow:1; }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
@@ -947,7 +946,7 @@ fieldset.Search div.story[data-type=spark] { margin:0; }
 fieldset.Search>div.output>div.profile { border-left:none; width:unset; }
 fieldset.Search>div.output>div.content>table.content td { cursor:pointer; }
 fieldset.Action.tabs table.content { width:100%; }
-fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:var(--plugin-padding); margin:var(--plugin-margin); }
+fieldset.Action:not(.cmd)>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd) { padding:var(--plugin-padding); margin:var(--plugin-margin); }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>legend { float:none; }
 fieldset.Action>div.output>fieldset.plugin:not(.float):not(.full):not(.cmd)>legend:not(:hover) { background-color:var(--plugin-bg-color); }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile { box-shadow:none; background-color:transparent; }

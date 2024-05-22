@@ -145,6 +145,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
+		meta.index && can.page.style(can, field, "visibility", "hidden")
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [], db: {hash: [""]}, ui: {},
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key } try {
@@ -237,7 +238,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		};
 		var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
-			var p = can.misc.Search(can, ctx.ACTION)
+			var p = can.misc.Search(can, ctx.ACTION); auto || can.page.style(can, can._target, "visibility", "visible")
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
 
 			} else if (p && can.isCmdMode()) {
@@ -304,9 +305,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (can.base.isFunc(cb) && !cb(msg)) { return } if (silent) { return }
 			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
-				if (can.base.isIn(cmds[1], ctx.COMMAND)) {
-					return
-				}
+				if (can.base.isIn(cmds[1], ctx.COMMAND)) { return }
 				return can._toast || can.user.toastSuccess(can, cmds[1], ice.SUCCESS), can.Update()
 			} }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
@@ -351,7 +350,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
-				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
+				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", "visible")
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -731,7 +730,6 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		])
 	},
 	layout: function(can, list, type, target) { const FLOW = html.FLOW, FLEX = html.FLEX
-		can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
 		var count = 0, ui = {size: {profile: 0.5}}; list = list||[html.PROJECT, [[html.CONTENT, html.PROFILE], html.DISPLAY]], type = type||FLEX, target = target||can._output
 		function append(target, type, list) { can.page.ClassList.add(can, target, [html.LAYOUT, type]), can.core.List(list, function(item) {
 			if (can.base.isString(item)) {
@@ -744,9 +742,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 						item.layout = function(height, width) { sub.onimport.size(sub, height, width, false) }
 						can.onmotion.select(can, sub._target.parentNode, html.FIELDSET, sub._target)
-						sub.onexport._output = function() { can.onimport.layout(can), can.onmotion.delay(can, function() { can.onmotion.toggle(can, target, true) }) }
+						// sub.onexport._output = function() { can.onimport.layout(can) }
 					}, target, ui[item._index] = can.onappend.field(can, item.type, item, target)._target)
-					can.base.isIn(item._command, web.PORTAL, web.DESKTOP, aaa.OFFER, aaa.APPLY, code.VIMER) && can.onmotion.hidden(can, target)
 				} else { can.page.Append(can, target, [item]) }
 			}
 		}); return list } ui.list = append(target, type, list)
@@ -766,14 +763,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				can.page.style(can, target, html.HEIGHT, h); if (can.page.isDisplay(target)) { width -= w }
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h, w = _width/list.length) }
 			} else {
+				if (target.innerHTML == "") { return }
 				var h = calc(item, target.offsetHeight, height), w = meta.width||width
-				can.page.style(can, target, html.WIDTH, w); if (can.page.isDisplay(target)) { height -= h }
+				if (h > _height/2) { h = _height/2, can.page.style(can, target, html.HEIGHT, h) }
+				can.page.style(can, target, html.WIDTH); if (can.page.isDisplay(target)) { height -= h }
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h = _height/list.length, w) }
 			}
 		}), can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { layout(type == FLEX? FLOW: FLEX, item, height, width) }
 		}) }
 
+		ui.project && can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
 		ui.project && (can.user.isMobile && can.onmotion.hidden(can, ui.project), ui.filter = can.onappend.filter(can, ui.project))
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
 		can.onexport.session && can.onexport.session(can, "project.hide") == ice.TRUE && ui.project && can.onmotion.hidden(can, ui.project)
@@ -793,10 +793,12 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					})
 				}
 				if (can.page.isDisplay(can.ui.display)) {
-					can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, can.ui.display.offsetHeight-1, can.ui.display.offsetWidth, false)
+					// can.page.style(can, can.ui.display, html.MAX_HEIGHT, content_height)
+					can.db.value._display_plugin && can.db.value._display_plugin.onimport.size(can.db.value._display_plugin, content_height-1, can.ui.display.offsetWidth, false)
 				}
 				if (can.page.isDisplay(can.ui.profile)) {
-					can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, content_height, content_width, false)
+					// can.page.style(can, can.ui.profile, html.MAX_WIDTH, content_width)
+					can.db.value._profile_plugin && can.db.value._profile_plugin.onimport.size(can.db.value._profile_plugin, content_height, content_width-1, false)
 				}
 				can.db.value._content_plugin && can.db.value._content_plugin.onimport.size(can.db.value._content_plugin, content_height, content_width, false)
 				if (can.ui.toggle) { can.ui.toggle.layout(), can.page.style(can, can.ui.toggle.profile, "right", can.ui.profile.offsetWidth+"px") }
