@@ -975,7 +975,9 @@ body.mobile table.content.detail { word-break:break-all; white-space:unset; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
 body.white fieldset.inner.cmd>div.output>div.layout>div.tabs div:not(.select):not(:hover) { background-color:transparent; }
-body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border); box-shadow:var(--legend-box-shadow); }
+body.zh fieldset.inner>div.output>div.project>div.zone>div.item { letter-spacing:10px; border-top:var(--box-border);
+// box-shadow:var(--legend-box-shadow);
+}
 fieldset.story.web.chat.wx.agent { position:fixed; left:0; bottom:0; }
 div.output>fieldset.xterm.story>form.option>div.item.hash input { width:var(--form-width); }
 div.output>fieldset.iframe.story>form.option>div.item.hash input { width:var(--url-input-width); }

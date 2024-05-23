@@ -139,13 +139,14 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
 		field = field||can.onappend.field(can, meta.type, meta, target)._target
 		meta.style == html.OUTPUT && can.onappend.style(can, html.OUTPUT, field)
-		can.isCmdMode() && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
-		meta.index && can.page.style(can, field, "visibility", "hidden")
+		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
+		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
+		can.isCmdMode() && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [], db: {hash: [""]}, ui: {},
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key } try {
@@ -238,7 +239,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			})
 		};
 		var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
-			var p = can.misc.Search(can, ctx.ACTION); auto || can.page.style(can, can._target, "visibility", "visible")
+			var p = can.misc.Search(can, ctx.ACTION); auto || can.page.style(can, can._target, "visibility", "")
+			can.page.style(can, can._target, "visibility", "")
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
 
 			} else if (p && can.isCmdMode()) {
@@ -350,7 +352,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 						can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
-				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", "visible")
+				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
 			}, target: output}), msg.Defer()
 		})
 	},
