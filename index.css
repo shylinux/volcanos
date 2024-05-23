@@ -749,6 +749,7 @@ fieldset.story.float:not(.plug)>form.option>div.text>span.value { display:unset;
 // fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
+svg[font-size] text { font-size:unset; }
 svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }
 svg text:hover { cursor:pointer; }
 svg rect { stroke-width:var(--svg-stroke-width); stroke:var(--body-fg-color); fill:var(--output-bg-color); cursor:pointer; }
