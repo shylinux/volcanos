@@ -332,7 +332,10 @@ Volcanos(chat.ONEXPORT, {
 		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
 	title: function(can, title) { if (can.base.isIn(title, web.DESKTOP)) { return }
-		var pod = can.misc.Search(can, ice.POD); can.isCmdMode() && can.user.title(title+(pod && title != pod? " "+pod: ""))
+		var list = [title]
+		function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
+		push(can.ConfIndex()), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
+		can.isCmdMode() && can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },
 	link: function(can) {

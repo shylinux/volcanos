@@ -209,7 +209,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	tabsCache: function(can, msg, key, value, target, cb) { if (value._tabs) { return value._tabs.click() }
 		value._tabs = can.onimport.tabs(can, [value], function() { can.onexport.hash(can, key), can.Status(value), can.db.value = value
 			can.page.isSelect(target) || can.onmotion.delay(can, function() { target.click() })
-			if (can.onmotion.cache(can, function() { return key }, can.ui.content, can.ui.profile, can.ui.display)) { return can.onimport.layout(can) }
+			if (can.onmotion.cache(can, function() { return key }, can.ui.content, can.ui.profile, can.ui.display, can._status)) { return can.onimport.layout(can) }
 			if (cb && cb()) { return }
 			if (msg.Append(ctx.INDEX)) { msg.Table(function(value, index) {
 				index == 0 && can.onappend.plugin(can, value, function(sub) { can.db.value._content_plugin = sub, can.onimport.layout(can) }, can.ui.content)

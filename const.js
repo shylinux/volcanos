@@ -451,7 +451,9 @@ var icon = {
 	sess: "bi bi-telephone-forward",
 	path: "bi bi-folder2", file: "bi bi-file-earmark-text", line: "bi bi-sort-numeric-down",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
-	load: "bi bi-folder-plus", save: "bi bi-floppy", trash: "bi bi-trash",
+	load: "bi bi-folder-plus", save: "bi bi-floppy",
+	trash: "bi bi-trash",
+	copy: "bi bi-copy",
 	pull: "bi bi-cloud-download", push: "bi bi-cloud-upload",
 	upload: "bi bi-box-arrow-in-up", download: "bi bi-box-arrow-down",
 	"import": "bi bi-folder-plus", "export": "bi bi-floppy",
@@ -480,6 +482,7 @@ var icon = {
 	branch: "bi bi-diagram-3", commit: "bi bi-hash",
 	message: "bi bi-wechat",
 
+	plugin: "bi bi-window-stack",
 	preview: "bi bi-window-stack", show: "bi bi-window-stack",
 	display: "bi bi-window-desktop", exec: "bi bi-window-desktop",
 	chat: "bi bi-chat-dots", help: "bi bi-question-square", doc: "bi bi-question-square",

@@ -115,7 +115,8 @@ Volcanos(chat.ONIMPORT, {
 		function isIndex() { return line == ctx.INDEX } function isSpace() { return line == web.SPACE }
 		function show() { can._msg && can._msg.Option && can._msg.Option(nfs.LINE, can.Option(nfs.LINE)), can._msg = can.db.tabview[key]
 			can.Option(can.onimport.history(can, {path: path, file: file, line: can._msg.Option(nfs.LINE)||can.onexport.session(can, SELECT_LINE+nfs.DF+path+file)||1}))
-			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can), can.isCmdMode() && can.onexport.title(can, (isIndex()||isSpace()? "": path)+file)
+			can.onsyntax._init(can, can._msg, function(content) { var msg = can._msg; can.onexport.hash(can)
+				can.onexport.title(can, isIndex()||isSpace()? file: file.split("/").slice(-2).join("/"))
 				can.onmotion.select(can, can.ui._tabs, html.DIV_TABS, msg._tab), can.onmotion.toggle(can, can.ui.path, true)
 				if (isSpace()) { can.base.contains(file, "/") || can.onmotion.hidden(can, can.ui.path)
 					can.ui.path.innerHTML = can.page.Format(html.A, can.base.trimPrefix(can.misc.MergePodCmd(can, {pod: file}), location.origin))

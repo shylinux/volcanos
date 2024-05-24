@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {
 	_project: function(can, msg, hash) { msg.Table(function(value) {
 		value.nick = `${value.hash}(${value.name||value.type||"ish"})`, value._select = value.hash == hash[0]
 		can.onimport.item(can, value, function(event, item, show, target) {
-			can.onimport.tabsCache(can, can.request(), value.hash, value, target, function() {
+			can.onimport.tabsCache(can, can.request(), value.hash, value, target, function() { can.onappend._status(can)
 				value._term = can.onimport._connect(can, value, can.ui.content)
 			})
 		})

@@ -1,6 +1,7 @@
 // fieldset.Footer { width:100%; }
 fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); display:flex; }
 fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); }
+fieldset.Footer>div.output div.item.button { padding:7px 0; }
 fieldset.Footer>div.output div.title:first-child { margin-left:var(--header-height); }
 fieldset.Footer:not(.tabview)>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); }
 fieldset.Footer>div.output input[type=button] { background-color:transparent; color:var(--panel-fg-color); border:0; }

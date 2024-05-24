@@ -23,7 +23,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs)
 			can.onmotion.select(can, can._header_tabs, html.DIV_TABS, sub._header_tabs)
-			can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
+			// can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
 			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))

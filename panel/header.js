@@ -169,7 +169,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 
 		"change language to zh-cn", "切换语言为中文",
 		"change language to en-us", "切换语言为英文",
-		"en-us", "英文", "zh-cn", "中文", "auto", "默认"
+		"en-us", "英文", "zh-cn", "中文", "auto", "默认",
+		"icons", {
+			shareuser: "bi bi-link-45deg",
+			theme: "bi bi-columns-gap",
+			language: "bi bi-spellcheck",
+			user: "bi bi-person-square",
+		},
 	),
 })
 Volcanos(chat.ONEXPORT, {

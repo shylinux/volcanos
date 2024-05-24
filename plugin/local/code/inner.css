@@ -47,6 +47,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div { padding:0 var(-
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online { margin-left:0 !important; margin-right:0 !important; flex-direction: row-reverse; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.online img { height:24px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:0; }
+fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { margin-top:3px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:32px; clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
 fieldset.inner.cmd>div.output>div.layout>div.plug { box-shadow:var(--th-box-shadow); height:var(--action-height); overflow:auto; }

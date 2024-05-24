@@ -289,7 +289,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 					full: !can.isCmdMode() && "切换全屏",
 					open: !can.isCmdMode() && "打开链接",
 					chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
-					help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
+					// help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 				}, function(key, value) {
 					return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}],
 						title: key == "_space"? "": can.user.trans(can, key), onclick: function(event) {
@@ -356,7 +356,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, target: output}), msg.Defer()
 		})
 	},
-	_status: function(can, list, status, msg) { list && list.Option && (list = list.Option(ice.MSG_STATUS)||list)
+	_status: function(can, list, status, msg) { list && list.Option && (list = list.Option(ice.MSG_STATUS)||[])
 		status = status||can._status, can.onmotion.clear(can, status)
 		var keys = {}
 		var fileline = can.Conf("_fileline")||""
@@ -635,7 +635,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				})
 				can.core.List(list, function(target) { can.onappend.style(can, html.ICONS, target);
 					var _icon = (can.page.icons(can, target.name)||{}).icon; if (target.name == mdb.DELETE) { _icon = icon.trash }
-					can.page.insertBefore(can, [{icon: _icon, title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
+					can.page.insertBefore(can, [{icon: _icon+(" "+(can.page.buttonStyle(can, target.name)||"")), title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
 						can.onengine.signal(can, "onevent", can.request(event, {_type: html.BUTTON}))
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
