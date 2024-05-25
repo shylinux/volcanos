@@ -1,10 +1,10 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 		if (can.Option(mdb.HASH) || can.Option("args0") || can.ConfIndex() == "can._filter") { var item = can.base.Obj(msg.TableDetail()); item.hash = item.hash||can.Option(mdb.HASH)||can.Option("args0")||"current"
-			cb && cb(msg), can.onimport._connect(can, item, can._output)
+			can.onimport._connect(can, item, can._output)
 		} else {
-			can.ui = can.onappend.layout(can), cb && cb(msg); can.onimport._project(can, msg, can.db.hash)
-		}
+			can.ui = can.onappend.layout(can), can.onimport._project(can, msg, can.db.hash)
+		} cb && cb(msg)
 	}) },
 	_project: function(can, msg, hash) { msg.Table(function(value) {
 		value.nick = `${value.hash}(${value.name||value.type||"ish"})`, value._select = value.hash == hash[0]
@@ -14,7 +14,7 @@ Volcanos(chat.ONIMPORT, {
 			})
 		})
 	}) },
-	_connect: function(can, item, target, text) {
+	_connect: function(can, item, target, text) { can.onimport.layout(can)
 		var term = new Terminal({fontSize: html.CODE_FONT_SIZE, tabStopWidth: 4, cursorBlink: true, theme: can.onimport._theme(can, item)}); term._item = item
 		term.onTitleChange(function(title) { can.onexport.title(can, term, title) }), can.onexport.title(can, term, item.nick)
 		term.onResize(function(size) { can.onimport._resize(can, term, size) })
