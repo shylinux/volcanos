@@ -191,6 +191,8 @@ Volcanos(chat.ONPLUGIN, {
 	_filter: shy("表格", [ice.LIST, html.FILTER]),
 	_plugin: shy("插件", [mdb.NAME, ice.LIST, ice.BACK]),
 	_action: shy("操作", [ice.LIST]),
+	_display: shy("操作", [ice.LIST]),
+	_output: shy("操作", [ice.LIST], function(can, sub) { can.onappend.style(sub, html.OUTPUT) }),
 	_notfound: shy("缺失", [ctx.INDEX, web.SPACE, ice.LIST], function(can, msg, arg, sub) { msg.Echo("not found "+(arg[0]||sub.ConfIndex())+" "+(arg[1]||can.ConfSpace())) }),
 	layout: shy("界面布局", {_init: function(can) { can.Option(chat.LAYOUT, can.getAction(chat.LAYOUT)) }}, ["layout:select=auto,tabs,tabview,horizon,vertical,grid,free,flow,page", ctx.RUN], function(can, msg, arg) { can.onaction.layout(can, arg[0]) }),
 })

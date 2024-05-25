@@ -1,19 +1,18 @@
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg, cb) {
-		can.onmotion.hidden(can, can._action)
-		can.ui = can.onappend.layout(can), cb && cb(msg)
-		can.onappend.style(can, html.FLEX, can.ui.display), can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
-		can.onimport._project(can, msg), can.onimport.page(can, can.db.list, can.db.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
+	_init: function(can, msg) { can.onappend.style(can, html.FLEX, can.ui.display)
+		can.ui = can.onappend.layout(can), can.onmotion.toggle(can, can.ui.display, true), can.onimport._project(can, msg)
+		can.onimport.page(can, can.db.list, can.db.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
+		can.onmotion.hidden(can, can._action), can.onimport.layout(can)
 	},
 	_project: function(can, msg) { can.db.list = [], can.db.dir_root = msg.Option(nfs.DIR_ROOT)
 		msg.Table(function(item) { item.name = can.base.trimPrefix(item.path, can.Option(nfs.PATH))
 			can.base.endWith(item.path, nfs.PS)? can.onimport.item(can, item, function(event) { can.Option(nfs.PATH, item.path) && can.Update(event) }): can.db.list.push(item)
 		})
 		var rate = can.misc.localStorage(can, [can.ConfIndex(), "rate"]); rate && can.Action(html.SPEED, rate)
-		var _target; can.core.List(can.db.list, function(item, index) {
-			var last = can.misc.localStorage(can, [can.ConfIndex(), "p", can.onimport._file(can, item.path)])
+		can.core.List(can.db.list, function(item, index) { item._select = item.path == (can.db.hash[0]||"usr/icons/background.jpg")
 			item.nick = (last? last+lex.SP: "")+item.name
-			var target = can.onimport.item(can, item, function(_event) { var target = _event.target
+			var last = can.misc.localStorage(can, [can.ConfIndex(), "p", can.onimport._file(can, item.path)])
+			var target = can.onimport.item(can, item, function(_event, item, show, target) { can.onexport.hash(can, item.path), can.onexport.title(can, item.path.split("/").pop())
 				can.ui.cb = function(event) { var next = _event.target.nextSibling
 					target.innerHTML = parseInt(event.target.currentTime*100/event.target.duration)+"% "+item.name
 					can.ui.video = event.target, can.Status(item), can.misc.localStorage(can, [can.ConfIndex(), "last"], item.path)
@@ -24,7 +23,7 @@ Volcanos(chat.ONIMPORT, {
 				can.onimport.layout(can), can.onmotion.scrollIntoView(can, target), can.onmotion.clear(can, can.ui.content)
 				var _target = can.onimport.file(can, item.path, item, index, can.ui.content, can.ui.content.offsetHeight, true)
 				_target.focus(), _target.onclick = function() { can.ondetail._init(can, index) }
-				can.onimport.layout(can), can.isCmdMode() && can.misc.SearchHash(can, item.path)
+				can.onimport.layout(can)
 				can.onappend._toggle(can, can.ui.content, function() {
 					index == 0? can.user.toast(can, "已经是第一页了"): _event.target.previousSibling.click()
 				}, function() {
@@ -34,12 +33,12 @@ Volcanos(chat.ONIMPORT, {
 				if (index < can.db.begin || index >= can.db.begin+limit) {
 					can.onimport.page(can, can.db.list, can.db.begin = index-index%limit)
 				}
-			}); item._target = target, _target = can.base.isIn(item.path, can.db.hash[0]||can.Option(nfs.PATH)+can.Option(nfs.FILE))? target: _target||target
+			}); item._target = target
 			if (can.isCmdMode() && item.path == can.misc.localStorage(can, [can.ConfIndex, "last"])) {
 				can.Action(html.HEIGHT, html.HIDE), can.onmotion.hidden(can, can.ui.display)
 				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })
 			}
-		}), can.onmotion.delay(can, function() { _target && _target.click() }), can.onmotion.orderShow(can, can.ui.project)
+		})
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
 		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.db.dir_root||"", path)

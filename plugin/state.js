@@ -16,6 +16,8 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
+		can.page.style(can, can._target, "visibility", "")
+		can.page.style(can, can._output, "visibility", "")
 		var height = can.ConfHeight()-can.onexport.actionHeight(can)-(can.onexport.statusHeight(can)||1), width = can.ConfWidth()
 		var tabs = false, tabHash = msg.Option("field.tabs"); if (tabHash) {
 			can.sub && can.sub.onimport.tabs(can.sub, [{name: tabHash.slice(0, 6)}], function() { can.onmotion.cache(can, function() { return tabHash }) }), tabs = true
@@ -332,17 +334,20 @@ Volcanos(chat.ONEXPORT, {
 		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
 	title: function(can, title) { if (can.base.isIn(title, web.DESKTOP)) { return }
-		var list = [title]
-		function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		push(can.ConfIndex()), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
+		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
+		push(can.user.trans(can, can.ConfIndex(), can.Conf("help")))
+		// push(can.ConfIndex())
+		can.core.List(arguments, function(title, index) { index > 0 && push(title) }), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
 		can.isCmdMode() && can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },
 	link: function(can) {
-		if (can.sub && can.sub.onexport.link) { return can.sub.onexport.link(can.sub) }
+		// if (can.sub && can.sub.onexport.link) { return can.sub.onexport.link(can.sub) }
 		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
-		return can.misc.MergePodCmd(can, args, true)
+		var hash = can.misc.localStorage(can, [args.pod, args.cmd, "hash"])||""
+		hash && (hash = "#"+hash)
+		return can.misc.MergePodCmd(can, args, true)+hash
 	},
 	close: function(can, msg) {},
 })

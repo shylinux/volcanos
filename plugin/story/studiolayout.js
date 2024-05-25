@@ -6,13 +6,13 @@ Volcanos(chat.ONIMPORT, {
 			content: {index: "web.code.redis.keys", args: sess},
 		} })
 	},
-	project: function(can, msg, key, cb) { can.ui = can.onappend.layout(can), can.onappend.style(can, "studiolayout", can._fields)
-		msg.Table(function(value) { var hash = value[key]; value._select = can.db.hash[0] == hash
+	project: function(can, msg, key, cb) { can.ui = can.onappend.layout(can), can.onappend.style(can, "studiolayout")
+		msg.Table(function(value) { var hash = value[key]; value._hash = hash, value._title = hash
 			can.onimport.item(can, value, function(event, value, show, target) { if (value._tabs) { return value._tabs.click() }
 				var msg = can.request(event), list = cb(event, hash, value)
 				can.core.List("content,display,profile".split(","), function(field) {
 					list[field] && can.core.List("index,args,style,_init".split(","), function(key) { msg.Push(key, list[field][key]||"") })
-				}), can.onimport.tabsCache(can, msg, hash, value, target)
+				}), can.onimport.tabsCache(can, value, target, msg)
 			})
 		})
 	},

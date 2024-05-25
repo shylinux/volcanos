@@ -1,15 +1,15 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.page.requireModules(can, ["xterm/css/xterm.css", "xterm", "xterm-addon-fit", "xterm-addon-web-links"], function() {
 		if (can.Option(mdb.HASH) || can.Option("args0") || can.ConfIndex() == "can._filter") { var item = can.base.Obj(msg.TableDetail()); item.hash = item.hash||can.Option(mdb.HASH)||can.Option("args0")||"current"
-			can.onimport._connect(can, item, can._output)
+			cb && cb(msg), can.onimport._connect(can, item, can._output)
 		} else {
-			can.ui = can.onappend.layout(can), can.onimport._project(can, msg, can.db.hash)
-		} cb && cb(msg)
+			can.ui = can.onappend.layout(can), cb && cb(msg); can.onimport._project(can, msg, can.db.hash)
+		}
 	}) },
 	_project: function(can, msg, hash) { msg.Table(function(value) {
 		value.nick = `${value.hash}(${value.name||value.type||"ish"})`, value._select = value.hash == hash[0]
 		can.onimport.item(can, value, function(event, item, show, target) {
-			can.onimport.tabsCache(can, can.request(), value.hash, value, target, function() { can.onappend._status(can)
+			can.onimport.tabsCache(can, value, target, function() { can.onappend._status(can)
 				value._term = can.onimport._connect(can, value, can.ui.content)
 			})
 		})

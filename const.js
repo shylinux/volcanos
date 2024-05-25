@@ -443,7 +443,9 @@ var icon = {
 	tools: "bi bi-grid",
 
 	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
-	modify: "bi bi-pencil-square", rename: "bi bi-pencil-square", remove: "bi bi-trash",
+	modify: "bi bi-pencil-square",
+	rename: "bi bi-pencil-square",
+	remove: "bi bi-trash",
 	enable: "bi bi-toggle-off", disable: "bi bi-toggle-on",
 	expire: "bi bi-clock-history",
 
@@ -502,6 +504,10 @@ var icon = {
 	localCreate: "bi bi-cloud-download",
 	notifications: "bi bi-chat-right-text",
 	play: "bi bi-play-circle", app: "bi bi-box-arrow-down-left",
+
+	"Close": "bi bi-x-lg",
+	"Close Other": "bi bi-x-lg",
+	"Rename Tabs": "bi bi-pencil-square",
 }
 var svg = {
 	GROUP: "group", PID: "pid", GRID: "grid",

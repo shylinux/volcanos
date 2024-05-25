@@ -1,6 +1,5 @@
 Volcanos(chat.ONENGINE, {_init: function(can, meta, list, cb, target) {
 		can.Option = function() {}, can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
-		can.user.title(can.misc.SearchOrConf(can, chat.TITLE)||can.misc.Search(can, ice.POD)||location.host)
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, item, item.list, function(sub) { can[item.name] = sub, sub.db = {}, sub.ui = {}, sub.db._boot = can.misc._time()
 				sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, sub, cmds, cb) }
@@ -335,7 +334,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			sub._output.className = html.OUTPUT
 			// can.onappend.style(can, sub._args.style, can._output)
 			// can.isCmdMode() && can.onappend.style(can, html.OUTPUT)
-			sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
+			// sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
 			can.onmotion.toggle(can, can._action, true)
 			can.onexport._output(sub, msg), sub.Mode() != ice.MSG_RESULT && can.onmotion.clear(can, output)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
@@ -490,9 +489,8 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 		}
 	},
 	_filter: function(can) {
-		can.page.insertBefore(can, [
-			{view:[[html.ITEM, html.TEXT, html.FILTER, "state"]], _init: function(target) { can.onappend.filter(can, target, can.ui.content||can._output) }}
-		], (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
+		can.page.insertBefore(can, can.onappend.filter(can, can._action, can.ui.content||can._output).parentNode,
+			(can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
 	},
 	filter: function(can, target, output) { output = output||can.ui.content||target
 		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
@@ -839,7 +837,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 	},
 
 	plugin: function(can, meta, cb, target, field) {
-		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._notfound", meta._space = meta._space||can.ConfSpace()
+		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._output", meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)
@@ -872,7 +870,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			}, sub._index = value.index||meta.index, can.base.isFunc(cb) && cb(sub, meta, skip)
 			meta._init && (meta._init(sub))
 			if (meta.style == html.FLOAT || value.style == html.FLOAT) { can.onmotion.float(sub) }
-		}, target||can._output, field)
+		}, target||can.ui.content||can._output, field)
 	},
 	_float: function(can, index, args, cb) {
 		can.onappend.plugin(can, typeof index == code.OBJECT? (index.style = chat.FLOAT, index.args = args, index): {index: index, args: args, style: chat.FLOAT}, function(sub) {

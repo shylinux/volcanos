@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, target) {
 		can._display_heights = {}, can.list = {}; var ls = can.misc.SearchHash(can)
 		can.ui = can.onappend.layout(can), can.ui.toggle = can.onappend.toggle(can)
 		can.onmotion.hidden(can, can.ui.project), can.isCmdMode() || can.onmotion.hidden(can, can._action)
@@ -24,14 +25,14 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 			{text: [can.core.CallFunc([can.onexport, can.Action(html.VIEW)||mdb.TEXT], [can, task])||task.name, html.DIV, can.onexport.style(can, task)],
 				ondragstart: function(event) { var target = event.target; can.drop = function(event, td, time) { td.append(target)
 					can.onaction.modifyTask(event, can, task, team.BEGIN_TIME, time+task.begin_time.slice(time.length), task.begin_time)
-				} }, draggable: time != undefined, title: can.onexport.title(can, task), _init: function(target) {
+				} }, draggable: time != undefined, title: can.onexport.title(can, task.name), _init: function(target) {
 					var item = can.onimport.item(can, {nick: task.name+nfs.DF+task.text}, function() { can.onmotion.delay(can, function() {
 						can.onmotion.select(can, can.ui.content, html.TD, target.parentNode), can.onimport._profile(can, task), can.onimport._display(can, task), can.onimport.layout(can)
 					}) }); task._target = target, target.onclick = function(event) { item.click() }, can.list[can.core.Keys(task.space, task.zone, task.id)] = target
 				}}
 		}),
 	} },
-	_profile: function(can, task) { can.onmotion.toggle(can, can.ui.profile, true), can.onexport.hash(can, task)
+	_profile: function(can, task) { can.onmotion.toggle(can, can.ui.profile, true), can.onexport.hash(can, task), can.onexport.title(can, task.name, task.text)
 		if (can.onmotion.cache(can, function() { return can.sup.task = task, can.Status(task), [task.space, task.zone, task.id].join(nfs.PT) }, can.ui.profile)) { return }
 		task.extra && can.core.Item(can.base.Obj(task.extra), function(key, value) { task[key] = value }), delete(task.extra)
 		var table = can.page.Appends(can, can.ui.profile, [{view: [[chat.CONTENT, mdb.DETAIL], html.TABLE], list: [{th: [can.user.trans(can, mdb.KEY, "字段"), can.user.trans(can, mdb.VALUE, "属性")]}]}])._target
@@ -151,6 +152,5 @@ Volcanos(chat.ONEXPORT, {list: [mdb.COUNT, team.BEGIN_TIME, mdb.ZONE, mdb.ID, md
 	text: function(can, task) { return task.name+": "+(task.text||"") },
 	level: function(can, task) { return "l-"+(task.level||3)+": "+(task.name||"") },
 	score: function(can, task) { return "s-"+(task.level||3)+": "+(task.name||"") },
-	title: function(can, task) { return task.zone+": "+(task.type||"") },
 	style: function(can, task) { return [html.ITEM, task.status, mdb.ID+task.id, "l"+(task.level||""), "s"+(task.score||"")].join(lex.SP) },
 })

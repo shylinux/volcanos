@@ -1,6 +1,6 @@
 fieldset.feel>div.output>div.layout>div.display { position:relative; overflow-y:hidden; }
 fieldset.feel>div.output>div.layout>div.display>img:hover { background-color:var(--hover-bg-color); cursor:pointer; }
-fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; align-items:normal; gap:10px; }
+fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; align-items:normal; gap:10px; }
 fieldset.feel>div.output>div.layout>div.display:not(.hide) img { height:100px; }
 fieldset.feel>div.output>div.layout>div.display:not(:hover)>div.toggle { display:none; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:48px; padding:5px; position:absolute; height:100px; padding-top:20px;  }

@@ -22,6 +22,7 @@ body.light {
 	--code-package:blue; --code-datatype:cornflowerblue; --code-object:purple;
 }
 body.dark {
+	--shadow-color:gray;
 	--plugin-bg-color:black; --plugin-fg-color:silver;
 	--code-keyword:dodgerblue; --code-comment:green;
 	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
@@ -57,6 +58,7 @@ body {
 	--box-shadow:var(--shadow-color) 0px 0px 10px; --notice-box-shadow:var(--notice-bg-color) 0px 0px 10px;
 	--plugin-box-shadow:var(--box-shadow); --legend-box-shadow:var(--box-shadow); --input-box-shadow:var(--box-shadow);
 	--th-box-shadow:var(--box-shadow); --keyword-box-shadow:var(--box-shadow);
+	--float-box-shadow:var(--box-shadow);
 	--box-border:var(--border-color) solid 1px; --box-notice:var(--notice-bg-color) solid 1px; --box-danger:var(--danger-bg-color) solid 1px;
 	--box-border3:var(--border-color) solid 3px; --box-notice3:var(--notice-bg-color) solid 3px; --box-danger3:var(--danger-bg-color) solid 3px;
 	--plugin-border:var(--box-border); --input-border:var(--box-border); --status-border:var(--box-border);
@@ -554,13 +556,13 @@ body>div.toast.float { z-index:12; }
 fieldset.Action>div.toast { z-index:12; }
 fieldset.desktop.cmd>div.output>fieldset.macos.dock { z-index:10; }
 /* box-shadow */
-div.float { box-shadow:var(--plugin-box-shadow); border:var(--plugin-border); }
+div.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border); }
 div.float:hover { box-shadow:var(--notice-box-shadow); }
 fieldset.plugin { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
 fieldset.story { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
-fieldset.studio fieldset.story { border-radius:0; }
-fieldset.studio fieldset.story>legend { border-top-left-radius:0; }
-fieldset.float { box-shadow:var(--plugin-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
+// fieldset.studio fieldset.story { border-radius:0; }
+// fieldset.studio fieldset.story>legend { border-top-left-radius:0; }
+fieldset.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset:not(.panel):hover { box-shadow:var(--notice-box-shadow); }
 body.light fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
 body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
@@ -638,6 +640,7 @@ fieldset>div.action div.item.state.filter input { width:120px; transition:all 0.
 fieldset>div.action div.item.state.filter input:focus { width:240px; transition:all 0.5s; }
 fieldset>div.action div.item { height:var(--action-height); }
 fieldset>div.action>div.tabs { font-style:italic; padding:var(--input-padding) var(--button-padding); padding-right:0; height:var(--action-height); }
+fieldset>div.action>div.tabs img { margin-right:var(--input-margin); height:24px; }
 fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); min-width:60px; text-align:center; justify-content:center; align-items:center; }
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
 fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
