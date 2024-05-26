@@ -588,12 +588,17 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
 			if (key == mdb.ENABLE) {
-				if (value == ice.TRUE) {
-					_value = `<i class="${icon.disable}">`
+				if (value == ice.TRUE) { _value = `<i class="${icon.disable}">`
 					function onclick() { run(event, mdb.MODIFY, [key, ice.FALSE]); return true }
-				} else {
-					_value = `<i class="${icon.enable}">`
+				} else { _value = `<i class="${icon.enable}">`
 					function onclick() { run(event, mdb.MODIFY, [key, ice.TRUE]); return true }
+				}
+			}
+			if (key == mdb.DISABLE) {
+				if (value == ice.FALSE) { _value = `<i class="${icon.enable}">`
+					function onclick() { run(event, mdb.MODIFY, [key, ice.TRUE]); return true }
+				} else { _value = `<i class="${icon.disable}">`
+					function onclick() { run(event, mdb.MODIFY, [key, ice.FALSE]); return true }
 				}
 			}
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
@@ -625,6 +630,7 @@ Volcanos(chat.ONAPPEND, {_init: function(can, meta, list, cb, target, field) {
 				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.TRUE? mdb.ENABLE: mdb.DISABLE, target.parentNode) }
+				if (key == mdb.DISABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }
 				if (key == ctx.ACTION && msg.IsDetail()) { can.onappend.style(can, ctx.ACTION, target.parentNode) }
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 20: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) {
