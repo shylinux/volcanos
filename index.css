@@ -329,12 +329,12 @@ div.toast.float>div.title { color:var(--notice-bg-color); font-style:italic; whi
 div.toast.float>div.close { color:var(--notice-bg-color); float:right; cursor:pointer; margin-top:-3px; }
 div.toast.float>div.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.toast.float div.duration { color:var(--disable-fg-color); float:right; }
-div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
 div.toast.float div.duration { font-size:var(--status-font-size); }
 div.toast.float div.title { font-size:var(--status-font-size); }
+div.toast.float div.content { color:var(--notice-bg-color); white-space:pre-line; text-align:center; padding:var(--input-padding); margin-bottom:var(--input-margin); min-height:28px; }
 div.toast.float.warn div.content { white-space:pre-wrap; text-align:left; display:block; overflow:auto; }
 div.toast.float div.progress { margin-left:0px; height:5px; }
-div.toast.float div.progress div.current { background-color:var(--notice-bg-color); height:3px; }
+div.toast.float div.progress div.current { background-color:var(--notice-bg-color); height:3px; transition:all 0.5s; }
 div.toast.float div.action:not(.hide) { display:flex; flex-direction:row-reverse; gap:var(--button-margin); }
 div.toast.float div.action>div.item i { display:none; }
 div.toast.float div.action>div.item span { display:none; }
@@ -413,6 +413,7 @@ body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
 /* display */
+fieldset:not(.Action) { position:relative; }
 fieldset>form.option:not(.hide), fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
 body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.hide):not(.flex) { display:flex; overflow:hidden; }
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
@@ -423,7 +424,8 @@ fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project
 fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
-fieldset.plug { position:sticky; bottom:0; right:0; float:right; }
+/* fieldset.plug { position:sticky; bottom:0; right:0; float:right; } */
+fieldset.plug { position:absolute; bottom:calc(var(--action-height) + var(--plugin-padding)); right:var(--plugin-padding); }
 fieldset.cmd>div.output>fieldset.plug { position:fixed; bottom:var(--action-height); right:0; }
 fieldset.story>div.output>fieldset.plug { position:absolute; bottom:0; right:0; float:right; }
 fieldset.plug:not(.select) { display:none; }
@@ -644,7 +646,8 @@ fieldset>div.action>div.tabs img { margin-right:var(--input-margin); height:24px
 fieldset>div.action>div.cmds { font-style:italic; padding:var(--input-padding) var(--button-padding); height:var(--action-height); min-width:60px; text-align:center; justify-content:center; align-items:center; }
 fieldset>div.output>div.code { font-size:var(--code-font-size); }
 fieldset>div.output { width:100%; } fieldset>div.status { width:100%; }
-fieldset>div.status { font-family:var(--status-font-family); font-style:italic; font-size:var(--status-font-size); line-height:20px; max-height:var(--action-height); }
+fieldset>div.status { line-height:20px; max-height:var(--action-height); }
+fieldset>div.status>div.item { font-family:var(--status-font-family); font-style:italic; font-size:var(--status-font-size); }
 fieldset>div.status>div.item { padding:var(--input-padding); height:30px; }
 fieldset>div.status>div.item>label { font-size:var(--status-font-size); }
 fieldset>div.status>div.item>span { margin-left:var(--input-padding); }
@@ -685,8 +688,8 @@ fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
-body:not(.width2) fieldset.plugin>div.action>div.item.text.filter>input { width:var(--input-width); transition:all 1.2s; }
-body:not(.width2) fieldset.plugin>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
+body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); transition:all 1.2s; }
+body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
 div.item.text:hover>i:first-child { color:unset; }

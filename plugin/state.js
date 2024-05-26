@@ -346,6 +346,7 @@ Volcanos(chat.ONEXPORT, {
 		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
 		var hash = can.misc.localStorage(can, [args.pod, args.cmd, "hash"])||""
+		can.base.isArray(hash) && (hash = hash.join(":"))
 		hash && (hash = "#"+hash)
 		return can.misc.MergePodCmd(can, args, true)+hash
 	},

@@ -231,7 +231,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 			}) } else { can.onappend.table(can, msg), can.onappend.board(can, msg) }
 		}, function() { delete(value._tabs), can.onmotion.cacheClear(can, value._hash, can.ui.content, can.ui.profile, can.ui.display) })
 	},
-	tool: function(can, list, cb, target, status) { target = target||can._output, status = status||can._status
+	tool: function(can, list, cb, target, status) { target = target||can._status, status = status||can._status
 		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-3*html.ACTION_HEIGHT, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
 			can.onimport.plug(can, meta, function(sub) {
@@ -243,7 +243,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
 				}}]), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
-					if (can.page.SelectOne(can, status, nfs.PT+html.SELECT, function(target) { can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
+					if (can.page.SelectOne(can, status, "legend.select", function(target) {
+						can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
 					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
