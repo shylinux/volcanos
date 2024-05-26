@@ -205,7 +205,7 @@ fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 div.output>div.layout>div.layout { position:relative; }
 /* project */
-div.project div.action:not(.hide) { width:100%; display:flex; }
+div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
 div.project div.action div.item input { border-right:var(--box-border); }
 div.project div.action div.item input:hover { border-right:var(--box-notice); }
 div.project div.action div.item.icons input { display:none; }

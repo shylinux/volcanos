@@ -23,7 +23,7 @@ Volcanos(chat.ONFIGURE, {
 		can.run({}, [ctx.ACTION, nfs.REPOS], function(msg) { var paths = can.db.paths
 			can.core.List(paths.concat(msg.Table(function(value) { return value.path })), function(p) {
 				if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p,
-					nfs.USR_LEARNING, nfs.USR_INTSHELL,
+					// nfs.USR_LEARNING, nfs.USR_INTSHELL,
 					nfs.USR_ICONS, nfs.USR_GEOAREA, nfs.USR_PROGRAM, nfs.USR_NODE_MODULES,
 					nfs.USR_WEBSOCKET, nfs.USR_GO_QRCODE, nfs.USR_GO_GIT
 				)) { return }
