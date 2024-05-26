@@ -333,12 +333,13 @@ Volcanos(chat.ONEXPORT, {
 	session: function(can, key, value) { if (value) { value = JSON.stringify(value) }
 		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
-	title: function(can, title) { if (can.base.isIn(title, web.DESKTOP)) { return }
+	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		push(can.user.trans(can, can.ConfIndex(), can.Conf("help")))
-		// push(can.ConfIndex())
+		if (!can.base.isIn(can.ConfIndex(), web.PORTAL)) {
+			push(can.user.trans(can, can.ConfIndex(), can.Conf("help")))
+		}
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) }), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
-		can.isCmdMode() && can.user.title(list.join(" "))
+		can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },
 	link: function(can) {
