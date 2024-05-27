@@ -415,7 +415,7 @@ body>div.upload div.status div.size { text-align:center; }
 /* display */
 fieldset:not(.Action) { position:relative; }
 fieldset>form.option:not(.hide), fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
-body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.hide):not(.flex) { display:flex; overflow:hidden; }
+body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.hide):not(.flex) { display:flex; align-items:flex-end; overflow:hidden; }
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
 fieldset.output>legend, fieldset.output>form.option, fieldset.output>div.action:not(.flex), fieldset.output>div.status, fieldset.output>div.item { display:none; }
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
@@ -688,7 +688,7 @@ fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
-body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); transition:all 1.2s; }
+body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); height:30px; transition:all 1.2s; }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
