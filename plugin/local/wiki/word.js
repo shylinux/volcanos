@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDING, 10)
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, target) { can.Conf(html.PADDING, html.PLUGIN_PADDING)
 		can.page.Modify(can, target, msg.Results()), can.onimport._content(can, target)
 		can.onmotion.delay(can, function() { can.onappend.scroll(can) })
 		can.onexport.title(can, can.Option(nfs.PATH))
@@ -80,20 +81,16 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can.Conf(html.PADDI
 			can.page.style(can, sub._target, html.WIDTH, width)
 		}, can._output, target)
 	},
-	layout: function(can) { can.onmotion.delay(can, function() { padding = can.Conf(html.PADDING)
-		if (can.isCmdMode()) { can.ConfHeight(can.page.height()-html.ACTION_HEIGHT-1), can.ConfWidth(can.page.width()) }
-		if (can.sup._navmenu) {
-			can.ConfWidth(can.ConfWidth()-can.sup._navmenu.offsetWidth)
+	layout: function(can) { padding = can.Conf(html.PADDING)
+		if (can.sup._navmenu) { can.ConfWidth(can.ConfWidth()-can.sup._navmenu.offsetWidth)
 			can.page.style(can, can.sup._navmenu, html.HEIGHT, can.ConfHeight())
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), "clear", "none", "float", "left")
 		} else {
-			can.isCmdMode() && can.page.styleHeight(can, can._output, "")
+			// can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 		}
-		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), sub.Conf("_width")||(can.ConfWidth()-2*padding), true) })
-		can.page.Select(can, can._output, html.IMG, function(target) {
-			can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(can.ConfHeight(), 420))
-		})
-	}, 0) },
+		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), (can.ConfWidth()-2*padding), true) })
+		can.page.Select(can, can._output, html.IMG, function(target) { can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(can.ConfHeight(), 420)) })
+	},
 }, [""])
 Volcanos(chat.ONACTION, {
 	play: function(event, can) { var list = [], current = []

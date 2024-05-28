@@ -1,6 +1,9 @@
 fieldset.goods>div.output>div.project { flex:0 0 90px; }
 fieldset.goods>div.output>div.project>div.item { border-right:var(--box-border3); text-align:center; padding:20px 10px; }
-fieldset.goods>div.output>div.project>div.item.select { border-right:var(--box-notice3); }
+fieldset.goods>div.output>div.project>div.item.select {
+	border-right:var(--box-notice3);
+	position:unset;
+}
 fieldset.goods>div.output>div.layout>div.layout>div.content>div.item:not(.hide) {
 	box-shadow:var(--th-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius);
 	background-color:var(--plugin-bg-color); margin:10px; float:left; }

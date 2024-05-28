@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {
 		} cb && cb(msg)
 	}) },
 	_project: function(can, msg, hash) { msg.Table(function(value) {
-		value.nick = `${value.hash}(${value.name||value.type||"ish"}) ${value.status}`, value._select = value.hash == hash[0]
+		value.nick = `${value.hash}(${value.name||value.type||"ish"})`, value._select = value.hash == hash[0]
 		can.onimport.item(can, value, function(event, item, show, target) {
 			can.onimport.tabsCache(can, value, target, function() { can.onappend._status(can)
 				value._term = can.onimport._connect(can, value, can.ui.content)
@@ -29,8 +29,8 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(
 		can.getHeaderTheme() == html.LIGHT? {background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}:
-			can.getHeaderTheme() == html.DARK? {background: "#0000", foreground:cli.SILVER, cursor: cli.SILVER}:
-				can.getHeaderTheme() == chat.BLACK? {background: "#0000", foreground:cli.WHITE, cursor: cli.WHITE}:
+			can.getHeaderTheme() == html.DARK? {background: "#0000", foreground: cli.SILVER, cursor: cli.SILVER}:
+				can.getHeaderTheme() == chat.BLACK? {background: "#0000", foreground: cli.CYAN, cursor: cli.WHITE}:
 					{background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
 	_resize: function(can, term, size) {
@@ -45,10 +45,12 @@ Volcanos(chat.ONIMPORT, {
 	grow: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]], term = can.db[arg[0]]
 		if (arg[1] == "~~~end~~~") { arg[0] == "current"? can.sup.onmotion._close({}, can.sup): can.sup.onimport._back(can.sup) } else { term.write(arg[1]) }
 	},
-	layout: function(can) { can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function() {
-		can.core.Item(can.db, function(hash, term) { term._fit && term._fit.fit() })
-		can.db.value && can.db.value._term && can.onexport.term(can, can.db.value._term)
-	}) },
+	layout: function(can) {
+		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function() {
+			can.core.Item(can.db, function(hash, term) { term._fit && term._fit.fit() })
+			can.db.value && can.db.value._term && can.onexport.term(can, can.db.value._term)
+		}), can.core.Item(can.db, function(hash, term) { term._fit && term._fit.fit() })
+	},
 })
 Volcanos(chat.ONACTION, {
 	create: function(event, can) { can.user.input(event, can, [mdb.TYPE, mdb.NAME, mdb.TEXT], function(data) {

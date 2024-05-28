@@ -177,10 +177,10 @@ Volcanos(chat.ONACTION, {list: ["刷新数据",
 	"刷新界面": function(event, can) { var sub = can.sub; sub.onlayout._init(sub, sub.ConfHeight(), sub.ConfWidth()), can.user.toastSuccess(can) },
 	"切换浮动": function(event, can, button, sub) {
 		can.onaction._switch(can, sub, chat.FLOAT, function() {
-			// can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can._status)
 			can.onmotion.float(can)
 		}) },
-	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() { can.page.style(can, can._target, html.LEFT, "", html.TOP, can.onexport.marginTop(), html.BOTTOM, "")
+	"切换全屏": function(event, can, button, sub) { can.onaction._switch(can, sub, chat.FULL, function() {
+		can.page.style(can, can._target, html.LEFT, "", html.TOP, can.onexport.marginTop(), html.BOTTOM, "")
 		can.ConfHeight(can.page.height()-can.onexport.marginTop()-can.onexport.marginBottom(can)), can.ConfWidth(can.page.width())
 	}) },
 	"远程控制": function(event, can) { can.onaction.keyboard(event, can) },

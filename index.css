@@ -215,7 +215,8 @@ div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
-div.project div.item.select { border-right:var(--box-notice3); }
+div.project div.item.select { border-right:var(--box-notice); }
+div.project>div.item.select { position:sticky; top:32px; bottom:0; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
 div.project div.item:not(:hover) input:not([type=button]) { border-right:0; }
@@ -501,7 +502,7 @@ div.item.button.danger input:hover[type=button] { background-color:var(--danger-
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.button.danger input { border:var(--box-danger); }
 div.item.button.notice input { border:var(--box-notice); }
-div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--box-notice3); }
+div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--box-notice); }
 fieldset.vimer>div.action div.tabs.select { border-top:var(--box-border3); }
 fieldset.vimer.normal>div.action div.tabs.select { border-top:var(--box-notice3); }
 fieldset.vimer.insert>div.action div.tabs.select { border-top:var(--box-danger3); }
@@ -620,7 +621,7 @@ body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
 body { font-size:var(--body-font-size); }
 legend { font-size:var(--legend-font-size); line-height:30px; height:var(--action-height); }
-legend>img { margin-right:var(--input-margin); height:var(--action-height); }
+legend>img { margin-right:var(--input-margin); height:28px; display:block; float:left; }
 legend>span.icon:first-child { margin-right:var(--input-margin); }
 legend>i:first-child { margin-right:var(--input-margin); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
@@ -719,8 +720,11 @@ div.tabs>i:first-child { margin-right:var(--input-margin); }
 div.tabs>span.icon { font-size:var(--icon-font-size); font-style:normal; padding-left:var(--input-padding); visibility:hidden; }
 div.tabs.select>span.icon { visibility:visible; }
 div.tabs:hover>span.icon { visibility:visible; }
-fieldset.plugin>legend { font-style:italic; }
-fieldset.plugin>form.option>div.button.icons { display:none; }
+fieldset.plugin>legend { font-style:italic; margin-right:var(--input-margin); }
+fieldset.plugin>form.option>div.button.refresh.icons { display:none; }
+fieldset.plugin>form.option>div.button.list.icons { display:none; }
+fieldset.plugin>form.option>div.button.back.icons { display:none; }
+fieldset.plugin>form.option>div.button.icons>input { display:none; }
 fieldset.plugin>div.action>div.button.icons>input { display:none; }
 fieldset.Action.tabview>div.output>fieldset.plugin>div.action>div.item.full { display:none; }
 fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon.delete { display:none; }
@@ -861,6 +865,9 @@ fieldset.desktop>div.status { display:none; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.xterm>div.output>div.project { font-family:var(--code-font-family); }
 fieldset.xterm>div.output>div.project div.item.offline { color:var(--disable-fg-color); }
+fieldset.xterm.float>div.status { display:none; }
+fieldset.xterm.float>form.option>div.item.text { display:none; }
+fieldset.full { position:fixed; bottom:unset; }
 fieldset.vimer>div.output>div.project div.item.modify { background-color:#00800036; }
 fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(--disable-fg-color); }
 fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item { height:42px; }
@@ -921,10 +928,10 @@ fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project
 fieldset.draw>div.output>svg { margin-bottom:-5px; }
 fieldset.draw>div.output>svg { min-height:100%; }
 // fieldset.draw>div.output { display:flex; flex-direction:row; }
-body.dark fieldset.plug.float { background-color:#000c; }
-body.dark fieldset.plug.float>div.output { background-color:transparent; }
-body.light fieldset.plug.float { background-color:#fffc; }
-body.light fieldset.plug.float>div.output { background-color:transparent; }
+body.dark fieldset.float { background-color:#000c; }
+body.dark fieldset.float>div.output { background-color:transparent; }
+body.light fieldset.float { background-color:#fffc; }
+body.light fieldset.float>div.output { background-color:transparent; }
 fieldset.draw.spides>div.output>svg text { cursor:pointer; }
 fieldset.draw.spides>div.output>svg path { stroke-width:1; }
 fieldset.draw.trends>div.output { overflow:hidden; }
