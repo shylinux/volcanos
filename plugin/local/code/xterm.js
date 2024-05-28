@@ -7,7 +7,7 @@ Volcanos(chat.ONIMPORT, {
 		} cb && cb(msg)
 	}) },
 	_project: function(can, msg, hash) { msg.Table(function(value) {
-		value.nick = `${value.hash}(${value.name||value.type||"ish"})`, value._select = value.hash == hash[0]
+		value.nick = `${value.hash}(${value.name||value.type||"ish"}) ${value.status}`, value._select = value.hash == hash[0]
 		can.onimport.item(can, value, function(event, item, show, target) {
 			can.onimport.tabsCache(can, value, target, function() { can.onappend._status(can)
 				value._term = can.onimport._connect(can, value, can.ui.content)
@@ -28,10 +28,10 @@ Volcanos(chat.ONIMPORT, {
 		return can.db[item.hash] = term
 	},
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(
-		can.getHeaderTheme() == html.LIGHT? {background: cli.WHITE, foreground: cli.BLACK, cursor: cli.BLUE}:
-			can.getHeaderTheme() == html.DARK? {foreground: cli.SILVER, cursor: cli.SILVER}:
-				can.getHeaderTheme() == chat.BLACK? {background: "#061c3c9e", foreground:cli.WHITE, cursor: cli.WHITE}:
-					{background: "#d5cfcf3b", foreground: cli.BLACK, cursor: cli.BLUE}
+		can.getHeaderTheme() == html.LIGHT? {background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}:
+			can.getHeaderTheme() == html.DARK? {background: "#0000", foreground:cli.SILVER, cursor: cli.SILVER}:
+				can.getHeaderTheme() == chat.BLACK? {background: "#0000", foreground:cli.WHITE, cursor: cli.WHITE}:
+					{background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
 	_resize: function(can, term, size) {
 		can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {})
