@@ -5,6 +5,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		can.ActionGo = function(value) { return can.Action(svg.GO, value) }
 		can.ActionMode = function(value) { return can.Action(ice.MODE, value) }
 		can.ActionShape = function(value) { return can.Action(svg.SHAPE, value) }
+		can._temp = []
 		if (can.ConfIndex() == web.WIKI_DRAW) { can.ui = can.onappend.layout(can), can.onexport.title(can, can.OptionPath())
 			if (can.isCmdMode() && !can.user.isMobile) { can.onmotion.toggle(can, can.ui.profile, true) } else { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project) }
 		} else { can.ui = {content: can._output} } can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can))

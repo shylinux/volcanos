@@ -451,7 +451,7 @@ Volcanos(chat.ONACTION, {
 			can.onengine.signal(can, LINE_SELECT, can._msg), can.onaction._selectLine(can)
 		}); return can.onexport.hash(can), can.onexport.line(can, line)
 	}, _selectLine: function(can) {},
-	scrollIntoView: function(can, offset) { can.ui.content.scrollTo(0, (can.onexport.line(can, can.current.line)-5)*can.current.line.offsetHeight) },
+	scrollIntoView: function(can, offset) { can.ui.content.scrollTo(0, (can.onexport.line(can, can.current.line)-12)*can.current.line.offsetHeight) },
 	searchLine: function(event, can, value) { var offset = 0; can.page.Select(can, can.ui.content, "tr.line", function(tr) {
 		tr == can.current.line && can.page.Select(can, tr, "td.text>span", function(span) { offset += span.innerText.length;
 			(span == event.target || span.innerText == value) && can.runAction(can.request(event, {name: value, text: can.current.text(), offset: offset-1}, can.Option()), code.NAVIGATE, [], function(msg) {

@@ -81,6 +81,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 		can.onaction._run(event, can, button, [p], function(msg) { can.ui.zone.source.refresh() })
 	},
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
+	create: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: can.user.trans(can, button, "创建模块")}), can, button) },
 	compile: function(event, can, button) { var msg = can.request(event); msg.Option(chat._TOAST, "")
 		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden()

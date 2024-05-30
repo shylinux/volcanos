@@ -371,7 +371,7 @@ body>div.input tr.icon td:last-child { position:relative; }
 body>div.input tr.icon td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
 body>div.input tr.icon td:last-child input { padding-left:var(--action-height); }
 body>div.input tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
-body>div.input tr.icons td:last-child span:not(.icon) { font-family:monospace; position:absolute; left:33px; }
+body>div.input tr.icons td:last-child span:not(.icon) { font-family:var(--code-font-family); position:absolute; left:33px; }
 body>div.input tr.icons td:last-child input { padding-left:var(--action-height); }
 body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
 body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
@@ -679,7 +679,7 @@ body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28p
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:28px; }
 body.windows div.item.button.create>span.icon { line-height:28px; }
-div.item.text { position:relative; }
+div.item.text { position:relative; display:flex; align-items:center; }
 div.item.text.filter input { padding-left:24px; }
 div.item.text._icon input { padding-left:24px; }
 div.item.select._icon i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
@@ -765,6 +765,7 @@ fieldset.story.float:not(.plug)>form.option>div.text>span.value { display:unset;
 // fieldset.float>div.action>div.item.button._space.icons { margin-left:0; }
 /* svg */
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
+svg g[font-size] text { font-size:unset; }
 svg[font-size] text { font-size:unset; }
 svg text.offline { stroke:var(--disable-fg-color); fill:var(--disable-fg-color); }
 svg text:hover { cursor:pointer; }

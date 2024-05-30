@@ -60,7 +60,8 @@ Volcanos(chat.ONFIGURE, {
                     if (i < skip) {return}
                     switch (i) {
                         case 0: k = "M"; break
-                        default: k = can._temp[i] || p.k || "L"; break
+                        default: k = p.k || "L"; break
+//                        default: k = can._temp[i] || p.k || "L"; break
                     }
                     if (end) {return}
 
