@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, target, cb) {
 		if (msg.index && msg.meta && msg.list) { return cb && cb(msg), can.sup.onimport._field(can.sup, msg) }
 		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target), cb && cb(msg) }
@@ -40,7 +41,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 	_zone_icon: function(can, msg, zone, cb) {
 		var action = can.core.List(can.Conf(ctx.INPUTS), function(item) { if (item.type == html.BUTTON && [ice.LIST, ice.BACK].indexOf(item.name) == -1) { return item.name } })
 		var _menu = shy({}, action.concat(can.base.Obj(msg.Option(ice.MSG_ACTION), [])), function(event, button, meta, carte) {
-			cb? cb(event, button): can.Update(event, [ctx.ACTION, button]), carte.close() })
+		cb? cb(event, button): can.Update(event, [ctx.ACTION, button]), carte.close() })
 		if (_menu.list.length == 0) {
 			zone._icon(kit.Dict(web.REFRESH, function(event) { zone.refresh() }))
 			return
@@ -221,10 +222,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 				index == 0 && can.onappend.plugin(can, value, function(sub) { can.db.value._content_plugin = sub, can.onimport.layout(can) }, can.ui.content)
 				index == 1 && can.onappend.plugin(can, value, function(sub) {
 					can.onmotion.toggle(can, can.ui.display, true)
-					can.db.value._display_plugin = sub, can.onimport.layout(can) }, can.ui.display)
+				can.db.value._display_plugin = sub, can.onimport.layout(can) }, can.ui.display)
 				index == 2 && can.onappend.plugin(can, value, function(sub) {
 					can.onmotion.toggle(can, can.ui.profile, true)
-					can.db.value._profile_plugin = sub, can.onimport.layout(can) }, can.ui.profile)
+				can.db.value._profile_plugin = sub, can.onimport.layout(can) }, can.ui.profile)
 				can.onmotion.delay(can, function() { can.onimport.layout(can) })
 				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 100)
 				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 300)
@@ -244,7 +245,7 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target, cb) {
 				}}]), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
 				status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, "legend.select", function(target) {
-						can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
+					can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
 					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)

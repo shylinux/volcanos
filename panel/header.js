@@ -1,11 +1,13 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, target) {
 		can.onimport._title(can, msg, target), can.onimport._state(can, msg, target), can.onimport._search(can, msg, target)
 		can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target)
 	},
-	_title: function(can, msg, target) { can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [
-		decodeURIComponent(can.misc.Search(can, ice.POD)||location.host)]), function(item) {
-		can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
-	}) },
+	_title: function(can, msg, target) {
+		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [decodeURIComponent(can.misc.Search(can, ice.POD)||location.host),]), function(item) {
+			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
+		})
+	},
 	_state: function(can, msg, target) { can.core.List(can.base.Obj(can.Conf(chat.STATE)||msg.Option(chat.STATE), [cli.QRCODE, chat.THEME, aaa.LANGUAGE, aaa.USERNICK, aaa.AVATAR, mdb.TIME]).reverse(), function(item) {
 		if (can.user.isMobile && can.base.isIn(item, cli.QRCODE, chat.THEME, aaa.LANGUAGE, mdb.TIME)) { return }
 		can.page.Append(can, target, [{view: [[html.ITEM, chat.STATE, item], "", can.Conf(item)||msg.Option(item)||""], onclick: function(event) {
@@ -62,9 +64,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) {
 	menu: function(can, cmds, cb, trans) { can.base.isString(cmds) && (cmds = [cmds])
 		return can.page.Append(can, can._output, [{view: cmds[0], list: can.core.List(can.base.getValid(cmds.slice(1), [cmds[0]]), function(item) {
 			return can.base.isString(item)? /* 1.string */ {view: [[html.ITEM, html.MENU, item], "", can.user.trans(can, item, trans)], onclick: function(event) { can.base.isFunc(cb) && cb(event, item, [item]) }}:
-				can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU, item[0]]], list: [{text: can.user.trans(can, item[0], trans)}, {icon: icon.CHEVRON_DOWN}], onclick: function(event) { can.onkeymap.prevent(event)
-					can.onaction.carte(can.request(event, {_style: "header "+item[0]}), can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
-				}}: /* 3.others */ item
+			can.base.isArray(item)? /* 2.array */ {view: [[html.ITEM, html.MENU, item[0]]], list: [{text: can.user.trans(can, item[0], trans)}, {icon: icon.CHEVRON_DOWN}], onclick: function(event) { can.onkeymap.prevent(event)
+				can.onaction.carte(can.request(event, {_style: "header "+item[0]}), can, item.slice(1), function(event, button, meta) { can.base.isFunc(cb) && cb(event, button, item) }, trans)
+			}}: /* 3.others */ item
 		}) }])._target
 	},
 })
@@ -106,7 +108,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 				var tool = can._root.Action._conf.tool
 				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8)) || can.misc.Search(can, web.SHARE)
-					|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
+				|| tool && can.base.isIn(tool[0]._command, web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
 				can.onlayout._init(can)
 				can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
@@ -123,13 +125,13 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			name: data.name, river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), theme: can._theme, title: can.user.title(), layout: can.getAction(html.LAYOUT),
 		}), code.WEBPACK, [], function(msg) { can.user.download(can, web.SHARE_LOCAL+msg.Result(), name, nfs.HTML), can.user.toastSuccess(can, "打包成功", code.WEBPACK) })
 	}) },
-
+	
 	title: function(event, can) { var args = {}; can.core.List(can.onaction._params, function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) })
 		var msg = can.request(event); can.onengine.signal(can, "ontitle", msg), can.core.List(msg.Append(), function(key) { args[key] = msg.Append(key) })
 		can.user.jumps(can.misc.MergeURL(can, args, true))
 	},
 	avatar: function(event, can) { if (can.user.isMobile) { return can.onaction.usernick(event, can) }
-		var src = can.onexport.avatar(can); can.onaction.carte(can.request(event, {_style: "header avatar"}), can, ["<img src='"+src+"'>"]) },
+	var src = can.onexport.avatar(can); can.onaction.carte(can.request(event, {_style: "header avatar"}), can, ["<img src='"+src+"'>"]) },
 	usernick: function(event, can) { can.onaction.carte(can.request(event, {_style: "header usernick"}), can, can.onaction._menus) },
 	shareuser: function(event, can) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE, mdb.TYPE, aaa.LOGIN, mdb.NAME, can.user.title()]) },
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
@@ -154,7 +156,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	logout: function(event, can) { can.user.logout(can) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
-
+	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: [
 		cli.QRCODE, "shareuser",
@@ -166,7 +168,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", "setavatar", "设置头像", "setbackground", "设置背景", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
-
+		
 		"change language to zh-cn", "切换语言为中文",
 		"change language to en-us", "切换语言为英文",
 		"en-us", "英文", "zh-cn", "中文", "auto", "默认",

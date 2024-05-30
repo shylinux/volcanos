@@ -1,5 +1,6 @@
 (function() { const ALL = "all", TABS = "tabs", TABVIEW = "tabview", VERTICAL = "vertical", HORIZON = "horizon", GRID = "grid", FREE = "free", FLOW = "flow", PAGE = "page", CAN_LAYOUT = "can.layout"
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.db.list
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.db.list
 		var _select; can.onmotion.clear(can), can.onaction.layout(can, list[3])
 		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
@@ -37,7 +38,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { var river = can.Conf(chat.R
 		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, ["_tabs"])._target)
 	},
 })
-Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.SearchHash(can)
+Volcanos(chat.ONACTION, {
+	_init: function(can, target) { can.db.list = can.misc.SearchHash(can)
 		can.db.list.length == 0 && can.misc.Search(can, chat.RIVER) && can.misc.Search(can, chat.STORM) && (can.db.list = [can.misc.Search(can, chat.RIVER), can.misc.Search(can, chat.STORM)])
 		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN), can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
@@ -90,7 +92,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 		// if (can._current && !event.metaKey) { var sub = can._current.sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: event, can: sub}); return }
 		can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) || can.onkeymap._parse(event, can, mode)
 	},
-
+	
 	ontouchstart: function(event, can) { can.touch = can.touch || {}, can.touch.isStart = true, can.touch.startX = event.touches[0].clientX },
 	ontouchmove: function(event, can) { can.touch.isMove = true, can.touch.distanceX = event.touches[0].clientX - can.touch.startX },
 	ontouchend: function(event, can) {
@@ -98,7 +100,7 @@ Volcanos(chat.ONACTION, {_init: function(can, target) { can.db.list = can.misc.S
 			if (can.touch.distanceX > 0) { can.onengine.signal(can, "onslideright") } else { can.onengine.signal(can, "onslideleft") }
 		} can.touch.isMove = false, can.touch.distanceX = 0, can.touch.isStart = false, can.touch.startX = 0
 	},
-
+	
 	store: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.STORE})) },
 	dream: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DREAM})) },
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.PORTAL})) },
@@ -118,7 +120,7 @@ Volcanos(chat.ONLAYOUT, {
 	tabs: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width) },
 	tabview: function(can, height, width) { can.ConfHeight(height+html.ACTION_HEIGHT), can.ConfWidth(width), can.onmotion.toggle(can, can._header_tabs, true)
 		can.page.SelectOne(can, can._header_tabs, html.DIV_ITEM_SELECT)
-			// || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
+		// || can.page.Select(can, can._header_tabs, html.DIV_ITEM, function(target, index) { index == 0 && target.click() })
 	},
 	horizon: function(can, height, width) { can.ConfHeight(height), can.ConfWidth(width/2) },
 	vertical: function(can, height, width) { can.ConfHeight(height/2), can.ConfWidth(width) },
@@ -134,7 +136,7 @@ Volcanos(chat.ONLAYOUT, {
 			return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y)-([ALL, TABS].indexOf(can.onexport.layout(can)) > -1? html.ACTION_HEIGHT: 0)), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}
 		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(can._plugins.length == 1 || button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN),
-			can.ConfWidth()-can.Conf(html.MARGIN_X), can._plugins.length > 1 && can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
+		can.ConfWidth()-can.Conf(html.MARGIN_X), can._plugins.length > 1 && can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.user.isMobile? "all": (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0] },
 })
@@ -157,26 +159,28 @@ Volcanos(chat.ONEXPORT, {
 		msg.Push(kit.Dict(ice.CTX, ice.CAN, ice.CMD, ctx.COMMAND, mdb.TYPE, ice.CAN, mdb.NAME, name||command.name, mdb.TEXT, command.help, ctx.CONTEXT, ice.CAN, ctx.COMMAND, name, ctx.INDEX, can.core.Keys(ice.CAN, name)), fields)
 	}) }
 })
-Volcanos(chat.ONENGINE, {_engine: function(event, sup, msg, can, cmds, cb) {
-	var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1])); if (!storm || cmds.length != 2) { return false }
-	if (storm.index) {
-		can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) {
-			if (typeof item == code.FUNCTION) { item = item(can) } if (item) { return item.index||item }
-		})), function(msg) {
-			can.core.List(storm.index, function(item) { if (!item || typeof item == code.FUNCTION) { return }
-				msg.Push(ctx.ARGS, JSON.stringify(item.args||[]))
-				msg.Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
-				msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
-			}), cb(msg)
-		})
-	} else { can.core.List(storm.list, function(item) { can.base.isString(item) && (item = {index: item})
-		msg.Push(ctx.INDEX, item.index||"").Push(mdb.ICONS, item.icons||"")
-		msg.Push(mdb.NAME, item.name||"").Push(mdb.HELP, item.help||"")
-		msg.Push(ctx.INPUTS, JSON.stringify(item.inputs)).Push(ctx.FEATURE, JSON.stringify(item.feature))
-		msg.Push(ctx.ARGS, item.args||"[]").Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
-		msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
-	}), can.base.isFunc(cb) && cb(msg) } return true
-}})
+Volcanos(chat.ONENGINE, {
+	_engine: function(event, sup, msg, can, cmds, cb) {
+		var storm = can.core.Value(can._root, can.core.Keys(chat.RIVER, cmds[0], chat.STORM, cmds[1])); if (!storm || cmds.length != 2) { return false }
+		if (storm.index) {
+			can.runAction(event, ctx.COMMAND, [].concat(can.core.List(storm.index, function(item) {
+				if (typeof item == code.FUNCTION) { item = item(can) } if (item) { return item.index||item }
+			})), function(msg) {
+				can.core.List(storm.index, function(item) { if (!item || typeof item == code.FUNCTION) { return }
+					msg.Push(ctx.ARGS, JSON.stringify(item.args||[]))
+					msg.Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
+					msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
+				}), cb(msg)
+			})
+		} else { can.core.List(storm.list, function(item) { can.base.isString(item) && (item = {index: item})
+			msg.Push(ctx.INDEX, item.index||"").Push(mdb.ICONS, item.icons||"")
+			msg.Push(mdb.NAME, item.name||"").Push(mdb.HELP, item.help||"")
+			msg.Push(ctx.INPUTS, JSON.stringify(item.inputs)).Push(ctx.FEATURE, JSON.stringify(item.feature))
+			msg.Push(ctx.ARGS, item.args||"[]").Push(ctx.STYLE, item.style||"").Push(ctx.DISPLAY, item.display||"")
+			msg.Push(web.SPACE, item.space||"").Push("_ismain", ice.TRUE)
+		}), can.base.isFunc(cb) && cb(msg) } return true
+	},
+})
 Volcanos(chat.ONKEYMAP, {
 	_mode: {
 		plugin: {

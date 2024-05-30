@@ -1,11 +1,12 @@
 (function() { var NTIP = "ntip", NLOG = "nlog", NCMD = "ncmd", NKEY = "nkey"
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.ondaemon._init(can)
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, target) { can._wss = can.ondaemon._init(can)
 		can.Conf(cli.BEGIN, can.base.Time(null, "%H:%M:%S"))
 		if (!can.user.isMobile && !can.misc.isDebug(can)) { can.onmotion.hidden(can); return }
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-
+		
 		can.onimport._title(can, msg, target)
 		can.onimport._storm(can, msg, target)
 		can.core.List([
@@ -29,9 +30,10 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, target) { can._wss = can.onda
 	_command: function(can, msg, target) { can.onappend.input(can, {type: html.TEXT, _className: "args trans", icon: icon.TERMINAL, name: ice.CMD, onkeydown: function(event) { can.onkeymap.input(event, can)
 		function close() { can.ui.cli && can.ui.cli.onaction.close() } if (event.key == code.ESCAPE) { return close() } if (event.key != code.ENTER) { return } close()
 		switch (event.target.value) {
-		case web.CLEAR:
-		case cli.CLOSE: break
-		default: var list = can.core.Split(event.target.value, lex.SP)
+			case web.CLEAR:
+			case cli.CLOSE: break
+			default:
+			var list = can.core.Split(event.target.value, lex.SP)
 			can.onexport._float(can, "cli", {index: "can.console", display: "/plugin/local/code/xterm.js"}, list, function(sub) { can.getActionSize(function(left) { can.page.style(can, sub._target, html.LEFT, left+html.PLUGIN_MARGIN, html.RIGHT, "") }) })
 		}
 	}}, "", target, [chat.TITLE]) },
@@ -70,7 +72,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone"); zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0])) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	onstorm_select: function(event, can, river, storm) { event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.STORM, text: [river, storm].join(",")}) },
-
+	
 	ontheme: function(event, can, theme) { can.onimport.tutor(event, can, chat.THEME, theme) },
 	onevent: function(event, can, query) { var msg = can.request(event)
 		can.onimport.tutor(event, can, msg.Option("_type")||event.type, query||can.page.getquery(can, event.currentTarget||event.target))
@@ -78,7 +80,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onindex: function(event, can, index) { can.onimport.tutor(event, can, ctx.INDEX, index) },
 	onproject: function(event, can, query) { can.onimport.tutor(event, can, html.ITEM, query) },
 	onremove: function(event, can, query) { can.onimport.tutor(event, can, mdb.REMOVE, query) },
-
+	
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
@@ -158,7 +160,7 @@ Volcanos(chat.ONPLUGIN, {
 	}),
 	data: shy("网页数据", [mdb.KEY], function(can, msg, arg, cb) { var can = msg._can, root = can.Conf("_target")||can._root
 		arg[0]? can.page.AppendData(can, can._output, arg[0], arg[0].split(nfs.PT).pop(), can.core.Value(root, arg[0]), function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click():
-			can.page.AppendData(can, can._output, "", root._name, root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
+		can.page.AppendData(can, can._output, "", root._name, root, function(prefix, value) { can.Option(mdb.KEY, prefix) })._target.click()
 		can.onappend.style(can, "view")
 	}),
 	console: shy("网页终端", {
@@ -193,4 +195,5 @@ Volcanos(chat.ONPLUGIN, {
 			daemon: can.misc.sessionStorage(can, "can.daemon"),
 		})).Display("/plugin/story/json.js")
 	}),
-}) })()
+})
+})()

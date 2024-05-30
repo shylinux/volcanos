@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can.ui.content)
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg) { can.onmotion.clear(can, can.ui.content)
 		var table = can.onappend.table(can, msg, function(value, key, index, data) { return {text: [can.base.isFunc(value) && value.help || value, html.TD], onclick: function(event) {
 			can.page.tagis(event.target, html.A) || can.onaction[can.db.type == mdb.FOREACH || event.ctrlKey? mdb.PLUGIN: mdb.SELECT](event, can, data)
 		}} }, can.ui.content, msg.append); can.onmotion.story.auto(can), can.onimport._size(can)
@@ -6,8 +7,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onmotion.clear(can, can
 		can.onmotion.focus(can, can.ui.filter), msg.Length() == 1 && can.ui.profile.innerHTML == "" && can.page.Select(can, table, html.TD)[0].click()
 	},
 	_size: function(can) { can.ui && can.ui.content && can.getActionSize(function(left, top, width, height) {
-		can.page.style(can, can._target, {left: left||0, top: top||0, width: width}),
-			can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*10+(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT+can.onexport.statusHeight(can))
+		can.page.style(can, can._target, {left: left||0, top: top||0, width: width})
+		can.page.style(can, can._output, html.MAX_HEIGHT, height -= 2*10+(can.user.isMobile? 2: 1)*html.ACTION_HEIGHT+can.onexport.statusHeight(can))
 		can.core.List([can.ui.content, can.ui.display], function(target) { can.page.style(can, target, html.MAX_WIDTH, can.ConfWidth(width-2*10)) })
 		can.ConfHeight(can.base.Min(height-can.ui.content.offsetHeight-can.ui.display.offsetHeight, height/2))
 	}) },
@@ -64,7 +65,7 @@ Volcanos(chat.ONACTION, {_init: function(can) { can.onmotion.hidden(can) }, list
 		}, can.ui.profile) }
 		if (data.ctx == ice.NFS && data.cmd == nfs.PACK) { var ls = can.misc.SplitPath(can, data.text)
 			can.runAction(event, ctx.RUN, [web.CODE_VIMER, ctx.ACTION, mdb.RENDER, data.type, ls[1], ls[0]], function(msg) {
-				msg.Table(function(meta) { plugin(meta) }), can.onappend.board(can, msg.Result(), can.ui.profile) })
+			msg.Table(function(meta) { plugin(meta) }), can.onappend.board(can, msg.Result(), can.ui.profile) })
 		} else {
 			plugin(meta)
 		}

@@ -72,9 +72,15 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 			if (can.base.beginWith(text, "import ")) { count++; return }
 			if (block == "import") { count++ }
 		}); return count }
-		if (can.onexport.parse(can) == nfs.GO) { var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content), can.ui.content._max = 0
+		if (can.onexport.parse(can) == nfs.GO) {
+			var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content), can.ui.content._max = 0
 			can.core.List(msg.Result().split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
 			can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
+		}
+		if (can.onexport.parse(can) == nfs.JS) {
+			var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content), can.ui.content._max = 0
+			can.core.List(msg.Option("content").split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
+			can.onaction.selectLine(can, line)
 		}
 	},
 	trash: function(event, can, button) { var msg = can.request(event), p = msg.Option(nfs.PATH)+msg.Option(nfs.FILE)

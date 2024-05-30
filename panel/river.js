@@ -1,5 +1,6 @@
 (function() { const CAN_RIVER = "can.river", CAN_STORM = "can.storm"
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg), can.onappend.style(can, html.FLEX, can._action)
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg) { can.onimport._main(can, msg), can.onappend.style(can, html.FLEX, can._action)
 		var select; can.page.Appends(can, can._output, msg.Table(function(item, index) {
 			return can.onimport._river(can, item, function(target) { (index == 0 || item.hash == can._main_river) && (select = target) })
 		})), select && select.click(), can.onimport._menu(can, msg)
@@ -17,7 +18,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) { can.onimport._main(can, msg
 	} },
 	_menu: function(can, msg) { can.user.isMobile || can.user.mod.isPod? can.onmotion.hidden(can, can._action): can.onappend._action(can, can.onaction.list, can._action) },
 })
-Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH], _init: function(can) {
+Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH],
+	_init: function(can) {
 		can.db.storm_list = {}, can.onmotion.hidden(can)
 		var next = can.page.unicode.next, prev = can.page.unicode.prev
 		can._prev = can.page.Append(can, can._target, [{view: [[html.TOGGLE, mdb.PREV], "", prev], onclick: function(event) {
@@ -123,7 +125,8 @@ Volcanos(chat.ONDETAIL, {
 		{name: mdb.TEXT, value: "hello", _trans: "简介"},
 	], function(args) { can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) { can.misc.Search(can, {river: river, storm: msg.Result()}) }) }) },
 })
-Volcanos(chat.ONEXPORT, {width: function(can) { return can._target.offsetWidth },
+Volcanos(chat.ONEXPORT, {
+	width: function(can) { return can._target.offsetWidth },
 	storm: function(can, msg, arg) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (arg[1] != "" && storm.indexOf(arg[1]) == -1 && item.name.indexOf(arg[1]) == -1) { return }
 		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})
 	}) }) },

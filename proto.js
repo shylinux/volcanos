@@ -1,8 +1,8 @@
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
-		if (type == code.OBJECT) { if (typeof arg[i] == code.OBJECT && arg[i].length == undefined) { return arg[i++] }
-		} else if (type == code.ARRAY) { if (typeof arg[i] == code.OBJECT && arg[i].length != undefined) { return arg[i++] }
-		} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
-	} return cb = typeof arg[arg.length-1] == code.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(code.STRING)||"", cb.meta = next(code.OBJECT)||{}, cb.list = next(code.ARRAY)||[], cb
+	if (type == code.OBJECT) { if (typeof arg[i] == code.OBJECT && arg[i].length == undefined) { return arg[i++] }
+	} else if (type == code.ARRAY) { if (typeof arg[i] == code.OBJECT && arg[i].length != undefined) { return arg[i++] }
+	} else if (i < arg.length && (!type || type == typeof arg[i])) { return arg[i++] }
+} return cb = typeof arg[arg.length-1] == code.FUNCTION? arg[arg.length-1]: function() {}, cb.help = next(code.STRING)||"", cb.meta = next(code.OBJECT)||{}, cb.list = next(code.ARRAY)||[], cb
 }; var _can_name = "", _can_path = ""
 var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, cache: {}, pack: {}, args: {}}, function(name, can, libs, cb) {
 	var meta = arguments.callee.meta, list = arguments.callee.list; if (typeof name == code.OBJECT) {
@@ -13,7 +13,8 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		cb = can||function(can) { can.require([can.frame], function() { can.onengine._init(can, can.Conf(Config), panels, Config._init||meta._init, can._target) }, function(can, key, sub) { can[key] = sub }) }
 		can = Config, can._follow = name, can._target = Config.target||meta.target, can._height = Config.height||meta._height, can._width = Config.width||meta._width, _can_name = ""
 	}
-	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name, _load: function(name, cbs) { var cache = meta.cache[name]||[]
+	can = kit.proto(can||{}, kit.proto({_name: name, _path: _can_name,
+		_load: function(name, cbs) { var cache = meta.cache[name]||[]
 			for (list.reverse(); list.length > 0; list) { var sub = list.pop(); sub != can && cache.push(sub), sub._path = sub._path||name } meta.cache[name] = cache
 			cache.forEach(function(sub) { var name = sub._name
 				if (typeof cbs == code.FUNCTION && cbs(can, name, sub)) { return }
@@ -115,10 +116,10 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfSpace: function(space) {
 			if (space) { can.Conf(web.SPACE, space) }
-			return can.Conf("_space")||can.Conf(web.SPACE)||"" },
+		return can.Conf("_space")||can.Conf(web.SPACE)||"" },
 		ConfIndex: function(index) {
 			if (index) { can.Conf(ctx.INDEX, index) }
-			return can.Conf("_command")||can.Conf(ctx.INDEX)||can.Conf("_index") },
+		return can.Conf("_command")||can.Conf(ctx.INDEX)||can.Conf("_index") },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value)||can._output.offsetWidth },
 		Conf: function(key, value) { var res = can._conf

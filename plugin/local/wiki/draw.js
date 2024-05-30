@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg) {
 		can.isCmdMode() || can.onmotion.hidden(can, can._action)
 		can.OptionPath = function(value) { return can.Option(nfs.PATH, value) }
 		can.OptionPid = function(value) { return can.Option(svg.PID, value) }
@@ -74,9 +75,9 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg) {
 		return meta._init && meta._init(target), target
 	},
 	layout: function(can) {
-		can.ui.svg && can.page.style(can, can.ui.svg, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
+		can.ui.svg && can.page.style(can, can.ui.svg, html.MIN_HEIGHT, can.ConfHeight()-4, html.MIN_WIDTH, can.ConfWidth())
 		can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height, html.MIN_WIDTH, width)
+			can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height-4, html.MIN_WIDTH, width)
 		})
 	},
 })

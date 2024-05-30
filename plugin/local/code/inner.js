@@ -543,7 +543,37 @@ Volcanos(chat.ONEXPORT, {
 	text: function(can, line) { return can.core.Value(can.page.SelectOne(can, line, "td.text"), "innerText") },
 	size: function(can, size, full) { if (size > 1) { return size } if (size > 0) { return size*full } },
 	keys: function(can, path, file) { return [path||can.Option(nfs.PATH), file||can.Option(nfs.FILE)].join(nfs.DF) },
-	content: function(can) { return can.page.Select(can, can.current&&can.current.content||can.ui.content, "td.text", function(item) { return item.innerText.trimEnd() }).join(lex.NL) },
+	content: function(can) {
+		var parse = can.onexport.parse(can)
+		var deep = 0
+		return can.page.Select(can, can.current&&can.current.content||can.ui.content, "td.text", function(item) { var text = item.innerText.trimEnd()
+			if (parse == "js" && !can.base.beginWith(text, "(")) { var list = []
+				for (var i = 0; i < text.length; i++) {
+					if (text[i] == "{") {
+						list.push(text[i])
+					} else if (text[i] == "}") {
+						if (list[list.length-1] == "{") { list.pop() } else { list.push(text[i]) }
+					}
+					if (text[i] == "(") {
+						list.push(text[i])
+					} else if (text[i] == ")") {
+						if (list[list.length-1] == "(") { list.pop() } else { list.push(text[i]) }
+					}
+					if (text[i] == "[") {
+						list.push(text[i])
+					} else if (text[i] == "]") {
+						if (list[list.length-1] == "[") { list.pop() } else { list.push(text[i]) }
+					}
+				}
+				if (list.indexOf("}") > -1) { deep-- } else if (list.indexOf("]") > -1) { deep-- } else if (list.indexOf(")") > -1) { deep-- }
+				if (deep < 0) { deep = 0 }
+				text = "\t".repeat(deep < 0? 0: deep)+text.trimStart()
+				can.base.beginWith(text, "+") && (text = "\t"+text)
+				if (list.indexOf("{") > -1) { deep++ } else if (list.indexOf("[") > -1) { deep++ } else if (list.indexOf("(") > -1) { deep++ }
+			}
+			return text
+		}).join(lex.NL)
+	},
 	position: function(can, index, total) { total = total||can.ui.content._max; return (parseInt(index))+nfs.PS+parseInt(total)+" = "+parseInt((index)*100/total)+"%" },
 	selection: function(can, str) { var s = document.getSelection().toString(), begin = str.indexOf(s), end = begin+s.length
 		for (var i = begin; i >= 0; i--) { if (str[i].match(/[a-zA-Z0-9_.]/)) { s = str.slice(i, end) } else { break } } return s
