@@ -66,8 +66,8 @@ Volcanos(chat.ONIMPORT, {
 		var target = document.createElementNS("http://www.w3.org/2000/svg", type)
 		return group.appendChild(can.onimport._block(can, target)), target.Value(value), target
 	},
-	group: function(can, name, value, group) { var target = can.onimport.block(can, svg.G, value, group||can.ui.svg)
-		return target.Value(html.CLASS, name), can.onimport._project(can, target), target
+	group: function(can, name, value, group) { var target = can.onimport.block(can, svg.G, {}, group||can.ui.svg)
+		return target.Value(html.CLASS, name), target.Value(value), can.onimport._project(can, target), target
 	},
 	draw: function(can, meta, group) { group = group||can.ui.svg
 		var figure = can.onfigure[meta.shape], data = figure.draw({}, can, meta.points, meta.style||{}); can.core.Item(meta.style, function(key, value) { data[key] = value })
@@ -81,7 +81,8 @@ Volcanos(chat.ONIMPORT, {
 		})
 	},
 })
-Volcanos(chat.ONACTION, {list: [
+Volcanos(chat.ONACTION, {
+	list: [
 		[svg.GO, ctx.RUN, ice.AUTO, "manual"], [ice.MODE, web.DRAW, html.MOVE, html.RESIZE],
 		[svg.SHAPE, svg.RECT, svg.LINE, svg.TEXT, svg.BLOCK, svg.CIRCLE, svg.ELLIPSE],
 		[svg.STROKE_WIDTH, svg.STROKE_WIDTH, 1, 2, 3, 4, 5],
@@ -98,7 +99,7 @@ Volcanos(chat.ONACTION, {list: [
 	fill: function(event, can, key, value) { can.onaction._change(can, key, value) },
 	"font-size": function(event, can, key, value) { can.onaction._change(can, key, value) },
 	save: function(event, can, button) { can.runAction(can.request(event, {text: can.onexport.content(can, can.ui.svg)}), button, [can.OptionPath()]) },
-
+	
 	menu_list: [html.HIDE, html.SHOW, web.CLEAR, mdb.CREATE, mdb.REMOVE],
 	hide: function(event, can) { can.onmotion.hide(can, {interval: 50, length: 10}, null, can.ui.group) },
 	show: function(event, can) { can.onmotion.show(can, {interval: 50, length: 10}, null, can.ui.group) },
@@ -108,7 +109,7 @@ Volcanos(chat.ONACTION, {list: [
 		if (can.ui.group == can.ui.svg) { return can.onmotion.clear(can, can.ui.svg) }
 		can.page.Remove(can, can.ui.group._item), can.page.Remove(can, can.ui.group)
 	},
-
+	
 	_mode: {
 		draw: function(event, can, points) { var shape = can.ActionShape(), figure = can.onfigure[shape]
 			figure.grid && figure.grid(event, can, points); if (figure.data.points && points.length < figure.data.points) { return }
@@ -253,7 +254,8 @@ Volcanos(chat.ONEXPORT, {list: [svg.GROUP, svg.FIGURE, ctx.INDEX, "pos"],
 		can.Status(svg.GROUP, target.Groups()||can.ui.group.Groups()||html.SVG)
 		can.Status(ctx.INDEX, target.Value(ctx.INDEX)||"")
 	},
-	content: function(can, target) { return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" dominant-baseline="middle"'].concat(
+	content: function(can, target) {
+		return ['<svg xmlns="https://www.w3.org/2000/svg" vertion="1.1" text-anchor="middle" dominant-baseline="middle"'].concat(
 		target? can.core.List([mdb.COUNT, svg.PID], function(item) { return target.Value(item)? can.base.joinKV([item, target.Value(item)], mdb.EQ): ""}).join(lex.SP): "").concat([">", target? target.innerHTML: "", "</svg>"]).join("")
 	},
 	grid: function(can) { var grid = can.Action(svg.GRID); return grid == svg.GRID || grid == ice.AUTO? 10: grid },
@@ -363,18 +365,18 @@ Volcanos(chat.ONKEYMAP, {
 			gr: function(event, can) { can.ActionGo(ctx.RUN) },
 			ga: function(event, can) { can.ActionGo(ice.AUTO) },
 			gm: function(event, can) { can.ActionGo("manual") },
-
+			
 			ad: function(event, can) { can.ActionMode(web.DRAW) },
 			am: function(event, can) { can.ActionMode(html.MOVE) },
 			ar: function(event, can) { can.ActionMode(html.RESIZE) },
-
+			
 			st: function(event, can) { can.ActionShape(svg.TEXT) },
 			sr: function(event, can) { can.ActionShape(svg.RECT) },
 			sl: function(event, can) { can.ActionShape(svg.LINE) },
 			ss: function(event, can) { can.ActionShape(svg.LINE) },
 			sc: function(event, can) { can.ActionShape(svg.CIRCLE) },
 			se: function(event, can) { can.ActionShape(svg.ELLIPSE) },
-
+			
 			cr: function(event, can) { can.onaction._change(can, svg.STROKE, cli.RED) },
 			cb: function(event, can) { can.onaction._change(can, svg.STROKE, cli.BLUE) },
 			cg: function(event, can) { can.onaction._change(can, svg.STROKE, cli.GREEN) },
@@ -383,7 +385,7 @@ Volcanos(chat.ONKEYMAP, {
 			cc: function(event, can) { can.onaction._change(can, svg.STROKE, cli.CYAN) },
 			ch: function(event, can) { can.onaction._change(can, svg.STROKE, cli.BLACK) },
 			cw: function(event, can) { can.onaction._change(can, svg.STROKE, cli.WHITE) },
-
+			
 			fr: function(event, can) { can.onaction._change(can, svg.FILL, cli.RED) },
 			fb: function(event, can) { can.onaction._change(can, svg.FILL, cli.BLUE) },
 			fg: function(event, can) { can.onaction._change(can, svg.FILL, cli.GREEN) },
