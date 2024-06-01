@@ -75,9 +75,9 @@ Volcanos(chat.ONIMPORT, {
 		return meta._init && meta._init(target), target
 	},
 	layout: function(can) {
-		can.ui.svg && can.page.style(can, can.ui.svg, html.MIN_HEIGHT, can.ConfHeight()-4, html.MIN_WIDTH, can.ConfWidth())
+		can.ui.svg && can.page.style(can, can.ui.svg, html.MIN_HEIGHT, can.ConfHeight()-1, html.MIN_WIDTH, can.ConfWidth())
 		can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height-4, html.MIN_WIDTH, width)
+			can.page.style(can, can.ui.svg, html.MIN_HEIGHT, height-1, html.MIN_WIDTH, width)
 		})
 	},
 })

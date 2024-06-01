@@ -199,7 +199,9 @@ fieldset.plugin.cmd:not(.output)>div.action div.tabs:last-child { margin-right:v
 fieldset.plugin.cmd:not(.output)>div.action div.tabs:first-child { margin-left:var(--button-margin); }
 fieldset.plugin.cmd:not(.output)>div.action div.tabs.select { padding-top:2px; }
 fieldset.plugin.cmd:not(.output)>div.action div.tabs>span.name { overflow:hidden; }
-fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex !important; flex-direction:row-reverse; }
+fieldset.plugin.cmd:not(.output)>div.header { float:right; display:flex; flex-direction:row-reverse; }
+body.width2 fieldset.plugin.cmd:not(.output)>div.header { display:none; }
+body.width1 fieldset.plugin.cmd:not(.output)>div.header { display:none; }
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form.option>div.icon.delete { display:none; }
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 div.output>div.layout>div.layout { position:relative; }
@@ -345,7 +347,7 @@ div.toast.float div.action>div.item.notice input { border:var(--box-notice); }
 div.toast.float div.action>div.item.open input { border:var(--box-notice); }
 body>div.carte { border:0; padding:0; }
 body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% - 10px); position:sticky; top:var(--input-margin); }
-body>div.carte div.item { white-space:pre; padding:var(--button-padding); }
+body>div.carte div.item { white-space:pre; padding:var(--button-padding); display:flex; align-items:center; }
 body>div.carte div.item i:first-child { margin-right:var(--button-margin); }
 body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:right; }
 body>div.carte.select.float>div.item { text-align:center; }
@@ -524,6 +526,7 @@ fieldset>form.option>div.item.text.cmd>input { background-color:var(--code-bg-co
 fieldset>div.action div.item.cmds.select { background:var(--output-bg-color); border-top:var(--box-notice3); }
 fieldset.desktop fieldset>div.action div.item.cmds.select { border-top:unset; border-bottom:var(--box-notice3); }
 fieldset>div.action div.item.cmds:hover { background:var(--output-bg-color); }
+fieldset>div.action div.item.cmds img { display:none; }
 fieldset>div.output { background-color:var(--output-bg-color); }
 fieldset.panel:not(.main) { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
 fieldset.panel:not(.main)>div.output { background-color:var(--panel-output-bg-color); color:var(--panel-output-fg-color); }
@@ -740,13 +743,13 @@ body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldse
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.action>div.button.icons>i { display:none; }
 fieldset.panel>div.action>div.button.icons>span.icon { display:none; }
 fieldset.plugin.cmd>form.option>div.icon.delete { display:none; }
-fieldset.story>form.option>div.button.icons.list { margin-right:0; }
-fieldset.story>form.option>div.button.icons.back { margin-right:0; }
-fieldset.story>form.option>div.button.icons { display:none; }
+fieldset.story>form.option>div.button.icons.list { display:none; }
+fieldset.story>form.option>div.button.icons.back { display:none; }
+fieldset.story>form.option>div.button.icons input { display:none; }
 fieldset.story>div.action>div.button.icons>input { display:none; }
-fieldset.plug>form.option>div.button.icons { display:none; }
 fieldset.plug>form.option>div.button.icons.back { display:none; }
 fieldset.plug>form.option>div.button.icons.list { display:none; }
+fieldset.plug>form.option>div.button.icons input { display:none; }
 fieldset.plug>div.action>div.button.icons>input { display:none; }
 fieldset.plug>form.option>div.icon:first-child { margin-left:var(--input-margin); }
 body:not(.width6) fieldset.inner.float:not(.full)>form.option>div.text { display:none; }
@@ -793,6 +796,7 @@ div.story[data-type=spark] { cursor:copy; }
 /* mobile */
 body.mobile table.content { width:100%; }
 body.mobile fieldset.plugin>legend { box-shadow:none; }
+body.mobile:not(.landscape) fieldset.plugin.cmd:not(.output)>div.header { display:none !important; }
 body.mobile div.output.card { overflow-x:hidden; }
 body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:2; }
 body.mobile div.output>div.project { flex:0 0 240px; width:240px; }

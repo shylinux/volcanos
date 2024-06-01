@@ -336,15 +336,9 @@ Volcanos(chat.ONAPPEND, {
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			} can.onmotion.toggle(can, can._action, true), delete(can._status._cache), delete(can._status._cache_key)
-			// can.page.ClassList.del(can, sub._fields, html.FORM)
-			// sub._output.className = html.OUTPUT
-			// can.onappend.style(can, sub._args.style, can._output)
-			// can.isCmdMode() && can.onappend.style(can, html.OUTPUT)
-			// sub.isCmdMode() && sub.onexport.title(sub, sub.ConfIndex())
-			can._output_old = can._output, can._output = sub._output = sub._target = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
-			can.page.style(can, can._output, "visibility", "hidden")
-			can.page.style(can, can._output, "position", "fixed")
-			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = can._output_old.innerHTML }
+			var output_old = can._output; sub._target = sub._output = can._output = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
+			can.page.style(can, can._output, "visibility", "hidden", "position", "fixed")
+			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = output_old.innerHTML }
 			can.onexport._output(sub, msg)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
@@ -361,9 +355,8 @@ Volcanos(chat.ONAPPEND, {
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""),
-				can._output.scrollTop = can._output_old.scrollTop, can._output.scrollLeft = can._output_old.scrollLeft
-				can.page.style(can, can._output, "visibility", ""), can.page.Remove(can, can._output_old)
-				can.page.style(can, can._output, "position", "")
+				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
+				can.page.style(can, can._output, "visibility", "", "position", ""), can.page.Remove(can, output_old)
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -463,11 +456,17 @@ Volcanos(chat.ONAPPEND, {
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
 			item.icon = item.icon||can.Conf(["_icons", item.name])||icon[item.name]
 		}
+		if (item.type == html.MULTIPLE) {
+			input.data.type = html.BUTTON, input.value = can.user.trans(can, item.name)
+		}
 		if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
 		var _style = can.page.buttonStyle(can, item.name)
 		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
-			if (item.type == html.SELECT) {
-				_input.select.value = value||_item.value||_item.values[0]
+			if (item.type == html.MULTIPLE) {
+				can.onappend.multiple(can, item, _input.input)
+				can.onappend.style(can, html.BUTTON, target)
+			}
+			if (item.type == html.SELECT) { _input.select.value = value||_item.value||_item.values[0]
 				can.onappend.select(can, _input.select, _item)
 				can.onappend.style(can, html.BUTTON, target)
 				item._init && item._init(target)
@@ -538,6 +537,22 @@ Volcanos(chat.ONAPPEND, {
 				}
 			})
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])
+	},
+	multiple: function(can, item, target) { target._select = {}, can.core.List(item.value||item.values, function(value) { target._select[value] = true })
+		target.onclick = function(event) { var carte = can.user.carte(event, can, {}, item.values, function(event, button) {})
+			can.page.Appends(can, carte._target, can.core.List(item.values, function(value) { var _target
+				return {view: html.ITEM, list: [{type: "input", data: {type: "checkbox", checked: target._select[value]? "checked": ""}, onchange: function(event) {
+					target._select[value] = event.target.checked
+					can.core.CallFunc(can.onaction[item.name], [event, can, item.name, target._select])
+				}, _init: function(target) {
+					_target = target
+				}}, {text: value}], onclick: function(event) {
+					if (can.page.tagis(event.target, "input")) { return } can.onkeymap.prevent(event)
+					_target.checked = target._select[value] = !target._select[value]
+					can.core.CallFunc(can.onaction[item.name], [event, can, item.name, target._select])
+				}}
+			}))
+		}
 	},
 	checkbox: function(can, table, msg) {
 		can.page.Select(can, table, "tr>th:first-child,tr>td:first-child", function(target) {

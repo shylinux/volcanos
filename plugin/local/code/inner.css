@@ -33,7 +33,8 @@ fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { border-bottom:v
 fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile pre>code { padding-left:var(--table-padding); border-left:var(--box-notice3); display:block; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile>div.code { white-space:unset; padding:var(--table-padding); }
-fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { padding:var(--input-padding); float:left; }
+fieldset.inner>div.output>div.layout>div.layout>div.profile>div.status { background-color:var(--output-bg-color); height:var(--action-height); overflow:auto; position:sticky; bottom:0; }
+fieldset.inner>div.output>div.layout>div.layout>div.profile div.status>div { font-style:italic; font-size:var(--status-font-size); padding:var(--input-padding); float:left; }
 fieldset.inner>div.output>div.layout>div.layout>div.content div.tips { color:var(--disable-fg-color); font-style:italic; line-height:var(--code-line-height); position:absolute; top:0; right:10px; }
 fieldset.inner>div.output>div.layout>div.layout>fieldset.story { box-shadow:unset; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs:not(.hide) { background-color:var(--plugin-bg-color); height:var(--code-tabs-height); display:flex; }

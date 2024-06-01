@@ -71,7 +71,10 @@ Volcanos(chat.ONIMPORT, {
 	},
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
-	onsize: function(can) { can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth) },
+	onsize: function(can) {
+		can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth)
+		can.onimport.theme(can)
+	},
 	onmain: function(can) {
 		if (window.parent == window && can.misc.Search(can, ice.MSG_SESSID) && can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)) && !can.user.isMailMaster) {
 			return can.misc.Search(can, ice.MSG_SESSID, "")

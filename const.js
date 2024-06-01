@@ -368,7 +368,7 @@ var html = {value: {
 	SVG: "svg", IMG: "img", IMAGE: "image", VIDEO: "video", AUDIO: "audio", CANVAS: "canvas", IFRAME: "iframe",
 	WSS: "wss", WEBVIEW: "webview", CHROME: "chrome", WINDOWS: "windows", MOBILE: "mobile", LANDSCAPE: "landscape",
 	BODY: "body", FORM: "form", LABEL: "label", TITLE: "title", INNER: "inner", SPACE: "space", CLICK: "click",
-	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button", CHECKBOX: "checkbox",
+	SELECT: "select", INPUT: "input", TEXT: "text", FILE: "file", TEXTAREA: "textarea", BUTTON: "button", CHECKBOX: "checkbox", MULTIPLE: "multiple",
 	CANCEL: "cancel", SUBMIT: "submit", UPLOAD: "upload", USERNAME: "username", PASSWORD: "password",
 	CONFIRM: "confirm", CLOSE: "close", CLICK: "click", FOCUS: "focus", BLUR: "blur",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td",
