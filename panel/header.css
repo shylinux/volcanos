@@ -1,5 +1,5 @@
 fieldset.Header>div.output { line-height:21px; height:var(--header-height); overflow:hidden; }
-fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; }
+fieldset.Header>div.output div.item { background-color:var(--panel-output-bg-color); padding:13.5px; height:var(--header-height); float:left; display:flex; align-items:center; }
 fieldset.Header>div.output div.item.title:first-child { font-size:var(--legend-font-size); font-style:italic; font-weight:bold; white-space:pre; overflow:hidden; }
 fieldset.Header>div.output div.item.title img { padding:0; height:var(--action-height); width:var(--action-height); margin-right:var(--input-margin); }
 fieldset.Header>div.output div.item.state { padding:13.5px 10px; float:right; }
@@ -23,7 +23,7 @@ fieldset.Header>div.output div.item.search>i { color:unset; padding:7px; left:3p
 fieldset.Header>div.output div.item.search>input { padding-left:25px; }
 fieldset.Header>div.output div.item.search>span.icon { padding:var(--input-padding) var(--button-padding); }
 fieldset.Header>div.output div.Action>div._tabs { white-space:pre; padding-left:100px; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
-fieldset.Header>div.output div.Action>div._tabs div.tabs { font-style:italic; padding:13.5px 20px; }
+fieldset.Header>div.output div.Action>div._tabs div.tabs { font-style:italic; padding:13.5px 20px; display:flex; align-items:center; }
 fieldset.Header>div.output div.Action>div._tabs div.tabs:only-child { display:none; }
 body.mobile fieldset.Header>div.output div.item.usernick { display:none; }
 body.mobile fieldset.Header>div.output div.item.search>i { padding:0 10px; }

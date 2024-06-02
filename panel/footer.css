@@ -1,6 +1,5 @@
-// fieldset.Footer { width:100%; }
 fieldset.Footer>div.output { font-style:italic; height:var(--footer-height); display:flex; }
-fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); }
+fieldset.Footer>div.output div.item { padding:7px; height:var(--footer-height); display:flex; align-items:center; }
 fieldset.Footer>div.output div.item.button { padding:7px 0; }
 fieldset.Footer>div.output div.title:first-child { margin-left:var(--header-height); }
 fieldset.Footer:not(.tabview)>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); }
@@ -10,7 +9,6 @@ fieldset.Footer>div.output div.state { font-family:var(--status-font-family); li
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
 fieldset.Footer>div.output div.cmd>input[name=cmd] { padding-left:30px; }
-
 fieldset.Footer>div.output div.menu>div.River { display:flex; justify-content:space-around; }
 fieldset.Footer>div.output div.menu>div.River>div.item { height:var(--footer-height); display:flex; flex-direction:column; text-align:center; flex-grow:1; }
 fieldset.Footer>div.output div.menu>div.River>div.item>i { font-size:24px; margin-right:0; }
