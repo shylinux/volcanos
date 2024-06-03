@@ -140,7 +140,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	theme: function(event, can) { can.page.Select(can, can._output, "div.item.theme>i:first-child", function(target) {
 		can.onimport.theme(can, can.onimport._theme(can, target.className == icon.SUN? html.DARK: html.LIGHT), event)
 	}) },
-	qrcode: function(event, can) { can.user.share(can, can.request(event, {_handle: ice.TRUE}), [ctx.ACTION, cli.QRCODE]) },
+	qrcode: function(event, can) { can.user.share(can, can.request(event, {link: location.href, _handle: ice.TRUE}), [ctx.ACTION, cli.QRCODE]) },
 	language: function(event, can) { can.onimport.language(can, can.user.info.language.indexOf("zh") == 0? "en-us": "zh-cn") },
 	email: function(event, can) { can.user.input(can.request(event, {to: can.user.info.email, subject: can.user.title()}), can, [{name: "to", _trans: "收件人", need: "must"}, "subject","content"], function(args) {
 		can.runAction(event, aaa.EMAIL, args, function() { can.user.toastSuccess(can) })
