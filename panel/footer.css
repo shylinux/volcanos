@@ -4,7 +4,7 @@ fieldset.Footer>div.output div.item.button { padding:7px 0; }
 fieldset.Footer>div.output div.title:first-child { margin-left:var(--header-height); }
 fieldset.Footer:not(.tabview)>div.output div.title:first-child { font-weight:bold; text-align:center; width:var(--river-width); }
 fieldset.Footer>div.output input[type=button] { background-color:transparent; color:var(--panel-fg-color); border:0; }
-fieldset.Footer>div.output div.toast { font-family:var(--status-font-family); line-height:18px; text-align:right; overflow:auto; flex-grow:1; }
+fieldset.Footer>div.output div.toast { font-family:var(--status-font-family); line-height:18px; text-align:right; overflow:auto; flex-grow:1; justify-content:flex-end; }
 fieldset.Footer>div.output div.state { font-family:var(--status-font-family); line-height:18px; white-space:pre; }
 fieldset.Footer>div.output div.state label { font-size:var(--status-font-size); }
 fieldset.Footer>div.output div.cmd { padding:0; margin-left:20px; }
