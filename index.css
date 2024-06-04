@@ -61,6 +61,7 @@ body {
 	--float-box-shadow:var(--box-shadow);
 	--box-border:var(--border-color) solid 1px; --box-notice:var(--notice-bg-color) solid 1px; --box-danger:var(--danger-bg-color) solid 1px;
 	--box-border3:var(--border-color) solid 3px; --box-notice3:var(--notice-bg-color) solid 3px; --box-danger3:var(--danger-bg-color) solid 3px;
+	--item-notice:var(--box-notice);
 	--plugin-border:var(--box-border); --input-border:var(--box-border); --status-border:var(--box-border);
 	--plugin-radius:var(--plugin-padding); --button-radius:var(--input-padding);
 
@@ -218,7 +219,7 @@ div.project div.list { margin-left:var(--button-margin); clear:both; }
 div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
-div.project div.item.select { border-right:var(--box-notice); }
+div.project div.item.select { border-right:var(--item-notice); }
 div.project>div.item.select { position:sticky; top:32px; bottom:0; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
@@ -504,7 +505,7 @@ div.item.button.danger input:hover[type=button] { background-color:var(--danger-
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.button.danger input { border:var(--box-danger); }
 div.item.button.notice input { border:var(--box-notice); }
-div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--box-notice); }
+div.action div.tabs.select { background-color:var(--output-bg-color); border-top:var(--item-notice); }
 fieldset.vimer>div.action div.tabs.select { border-top:var(--box-border3); }
 fieldset.vimer.normal>div.action div.tabs.select { border-top:var(--box-notice3); }
 fieldset.vimer.insert>div.action div.tabs.select { border-top:var(--box-danger3); }
@@ -982,7 +983,7 @@ fieldset.Action>div.output>fieldset.ssh.cloud.profile:hover { box-shadow:none; }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile>div.output { background-color:transparent; }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.debug) fieldset.plugin.can._notfound { display:none; }
-body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend { border-top:var(--box-notice3); border-top-left-radius:0; margin-right:var(--legend-margin); }
+body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend { border-top:var(--item-notice); border-top-left-radius:0; margin-right:var(--legend-margin); }
 body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend:not(:hover) { background-color:var(--output-bg-color); }
 body:not(.dark) fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
 body.width6 fieldset.plugin.word>form.option>div.item.text>input { width:var(--project-width); }
