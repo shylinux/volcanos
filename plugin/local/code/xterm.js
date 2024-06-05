@@ -22,16 +22,16 @@ Volcanos(chat.ONIMPORT, {
 		term.onCursorMove(function() { can.onexport.term(can, term) })
 		var fitAddon = new FitAddon.FitAddon(); term.loadAddon(fitAddon), term._fit = fitAddon, can.onmotion.delay(can, function() { fitAddon.fit() })
 		term.loadAddon(new WebLinksAddon.WebLinksAddon())
-		can.onmotion.clear(can, target), term.open(target), term.focus()
+		can.onmotion.clear(can, target), term.open(target), term.focus(), can.onmotion.delay(can, function() { term.focus() })
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { term.selectAll(), can.onimport._connect(can, item, target, can.base.trimSuffix(term.getSelection(), lex.NL)) })
 		can.page.style(can, target, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
 		return can.db[item.hash] = term
 	},
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(
 		can.getHeaderTheme() == html.LIGHT? {background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}:
-			can.getHeaderTheme() == html.DARK? {background: "#0000", foreground: cli.SILVER, cursor: cli.SILVER}:
-				can.getHeaderTheme() == chat.BLACK? {background: "#0000", foreground: cli.CYAN, cursor: cli.WHITE}:
-					{background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}
+		can.getHeaderTheme() == html.DARK? {background: "#0000", foreground: cli.SILVER, cursor: cli.SILVER}:
+		can.getHeaderTheme() == chat.BLACK? {background: "#0000", foreground: cli.CYAN, cursor: cli.WHITE}:
+		{background: "#0000", foreground: cli.BLACK, cursor: cli.BLUE}
 	) },
 	_resize: function(can, term, size) {
 		can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {})
