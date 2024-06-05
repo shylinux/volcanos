@@ -23,6 +23,10 @@ Volcanos(chat.ONACTION, {
 		}), can.page.setData(can), can.user.toast(can, "加载成功")
 	},
 	refresh: function(event, can) { can.onaction._apis = "", can.onaction._cmds = []
+		if (can.db.index == "web.chat.grant") {
+			wx.redirectTo({url: can.base.MergeURL("grant", {serve: can.db.serve, space: can.db.space})})
+			return
+		}
 		if (can.db.share) { can.onaction._apis = "/share/"+can.db.share
 			can.run(event, [ctx.ACTION, ctx.COMMAND], function(msg) {
 				can.onaction._cmds = [ctx.ACTION, ctx.RUN], can.onaction._reload(can, msg)
@@ -59,8 +63,8 @@ Volcanos(chat.ONACTION, {
 		} field._history = field._history||[]
 		switch (name) {
 			case ice.BACK: field._history.pop(); var ls = field._history.pop()||[], i = 0
-				can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { input.value = ls[i++]||"" } })
-				can.onaction._refresh(event, can, order); break
+			can.core.List(field.inputs, function(input) { if (input.type != html.BUTTON) { input.value = ls[i++]||"" } })
+			can.onaction._refresh(event, can, order); break
 			case ctx.RUN: break
 			case ice.LIST:
 			case web.REFRESH: msg._method = http.GET; break
@@ -95,7 +99,7 @@ Volcanos(chat.ONACTION, {
 				can.run(event, [field.id||field.index, ctx.ACTION, input.name], function(msg) {
 					switch (msg.Option(ice.MSG_PROCESS)) {
 						case "_location":
-							can.user.parse(can, msg.Option("_arg"))
+						can.user.parse(can, msg.Option("_arg"))
 					}
 					can.onaction._refresh(event, can, order)
 				})

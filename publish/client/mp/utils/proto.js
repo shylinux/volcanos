@@ -15,6 +15,7 @@ function Volcanos(name, list) { if (Volcanos._page) { Volcanos._page[name] = lis
 
 Volcanos._init = function() { var page = Volcanos._page; page.__proto__ = getApp(), delete(Volcanos._page)
 	var can = {__proto__: page,
+		Option: function() { return {} },
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) { if (key == "_method") { return msg._method = value }
@@ -28,7 +29,8 @@ Volcanos._init = function() { var page = Volcanos._page; page.__proto__ = getApp
 		},
 		run: function(event, cmds, cb) { wx.showLoading(); const info = wx.getSystemInfoSync()
 			can.misc.POST(can, can.request(event, {share: can.db.share}), can.base.MergeURL(can.onaction._apis||nfs.CHAT_ACTION, kit.Dict(
-				ice.POD, can.db.pod||can.db.space, ice.MSG_THEME, info.theme, ice.MSG_DEBUG, can.db.debug,
+				// ice.POD, can.db.pod||can.db.space, ice.MSG_THEME, info.theme, ice.MSG_DEBUG, can.db.debug,
+				ice.POD, can.db.pod, ice.MSG_THEME, info.theme, ice.MSG_DEBUG, can.db.debug,
 			)), {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) { wx.hideLoading()
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
 			})
