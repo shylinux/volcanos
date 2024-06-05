@@ -32,7 +32,9 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			if (libs[0].indexOf(nfs.SRC) == 0 || libs[0].indexOf(nfs.USR) == 0) { libs[0] = nfs.P+libs[0] }
 			if (libs[0][0] != nfs.PS && libs[0].indexOf(web.HTTP) != 0) { libs[0] = can._path.slice(0, can._path.lastIndexOf(ice.PS)+1)+libs[0] }
 			// var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0].split(ice.QS)[0]).toLowerCase()
-			var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0]).toLowerCase()
+			// var name = (libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0]).toLowerCase()
+			var name = libs[0].indexOf(web.HTTP) == 0 || libs[0].indexOf("?pod=") > -1? libs[0]: libs[0]
+			if (name.indexOf("pod=") == -1) { name = name.toLowerCase() }
 			function next() { can._load(name, cbs), can.require(libs.slice(1), cb, cbs) }
 			if (name.indexOf("/lib/") == 0) { name = "/v"+name }
 			if (name.indexOf("/panel/") == 0) { name = "/v"+name }
@@ -139,7 +141,7 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
 	meta._load = function(url, cb) {
-		if (meta.version) { url += (url.indexOf(web.QS) == -1? web.QS: "&")+meta.version.slice(1) }
+		if (meta.version && url.indexOf("/p/usr/icons/") == -1) { url += (url.indexOf(web.QS) == -1? web.QS: "&")+meta.version.slice(1) }
 		if (meta._cache[url]) { return meta._cache[url].push(cb) } else { meta._cache[url] = [cb] }
 		function _cb() { meta._cache[url].forEach(function(cb) { cb() }), delete(meta._cache[url]) }
 		switch (url.split(web.QS)[0].split(nfs.PT).pop().toLowerCase()) {
