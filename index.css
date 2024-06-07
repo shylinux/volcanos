@@ -349,7 +349,7 @@ div.toast.float div.action>div.item.notice input { border:var(--box-notice); }
 div.toast.float div.action>div.item.open input { border:var(--box-notice); }
 body>div.carte { border:0; padding:0; }
 body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% - 10px); position:sticky; top:var(--input-margin); }
-body>div.carte div.item { white-space:pre; padding:var(--button-padding); display:flex; align-items:center; }
+body>div.carte div.item:not(.hide) { white-space:pre; padding:var(--button-padding); display:flex; align-items:center; }
 body>div.carte div.item i:first-child { margin-right:var(--button-margin); }
 body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:right; }
 body>div.carte.select.float>div.item { text-align:center; }
