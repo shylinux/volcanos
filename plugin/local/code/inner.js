@@ -135,6 +135,7 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}
 		function load(msg) { can.db.tabview[key] = msg; var name = file
+			msg.result = msg.result||[""]
 			if (can.base.beginWith(file, web.HTTP)) { name = decodeURI(file.split(web.QS)[0])
 				var link = can.misc.ParseURL(can, name); if (link.pod) { name = link.pod }
 				name = can.base.trimPrefix(name, location.origin)

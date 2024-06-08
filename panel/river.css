@@ -20,7 +20,7 @@ fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item { margin-righ
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item.share { display:none; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item.refresh { display:none; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item>input { display:none; }
-body.tech fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item>span { display:unset; }
+fieldset.River:not(.all):not(.tabs):not(.page)>div.action div.item>span { display:unset; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.output div.item { padding:var(--button-padding); }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.output div.item>span { display:none; }
 fieldset.River:not(.all):not(.tabs):not(.page)>div.output>div.item>i:last-child { display:none; }
