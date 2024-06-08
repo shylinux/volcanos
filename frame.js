@@ -613,6 +613,7 @@ Volcanos(chat.ONAPPEND, {
 			// if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
 			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
+			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			
