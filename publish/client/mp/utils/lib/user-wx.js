@@ -5,7 +5,7 @@ const {kit, ice,
 	code, wiki, chat, team, mall,
 	http, html, icon, svg
 } = require("../const.js")
-const {shy, Volcanos} = require("../proto.js")
+const {shy, Volcanos} = require("../proto-wx.js")
 module.exports =
 Volcanos("user", {
 	agent: {
@@ -44,10 +44,25 @@ Volcanos("user", {
 			}})
 		},
 	}, info: {},
-	scene: function(can, scene) {
-		can.misc.POST(can, can.request(), "/chat/wx/login/action/scene", {scene: scene, serve: can.db.serve}, function(msg) {
-			can.misc.Info("app parse", msg.Result()), can.user.parse(can, msg.Result())
-		})
+	scene: function(can, scene, cb) {
+		function post() {
+			can.misc.POST(can, can.request(), "/chat/wx/login/action/scene", {scene: scene, serve: can.db.serve}, function(msg) {
+				can.misc.Info("app scene", msg.Result()), can.user.parse(can, msg.Result())
+			})
+		}
+		function wifi(cb) { can.db.ssid && can.db.password != "******"? can.user.agent.connectWifi(can, can.db.ssid, can.db.password||"", function() { can.db.password = "******", cb() }): cb() }
+		if (scene) { var ls = scene.split(nfs.PS); scene = ls[2]
+			if (ls[0] == "s") { can.db.serve = "https://"+ls[1] }
+			if (ls[0] == "h") { can.db.serve = "http://"+ls[1] }
+			if (ls[0] == "w") {
+				wx.getLocalIPAddress({success(res) {
+					can.db.serve = "http://"+res.localip.split(".").slice(0,3).join(".")+"."+parseInt("0x"+ls[1])+":9020", can.db.ssid = ls[3], can.db.password = ls[4]
+					wifi(function() { post() })
+				} })
+			} else {
+				wifi(function() { post() })
+			}
+		} else { wifi(cb) }
 	},
 	parse: function(can, text, cb) {
 		if (text.indexOf("WIFI:") == 0) { var data = kit.Dict(can.core.Split(text, ":;").slice(1))
@@ -63,15 +78,17 @@ Volcanos("user", {
 			if (ls[2].indexOf("/pages/") == 0) { data.pages = ls[2] }
 		}
 		can.misc.Info("app parse", data)
-		if (data.cmd == "admin") {
-			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
-		} if (data.cmd||data.index||data.share) {
+		if (data.cmd||data.index||data.share) {
 			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_ACTION, data))
 		} else if (data.pod||data.space||data.serve) {
-			can.user.jumps(can.base.MergeURL(data.pages||chat.PAGES_RIVER, data))
+			can.user.switchTab(can, web.DREAM, data)
 		} else {
 			can.misc.POST(can, can.request(), chat.WX_LOGIN_SCAN, data)
 		}
+	},
+	switchTab: function(can, name, data, force) { data = data||can.db
+		if (!force && data.serve == can.db.serve) { return wx.switchTab({url: name}) }
+		can.misc.localStorage(can, web.SERVE, data.serve||""), wx.reLaunch({url: name})
 	},
 	jumps: function(url, cb) { wx.navigateTo({url: url, success: cb, fail: function(res) { console.warn(res) }}) },
 	title: function(text, cb) { text && wx.setNavigationBarTitle({title: text, success: cb}) },
@@ -80,9 +97,9 @@ Volcanos("user", {
 	}, _trans: {},
 	toast: function(can, title) { wx.showToast({title: title||""}) },
 	modal: function(can, content, title, cb) { wx.showModal({title: title||"", content: content||"", success: cb}) },
-	login: function(can, cb) { can.conf.sessid = can.conf.sessid||can.misc.localStorage(can, ice.MSG_SESSID); if (can.conf.sessid) { return cb && cb() }
+	login: function(can, cb, cbs) { var serve = can.misc.serveList(can, {serve: can.db.serve}); if (serve.sessid) { return cb && cb() }
 		wx.login({success: function(res) { can.misc.POST(can, can.request(), chat.WX_LOGIN_SESS, {code: res.code}, function(msg) {
-			wx.setStorage({key: ice.MSG_SESSID, data: can.conf.sessid = msg.Result()}), cb && cb()
-		}) }})
+			can.misc.serveList(can, {serve: can.db.serve, sessid: msg.Result()}), cb && cb()
+		}) }, fail: function(res) { cbs && cbs(res) }})
 	},
 })

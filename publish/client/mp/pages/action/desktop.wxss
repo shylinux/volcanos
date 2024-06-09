@@ -1,0 +1,3 @@
+view.output>view.item { width:25%; padding:10px 0; display:flex; flex-direction:column; align-items:center; float:left; }
+view.output>view.item image.icon { height:64px; width:64px; }
+view.output>view.item text.name { white-space:pre; }

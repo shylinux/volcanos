@@ -1,0 +1,2 @@
+view.output { display:flex; flex-direction:column; justify-content:center; align-items:center; }
+view.output view.info { margin:40px 0; }

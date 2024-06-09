@@ -1,0 +1,9 @@
+page { padding-top:0; }
+view.output>view.user>view.item { padding:20px; display:flex; }
+view.output>view.user>view.item button { height:var(--item-icons-size); width:var(--item-icons-size); padding:0; margin:0; margin-right:var(--item-padding); }
+view.output>view.user>view.item image { height:var(--item-icons-size); width:var(--item-icons-size); }
+view.output>view.user>view.item input { text-align:left; margin:0 var(--action-margin); }
+view.output>view.user>view.item view.title { flex-grow:1; }
+view.output>view.user>view.item view.name { text-align:left; margin-left:var(--action-margin); }
+view.output>view.conf { margin-top:20px; }
+view.output>view.conf>view.item { text-align:center; padding:10px; margin-top:var(--action-margin); display:flex; justify-content:center; }

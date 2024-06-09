@@ -3,7 +3,7 @@ const {kit, ice,
 	lex, yac, ssh, gdb,
 	tcp, nfs, cli, log,
 	code, wiki, chat, team, mall,
-	http, html, icon, svg
+	http, html,
 } = require("const.js")
 
 function shy(help, meta, list, cb) { var arg = arguments, i = 0; function next(type) {
@@ -15,7 +15,6 @@ function Volcanos(name, list) { if (Volcanos._page) { Volcanos._page[name] = lis
 
 Volcanos._init = function() { var page = Volcanos._page; page.__proto__ = getApp(), delete(Volcanos._page)
 	var can = {__proto__: page,
-		Option: function() { return {} },
 		request: function(event) { event = event||{}, event = event._event||event
 			var msg = event._msg||can.misc.Message(event, can); event._msg = msg
 			function set(key, value) { if (key == "_method") { return msg._method = value }
@@ -27,35 +26,43 @@ Volcanos._init = function() { var page = Volcanos._page; page.__proto__ = getApp
 				}): can.core.Item(can.base.isFunc(item)? item(): item, set)
 			}); return msg
 		},
-		run: function(event, cmds, cb) { wx.showLoading(); const info = wx.getSystemInfoSync()
+		run: function(event, cmds, cb) { const info = wx.getSystemInfoSync(); var done = false
 			can.misc.POST(can, can.request(event, {share: can.db.share}), can.base.MergeURL(can.onaction._apis||nfs.CHAT_ACTION, kit.Dict(
-				// ice.POD, can.db.pod||can.db.space, ice.MSG_THEME, info.theme, ice.MSG_DEBUG, can.db.debug,
-				ice.POD, can.db.pod, ice.MSG_THEME, info.theme, ice.MSG_DEBUG, can.db.debug,
-			)), {cmds: (can.onaction._cmds||[]).concat(cmds)}, function(msg) { wx.hideLoading()
+				ice.POD, can.base.isIn(can.db.index, "grant", "web.chat.grant")? can.db.pod: can.ConfSpace(), ice.MSG_DEBUG, can.db.debug, ice.MSG_THEME, info.theme,
+			)), {cmds: (can.onaction._cmds||[ctx.ACTION, ctx.RUN, can.ConfIndex()]).concat(cmds)}, function(msg) { done = true, wx.hideLoading(), wx.stopPullDownRefresh()
 				msg.Dump = function() { can.ui.setData({list: msg.Table()}) }, cb(msg)
-			})
+			}), can.onmotion.delay(can, function() { done || wx.showLoading() }, 500)
 		},
+		ConfIndex: function() { return can.db.index||can.ui.route.split("/").pop() },
+		ConfSpace: function() { return can.db.space },
+		Option: function() { return {} },
 	}
 	can.core.Item(require("frame-wx.js"), function(key, mod) { page[key] = can.base.Copy(page[key]||{}, mod, true) })
 	can.core.Item(require("frame.js"), function(key, mod) { page[key] = can.base.Copy(page[key]||{}, mod, true) })
-	var page = {data: {action: can.onaction.list, list: []},
-		onLoad: function(options) { can.ui = this, can.db = options, can.db.serve = can.db.serve||can.conf.serve
+	var _page = {data: {action: can.onaction.list, list: []},
+		onLoad: function(options) { can.ui = this, can.db = options, can.db.serve = can.db.serve||can.misc.localStorage(can, web.SERVE)||can.conf.serve
 			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
 			can.core.Item(can.db, function(key, value) { can.db[key] = decodeURIComponent(value) })
-			can.misc.Info("app show", can.ui.route, can.db, can.user.info), can.user.agent.enableDebug(can)
-			can.user.title(can.db.title||can.db.pod||can.db.space||(can.db.serve||can.conf.serve).split("://")[1])
-			function refresh() { can.ui.setData({conf: can.db}), can.user.login(can, function() { can.misc.WSS(can), can.onmotion.delay(can, function() { can.onaction.refresh({}, can) }, 300) }) }
-			function wifi(cb) { can.db.ssid && can.db.password != "******"? can.user.agent.connectWifi(can, can.db.ssid, can.db.password||"", function() { can.db.password = "******", cb() }): cb() }
-			if (can.db.scene) { var ls = can.db.scene.split(nfs.PS); can.db.scene = ls[2]
-				if (ls[0] == "s") { can.db.serve = "https://"+ls[1] } if (ls[0] == "h") { can.db.serve = "http://"+ls[1] }
-				if (ls[0] == "w") { can.db.serve = "http://192.168."+parseInt("0x"+ls[1][0])+"."+parseInt("0x"+ls[1][1])+":9020", can.db.ssid = ls[3], can.db.password = ls[4] }
-				wifi(function() { can.user.scene(can, can.db.scene) })
-			} else { wifi(refresh) }
+			can.misc.Info("app show", can.ui.route, can.db, can.ui, can), can.user.agent.enableDebug(can)
+			can.misc.serveList(can, {serve: can.db.serve}, true)
+			can.user.scene(can, can.db.scene, function() { can.ui.setData({conf: can.db})
+				can.user.login(can, function() { can.misc.WSS(can)
+					can.onmotion.delay(can, function() { can.onaction.refresh({}, can) }, 300)
+				}, function() { can.onaction.refresh({}, can) })
+			})
 		},
-		onShow: function() {}, onReady: function() {}, onHide: function() {},
 		onUnload: function() { can._socket && can._socket.close(), delete(can._socket) },
-		onReachBottom: function() {}, onPullDownRefresh: function() { this.onUnload(), this.onLoad(can.db) }, onShareAppMessage: function() {}
-	}; can.core.ItemCB(can.onaction, function(key, cb) { page[key] = function(event) { can.core.CallFunc(cb, [event, can, key, event.target.dataset]) } }), Page(page)
+		onShow: function() { can.user.title(can.db.title = can.db.title||can.db.pod||can.db.space||can.db.serve.split("://")[1]) },
+		onHide: function() {},
+		onReady: function() {},
+		onReachBottom: function() {},
+		onPullDownRefresh: function() { this.onUnload(), this.onLoad(can.db) },
+		onShareAppMessage: function() {
+			var share = {title: can.db.title, path: can.base.MergeURL(can.ui.route, ctx.INDEX, can.db.index, web.SPACE, can.db.space, web.SERVE, can.db.serve)}
+			can.misc.Info("app share", share)
+			return share
+		},
+	}; can.core.ItemCB(can.onaction, function(key, cb) { _page[key] = function(event) { can.core.CallFunc(cb, [event, can, key, event.currentTarget.dataset]) } }), Page(_page)
 }
 
 module.exports = {shy, Volcanos}

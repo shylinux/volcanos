@@ -1,27 +1,41 @@
 {
 	"light": {
-		"navBgColor": "#f6f6f6",
+		"homeIcon": "pages/action/home-light.png",
+		"dreamIcon": "pages/action/dream-light.png",
+		"desktopIcon": "pages/action/desktop-light.png",
+		"myIcon": "pages/action/my-light.png",
+
+		"navBgColor": "#ffffff",
 		"navTxtStyle": "black",
+
 		"bgColor": "#f6f6f6",
-		"bgTxtStyle": "light",
 		"bgColorTop": "#f6f6f6",
 		"bgColorBottom": "#efefef",
+		"bgTxtStyle": "light",
+
+		"tabBorderStyle": "black",
 		"tabBgColor": "#ffffff",
-		"tabSelectedColor": "#3cc51f",
 		"tabFontColor": "#000000",
-		"tabBorderStyle": "black"
+		"tabSelectedColor": "#3cc51f"
 	},
 	"dark": {
-		"navBgColor": "#191919",
+		"homeIcon": "pages/action/home-dark.png",
+		"dreamIcon": "pages/action/dream-dark.png",
+		"desktopIcon": "pages/action/desktop-dark.png",
+		"myIcon": "pages/action/my-dark.png",
+
+		"navBgColor": "#000000",
 		"navTxtStyle": "white",
+
 		"bgColor": "#191919",
-		"bgTxtStyle": "dark",
 		"bgColorTop": "#191919",
 		"bgColorBottom": "#1f1f1f",
-		"tabBgColor": "#191919",
-		"tabSelectedColor": "#51a937",
+		"bgTxtStyle": "dark",
+
+		"tabBorderStyle": "white",
+		"tabBgColor": "#000000",
 		"tabFontColor": "#ffffff",
-		"tabBorderStyle": "white"
+		"tabSelectedColor": "#51a937"
 	}
 }
 

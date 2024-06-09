@@ -1,5 +1,5 @@
 const {kit, ice, ctx, mdb, web, nfs, code, chat, http, html} = require("../../utils/const.js")
-const {shy, Volcanos} = require("../../utils/proto.js")
+const {shy, Volcanos} = require("../../utils/proto-wx.js")
 Volcanos._page = {}
 Volcanos(chat.ONACTION, {list: ["刷新", "扫码", "登录"], _apis: nfs.CHAT_RIVER,
 	refresh: function(event, can) { can.run(event, [], function(msg) { msg.Dump(can), can.user.toast(can, "加载成功") }) },

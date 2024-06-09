@@ -1,7 +1,7 @@
-<template name="action">
-	<view class="action">
+<template name="header">
+	<view class="header">
 		<view class="item button" wx:for="{{action}}" wx:key="index">
-			<button size="mini" bindtap="onaction" data-name="{{item}}">{{item}}</button>
+			<button size="mini" bindtap="onButton" data-name="{{item}}">{{item}}</button>
 		</view>
 	</view>
 </template>
@@ -32,7 +32,7 @@
 
 <template name="field">
 <view class="page action">
-	<template is="action" data="{{action}}"></template>
+	<template is="header" data="{{action}}"></template>
 	<template is="debug" data="{{conf}}"></template>
 	<view class="output">
 		<view class="field {{field.index}}" wx:for="{{list}}" wx:for-index="order" wx:for-item="field" wx:key="index">

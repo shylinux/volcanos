@@ -1,0 +1,8 @@
+<import src="../../app.wxml"/>
+<template is="header" data="{{action}}"></template>
+<view class="output">
+	<view class="item" wx:for="{{list}}" wx:key="name" bindtap="onSelect" data-name="{{item.name}}" data-item="{{item}}">
+		<image class="icon" src="{{item.icon}}"/>
+		<text class="name">{{item.name}}</text>
+	</view>
+</view>

@@ -1,0 +1,2 @@
+<import src="../../app.wxml"/>
+<template is="field" data="{{action, conf, list}}"></template>

@@ -1,19 +1,52 @@
 {
-	"pages": [
-		"pages/river/river",
-		"pages/action/action",
-		"pages/insert/insert"
-	],
-	"window": {
-		"navigationBarBackgroundColor": "@navBgColor",
-		"navigationBarTextStyle": "@navTxtStyle",
-		"backgroundColor": "@bgColor",
-		"backgroundTextStyle": "@bgTxtStyle",
-		"backgroundColorTop": "@bgColorTop",
-		"backgroundColorBottom": "@bgColorBottom"
-	},
-	"style": "v2",
-	"darkmode": true,
-	"themeLocation": "theme.json",
-	"sitemapLocation": "sitemap.json"
+  "darkmode": true,
+  "pages": [
+    "pages/action/home",
+    "pages/action/dream",
+    "pages/action/desktop",
+    "pages/action/my",
+    "pages/action/grant",
+    "pages/action/action",
+    "pages/insert/insert",
+    "pages/web-chat/favor"
+  ],
+  "style": "v2",
+  "tabBar": {
+    "backgroundColor": "@tabBgColor",
+    "borderStyle": "@tabBorderStyle",
+    "color": "@tabFontColor",
+    "list": [
+      {
+        "iconPath": "@homeIcon",
+        "pagePath": "pages/action/home",
+        "text": "首页"
+      },
+      {
+        "iconPath": "@dreamIcon",
+        "pagePath": "pages/action/dream",
+        "text": "空间"
+      },
+      {
+        "iconPath": "@desktopIcon",
+        "pagePath": "pages/action/desktop",
+        "text": "桌面"
+      },
+      {
+        "iconPath": "@myIcon",
+        "pagePath": "pages/action/my",
+        "text": "我的"
+      }
+    ],
+    "selectedColor": "@tabSelectedColor"
+  },
+  "themeLocation": "theme.json",
+  "window": {
+    "backgroundColor": "@bgColor",
+    "backgroundColorBottom": "@bgColorBottom",
+    "backgroundColorTop": "@bgColorTop",
+    "backgroundTextStyle": "@bgTxtStyle",
+    "enablePullDownRefresh": true,
+    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarTextStyle": "@navTxtStyle"
+  }
 }

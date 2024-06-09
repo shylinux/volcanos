@@ -1,0 +1,18 @@
+<import src="../../app.wxml"/>
+<template is="header" data="{{action}}"></template>
+<view class="output">
+	<view class="serve">
+		<view class="item {{item.style}}" wx:for="{{list}}" wx:key="name" bindtap="onSelect" data-name="{{item.name}}" data-item="{{item}}">
+			<image class="icons" src="{{item.icons}}"></image>
+			<view class="info">
+				<view class="title">
+					<text class="name">{{item.title}}</text>
+					<text class="tags sessid" wx:if="{{item.sessid}}">已登录</text>
+					<text class="tags style" wx:if="{{item.style}}">当前</text>
+				</view>
+				<view class="label">{{item.module}}</view>
+				<view class="label">{{item.time}} {{item.version}}</view>
+			</view>
+		</view>
+	</view>
+</view>

@@ -3,18 +3,19 @@ const {kit, ice,
 	lex, yac, ssh, gdb,
 	tcp, nfs, cli, log,
 	code, wiki, chat, team, mall,
-	http, html, icon, svg
+	http, html,
 } = require("../const.js")
-const {shy, Volcanos} = require("../proto.js")
+const {shy, Volcanos} = require("../proto-wx.js")
 module.exports =
 Volcanos("misc", {
-	POST: function(can, msg, cmd, data, cb) { data.sessid = can.conf.sessid, data.appid = data.appid||can.conf.appid
+	POST: function(can, msg, cmd, data, cb) {
+		var serve = msg._serve||can.db.serve||can.conf.serve, url = serve+cmd
+		data.sessid = msg._sessid||can.misc.serveList(can, {serve: can.db.serve}).sessid, data.appid = data.appid||can.conf.appid
 		can.core.List(msg.option, function(key) { data[key] = data[key]||[msg.Option(key)] }), data.option = data.option||msg.option
-		var url = (msg._serve||can.db.serve||can.conf.serve)+cmd
 		if (data && can.base.isIn(msg._method, http.GET, http.DELETE)) { url = can.base.MergeURL(url, data), data = {} }
 		wx.request({method: msg._method||http.POST, url: url, data: data, success: function(res) {
 			if (res.statusCode == 401) {
-				can.user.info = {}, can.misc.localStorage(can, ice.MSG_SESSID, can.conf.sessid = "")
+				can.misc.serveList(can, {serve: serve, sessid: "", userinfo: {}})
 				return can.user.login(can, function() { can.misc.POST(can, msg, cmd, data, cb) })
 			}
 			if (res.statusCode == 403) { msg.result = [res.data] }
@@ -69,4 +70,40 @@ Volcanos("misc", {
 		}); return can._socket = socket
 	},
 	localStorage: function(can, key, value) { value != undefined && wx.setStorageSync(key, value); return wx.getStorageSync(key) },
+	serveList: function(can, data, current) { var serveList = can.base.Obj(can.misc.localStorage(can, "serveList"), [{serve: can.conf.serve}])
+		if (data === "") {
+			can.misc.localStorage(can, "serveList", "")
+			can.misc.localStorage(can, "serve", "")
+			can.user.switchTab(can, "home", {})
+		}
+		if (!data) { return serveList }
+		current && can.misc.localStorage(can, web.SERVE, data.serve)
+		for (var i = 0; i < serveList.length; i++) {
+			if (serveList[i].serve == data.serve) {
+				can.base.Copy(serveList[i], data), can.misc.localStorage(can, "serveList", JSON.stringify(serveList))
+				return serveList[i]
+			}
+		}
+		serveList.push(data), can.misc.localStorage(can, "serveList", JSON.stringify(serveList))
+		return data
+	},
+	table: function(can, msg) {
+		return msg.Table(function(value) {
+			if (value.icons) {
+				if (!can.base.beginWith(value.icons, web.HTTP)) {
+					if (!can.base.beginWith(value.icons, nfs.PS)) { value.icons = nfs.P + value.icons }
+					value.icons = can.misc.Resource(can, value.icons, value.space, can.db.serve)
+				}
+			}
+			if (value.icon) {
+				if (!can.base.beginWith(value.icon, web.HTTP)) {
+					if (!can.base.beginWith(value.icon, nfs.PS)) { value.icon = nfs.P + value.icon }
+					value.icon = can.misc.Resource(can, value.icon, value.space, can.db.serve)
+				}
+			}
+			value.time = can.base.trimPrefix(value.time, can.base.Time(null, "%y-"))
+			value.time = can.core.Split(value.time, ":").slice(0, -1).join(":")
+			return value
+		})
+	}
 })

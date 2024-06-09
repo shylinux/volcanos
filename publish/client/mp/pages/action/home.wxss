@@ -1,0 +1,11 @@
+view.output>view.serve>view.item { border-bottom:var(--box-border); padding:var(--item-padding); display:flex; }
+view.output>view.serve>view.item image.icons { height:var(--item-icons-size); width:var(--item-icons-size); margin-right:var(--item-padding); }
+view.output>view.serve>view.item view.title { display:flex; align-items:center; }
+view.output>view.serve>view.item view.info { text-align:left; flex-grow:1; }
+view.output>view.serve>view.item view.info text.name { font-size:18px; }
+view.output>view.serve>view.item view.info text.tags { font-size:12px; padding:0 5px; margin-left:5px; }
+view.output>view.serve>view.item view.info text.tags.sessid { border:var(--notice-bg-color) solid 1px; color:var(--notice-bg-color); }
+view.output>view.serve>view.item view.info text.tags.style { border:var(--danger-bg-color) solid 1px; color:var(--danger-bg-color); }
+view.output>view.serve>view.item view.label { color:var(--disable-fg-color); font-size:12px; }
+view.output>view.serve>view.item.current text.name { font-weight:bold; }
+

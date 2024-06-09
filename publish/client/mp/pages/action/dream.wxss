@@ -1,0 +1,11 @@
+view.output>view.item { border-bottom:var(--box-border); padding:var(--item-padding); display:flex; }
+view.output>view.item image.icons { height:var(--item-icons-size); width:var(--item-icons-size); margin-right:var(--item-padding); }
+view.output>view.item view.info { text-align:left; flex-grow:1; }
+view.output>view.item view.info text.name { font-size:18px; }
+view.output>view.item view.info text.tags { font-size:12px; padding:0 5px; margin-left:5px; }
+view.output>view.item view.info text.tags.restart { border:var(--notice-bg-color) solid 1px; color:var(--notice-bg-color); }
+view.output>view.item view.info text.tags.access { border:var(--danger-bg-color) solid 1px; color:var(--danger-bg-color); }
+view.output>view.item view.info text.tags.worker { display:none; }
+view.output>view.item view.info text.tags.server { border:var(--notice-bg-color) solid 1px; color:var(--notice-bg-color); }
+view.output>view.item view.info text.tags.origin { border:var(--danger-bg-color) solid 1px; color:var(--danger-bg-color); }
+view.output>view.item view.label { color:var(--disable-fg-color); font-size:12px; }

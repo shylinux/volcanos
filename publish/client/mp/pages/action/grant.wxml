@@ -1,0 +1,7 @@
+<view class="output">
+	<view class="info">
+		<view>ip: {{list.ip}}</view>
+		<view>ua: {{list.ua}}</view>
+	</view>
+	<button type="primary" bindtap="onConfirm">请授权登录</button>
+</view>

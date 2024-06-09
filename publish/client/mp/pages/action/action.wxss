@@ -1,0 +1,30 @@
+view.output textarea { text-align:left; padding:10px; width:100%; }
+view.output view.item { font-size:18px; text-align:center; padding:10px; }
+view.output view.list view.item { margin-left:20px; }
+
+view.field>view.output { overflow:auto; }
+view.legend { font-size:20px; font-weight:bold; font-style:italic; margin:10px 0; }
+view.action view.item { padding:0; border:0; margin-right:5px; float:left; }
+view.option view.item { padding:0; border:0; margin-right:5px; float:left; }
+view.option view.item.textarea { border:var(--box-border); width:calc(100% - 2px); clear:both; }
+view.option view.item.select { border:var(--box-border); }
+view.option view.item picker { border:var(--box-border); height:30px; width:80px; }
+view.option view.item input { border:var(--box-border); height:30px; width:80px; }
+view.option view.item button { height:32px; }
+view.output view.code { white-space:pre; border-left:cyan solid 1px; }
+view.status view.item { font-size:12px; font-style:italic; padding:5px; border:none; margin:0; float:left; }
+view.status view.item text.name { font-size:10px; }
+view.action.submit view.item { margin-right:0; }
+view.field.cli.qrcode view.option view.item input { width:70px; }
+
+table { display:table; border-collapse:collapse; width:100%; }
+table.debug { font-family:monospace; font-style:italic; }
+table.debug th { font-weight:bold; }
+tr { display:table-row; }
+th { display:table-cell; padding:5px; vertical-align:middle; }
+td { display:table-cell; padding:5px; vertical-align:middle; }
+td view.which { padding:0; order:0; }
+table.content th { border:var(--box-border); text-align:center; }
+table.content td { border:var(--box-border); min-width:60px; }
+table.content.action th:last-child { position:sticky; right:2px; text-align:center; min-width:60px; }
+table.content.action td:last-child { position:sticky; right:2px; text-align:center; min-width:60px; }

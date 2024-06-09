@@ -8,7 +8,8 @@ const misc_wx = require("utils/lib/misc-wx.js")
 const page_wx = require("utils/lib/page-wx.js")
 const user_wx = require("utils/lib/user-wx.js")
 
-App({conf: conf,
+App({
+	conf: conf,
 	base: base, core: core,
 	misc: base.Copy(misc, misc_wx),
 	page: base.Copy(page, page_wx),
@@ -16,12 +17,9 @@ App({conf: conf,
 	onLaunch: function() { const info = wx.getSystemInfoSync()
 		switch (info.language.toLowerCase().replaceAll("_", "-")) {
 			case "zh-cn": base.Copy(user, require("utils/lib/zh-cn.js")); break
-			default: base.Copy(user, require("utils/lib/en-us.js"))
-				user.trans = function(can, text, list, zone) { return text }
+			default: base.Copy(user, require("utils/lib/en-us.js")), user.trans = function(can, text, list, zone) { return text }
 		}
-		this.conf.platform = info.platform
-		this.conf.brand = info.brand
-		this.conf.model = info.model
+		this.conf.platform = info.platform, this.conf.brand = info.brand, this.conf.model = info.model
 		this.misc.Info("app load", this.conf, info)
 	},
 })

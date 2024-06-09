@@ -1,0 +1,17 @@
+<import src="../../app.wxml"/>
+<template is="header" data="{{action}}"></template>
+<view class="output">
+	<view class="item {{item.type}}" wx:for="{{list}}" wx:key="name" bindtap="onSelect" data-name="{{item.name}}" data-item="{{item}}">
+		<image class="icons" src="{{item.icons}}"/>
+		<view class="info">
+			<view class="title">
+				<text class="name">{{item.name}}</text>
+				<text class="tags restart" wx:if="{{item.restart}}">{{item.restart}}</text>
+				<text class="tags access" wx:if="{{item.access}}">{{item.access}}</text>
+				<text class="tags {{item.type}}">{{item.type}}</text>
+			</view>
+			<view class="label">{{item.module}}</view>
+			<view class="label">{{item.time}} {{item.version}}</view>
+		</view>
+	</view>
+</view>

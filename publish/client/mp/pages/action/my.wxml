@@ -1,0 +1,22 @@
+<view class="output">
+	<view class="user">
+		<view class="item">
+			<button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+				<image class="avatar" src="{{info.avatar}}"></image>
+			</button>
+			<view class="title">
+				<view wx:if="{{info.usernick}}">
+					<view class="name">{{info.usernick}}</view>
+				</view>
+				<view wx:else>
+					<input class="weui-input" type="nickname" placeholder="请输入昵称" onblur="onBlur"/>
+				</view>
+			</view>
+		</view>
+	</view>
+	<view class="conf">
+		<view class="item" wx:for="{{action}}" bindtap="onButton" data-name="{{item}}">
+			<text>{{item}}</text>
+		</view>
+	</view>
+</view>

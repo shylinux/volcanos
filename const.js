@@ -89,7 +89,7 @@ var web = {
 	SERVE: "serve", SPACE: "space", DREAM: "dream", ROUTE: "route",
 	SHARE: "share", TOKEN: "token", STATS: "stats", COUNT: "count",
 	SPIDE: "spide", STORE: "store", ADMIN: "admin", MATRIX: "matrix",
-	GRANT: "grant",
+	GRANT: "grant", CHAT_GRANT: "web.chat.grant",
 
 	WORKER: "worker", SERVER: "server", ORIGIN: "origin", VENDOR: "vendor",
 	GATEWAY: "gateway", ONLINE: "online", OFFLINE: "offline",
@@ -314,12 +314,19 @@ var chat = {
 	_INIT: "_init", _DELAY_INIT: "_delay_init",
 	_TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _NAMES: "_names", _TOAST: "_toast",
 
-	PAGES_RIVER: "/pages/river/river",
+	PAGES_HOME: "/pages/action/home",
+	PAGES_DREAM: "/pages/action/dream",
+	PAGES_DESKTOP: "/pages/action/desktop",
+	PAGES_MY: "/pages/action/my",
 	PAGES_ACTION: "/pages/action/action",
 	PAGES_INSERT: "/pages/insert/insert",
+	PAGES_RIVER: "/pages/river/river",
+	PAGES_GRANT: "/pages/web-chat/grant",
+
 	WX_LOGIN_SESS: "/chat/wx/login/action/sess",
 	WX_LOGIN_USER: "/chat/wx/login/action/user",
 	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
+	API_HEADER: "/chat/header/",
 }
 var team = {
 	TASK: "task", PLAN: "plan", ASSET: "asset",
