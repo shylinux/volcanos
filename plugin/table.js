@@ -11,7 +11,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
-			var img = can.misc.Resource(can, value.icon = value.icons||value.icon||value.image, msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
+			var img = can.misc.Resource(can, value.icon = value.icons||value.icon||value.image)
 			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
 					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
