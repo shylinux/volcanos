@@ -41,7 +41,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 	},
 	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
-		return path.indexOf(ice.HTTP) == 0? path: p+can.base.Path(web.SHARE_LOCAL, can.db.dir_root||"", path)
+		return path.indexOf(ice.HTTP) == 0? path: can.misc.Resource(can, can.db.dir_root+path, can.ConfSpace(), p)
 	},
 	file: function(can, path, item, index, target, height, auto) { path = can.onimport._file(can, path)
 		var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]; can.Status(nfs.FILE, path)
@@ -57,7 +57,7 @@ Volcanos(chat.ONIMPORT, {
 	layout: function(can) { can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
 		can.page.Select(can, can.ui.content, can.page.Keys(html.IMG, html.VIDEO), function(target) {
 			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width):
-				can.page.style(can, target, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
+			can.page.style(can, target, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
 		})
 	}) },
 }, [""])
@@ -91,50 +91,50 @@ Volcanos(chat.ONFIGURE, {
 	webm: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
 })
 Volcanos(chat.ONACTION, {list: ["full",
-		[html.HEIGHT, 100, 200, 400, 600, 800, "max", html.HIDE, ice.AUTO],
-		[mdb.LIMIT, 6, 1, 3, 6, 9, 12, 15, 20, 30, 50],
-		[html.SPEED, 1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5, 10],
-	],
-	height: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-	limit: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-	speed: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-	prev: function(event, can) { if (can.db.begin > 0) { can.db.begin -= parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是第一页了") } },
-	next: function(event, can) { if (can.db.begin + parseInt(can.Action(mdb.LIMIT)) < can.db.list.length) { can.db.begin += parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是最后一页了") } },
-	full: function(event, can) {
-		var show = can.onmotion.toggle(can, can.ui.project); can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth())
-		can.page.ClassList.set(can, can.ui.content, html.FLOAT, !show), can.page.Select(can, can.ui.content, "*", function(target) { target.focus()
-			can.page.style(can, target, html.HEIGHT, can.ConfHeight()+(!show? 2*html.ACTION_HEIGHT: 0)-can.ui.display.offsetHeight)
-		})
-	},
-	onkeydown: function(event, can) { try {
-		if (event.target != can.ui.video) {
-			if (event.key == "ArrowLeft") { can.ui.video.currentTime -= 15 }
-			if (event.key == "ArrowRight") { can.ui.video.currentTime += 15 }
-		}
-		if (event.key == "Escape") { can.onaction.full(event, can) }
-		if (event.key == "ArrowUp") { can.user.toast(can, parseInt((can.ui.video.volume += 0.1)*100)) }
-		if (event.key == "ArrowDown") { can.user.toast(can, parseInt((can.ui.video.volume -= 0.1)*100)) }
-	} catch (e) {} },
-	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
-		navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
-			can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
-				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
-					can.runAction(msg, html.UPLOAD, [], function() { can.user.toast(can, "上传成功"), can.Update() })
-					can.core.List(stream.getTracks(), function(item) { item.stop() })
-				})
+	[html.HEIGHT, 100, 200, 400, 600, 800, "max", html.HIDE, ice.AUTO],
+	[mdb.LIMIT, 6, 1, 3, 6, 9, 12, 15, 20, 30, 50],
+	[html.SPEED, 1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5, 10],
+],
+height: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
+limit: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
+speed: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
+prev: function(event, can) { if (can.db.begin > 0) { can.db.begin -= parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是第一页了") } },
+next: function(event, can) { if (can.db.begin + parseInt(can.Action(mdb.LIMIT)) < can.db.list.length) { can.db.begin += parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是最后一页了") } },
+full: function(event, can) {
+	var show = can.onmotion.toggle(can, can.ui.project); can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth())
+	can.page.ClassList.set(can, can.ui.content, html.FLOAT, !show), can.page.Select(can, can.ui.content, "*", function(target) { target.focus()
+		can.page.style(can, target, html.HEIGHT, can.ConfHeight()+(!show? 2*html.ACTION_HEIGHT: 0)-can.ui.display.offsetHeight)
+	})
+},
+onkeydown: function(event, can) { try {
+	if (event.target != can.ui.video) {
+		if (event.key == "ArrowLeft") { can.ui.video.currentTime -= 15 }
+		if (event.key == "ArrowRight") { can.ui.video.currentTime += 15 }
+	}
+	if (event.key == "Escape") { can.onaction.full(event, can) }
+	if (event.key == "ArrowUp") { can.user.toast(can, parseInt((can.ui.video.volume += 0.1)*100)) }
+	if (event.key == "ArrowDown") { can.user.toast(can, parseInt((can.ui.video.volume -= 0.1)*100)) }
+} catch (e) {} },
+record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
+	navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
+		can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
+			cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
+				can.runAction(msg, html.UPLOAD, [], function() { can.user.toast(can, "上传成功"), can.Update() })
+				can.core.List(stream.getTracks(), function(item) { item.stop() })
 			})
-		}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
-	}) },
-	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
-		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
-			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
-			canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
-		}
-	}) },
-	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
-		var recorder = new MediaRecorder(stream, {mimeType: 'video/webm'}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
-		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
-	}) },
+		})
+	}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
+}) },
+record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
+	var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
+		var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
+		canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
+	}
+}) },
+record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
+	var recorder = new MediaRecorder(stream, {mimeType: 'video/webm'}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
+	recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
+}) },
 })
 Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头像", "设置背景", "复制链接", "下载", "删除"],
 	_init: function(can, index) {
