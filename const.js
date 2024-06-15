@@ -334,6 +334,7 @@ var chat = {
 	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
 	API_HEADER: "/chat/header/",
 	API_SEARCH: "/chat/search/",
+	API_ACTION: "/chat/action/",
 }
 var team = {
 	TASK: "task", PLAN: "plan", ASSET: "asset",
