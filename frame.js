@@ -557,10 +557,7 @@ Volcanos(chat.ONAPPEND, {
 	checkbox: function(can, table, msg) {
 		can.page.Select(can, table, "tr>th:first-child,tr>td:first-child", function(target) {
 			can.page.insertBefore(can, [{type: target.tagName, list: [{type: html.INPUT, data: {type: html.CHECKBOX}, onchange: function(event) {
-				can.page.tagis(target, html.TH) && can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) {
-					if (can.page.ClassList.has(can, can.page.parentNode(can, target, html.TR), html.HIDE)) { return }
-					target.checked = event.target.checked
-				})
+				can.page.tagis(target, html.TH) && can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { target.checked = event.target.checked })
 				var list = {}, key = can.page.SelectArgs(can, can._option, "", function(target) { if (target.value == "") { return target.name } })
 				can.page.Select(can, table, "tr>td:first-child>input[type=checkbox]", function(target) { can.page.ClassList.set(can, can.page.parentNode(can, target, html.TR), html.SELECT, target.checked)
 					target.checked && can.core.List(key, function(key) { if (!msg[key]) { return } list[key] = (list[key]||[]).concat([msg[key][can.page.parentNode(can, target, html.TR).dataset.index]]) })
@@ -934,7 +931,7 @@ Volcanos(chat.ONAPPEND, {
 							msg.append.length == 1 && can.page.ClassList.add(can, sub._target, chat.SIMPLE)
 							can.page.style(can, sub._target, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
 							can.onlayout.figure({target: target}, can, sub._target, false, 200, function(height, width) {
-								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight-sub._action.offsetHeight)
+								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight)
 								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
 							})
 						}
@@ -1075,7 +1072,7 @@ Volcanos(chat.ONMOTION, {
 	},
 	modify: function(can, target, cb, item) { var back = target.innerHTML, _target = target
 		if (back.length > 120 || back.indexOf(lex.NL) > -1) { return can.onmotion.modifys(can, target, cb) }
-		var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: can.base.Max(target.offsetWidth-20, can.ConfWidth())}, onkeydown: function(event) { switch (event.key) {
+		var ui = can.page.Appends(can, target, [{type: html.INPUT, value: target.innerText, style: {width: can.base.Max(target.offsetWidth-20, 400)}, onkeydown: function(event) { switch (event.key) {
 			case code.ENTER: target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value.trim(), back); break
 			case code.ESCAPE: target.innerHTML = back; break
 			default: can.onkeymap.input(event, can)
@@ -1085,7 +1082,7 @@ Volcanos(chat.ONMOTION, {
 	},
 	modifys: function(can, target, cb, item) { var back = target.innerHTML
 		var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {
-			height: can.base.Min(target.offsetHeight-20, 60), width: can.base.Max(target.offsetWidth-20, can.ConfWidth()),
+			height: can.base.Min(target.offsetHeight-20, 60), width: can.base.Max(target.offsetWidth-20, 400),
 		}, onkeydown: function(event) { switch (event.key) {
 			case code.ENTER: if (event.ctrlKey) { target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value.trim(), back) } break
 			case code.ESCAPE: target.innerHTML = back; break

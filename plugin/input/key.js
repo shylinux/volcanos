@@ -7,23 +7,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			can._show(can, msg, cb, target, name)
 		})
 	},
-	_show: function(can, msg, cb, target, name) {
-		// msg.Option(ice.TABLE_CHECKBOX, "")
-		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE) { target._hold = true
-			can.onappend._action(can, [html.CANCEL, html.CONFIRM, html.FILTER], can._action, {
-				cancel: function() {
-					can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
-				},
-				confirm: function() { var list = msg.Table()
-					can.base.isFunc(cb) && cb(can, can.page.Select(can, can._output, html.TR, function(target) {
-						if (can.page.ClassList.has(can, target, html.SELECT)) {
-							return list[target.dataset.index][msg.append[0]]
-						}
-					}).join(","), target.value)
-					can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
-				},
-			})
-		}
+	_show: function(can, msg, cb, target, name) { msg.Option(ice.TABLE_CHECKBOX, "")
 		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
 		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
@@ -55,22 +39,20 @@ Volcanos(chat.ONFIGURE, {key: {
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {
 		can.onengine.signal(can, "onevent", can.request(event));
-		meta._force && mod.onclick(event, can, meta, target, cbs)
-	},
+		meta._force && mod.onclick(event, can, meta, target, cbs) },
 	onclick: function(event, can, meta, target, cbs) {
 		can.onengine.signal(can, "onevent", can.request(event));
 		(target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb, target) { if (target._hold) { return }
-		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}))
-		sub && can.onmotion.delay(can, sub.close, 300)
-	},
+	onblur: function(event, can, sub, cb, target) {
+		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}));
+		sub && can.onmotion.delay(can, sub.close, 300) },
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
 		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)
 		sub.hidden() || can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return meta.select && (sub.close(), meta.select(target.value = td.innerText)), cb(sub, td.innerText, target.value), td })
-		|| can.onmotion.delayOnce(can, function() { can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) }, target.value.length < 3? 500: 150)
+			|| can.onmotion.delayOnce(can, function() { can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) }, target.value.length < 3? 500: 150)
 	},
 }})

@@ -141,23 +141,18 @@ Volcanos(chat.ONEXPORT, {
 })
 Volcanos(chat.ONENGINE, {
 	_engine: function(event, can, msg, panel, cmds, cb) {
-		function right(role) { if (!role || role == aaa.VOID) { return true }
-			return can.core.List(can.core.Split(can.user.info.userrole||aaa.VOID), function(userrole) {
-				if (can.base.isIn(userrole, role, aaa.TECH, aaa.ROOT)) { return true }
-			}).length > 0
-		}
 		if (typeof can.river == code.FUNCTION) { can.river = can.river(can) } var list = can.river
 		cmds.length == 0 && can.core.ItemOrder(list, mdb.ORDER, function(key, value) { if (!value) { return }
 			if (value.debug && can.misc.Search(can, ice.MSG_DEBUG) != ice.TRUE) { return }
 			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
-			if (right(value.type)) {
+			if (can.base.isIn(can.user.info.userrole||aaa.VOID, value.type||aaa.VOID, aaa.TECH, aaa.ROOT)) {
 				can.core.Item(value.storm).length > 0 && msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name, icon: value.icon||"", main: value.main||false})
 			}
 		})
 		if (cmds.length != 1 && cmds[1] != chat.STORM) { return false } var river = list[cmds[0]]; if (!river) { return false }
 		can.core.ItemOrder(river.storm, mdb.ORDER, function(key, value) { if (!value) { return }
 			if (value.nodetype && value.nodetype != can.user.info.nodetype) { return }
-			if (right(value.type)) {
+			if (can.base.isIn(can.user.info.userrole||aaa.VOID, value.type||aaa.VOID, aaa.TECH, aaa.ROOT)) {
 				msg.Push({hash: key, name: can.user.isEnglish(can)? key: value.name||(can.user.trans(can, key)+" "+key), icon: value.icon||icon[key]||"", main: value.main||false})
 			}
 		}), can.base.isFunc(cb) && cb(msg); return true
