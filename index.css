@@ -130,8 +130,8 @@ table.content td.option { cursor:pointer; }
 table.content td { padding:var(--table-padding); }
 table.content td i { padding:var(--input-padding); }
 table.content:not(.detail) td input.icons { display:none; }
-table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
-table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; }
+table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; width:20px; }
+table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; width:20px; }
 table.content.action th:last-child { text-align:center; padding:var(--table-padding); position:sticky; right:2px; }
 table.content.action td:last-child { text-align:center; padding:var(--table-padding); position:sticky; right:2px; }
 table.content.action td:last-child i { color:var(--notice-bg-color); }
@@ -291,9 +291,10 @@ fieldset>div.action>div.item { margin-right:var(--input-margin); }
 fieldset.input>legend { display:none; }
 fieldset.input.icons table { width:100%; text-align:center; }
 fieldset.input.key div.action { display:none; }
+fieldset.input.key div.action div.item.state { display:none; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
 fieldset.input.key div.output table.content td:first-child { cursor:pointer; }
-fieldset.input.key div.output table.content td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
+fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
 fieldset.input.key>div.output>div.item img { height:var(--header-height); width:var(--header-height); }
 fieldset.input.key>div.output>div.item img[src*=".jpg"] { padding:5px; }
@@ -352,6 +353,7 @@ body>div.carte input[name=filter] { margin:var(--input-margin); width:calc(100% 
 body>div.carte div.item:not(.hide) { white-space:pre; padding:var(--button-padding); display:flex; align-items:center; }
 body>div.carte div.item i:first-child { margin-right:var(--button-margin); }
 body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:right; }
+body>div.carte div.item span.name { flex-grow:1; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
 body>div.input.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
@@ -546,6 +548,8 @@ fieldset.input div.output { background-color:var(--input-bg-color); }
 fieldset.input div.output>table.content { border-collapse:collapse; }
 fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
+fieldset.input table.checkbox.content td:first-child { box-shadow:none; }
+fieldset.input table.checkbox.content th.select { border:none; }
 fieldset.input>span.close { padding:var(--input-padding); position:absolute; top:0; right:0; line-height:16px; }
 fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.float { background-color:var(--float-bg-color); }
@@ -593,7 +597,7 @@ fieldset>div.status>legend.select { box-shadow:var(--legend-box-shadow); }
 fieldset>div.status>legend:hover { box-shadow:var(--legend-box-shadow); }
 fieldset.Action>div.toast>div.toast:hover { box-shadow:var(--notice-box-shadow); }
 table.content th { box-shadow:var(--th-box-shadow); }
-table.content th.select { border:var(--box-notice); }
+// table.content th.select { border:var(--box-notice); }
 table.content.checkbox td:first-child { box-shadow:var(--th-box-shadow); }
 table.content.action td:last-child { box-shadow:var(--th-box-shadow); }
 table.content.detail tr.action td { box-shadow:var(--th-box-shadow); }
