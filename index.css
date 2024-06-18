@@ -482,6 +482,8 @@ table.content tr.danger { background-color:var(--danger-bg-color); color:var(--d
 table.content tr.notice { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 table.content tr.disable { color:var(--disable-fg-color); }
 table.content tr.offline { color:var(--disable-fg-color); }
+table.content tr.invalid { color:var(--disable-fg-color); }
+table.content tr.expired { color:var(--disable-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
 table.content td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
