@@ -10,7 +10,7 @@ Volcanos(chat.ONFIGURE, {key: {
 	_show: function(can, msg, cb, target, name) {
 		// msg.Option(ice.TABLE_CHECKBOX, "")
 		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE) { target._hold = true
-			can.onappend._action(can, [html.CANCEL, html.CONFIRM, html.FILTER], can._action, {
+			can.onappend._action(can, [html.CANCEL, html.CONFIRM, msg.Length() > 5? html.FILTER: ""], can._action, {
 				cancel: function() {
 					can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
 				},

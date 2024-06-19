@@ -922,7 +922,7 @@ Volcanos(chat.ONAPPEND, {
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
 				}
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, mod: can.onfigure[input],last: last, cbs: function(cb) {
-					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: meta.name, mode: chat.FLOAT}, [path, meta.display], function(sub) { sub.Conf(meta)
+					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: can.core.Keys(can.ConfIndex(), meta.name), mode: chat.FLOAT}, [path, meta.display], function(sub) { sub.Conf(meta)
 						can.page.Append(can, sub._target, [{text: [can.page.unicode.remove, "", "close"], onclick: function() { sub.close() }}])
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
 							if (meta.range) { for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push(mdb.VALUE, i) } cb(msg); return }

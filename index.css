@@ -294,6 +294,7 @@ fieldset.input.key div.action { display:none; }
 fieldset.input.key div.action div.item.state { display:none; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
 fieldset.input.key div.output table.content td:first-child { cursor:pointer; }
+fieldset.input.key div.output table.content.checkbox td:nth-child(2) { cursor:pointer; }
 fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
 fieldset.input.key>div.output>div.item img { height:var(--header-height); width:var(--header-height); }
@@ -597,6 +598,8 @@ fieldset>div.status>legend.select { box-shadow:var(--legend-box-shadow); }
 fieldset>div.status>legend:hover { box-shadow:var(--legend-box-shadow); }
 fieldset.Action>div.toast>div.toast:hover { box-shadow:var(--notice-box-shadow); }
 table.content th { box-shadow:var(--th-box-shadow); }
+fieldset.input.key table.content th { box-shadow:none; }
+fieldset.input.key table.content.checkbox td:first-child { box-shadow:none; }
 table.content.checkbox td:first-child { box-shadow:var(--th-box-shadow); }
 table.content.action td:last-child { box-shadow:var(--th-box-shadow); }
 table.content.detail tr.action td { box-shadow:var(--th-box-shadow); }
@@ -627,7 +630,7 @@ legend>img { margin-right:var(--input-margin); height:28px; display:block; float
 legend>span.icon:first-child { margin-right:var(--input-margin); }
 legend>i:first-child { margin-right:var(--input-margin); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--disable-fg-color); }
-input[type=checkbox] { height:16px; width:16px; }
+input[type=checkbox] { height:16px; width:16px; cursor:pointer; }
 textarea { font-family:var(--input-font-family); font-size:var(--body-font-size); padding:var(--input-padding); height:var(--textarea-height); width:100%; outline:none; resize:vertical; }
 table.content.full { width:100%; }
 table.content col.time { width:180px; }
