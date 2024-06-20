@@ -252,6 +252,11 @@ Volcanos(chat.ONACTION, {
 	"删除工具": function(event, can) { can.onaction._close(event, can) },
 	
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },
+	detail: function(event, can) { var msg = can.request(event)
+		can.core.Item(can.Option(), function(key, value) {
+			can.Option(key, msg.Option(key)||"")
+		}), can.Update()
+	},
 	close: function(event, can) {
 		if (can.isCmdMode()) {
 			can.user.close()

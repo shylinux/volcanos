@@ -462,6 +462,7 @@ var icon = {
 	modify: "bi bi-pencil-square",
 	rename: "bi bi-pencil-square",
 	remove: "bi bi-trash",
+	detail: "bi bi-file-earmark-text",
 	enable: "bi bi-toggle-off", disable: "bi bi-toggle-on",
 	expire: "bi bi-clock-history",
 	
