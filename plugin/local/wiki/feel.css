@@ -1,15 +1,30 @@
-fieldset.feel>div.output>div.layout>div.display { position:relative; overflow-y:hidden; }
-fieldset.feel>div.output>div.layout>div.display>img:hover { background-color:var(--hover-bg-color); cursor:pointer; }
-fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; align-items:normal; gap:10px; }
-fieldset.feel>div.output>div.layout>div.display:not(.hide) img { height:100px; }
-fieldset.feel>div.output>div.layout>div.display:not(:hover)>div.toggle { display:none; }
-fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:48px; padding:5px; position:absolute; height:100px; padding-top:20px;  }
+// fieldset.feel>form.option div.item.file input { width:var(--project-width); }
+fieldset.feel:not(.cmd)>form.option div.item.file { display:none; }
+fieldset.feel>div.output>div.project div.item span.name { flex-grow:1; overflow:hidden; }
+fieldset.feel>div.output>div.project div.item span.progress { color:var(--notice-bg-color); margin-left:10px; }
+fieldset.feel>div.output>div.project div.item span.size { color:var(--disable-fg-color); font-size:var(--status-font-size); margin-left:10px; }
+fieldset.feel>div.output>div.layout>div.display { position:relative; overflow:hidden; }
+fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; align-items:center; gap:10px; }
+fieldset.feel>div.output>div.layout>div.display>.select { border:var(--box-notice); }
+fieldset.feel>div.output>div.layout>div.display>img { height:98px; width:100px; object-fit:cover; }
+fieldset.feel>div.output>div.layout>div.display>video { height:98px; width:100px; object-fit:cover; }
+fieldset.feel>div.output>div.layout>div.display>div.audio { word-break:break-all; height:100%; width:100px; display:flex; align-items:center; }
+fieldset.feel>div.output>div.layout>div.display>div.audio:not(.select) { border:var(--box-border); }
+fieldset.feel>div.output>div.layout>div.display>img:hover { cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>video:hover { cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>div.audio:hover { background-color:var(--hover-bg-color); cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:32px; padding:5px; padding-top:32px; height:100px; position:absolute; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.prev { left:0; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.next { right:0; }
-fieldset.feel>div.output>div.layout>div.layout>div.content { text-align:center; overflow-y:hidden; }
-fieldset.feel>div.output>div.layout>div.layout>div.content>img { cursor:pointer; }
-fieldset.feel>div.output>div.layout>div.layout>div.content>img:hover { background-color:var(--hover-bg-color); }
-fieldset.feel>div.output>div.layout>div.layout>div.content:not(:hover)>div.toggle { display:none; }
-fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:48px; padding:5px; padding-top:32px; top:40%; height:120px; }
+fieldset.feel>div.output>div.layout>div.layout>div.content { overflow:hidden; padding:0; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>img { object-fit:scale-down; cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>img { height:100%; width:100%; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>video { height:100%; width:100%; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.audio { height:100%; width: 100%; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:32px; padding:5px; padding-top:32px; height:100px; top:40%; z-index:5; }
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.next { right:0; }
-body.mobile fieldset.feel>div.output>div.project { overflow-x:hidden; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.prev { left:0; }
+fieldset.feel>div.output>div.layout>div.layout>div.content>div.progress { background-color:var(--notice-bg-color); height:3px; position:absolute; bottom:2px; }
+// body:not(.mobile) fieldset.feel>div.output>div.layout>div.layout>div.content:not(:hover)>div.toggle { display:none; }
+// body:not(.mobile) fieldset.feel>div.output>div.layout>div.display:not(:hover)>div.toggle { display:none; }
+// body.mobile fieldset.feel>div.output>div.project { overflow-x:hidden; }

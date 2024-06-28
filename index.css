@@ -294,7 +294,7 @@ fieldset.input.icons table { width:100%; text-align:center; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.action div.item.state { display:none; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
-fieldset.input.key div.output table.content td:first-child { cursor:pointer; }
+fieldset.input.key div.output table.content td:first-child { padding-left:24px; cursor:pointer; }
 fieldset.input.key div.output table.content.checkbox td:nth-child(2) { cursor:pointer; }
 fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
@@ -581,6 +581,7 @@ fieldset.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border)
 fieldset:not(.panel):hover { box-shadow:var(--notice-box-shadow); }
 body.light fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
 body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
+body.light fieldset.vimer fieldset.story>legend { margin-right:var(--input-margin); padding:0 var(--input-padding); }
 fieldset.story>legend { border-top-left-radius:var(--plugin-radius); }
 fieldset>form.option div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 fieldset>form.option div.item.select { border-radius:var(--button-radius); }
@@ -701,6 +702,7 @@ fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
+body:not(.width2):not(.mobile) fieldset.plugin.feel>form.option>div.item.text.file>input { width:var(--project-width); }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); height:30px; transition:all 1.2s; }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }

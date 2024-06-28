@@ -326,7 +326,7 @@ Volcanos(chat.ONAPPEND, {
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash: [""], value: {}}, ui: {layout: function() {}},
 		}, [display, msg.Option(ice.MSG_DISPLAY_CSS)||undefined, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
-			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.misc.localStorage(can, [sub.ConfSpace()||can.misc.Search(can, ice.POD), sub.ConfIndex(), "hash"]))||[]
+			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
 				msg.RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
@@ -801,7 +801,7 @@ Volcanos(chat.ONAPPEND, {
 				if (target.innerHTML == "") { return }
 				var h = calc(item, target.offsetHeight, height), w = meta.width||width
 				if (h > _height/2) { h = _height/2, can.page.style(can, target, html.HEIGHT, h) }
-				can.page.style(can, target, html.WIDTH); if (can.page.isDisplay(target)) { height -= h }
+				can.page.style(can, target, html.WIDTH, w); if (can.page.isDisplay(target)) { height -= h }
 				if (can.base.isObject(meta) && meta.layout) { meta.layout(h = _height/list.length, w) }
 			}
 		}), can.core.List(list, function(item) {
@@ -1070,7 +1070,7 @@ Volcanos(chat.ONMOTION, {
 	},
 	select: function(can, target, name, which, cb) { var old = can.page.SelectOne(can, target, name+".select")
 		can.base.isUndefined(which) || can.page.SelectChild(can, target, name, function(target, index) {
-			if (can.page.ClassList.set(can, target, html.SELECT, target == which || index == which)) { can.base.isFunc(cb) && cb(target) }
+			if (can.page.ClassList.set(can, target, html.SELECT, target == which || index == which || decodeURI(target.src) == which)) { can.base.isFunc(cb) && cb(target) }
 		}); return old
 	},
 	modify: function(can, target, cb, item) { var back = target.innerHTML, _target = target

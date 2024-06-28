@@ -1,140 +1,126 @@
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg) { can.onappend.style(can, html.FLEX, can.ui.display)
-		can.ui = can.onappend.layout(can), can.onmotion.toggle(can, can.ui.display, true), can.onimport._project(can, msg)
-		can.onimport.page(can, can.db.list, can.db.begin = parseInt(msg.Option(cli.BEGIN)||"0"))
-		can.onmotion.hidden(can, can._action), can.onimport.layout(can)
+	_init: function(can, msg, cb) {
+		can.ui = can.onappend.layout(can), can.onimport._project(can, msg)
+		cb && cb(msg), can.onimport.page(can, can.db.list, can.db.begin = 0)
+		can.onmotion.toggle(can, can.ui.display, true), can.onimport.layout(can)
 	},
 	_project: function(can, msg) { can.db.list = [], can.db.dir_root = msg.Option(nfs.DIR_ROOT)
 		msg.Table(function(item) { item.name = can.base.trimPrefix(item.path, can.Option(nfs.PATH))
 			can.base.endWith(item.path, nfs.PS)? can.onimport.item(can, item, function(event) { can.Option(nfs.PATH, item.path) && can.Update(event) }): can.db.list.push(item)
 		})
-		var rate = can.misc.localStorage(can, [can.ConfIndex(), "rate"]); rate && can.Action(html.SPEED, rate)
-		can.core.List(can.db.list, function(item, index) { item._select = item.path == (can.db.hash[0]||"usr/icons/background.jpg")
-			item.nick = (last? last+lex.SP: "")+item.name
-			var last = can.misc.localStorage(can, [can.ConfIndex(), "p", can.onimport._file(can, item.path)])
-			var target = can.onimport.item(can, item, function(_event, item, show, target) { can.onexport.hash(can, item.path), can.onexport.title(can, item.path.split("/").pop())
-				can.ui.cb = function(event) { var next = _event.target.nextSibling
-					target.innerHTML = parseInt(event.target.currentTime*100/event.target.duration)+"% "+item.name
-					can.ui.video = event.target, can.Status(item), can.misc.localStorage(can, [can.ConfIndex(), "last"], item.path)
-					if (event.type == "ratechange") { can.misc.localStorage(can, [can.ConfIndex(), "rate"], event.target.playbackRate) }
-					if (event.type == "ended" && next) { can.onmotion.delay(can, function() { next.click() }, 3000), can.user.toast(can, "3s 后即将播放下一个", "", 3000) }
-				}
-				can.Option(nfs.FILE, can.base.trimPrefix(item.path, can.Option(nfs.PATH)))
-				can.onimport.layout(can), can.onmotion.scrollIntoView(can, target), can.onmotion.clear(can, can.ui.content)
-				var _target = can.onimport.file(can, item.path, item, index, can.ui.content, can.ui.content.offsetHeight, true)
-				_target.focus(), _target.onclick = function() { can.ondetail._init(can, index) }
-				can.onimport.layout(can)
-				can.onappend._toggle(can, can.ui.content, function() {
-					index == 0? can.user.toast(can, "已经是第一页了"): _event.target.previousSibling.click()
-				}, function() {
-					try { _event.target.nextSibling.click() } catch (e) { can.user.toast(can, "已经是最后一页了") }
-				})
-				var limit = parseInt(can.Action(mdb.LIMIT))
-				if (index < can.db.begin || index >= can.db.begin+limit) {
-					can.onimport.page(can, can.db.list, can.db.begin = index-index%limit)
-				}
-			}); item._target = target
-			if (can.isCmdMode() && item.path == can.misc.localStorage(can, [can.ConfIndex, "last"])) {
-				can.Action(html.HEIGHT, html.HIDE), can.onmotion.hidden(can, can.ui.display)
-				_target = target, can.onmotion.delay(can, function() { can.onaction.full({}, can) })
+		can.core.List(can.db.list, function(item, index) { var last = can.onexport.progress(can, "p."+can.onimport._file(can, item.path))
+			item.nick = [{text: [item.name, "", mdb.NAME]}, last && {text: [last, "", "progress"]}, {text: [item.size, "", nfs.SIZE]}]
+			item._hash = item.path, item._title = item.path.split("/").pop()
+			var target = can.onimport.item(can, item, function(event, item, show, target) { can.onimport._content(can, item, index, target) }); item._target = target
+		})
+	},
+	_content: function(can, item, index, target) { var progress
+		can.Option(nfs.FILE, can.base.trimPrefix(item.path, can.Option(nfs.PATH)))
+		if (can.onexport.progress(can, "p."+item._path) == "100%") {
+			can.onexport.progress(can, "p."+item._path, ""), can.onexport.progress(can, item._path, 0)
+		}
+		if (!can.onmotion.cache(can, function() { return item.path }, can.ui.content)) {
+			item._cb = function(event) { can.ui.video = event.target, can.Status(item), can.onexport.storage(can, "last", item.path)
+				var p = parseInt(event.target.currentTime*100/event.target.duration); item.nick[1] = {text: [p+"%", "", "progress"]}, can.page.Appends(can, target, item.nick)
+				if (!progress) { progress = can.page.Append(can, can.ui.content, ["progress"])._target }
+				can.page.style(can, progress, html.WIDTH, can.ui.content.offsetWidth*p/100)
 			}
-		})
+			var _target = can.onimport.file(can, item.path, item, index, can.ui.content, true); _target.focus()
+			// _target.onclick = function() { can.page.tagis(_target, html.IMG) && can.ondetail._init(can, index) }
+			can.onappend._toggle(can, can.ui.content, function() {
+				index == 0? can.user.toast(can, "已经是第一页了"): target.previousSibling.click()
+			}, function() {
+				try { target.nextSibling.click() } catch (e) { can.user.toast(can, "已经是最后一页了") }
+			})
+		}
+		can.Status(item)
+		if (index < can.db.begin || index >= can.db.begin+can.db.limit) {
+			can.onimport.page(can, can.db.list, can.db.begin = index-index%can.db.limit)
+		} can.onmotion.select(can, can.ui.display, "*", item._display)
 	},
-	_file: function(can, path) { var p = location.href.indexOf(ice.HTTP) == 0? "": "http://localhost:9020"
-		return path.indexOf(ice.HTTP) == 0? path: can.misc.Resource(can, can.db.dir_root+path, can.ConfSpace(), p)
+	_file: function(can, path) {
+		return (location.href.indexOf(ice.HTTP) == 0? location.origin: "http://localhost:9020")+can.misc.Resource(can, can.db.dir_root+path, can.ConfSpace())
 	},
-	file: function(can, path, item, index, target, height, auto) { path = can.onimport._file(can, path)
-		var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]; can.Status(nfs.FILE, path)
-		return cb && can.page.Append(can, target||can.ui.display, [cb(can, path, item, index, height, auto)])._target
+	file: function(can, path, item, index, target, auto) { item._path = path = can.onimport._file(can, path)
+		var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]
+		return cb && can.page.Append(can, target||can.ui.display, [cb(can, path, item, index, auto)])._target
 	},
-	page: function(can, list, begin, limit) { can.onmotion.clear(can, can.ui.display)
-		begin = parseInt(begin||can.db.begin), limit = parseInt(limit||can.Action(mdb.LIMIT))
-		for (var i = begin; i < begin+limit; i++) { list && list[i] && can.onimport.file(can, list[i].path, list[i], i) }
-		can.onmotion.orderShow(can, can.ui.display, "*")
+	page: function(can, list, begin) { can.onmotion.clear(can, can.ui.display)
+		begin = parseInt(begin||can.db.begin||0), can.db.limit = (parseInt(can.ui.display.offsetWidth/110)||5)-1
+		for (var i = begin; i < begin+can.db.limit; i++) {
+			if (list && list[i]) {
+				list[i]._display = can.onimport.file(can, list[i].path, list[i], i)
+			}
+		}
 		can.onappend._toggle(can, can.ui.display, function(event) { can.onaction.prev(event, can) }, function(event) { can.onaction.next(event, can) })
-		can.Status({begin: begin, limit: limit, total: list.length})
+		can.Status({begin: begin, limit: can.db.limit, total: list.length})
 	},
-	layout: function(can) { can.ui.layout && can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-		can.page.Select(can, can.ui.content, can.page.Keys(html.IMG, html.VIDEO), function(target) {
-			can.user.isMobile && !can.user.isLandscape()? can.page.style(can, target, html.HEIGHT, "", html.MAX_HEIGHT, height, html.MAX_WIDTH, width):
-			can.page.style(can, target, html.MAX_HEIGHT, height, html.MAX_WIDTH, width)
-		})
-	}) },
 }, [""])
 Volcanos(chat.ONFIGURE, {
-	png: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
-	jpg: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
-	jpeg: function(can, path, item, index, height) { return can.onfigure.image(can, path, item, index, height) },
-	image: function(can, path, item, index, height) { return {img: path,
-		onmouseover: function(event) { can.Status(nfs.FILE, path), can.Status(item) },
-		onclick: function(event) { item._target.click() },
-	} },
-	video: function(can, path, item, index, height, auto) { var total = 0, cb = can.ui.cb||function cb(event) { }
-		var init, last = can.misc.localStorage(can, can.onexport.key(can, path))||0
-		return {type: html.VIDEO, style: {height: height||can.onexport.height(can)},
-			data: {src: path, controls: "controls", autoplay: auto, playbackRate: parseFloat(can.Action(html.SPEED))},
-			oncanplay: cb, onplay: cb, onpause: cb, oncontextmenu: cb, onratechange: cb, onseeked: cb,
-			onmouseover: function(event) { can.Status(nfs.FILE, path), can.Status(item) },
-			onloadedmetadata: function(event) { total = event.timeStamp
-				event.target.currentTime = can._msg.currentTime || 0
-			}, onloadeddata: cb, ontimeupdate: function(event) { cb(event)
-				can.misc.localStorage(can, can.onexport.key(can, path), event.target.currentTime)
-				can.misc.localStorage(can, can.onexport.key(can, "p", path), parseInt(event.target.currentTime*100/event.target.duration)+"%")
+	png: function(can, path, item, index) { return can.onfigure.image(can, path, item, index) },
+	jpg: function(can, path, item, index) { return can.onfigure.image(can, path, item, index) },
+	jpeg: function(can, path, item, index) { return can.onfigure.image(can, path, item, index) },
+	image: function(can, path, item, index) { return {img: path, onclick: function(event) { item._target.click() }} },
+	audio: function(can, path, item, index, auto) {
+		var meta = can.onfigure.video(can, path, item, index, auto); meta.type = html.AUDIO;
+		return {view: html.AUDIO, list: [{text: item.name}, meta], onclick: meta.onclick}
+	},
+	video: function(can, path, item, index, auto) {
+		var cb = item._cb||function cb(event) {}
+		var init, last = can.onexport.progress(can, path)||0
+		// preload: auto? "auto": "metadata",
+		return {type: html.VIDEO, data: {src: path, controls: auto? "controls": "", autoplay: auto, playbackRate: 1},
+			onclick: function(event) { item._target.click(), can.onkeymap.prevent(event) },
+			onratechange: function(event) { can.onexport.storage(can, "rate", event.target.playbackRate) },
+			onvolumechange: function(event) { can.onexport.storage(can, "volume", event.target.volume) },
+			onloadedmetadata: function(event) {
+				event.target.volume = can.onexport.storage(can, "volume")||1
+				event.target.playbackRate = can.onexport.storage(can, "rate")||1
+			},
+			ontimeupdate: function(event) { if (event.target.currentTime == 0) { return } cb(event)
+				can.Status("position", can.onexport.position(can, event.target.currentTime-1, event.target.duration))
+				can.onexport.progress(can, "p."+path, parseInt(event.target.currentTime*100/event.target.duration)+"%")
+				can.onexport.progress(can, path, event.target.currentTime)
 				if (!init) { init = true, event.target.currentTime = last }
-				can.Status("position", can.onexport.position(can, (can._msg.currentTime=event.target.currentTime)-1, event.target.duration))
-			}, onended: function(event) { cb(event), can.misc.localStorage(can, can.onexport.key(can, path), "") },
+			},
+			onended: function(event) { var next = item._target.nextSibling
+				if (next) { can.onmotion.delay(can, function() { next.click() }, 3000), can.user.toast(can, "3s 后即将播放下一个", "", 3000) }
+			},
 		}
 	},
-	mp4: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
-	m4v: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
-	mov: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
-	webm: function(can, path, item, index, height, auto) { return can.onfigure.video(can, path, item, index, height, auto) },
+	webm: function(can, path, item, index, auto) { return can.onfigure.video(can, path, item, index, auto) },
+	mov: function(can, path, item, index, auto) { return can.onfigure.video(can, path, item, index, auto) },
+	m4v: function(can, path, item, index, auto) { return can.onfigure.video(can, path, item, index, auto) },
+	mp4: function(can, path, item, index, auto) { return can.onfigure.video(can, path, item, index, auto) },
+	mp3: function(can, path, item, index, auto) { return can.onfigure.audio(can, path, item, index, auto) },
 })
-Volcanos(chat.ONACTION, {list: ["full",
-	[html.HEIGHT, 100, 200, 400, 600, 800, "max", html.HIDE, ice.AUTO],
-	[mdb.LIMIT, 6, 1, 3, 6, 9, 12, 15, 20, 30, 50],
-	[html.SPEED, 1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3, 5, 10],
-],
-height: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-limit: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-speed: function(event, can, key, value) { can.Action(key, value), can.onimport.page(can, can.db.list) },
-prev: function(event, can) { if (can.db.begin > 0) { can.db.begin -= parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是第一页了") } },
-next: function(event, can) { if (can.db.begin + parseInt(can.Action(mdb.LIMIT)) < can.db.list.length) { can.db.begin += parseInt(can.Action(mdb.LIMIT)), can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是最后一页了") } },
-full: function(event, can) {
-	var show = can.onmotion.toggle(can, can.ui.project); can.onmotion.toggle(can, can.ui.display), can.onimport.layout(can, can.ConfHeight(), can.ConfWidth())
-	can.page.ClassList.set(can, can.ui.content, html.FLOAT, !show), can.page.Select(can, can.ui.content, "*", function(target) { target.focus()
-		can.page.style(can, target, html.HEIGHT, can.ConfHeight()+(!show? 2*html.ACTION_HEIGHT: 0)-can.ui.display.offsetHeight)
-	})
-},
-onkeydown: function(event, can) { try {
-	if (event.target != can.ui.video) {
-		if (event.key == "ArrowLeft") { can.ui.video.currentTime -= 15 }
-		if (event.key == "ArrowRight") { can.ui.video.currentTime += 15 }
-	}
-	if (event.key == "Escape") { can.onaction.full(event, can) }
-	if (event.key == "ArrowUp") { can.user.toast(can, parseInt((can.ui.video.volume += 0.1)*100)) }
-	if (event.key == "ArrowDown") { can.user.toast(can, parseInt((can.ui.video.volume -= 0.1)*100)) }
-} catch (e) {} },
-record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
-	navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
-		can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
-			cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
-				can.runAction(msg, html.UPLOAD, [], function() { can.user.toast(can, "上传成功"), can.Update() })
-				can.core.List(stream.getTracks(), function(item) { item.stop() })
+Volcanos(chat.ONACTION, {
+	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) { var height = window.innerHeight
+		navigator.mediaDevices.getDisplayMedia({video: {height: height}}).then(function(stream) {
+			can.core.Next([3, 2, 1], function(item, next) { can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { can.user.toast(can, "现在开始截图")
+				cb(stream, function(blobs, ext) { var msg = can.request(event); msg._upload = new File(blobs, list[0]+nfs.PT+ext)
+					can.runAction(msg, html.UPLOAD, [], function() { can.user.toast(can, "上传成功"), can.Update() })
+					can.core.List(stream.getTracks(), function(item) { item.stop() })
+				})
 			})
-		})
-	}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
-}) },
-record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
-	var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
-		var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
-		canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
-	}
-}) },
-record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
-	var recorder = new MediaRecorder(stream, {mimeType: 'video/webm'}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
-	recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
-}) },
+		}).catch(function(err) { can.user.toast(can, err.name + ": " + err.message) })
+	}) },
+	record1: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) { var height = window.innerHeight
+		var video = can.page.Append(can, document.body, [{type: html.VIDEO, height: height}])._target; video.srcObject = stream, video.onloadedmetadata = function() { video.play(), width = video.offsetWidth
+			var canvas = can.page.Append(can, document.body, [{type: html.CANVAS, height: height, width: width}])._target; canvas.getContext("2d").drawImage(video, 0, 0, width, height)
+			canvas.toBlob(function(blob) { cb([blob], nfs.PNG) })
+		}
+	}) },
+	record2: function(event, can) { can.onaction.record0(event, can, "shot", function(stream, cb) {
+		var recorder = new MediaRecorder(stream, {mimeType: 'video/webm'}), blobs = []; recorder.ondataavailable = function(res) { blobs.push(res.data) }
+		recorder.onstop = function() { cb(blobs, nfs.WEBM) }, recorder.start(1)
+	}) },
+	fullscreen: function(event, can) {
+		var show = can.onmotion.toggle(can, can.ui.project); can.onmotion.toggle(can, can.ui.display, show), can.onimport.layout(can)
+		can.page.ClassList.set(can, can.ui.content, html.FLOAT, !show)
+	},
+	prev: function(event, can) { if (can.db.begin > 0) { can.db.begin -= can.db.limit, can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是第一页了") } },
+	next: function(event, can) { if (can.db.begin + can.db.limit < can.db.list.length) { can.db.begin += can.db.limit, can.onimport.page(can, can.db.list) } else { can.user.toast(can, "已经是最后一页了") } },
 })
 Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头像", "设置背景", "复制链接", "下载", "删除"],
 	_init: function(can, index) {
@@ -157,8 +143,18 @@ Volcanos(chat.ONDETAIL, {list: ["关闭", "上一个", "下一个", "设置头�
 	"下载": function(event, can) { can.user.download(can, path = can.onimport._file(can, can.db.list[can.order].path)) },
 	"删除": function(event, can) { can.runAction(event, nfs.TRASH, [can.db.list[can.order].path], function(msg) { can.user.toastSuccess(can, "删除成功") }, true) },
 })
-Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, nfs.FILE, nfs.SIZE, "position"],
-	height: function(can) { var height = can.Action(html.HEIGHT); return parseInt(height == html.HIDE? 0: height == "max"? can.ConfHeight(): height == ice.AUTO? can.base.Min(can.ConfHeight()/4, 200): height) },
+Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, mdb.LIMIT, mdb.TOTAL, mdb.NAME, nfs.SIZE, mdb.TIME, "position"],
+	progress: function(can, path, time) { return can.onexport.storage(can, path.split("?")[0], time) },
 	position: function(can, index, total) { total = total || can.max; return parseInt((index+1)*100/total)+"%"+" = "+(parseInt(index)+1)+nfs.PS+parseInt(total) },
-	key: function(can) { return [can.Conf(ctx.INDEX)].concat(can.core.List(arguments).slice(1)).join(":") },
+})
+Volcanos(chat.ONKEYMAP, {
+	_mode: {
+		plugin: {
+			Escape: function(event, can) { can.onaction.full(event, can) },
+			ArrowLeft: function(event, can) { can.ui.video.currentTime -= 15 },
+			ArrowRight: function(event, can) { can.ui.video.currentTime += 15 },
+			ArrowDown: function(event, can) { try { can.user.toast(can, "volume: "+parseInt((can.ui.video.volume -= 0.1)*100)) } catch (e) {} },
+			ArrowUp: function(event, can) { try { can.user.toast(can, "volume: "+parseInt((can.ui.video.volume += 0.1)*100)) } catch (e) {} },
+		},
+	},
 })

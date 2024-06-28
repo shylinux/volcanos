@@ -64,6 +64,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb, target) { if (target._hold) { return }
+		return
 		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}))
 		sub && can.onmotion.delay(can, sub.close, 300)
 	},

@@ -1,7 +1,8 @@
 Volcanos(chat.ONIMPORT, {
 	_process: function(can, msg) {
 		if (msg.IsErr()) { can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
-	if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true } },
+		if (can.onimport[msg.OptionProcess()]) { return can.core.CallFunc([can.onimport, msg.OptionProcess()], {can: can, sub: can.sub, msg: msg, arg: msg.Option("_arg")}), true }
+	},
 	_location: function(can, msg, arg) { can.user.jumps(arg) },
 	_replace: function(can, msg, arg) { location.replace(arg) },
 	_history: function(can, msg) { history.length == 1? can.user.close(): history.back() },
@@ -17,8 +18,7 @@ Volcanos(chat.ONIMPORT, {
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
-		can.page.style(can, can._target, "visibility", "")
-		can.page.style(can, can._output, "visibility", "")
+		can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
 		var height = can.ConfHeight()-can.onexport.actionHeight(can)-(can.onexport.statusHeight(can)||1), width = can.ConfWidth()
 		var tabs = false, tabHash = msg.Option("field.tabs"); if (tabHash) {
 			can.sub && can.sub.onimport.tabs(can.sub, [{name: tabHash.slice(0, 6)}], function() { can.onmotion.cache(can, function() { return tabHash }) }), tabs = true
@@ -126,10 +126,13 @@ Volcanos(chat.ONIMPORT, {
 		var _height = can.base.Max(sub._target.offsetHeight+border, can.ConfHeight()/2)
 		sub.onimport.size(sub, _height-border, can.ConfWidth()-(can.ui && can.ui.project? can.ui.project.offsetWidth: 0), true)
 	},
-	back: function(event, can) { can._history.pop(); for (var i = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
-		can.page.SelectArgs(can, can._option, "", function(target) { target.value = his[i++]||"", can.page.Select(can, target.parentNode, "span.value", function(target) { target.innerText = target.value||"" }) })
-		can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
-	} can.Update(event) },
+	back: function(event, can) { can._history.pop()
+		for (var i = 0, his = can._history.pop(); his; his = can._history.pop()) { if (his[0] == ctx.ACTION) { continue }
+			can.page.SelectArgs(can, can._option, "", function(target) { target.value = his[i++]||"", can.page.Select(can, target.parentNode, "span.value", function(target) { target.innerText = target.value||"" }) })
+			can.page.SelectArgs(can, can._action, "", function(target) { target.value = his[i++]||"" }); break
+		}
+		can.onexport.hash(can, ""), can.Update(event)
+	},
 })
 Volcanos(chat.ONACTION, {
 	list: ["刷新数据",
@@ -340,6 +343,13 @@ Volcanos(chat.ONEXPORT, {
 	session: function(can, key, value) { if (value) { value = JSON.stringify(value) }
 		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
+	storage: function(can, key, value) { if (value) { value = JSON.stringify(value) }
+		return can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
+	},
+	hash: function(can, hash) {
+		can.misc.SearchHash(can, hash), can.onexport.storage(can, "hash", hash)
+		return hash
+	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
 		if (!can.base.isIn(can.ConfIndex(), web.PORTAL)) {
@@ -353,7 +363,7 @@ Volcanos(chat.ONEXPORT, {
 		// if (can.sub && can.sub.onexport.link) { return can.sub.onexport.link(can.sub) }
 		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
-		var hash = can.misc.localStorage(can, [args.pod, args.cmd, "hash"])||""
+		var hash = can.onexport.storage(can, "hash")||""
 		can.base.isArray(hash) && (hash = hash.join(":"))
 		hash && (hash = "#"+hash)
 		return can.misc.MergePodCmd(can, args, true)+hash
