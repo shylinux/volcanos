@@ -266,11 +266,12 @@ Volcanos(chat.ONAPPEND, {
 			}})
 		}
 		can.core.List(list, function(item) {
+			item.value = can.sup && can.sup.onexport.session && can.sup.onexport.session(can.sup, "action:"+item.name||item[0]) || item.value
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
-				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
-					var button = event.target.value; can.onexport.session && can.onexport.session(can, "action:"+item[0], button)
+				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], value: item.value, values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
+					var button = event.target.value; can.onexport.session && can.onexport.session(can, "action:"+(item.name||item[0]), button)
 					can.onaction._select && can.onaction._select(event, can, item[0], button)
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
 					meta[button]? can.core.CallFunc(meta[button], [event, can, button]): can.Action(item[0], button)
@@ -1150,7 +1151,12 @@ Volcanos(chat.ONMOTION, {
 			can.user.toast(can, "filter out "+count+" lines")
 		}, 300)
 	},
-	cacheClear: function(can, key) { delete(can._cache_data[key])
+	cacheClear: function(can, key) {
+		if (!key) {
+			delete(can._cache_data), delete(can._output._cache)
+			return
+		}
+		delete(can._cache_data[key])
 		can.core.List(arguments, function(target, index) { index > 1 && target && target._cache && delete(target._cache[key]) })
 	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])

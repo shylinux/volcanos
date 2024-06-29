@@ -344,7 +344,7 @@ Volcanos(chat.ONEXPORT, {
 		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
 	storage: function(can, key, value) { if (value) { value = JSON.stringify(value) }
-		return can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
+		return can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key], value)
 	},
 	hash: function(can, hash) {
 		can.misc.SearchHash(can, hash), can.onexport.storage(can, "hash", hash)
@@ -352,9 +352,7 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		if (!can.base.isIn(can.ConfIndex(), web.PORTAL)) {
-			push(can.user.trans(can, can.ConfIndex(), can.Conf("help")))
-		}
+		if (!can.base.isIn(can.ConfIndex(), web.PORTAL)) { push(can.user.trans(can, can.ConfIndex(), can.Conf("help"))) }
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) }), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
 		can.user.title(list.join(" "))
 	},

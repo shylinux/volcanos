@@ -259,6 +259,7 @@ var code = {
 }
 var wiki = {
 	DRAW: "draw", WORD: "word", PORTAL: "portal",
+	FEEL: "feel",
 	TITLE: "title", BRIEF: "brief", REFER: "refer", SPARK: "spark", SHELL: "shell",
 	ORDER: "order", TABLE: "table", CHART: "chart", IMAGE: "image", VIDEO: "video",
 	FIELD: "field", LOCAL: "local", PARSE: "parse",
@@ -467,6 +468,8 @@ var icon = {
 	expire: "bi bi-clock-history",
 	
 	name: "bi bi-sort-alpha-down",
+	time: "bi bi-clock-history",
+	size: "bi bi-calculator",
 	sess: "bi bi-telephone-forward",
 	path: "bi bi-folder2", file: "bi bi-file-earmark-text", line: "bi bi-sort-numeric-down",
 	start: "bi bi-play-circle", stop: "bi bi-stop-circle",
