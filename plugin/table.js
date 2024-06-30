@@ -123,7 +123,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_item: function(can, item, cb, cbs) {
 		item._hash = item._hash||item.hash||item.zone||item.path||item.name
-		item._title = item._title||item.name||item.path||item.path||item.hash
+		item._title = item._title||item.name||item.path||item.zone||item.hash
 		item._select == undefined && can.db.hash[0] && (item._select = can.db.hash[0] == item._hash)
 		return {view: [[html.ITEM, item.type, item.role, item.status]], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item),

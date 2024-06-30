@@ -1,22 +1,32 @@
-fieldset.feel:not(.cmd)>form.option>div.item.file { display:none; }
+fieldset.feel>form.option>div.item.file { display:none; }
 body.mobile fieldset.feel>form.option>div.item.file { display:none; }
+fieldset.feel.fullscreen>div.action>div.item:not(.fullscreen) { display:none; }
+fieldset.feel>div.output>div.project>div.albums { display:flex; flex-wrap:wrap; }
+fieldset.feel>div.output>div.project>div.albums>div.item.album { border-bottom:var(--box-notice3); border-color:transparent; width:33.3%; display:flex; flex-direction:column; }
+fieldset.feel>div.output>div.project>div.albums>div.item.album.select { border-bottom:var(--box-notice3); border-right:none; }
+fieldset.feel>div.output>div.project>div.albums>div.item.album.create { height:calc(var(--project-width)/3 - 10px); font-size:42px; display:flex; justify-content:center; align-items:center; }
+fieldset.feel>div.output>div.project>div.albums>div.item.album img { height:calc(var(--project-width)/3 - 10px); width:100%; object-fit:cover; }
 fieldset.feel>div.output>div.project>div.item.select { border-width:3px; }
 fieldset.feel>div.output>div.project>div.item>img { padding:5px; }
 fieldset.feel>div.output>div.project>div.item>span.name { flex-grow:1; overflow:hidden; }
 fieldset.feel>div.output>div.project>div.item>span.progress { color:var(--notice-bg-color); margin-left:10px; }
 fieldset.feel>div.output>div.project>div.item>span.size { color:var(--disable-fg-color); font-size:var(--status-font-size); margin-left:10px; }
+fieldset.feel>div.output>div.project>div.item>span.time { color:var(--disable-fg-color); font-size:var(--status-font-size); margin-left:10px; }
 fieldset.feel>div.output>div.layout>div.display { overflow:hidden; position:relative; }
 fieldset.feel>div.output>div.layout>div.display:not(.hide) { height:100px; display:flex; justify-content:center; align-items:center; gap:10px; }
 fieldset.feel>div.output>div.layout>div.display>.select { border:var(--box-notice); border-width:3px; }
-fieldset.feel>div.output>div.layout>div.display>img { height:100px; width:100px; object-fit:cover; }
-fieldset.feel>div.output>div.layout>div.display>video { height:100px; width:100px; object-fit:cover; }
-fieldset.feel>div.output>div.layout>div.display>div.audio { word-break:break-all; height:100px; width:100px; display:flex; align-items:center; }
+fieldset.feel>div.output>div.layout>div.display>img { height:100px; width:100px; object-fit:contain; }
+fieldset.feel>div.output>div.layout>div.display>video { height:100px; width:100px; object-fit:contain; }
+fieldset.feel>div.output>div.layout>div.display>div.audio { word-break:break-all; height:100px; width:100px; display:flex; align-items:end; }
 fieldset.feel>div.output>div.layout>div.display>div.audio:not(.select) { border:var(--box-border); }
-fieldset.feel>div.output>div.layout>div.display>div.audio img.cover { height:94px; width:94px; position:absolute; }
-fieldset.feel>div.output>div.layout>div.display>div.audio span.name { z-index:5; }
-fieldset.feel>div.output>div.layout>div.display>img:hover { cursor:pointer; }
-fieldset.feel>div.output>div.layout>div.display>video:hover { cursor:pointer; }
-fieldset.feel>div.output>div.layout>div.display>div.audio:hover { cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>div.audio img.cover { height:98px; width:98px; position:absolute; }
+fieldset.feel>div.output>div.layout>div.display>div.audio.select img.cover { height:94px; width:94px; position:absolute; }
+fieldset.feel>div.output>div.layout>div.display>div.audio span.name { background-color:var(--hover-bg-color); color:white; z-index:5; }
+fieldset.feel>div.output>div.layout>div.display>*.select { background-color:var(--hover-bg-color); }
+fieldset.feel>div.output>div.layout>div.display>*:hover { background-color:var(--hover-bg-color); cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>img:hover { background-color:var(--hover-bg-color); cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>video:hover { background-color:var(--hover-bg-color); cursor:pointer; }
+fieldset.feel>div.output>div.layout>div.display>div.audio:hover { background-color:var(--hover-bg-color); cursor:pointer; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle { font-size:32px; padding:5px; padding-top:32px; height:100px; position:absolute; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.prev { left:0; }
 fieldset.feel>div.output>div.layout>div.display>div.toggle.next { right:0; }

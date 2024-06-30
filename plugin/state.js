@@ -352,7 +352,7 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		if (!can.base.isIn(can.ConfIndex(), web.PORTAL)) { push(can.user.trans(can, can.ConfIndex(), can.Conf("help"))) }
+		if (!can.base.isIn(can.ConfIndex(), web.PORTAL, code.VIMER, wiki.FEEL)) { push(can.user.trans(can, can.ConfIndex(), can.Conf("help"))) }
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) }), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
 		can.user.title(list.join(" "))
 	},
@@ -361,10 +361,8 @@ Volcanos(chat.ONEXPORT, {
 		// if (can.sub && can.sub.onexport.link) { return can.sub.onexport.link(can.sub) }
 		var args = can.Option(); args.pod = can.ConfSpace()||can.misc.Search(can, ice.POD), args.cmd = can.ConfIndex()
 		can.core.Item(args, function(key, value) { key != ice.POD && !value && delete(args[key]) })
-		var hash = can.onexport.storage(can, "hash")||""
-		can.base.isArray(hash) && (hash = hash.join(":"))
-		hash && (hash = "#"+hash)
-		return can.misc.MergePodCmd(can, args, true)+hash
+		var hash = can.onexport.storage(can, "hash")||""; can.base.isArray(hash) && (hash = hash.join(":")), hash && (hash = "#"+hash)
+		return can.base.replaceAll(can.misc.MergePodCmd(can, args, true), "%2F", "/")+hash
 	},
 	close: function(can, msg) {},
 })

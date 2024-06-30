@@ -266,7 +266,8 @@ Volcanos(chat.ONAPPEND, {
 			}})
 		}
 		can.core.List(list, function(item) {
-			item.value = can.sup && can.sup.onexport.session && can.sup.onexport.session(can.sup, "action:"+item.name||item[0]) || item.value
+			var value = can.sup && can.sup.onexport.session && can.sup.onexport.session(can.sup, "action:"+item.name||item[0]) || item.value
+			if (value) { item.value = value }
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
@@ -330,7 +331,7 @@ Volcanos(chat.ONAPPEND, {
 			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
-				msg.RunAction(event, sub, cmds) || can.Update(event, can.Input(cmds, !silent), cb, silent)
+				msg.RunAction(event, sub, cmds) || can.Update(event, cmds||can.Input(cmds, !silent), cb, silent)
 			}, can._outputs = can._outputs||[], can._outputs.push(sub), sub.sup = can, can.sub = sub
 			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
 			sub._trans = can.base.Copy(can.base.Copy(sub._trans||{}, can._trans), can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
@@ -1052,7 +1053,7 @@ Volcanos(chat.ONMOTION, {
 		can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollTop += step }, function() { parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) })
 	},
 	clearFloat: function(can) {
-		var list = ["fieldset.input.float", "div.input.float", "div.carte.float"]; for (var i = 0; i < list.length; i++) {
+		var list = ["fieldset.input.float", "div.input.float", "div.carte.float", "div.toast.float"]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
 		}
 	},
@@ -1151,13 +1152,11 @@ Volcanos(chat.ONMOTION, {
 			can.user.toast(can, "filter out "+count+" lines")
 		}, 300)
 	},
-	cacheClear: function(can, key) {
-		if (!key) {
-			delete(can._cache_data), delete(can._output._cache)
-			return
-		}
-		delete(can._cache_data[key])
-		can.core.List(arguments, function(target, index) { index > 1 && target && target._cache && delete(target._cache[key]) })
+	cacheClear: function(can, key, target) {
+		if (key) { delete(can._cache_data[key]) } else { delete(can._cache_data) }
+		can.core.List(arguments, function(target, index) { if (index > 1 && target && target._cache) {
+			if (key) { delete(target._cache[key]) } else { delete(target._cache), delete(target._cache_key) }
+		} })
 	},
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key
