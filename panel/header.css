@@ -6,11 +6,11 @@ fieldset.Header>div.output div.item.state { padding:13.5px 10px; float:right; }
 fieldset.Header>div.output div.item.layout>i { margin-left:var(--input-padding); }
 fieldset.Header>div.output div.item.layout:not(:hover)>i { visibility:hidden; }
 fieldset.Header>div.output div.item.layout { padding-right:0; }
-fieldset.Header>div.output div.item.theme { user-select:none; }
+fieldset.Header>div.output div.item.theme { white-space:pre; user-select:none; }
 fieldset.Header>div.output div.item.theme>i { margin-right:0; }
 fieldset.Header>div.output div.item.theme>i:last-child { color:var(--disable-fg-color); }
 fieldset.Header>div.output div.item.theme>i.bi-moon-stars:last-child { font-size:12px; }
-fieldset.Header>div.output div.item.language { user-select:none; }
+fieldset.Header>div.output div.item.language { white-space:pre; user-select:none; }
 fieldset.Header>div.output div.item.language>span:last-child { color:var(--disable-fg-color); }
 fieldset.Header>div.output div.item.usernick>i { margin-left:var(--input-padding); }
 fieldset.Header>div.output div.item.usernick:not(:hover)>i { visibility:hidden; }

@@ -244,7 +244,7 @@ div.project div.item>div.icon:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(:hover)>div.icon { display:none; }
 div.project div.item:not(.button)>i:last-child { position:absolute; right:var(--input-padding); }
 div.project div.item:not(.button)>i:last-child:hover { background-color:var(--hover-bg-color); }
-body:not(.mobile) div.project div.item:not(.button):not(:hover)>i:last-child { display:none; }
+div.project div.item:not(.button):not(.select)>i:last-child { display:none; }
 body.mobile div.project div.item>i:last-child { display:none; }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
@@ -509,7 +509,7 @@ span.keyword { color:var(--code-keyword); } span.function { color:var(--code-fun
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.icon:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-body:not(.mobile) div.item:not(.text):hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+body:not(.mobile):not(.pad) div.item:not(.text):hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.select:not(.button) { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.item.button.danger input:hover[type=button] { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 div.item.button.notice input:hover[type=button] { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
