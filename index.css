@@ -243,7 +243,7 @@ div.project div.item>div.icon { position:absolute; right:var(--input-padding); }
 div.project div.item>div.icon:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(:hover)>div.icon { display:none; }
 div.project div.item:not(.button)>i:last-child { position:absolute; right:var(--input-padding); }
-div.project div.item:not(.button)>i:last-child:hover { background-color:var(--hover-bg-color); }
+div.project div.item:not(.button)>i:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(.button):not(.select)>i:last-child { display:none; }
 body.mobile div.project div.item>i:last-child { display:none; }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
