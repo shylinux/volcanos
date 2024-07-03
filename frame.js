@@ -703,8 +703,8 @@ Volcanos(chat.ONAPPEND, {
 				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
 				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option(), {_toast: target.name}), [ctx.ACTION, target.name], function(msg) {
 					can.page.ClassList.del(can, target, "disable")
-					can.page.ClassList.del(can, can._fields, "form")
-					can.page.ClassList.del(can, can._fields, "output")
+					// can.page.ClassList.del(can, can._fields, "form")
+					// can.page.ClassList.del(can, can._fields, "output")
 					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
 				}) })
 			}

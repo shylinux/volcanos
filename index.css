@@ -438,7 +438,7 @@ fieldset.output>legend, fieldset.output>form.option, fieldset.output>div.action:
 div.action, div.output, div.status, div.project, div.content, div.profile, div.display, table.content, table.content td, div.list, div.code, div.story, div.float, fieldset.float { overflow:auto; }
 legend, form.option>div.item:not(.hide), div.action>div.item, div.action>div.tabs, fieldset>div.status>div.item { float:left; display:flex; align-items:center; }
 fieldset.story, fieldset>div.output, fieldset>div.status, div.output>div.project div.item, div.content:not(.item), div.code, div.story[data-type=spark] { clear:both; }
-fieldset.story { position:sticky; left:0; }
+// fieldset.story { position:sticky; left:0; }
 fieldset.auto, fieldset.full, fieldset.float { position:fixed; }
 fieldset.full { position:fixed; left:0; top:0; }
 fieldset.plug { position:absolute; bottom:calc(var(--action-height) + var(--plugin-padding)); right:var(--plugin-padding); }
@@ -650,6 +650,8 @@ body.void fieldset.web.chat.island.portal>div.status { display:none; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
 div.output>div.code video { max-width:100%; }
 div.story[data-type=spark] { border-left:var(--box-notice3); padding:var(--input-padding) var(--table-padding); }
+div.story[data-type=spark][data-name=shell] { box-shadow:var(--plugin-box-shadow); }
+fieldset.inner.result>div.output { border-left:var(--box-danger3); }
 iframe { height:var(--iframe-height); width:100%; }
 fieldset>form.option>div.item.text.cmd { width:100%; }
 fieldset>form.option>div.item.text.cmd>input { width:100%; }

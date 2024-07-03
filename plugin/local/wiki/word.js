@@ -76,11 +76,12 @@ Volcanos(chat.ONIMPORT, {
 		can.core.Item(item, function(key, value) { if (can.base.beginWith(key, "meta.")) { can.core.Value(item, key, value), delete(item[key]) } })
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
-			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) {
-				size(can, height, width, auto, mode), can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
-				can.onmotion.delay(can, function() { sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden") })
-			}
-			sub.onimport.size(sub, height, width, true)
+			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode)
+				if (can.isCmdMode()) {
+					can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
+					sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden")
+				}
+			}, sub.onimport.size(sub, height, width, true)
 		}, can._output, target)
 	},
 	layout: function(can) { padding = can.Conf(html.PADDING)
