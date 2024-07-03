@@ -1,8 +1,7 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, wiki.FEEL)
-		can.user.isMobile && (can.onaction.list = [web.UPLOAD])
 		can.run({}, [], function(_msg) { can.db.albums = _msg
-			can.ui = can.onappend.layout(can), cb && cb(msg)
+			can.ui = can.onappend.layout(can), can.user.isMobile && (can.onaction.list = [web.UPLOAD]), cb && cb(msg)
 			if (can.base.isIn(can.Action("sort")||"", mdb.TIME, "")) {
 				can.onimport._project(can, msg)
 			} else {
@@ -26,8 +25,6 @@ Volcanos(chat.ONIMPORT, {
 			can.Update(event, [ctx.ACTION, mdb.CREATE])
 		}}])
 		can.ui.filter = can.onappend.filter(can, can.ui.project)
-		// var action = can.page.Append(can, can.ui.project, ["action"])._target
-		// can.onappend._action(can, can.onaction.list, action)
 		msg.Table(function(item) { item.name = can.base.trimPrefix(item.path, can.Option(nfs.PATH))
 			can.base.endWith(item.path, "/") && (item.nick = [{img: can.misc.Resource(can, "usr/icons/dir.png")}, {text: [item.name, "", mdb.NAME]}])
 			can.base.endWith(item.path, nfs.PS)? can.onimport.item(can, item, function(event) { can.Option(nfs.PATH, item.path) && can.Update(event) }): can.db.list.push(item)
@@ -54,8 +51,7 @@ Volcanos(chat.ONIMPORT, {
 		if (can.misc.isImage(can, item.path)) { can.onmotion.delay(can, function() { can.onaction.playnext(can) }, 5000) }
 		if (!can.onmotion.cache(can, function() { return item.path }, can.ui.content)) { var progress
 			item._cb = function(event, video) { can.ui.video = item._video = video
-				var p = parseInt(video.currentTime*100/video.duration)
-				can.page.Select(can, target, "span.progress", function(target) { target.innerText = p+"%" })
+				var p = parseInt(video.currentTime*100/video.duration); can.page.Select(can, target, "span.progress", function(target) { target.innerText = p+"%" })
 				if (!progress) { progress = can.page.Append(can, can.ui.content, ["progress"])._target } can.page.style(can, progress, html.WIDTH, can.ui.content.offsetWidth*p/100)
 			}
 			var _target = can.onimport.file(can, item.path, item, index, can.ui.content, true); _target.focus()
@@ -116,17 +112,10 @@ Volcanos(chat.ONFIGURE, {
 	mp3: function(can, item, auto) { return can.onfigure.audio(can, item, auto) },
 })
 Volcanos(chat.ONACTION, {
-	_trans: {
-		"fullscreen": "全屏",
-		icons: {
-			"fullscreen": "bi bi-fullscreen",
-		},
-	},
 	list: [
-		// "fullscreen",
 		"mkdir", "upload", "record1", "record2",
 		["sort", mdb.TIME, nfs.PATH, nfs.SIZE],
-		["order", "loop", "range", "random"],
+		["order", "repeat", "range", "loop", "random"],
 	],
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) {
 		var height = window.innerHeight, width = window.innerWidth
@@ -177,11 +166,14 @@ Volcanos(chat.ONACTION, {
 		} can.onimport._project(can, can._msg)
 	},
 	playnext: function(can) {
-		if (can.Action("order") == "loop") {
+		if (can.Action("order") == "repeat") {
 			if (can.ui.video) { can.ui.video.currentTime = 0, can.ui.video.play() }
 		}
 		if (can.Action("order") == "range") { var next = can.ui.current._target.nextSibling
 			next && can.onmotion.delay(can, function() { next.click() }, 300)
+		}
+		if (can.Action("order") == "loop") { var next = can.ui.current._target.nextSibling
+			next? can.onmotion.delay(can, function() { next.click() }, 300): can.db.list[0]._target.click()
 		}
 		if (can.Action("order") == "random") {
 			can.db.list[parseInt(Math.random()*can.db.list.length)]._target.click()

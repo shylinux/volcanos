@@ -558,7 +558,7 @@ fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
 fieldset.input table.checkbox.content td:first-child { box-shadow:none; }
 fieldset.input table.checkbox.content th.select { border:none; }
-fieldset.input>span.close { padding:var(--input-padding); position:absolute; top:0; right:0; line-height:16px; }
+fieldset.input>span.close { line-height:16px; padding:var(--input-padding); position:absolute; top:0; right:0; z-index:5; }
 fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.float { background-color:var(--float-bg-color); }
 div.carte div.item:hover { background-color:var(--hover-bg-color); }
