@@ -227,7 +227,7 @@ div.project div.item { position:relative; }
 div.project div.item.select { border-right:var(--item-notice); }
 div.project>div.item.select { position:sticky; top:32px; bottom:0; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
-body.mobile div.project div.item:not(.album):not(.hide) { padding:20px var(--input-padding); }
+// body.mobile div.project div.item:not(.album):not(.hide) { padding:20px var(--input-padding); }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
 div.project>div.item:not(:hover) input:not([type=button]) { border-right:0; }
 div.project>div.item:not(:hover) input:not([type=button]) { border-left:0; }
@@ -815,7 +815,7 @@ body.mobile:not(.landscape) fieldset.plugin.cmd:not(.output)>div.header { displa
 body.mobile div.output.card { overflow-x:hidden; }
 body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:2; }
 // body.mobile div.output>div.project { flex:0 0 240px; width:240px; }
-body.mobile div.output>div.project div.item:not(.album) { height:var(--action-height); }
+// body.mobile div.output>div.project div.item:not(.album) { height:var(--action-height); }
 body.mobile div.output>div.project { background-color:var(--plugin-bg-color); }
 body.mobile fieldset>div.output>div.code>img { max-width:390px; }
 body.mobile fieldset>div.output>div.code>div.form input[type=button] { width:100%; }

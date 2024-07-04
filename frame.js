@@ -1161,7 +1161,7 @@ Volcanos(chat.ONMOTION, {
 	cache: function(can, next) { var list = can.base.getValid(can.base.Obj(can.core.List(arguments).slice(2)), [can._output])
 		var data = can._cache_data = can._cache_data||{}, old = list[0]._cache_key
 		var key = next(function(save) { if (old) { data[old] = save } }, function(hash, load) { var bak = data[hash]; if (bak) { load(bak) } return hash })
-		if (key == old) { return true }
+		if (can.base.isArray(key)) { key = key.join(":") } if (key == old) { return true }
 		can.core.List(list, function(target) { target && target._cache_key && can.page.Cache(target._cache_key, target, target.scrollTop+1) })
 		return key && can.core.List(list, function(target) { if (!target) { return }
 			var pos = can.page.Cache(target._cache_key = key, target); if (pos) { target.scrollTo && target.scrollTo(0, pos-1); return target }
