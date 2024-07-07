@@ -179,8 +179,9 @@ div.output.card>div.item { padding:var(--plugin-padding); margin:var(--plugin-pa
 div.output.card>div.item { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 div.output.card>div.item:hover { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
-div.output.card>div.item>div.title { border-bottom:var(--box-border); font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; overflow:hidden; }
-div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding); }
+div.output.card>div.item>div.title { border-bottom:var(--box-border); font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; }
+div.output.card>div.item>div.title>div.title { overflow:auto }
+div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding); white-space:pre; }
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 div.item img[src*=".ico"] { padding:3px; }
