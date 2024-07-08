@@ -77,10 +77,8 @@ Volcanos(chat.ONIMPORT, {
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
 			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode)
-				if (can.isCmdMode()) {
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
 					sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden")
-				}
 			}, sub.onimport.size(sub, height, width, true)
 		}, can._output, target)
 	},
@@ -88,8 +86,6 @@ Volcanos(chat.ONIMPORT, {
 		if (can.sup._navmenu) { can.ConfWidth(can.ConfWidth()-can.sup._navmenu.offsetWidth)
 			can.page.style(can, can.sup._navmenu, html.HEIGHT, can.ConfHeight())
 			can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(), html.WIDTH, can.ConfWidth(), "clear", "none", "float", "left")
-		} else {
-			// can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 		}
 		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, can.base.Min(can.ConfHeight()/2, 300, 600), (can.ConfWidth()-2*padding), true) })
 		can.page.Select(can, can._output, html.IMG, function(target) { can.page.style(can, target, html.MAX_HEIGHT, can.base.Max(can.ConfHeight(), 420)) })
