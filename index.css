@@ -977,7 +977,7 @@ fieldset.form>div.output>div.code>input[type=button] { font-size:24px; border:va
 fieldset>div.output.form { padding:20px; display:flex; flex-direction:column; align-items:center; }
 fieldset>div.output.form>div.item { text-align:left; margin:10px; height:unset; }
 fieldset>div.output.form>div.item>div.item { height:unset; }
-fieldset>div.output.form>div.item>span { padding:var(--input-padding); }
+fieldset>div.output.form>div.item>span { padding:var(--input-padding); white-space:pre; }
 fieldset>div.output.form>div.item>span.need { color:red; }
 fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; width:var(--form-width); }
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--box-notice); }
