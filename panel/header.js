@@ -4,7 +4,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport._avatar(can, msg, target), can.onimport._background(can, msg, target)
 	},
 	_title: function(can, msg, target) {
-		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [decodeURIComponent(can.misc.Search(can, ice.POD)||location.host),]), function(item) {
+		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [can.user.title()||decodeURIComponent(can.misc.Search(can, ice.POD)||location.host),]), function(item) {
 			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 		})
 	},
@@ -94,6 +94,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.email = msg.Option(aaa.EMAIL)
 			can.user.info.avatar = msg.Option(aaa.AVATAR)
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
+			can.user.info.titles = msg.Option("titles")
 			can.user.info.favicon = msg.Option("favicon")
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}

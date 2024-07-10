@@ -60,6 +60,11 @@ Volcanos(chat.ONIMPORT, {
 		can.page.OrderTable(can, target), can.page.ClassList.add(can, target, chat.CONTENT)
 		can.page.Select(can, target, html.TD, function(item) { can.onmotion.copy(can, item) })
 	},
+	order: function(can, meta, target) {
+		target.onclick = function(event) {
+			can.user.copy(event, can, event.target.innerText)
+		}
+	},
 	chart: function(can, meta, target) {
 		if (!meta.fg && !meta.bg) { target.className.baseVal = "story auto" }
 		target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
@@ -77,8 +82,8 @@ Volcanos(chat.ONIMPORT, {
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
 			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode)
-					can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
-					sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden")
+				can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
+				sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden")
 			}, sub.onimport.size(sub, height, width, true)
 		}, can._output, target)
 	},
