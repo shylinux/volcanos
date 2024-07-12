@@ -131,8 +131,8 @@ table.content th.select[data-asc="0"] i.bi-sort-up { display:none; }
 table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content td.option { cursor:pointer; }
 table.content td { padding:var(--table-padding); }
-table.content td img { height:48px; width:auto; }
 table.content td i { padding:var(--input-padding); }
+table.content:not(.detail) td img { height:48px; width:auto; }
 table.content:not(.detail) td input.icons { display:none; }
 table.content.checkbox th:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; width:20px; }
 table.content.checkbox td:first-child { text-align:center; padding:var(--table-padding); position:sticky; left:2px; width:20px; }
