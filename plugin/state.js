@@ -42,7 +42,9 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_float: function(can, msg) { can.onimport._field(can, msg, function(sub) { can.onmotion.float(sub) }) },
 	_hold: function(can, msg, arg) { can.user.toast(can, arg||ice.SUCCESS) },
-	_back: function(can) { can.onimport.back({}, can) },
+	_back: function(can, msg, arg) {
+		debugger
+	arg? (history.go(arg), can.onmotion.delay(can, function() { can.onimport.back({}, can) })): can.onimport.back({}, can) },
 	_rich: function(can, msg) { var sub = can.sub
 		function _rich() {
 			if (sub._rich_list.length == 0) { return } if (sub._rich_running) { return } sub._rich_running = true
