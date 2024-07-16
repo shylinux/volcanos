@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {
 			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
 					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
-					{view: wiki.TITLE, list: [{text: value.name}, can.onappend.label(can, value)]},
+					{view: wiki.TITLE, list: [{text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}, can.onappend.label(can, value)]},
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON)
 					can.page.Select(can, target, html.INPUT, function(target) { can.onappend.style(can, target.name, target) })
@@ -190,9 +190,9 @@ Volcanos(chat.ONIMPORT, {
 					if (!next) { return true } next && next.click()
 				} can.page.Remove(can, target), can.onexport.tabs && can.onexport.tabs(can)
 			}
-			return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [
-				can.onimport._icons(can, tabs), can.onimport._nick(can, tabs), {icon: mdb.DELETE, onclick: function(event) { tabs._target._close(), can.onkeymap.prevent(event) }},
-			], onclick: function(event) {
+			return {view: [[html.TABS, tabs.type, tabs.role, tabs.status]], title: tabs.title||tabs.text, list: [].concat(
+				can.onimport._icons(can, tabs), can.onimport._nick(can, tabs), {icon: mdb.DELETE, onclick: function(event) { tabs._target._close(), can.onkeymap.prevent(event) }}
+			), onclick: function(event) {
 				can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, tabs._target) })
 				if (can.page.ClassList.has(can, tabs._target, html.SELECT)) { return }
 				can.onmotion.select(can, action, html.DIV_TABS, tabs._target), can.base.isFunc(cb) && cb(event, tabs)

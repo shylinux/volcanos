@@ -182,6 +182,7 @@ div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { border-bottom:var(--box-border); font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; }
 div.output.card>div.item>div.title>div.title { overflow:auto }
 div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding); white-space:pre; }
+div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg-color); }
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 div.item img[src*=".ico"] { padding:3px; }
@@ -597,6 +598,7 @@ fieldset>div.action div.item.button { border-radius:var(--button-radius); }
 fieldset.input.date.float>div.action div.item.button:last-child { margin-right:0; }
 fieldset>div.action div.item:not(.state) { box-shadow:var(--input-box-shadow); }
 fieldset>div.action>div.tabs:not(.state).select { box-shadow:var(--legend-box-shadow); }
+fieldset>div.action>div.tabs:not(.state) span.exists { color:var(--notice-bg-color); }
 fieldset>div.action>div.cmds:not(.state) { box-shadow:var(--legend-box-shadow); }
 div.output.card>div.item { box-shadow:var(--th-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
 div.output.card>div.item:hover { box-shadow:var(--notice-box-shadow); }
