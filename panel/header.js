@@ -94,7 +94,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.email = msg.Option(aaa.EMAIL)
 			can.user.info.avatar = msg.Option(aaa.AVATAR)
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
-			can.user.info.titles = msg.Option("titles")
+			can.user.info.titles = msg.Option("titles")||document.title
 			can.user.info.favicon = msg.Option("favicon")
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}

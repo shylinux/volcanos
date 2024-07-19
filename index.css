@@ -454,7 +454,7 @@ fieldset.vimer>div.output div.project fieldset.plug div.output.card>div.item { m
 div.float { position:fixed; }
 div.output { position:relative; } div.content { position:relative; }
 div.output>div.code { position:sticky; left:0; }
-div.output>div.code>img { margin:5px; }
+div.output>div.code>img { margin:5px; max-width:100%; }
 div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
 div.layout.flex>* { float:left; clear:none; }
 div.flex:not(.hide) { display:flex; align-items:center; justify-content:center; }
@@ -484,7 +484,7 @@ input[type=button] { border:var(--input-border); border-radius:var(--button-radi
 input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-input[type=button].danger { border:var(--box-danger); }
+input[type=button].danger { color:var(--danger-bg-color) !important; }
 input[type=button].notice { border:var(--box-notice); }
 table.content tr:hover { background-color:var(--tr-hover-bg-color); }
 table.content tr.select { background-color:var(--tr-hover-bg-color); }

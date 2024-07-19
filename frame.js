@@ -195,6 +195,11 @@ Volcanos(chat.ONAPPEND, {
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
 			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, [{view: "header", list: can.user.header(sub)}], sub._output, sub._fields||sub._target)
+			sub.isCmdMode() && can.onmotion.delay(can, function() { wx.ready(function () {
+				wx.updateAppMessageShareData({title: sub.Conf("help"), desc: "", link: location.href, imgUrl: sub.Conf(mdb.ICONS)})
+				wx.updateTimelineShareData({title: sub.Conf("help"), link: location.href, imgUrl: sub.Conf(mdb.ICONS)})
+			}) }, 300)
+			
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -613,6 +618,7 @@ Volcanos(chat.ONAPPEND, {
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
 			if (key == mdb.ICON && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg")? img(can.misc.Resource(can, data[key], data[ice.POD]||data[web.SPACE])): "<i class='"+value+"'></i>" }
 			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if (key == aaa.AVATAR && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			// if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
 			// if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
