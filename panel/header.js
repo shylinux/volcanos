@@ -72,8 +72,7 @@ Volcanos(chat.ONIMPORT, {
 })
 Volcanos(chat.ONACTION, {_init: function(can) {},
 	onsize: function(can) {
-		can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth)
-		can.onimport.theme(can)
+		can.ConfHeight(can._target.offsetHeight), can.ConfWidth(can._target.offsetWidth), can.onimport.theme(can)
 	},
 	onmain: function(can) {
 		if (window.parent == window && can.misc.Search(can, ice.MSG_SESSID) && can.misc.CookieSessid(can, can.misc.Search(can, ice.MSG_SESSID)) && !can.user.isMailMaster) {
@@ -86,22 +85,23 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
 			if (p && location.pathname == web.BASIC_LOGIN) { return location.replace(can.base.MergeURL(p, ice.MSG_SESSID, can.misc.CookieSessid(can))) }
 			var p = can.misc.Search(can, ice.BACK); if (p && location.pathname == web.CHAT_SSO) { return location.reload() }
-			can.user.info.usernick = can.Conf(aaa.USERNICK)
-			can.user.info.username = msg.Option(ice.MSG_USERNAME)
-			can.user.info.userrole = msg.Option(ice.MSG_USERROLE)
 			can.user.info.nodetype = msg.Option(ice.MSG_NODETYPE)
+			can.user.info.nodename = msg.Option(ice.MSG_NODENAME)
+			can.user.info.userrole = msg.Option(ice.MSG_USERROLE)
+			can.user.info.username = msg.Option(ice.MSG_USERNAME)
+			can.user.info.usernick = can.Conf(aaa.USERNICK)
 			can.user.info.repos = msg.Option(nfs.REPOS)
 			can.user.info.email = msg.Option(aaa.EMAIL)
 			can.user.info.avatar = msg.Option(aaa.AVATAR)
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
-			can.user.info.titles = msg.Option("titles")||document.title
 			can.user.info.favicon = msg.Option("favicon")
+			can.user.info.titles = msg.Option("titles")||document.title
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
 			// can.page.requireModules(can, [msg.Option("icon.lib")])
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
-				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)}))
+				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
 			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
 			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))

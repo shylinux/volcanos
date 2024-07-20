@@ -194,12 +194,9 @@ Volcanos(chat.ONAPPEND, {
 				}) })
 			}), can.base.isFunc(cb) && cb(sub)
 			if (sub.isOutputStyle()) { return } if (can.user.isMobile && !can.user.isLandscape()) { return }
-			sub.isCmdMode() && !can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, [{view: "header", list: can.user.header(sub)}], sub._output, sub._fields||sub._target)
-			sub.isCmdMode() && can.onmotion.delay(can, function() { wx.ready(function () {
-				wx.updateAppMessageShareData({title: sub.Conf("help"), desc: "", link: location.href, imgUrl: sub.Conf(mdb.ICONS)})
-				wx.updateTimelineShareData({title: sub.Conf("help"), link: location.href, imgUrl: sub.Conf(mdb.ICONS)})
-			}) }, 300)
-			
+			if (!sub.isCmdMode()) { return }
+			!can.base.isIn(meta.index, web.CODE_VIMER, web.CODE_INNER, web.CHAT_MACOS_DESKTOP) && can.page.insertBefore(can, [{view: "header", list: can.user.header(sub)}], sub._output, sub._fields||sub._target)
+			can.user.agent.cmd = sub, can.user.agent.init && can.user.agent.init(sub)
 		}); return sub
 	},
 	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
@@ -364,6 +361,8 @@ Volcanos(chat.ONAPPEND, {
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""),
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.page.style(can, can._output, "visibility", "", "position", ""), can.page.Remove(can, output_old)
+				can.isCmdMode() && (can.user.agent.cmd = can)
+				can.isCmdMode() && can.user.agent.init && can.user.agent.init(can)
 			}, target: output}), msg.Defer()
 		})
 	},

@@ -41,8 +41,8 @@ var ice = {
 	MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	
 	MSG_COST: "sess.cost", MSG_MODE: "sess.mode",
-	MSG_NODETYPE: "node.type", TABLE_CHECKBOX: "table.checkbox",
-	FROM_DAEMON: "from.daemon",
+	MSG_NODETYPE: "node.type", MSG_NODENAME: "node.name",
+	TABLE_CHECKBOX: "table.checkbox", FROM_DAEMON: "from.daemon",
 	
 	PROCESS_REWRITE: "_rewrite",
 	PROCESS_FIELD: "_field",
@@ -390,6 +390,7 @@ var html = {
 	CONFIRM: "confirm", CLOSE: "close", CLICK: "click", FOCUS: "focus", BLUR: "blur",
 	TABLE: "table", THEAD: "thead", TBODY: "tbody", TR: "tr", TH: "th", TD: "td",
 	HEADER: "header", NAV: "nav", MAIN: "main", ASIDE: "aside", FOOTER: "footer",
+	NEED: "need", MUST: "must",
 	FAVICON: "favicon",
 	
 	BACKGROUND_COLOR: "background-color", COLOR: "color",
