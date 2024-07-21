@@ -99,7 +99,6 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
-			// can.page.requireModules(can, [msg.Option("icon.lib")])
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
 			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
@@ -112,7 +111,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 				var tool = can._root.Action._conf.tool
 				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))
-				|| can.misc.Search(can, web.SHARE) || tool && can.base.isIn(can.user.info._cmd = tool[0]._command, "web.chat.oauth.client", web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
+					|| can.misc.Search(can, web.SHARE) || tool && can.base.isIn(can.user.info._cmd = tool[0]._command, "web.chat.oauth.client", web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
 				can.onlayout._init(can), can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
 		})

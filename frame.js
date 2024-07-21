@@ -317,7 +317,7 @@ Volcanos(chat.ONAPPEND, {
 			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
 				if (can.base.isIn(cmds[1], ctx.COMMAND)) { return }
-				return can._toast || can.user.toastSuccess(can, cmds[1], ice.SUCCESS), can.Update()
+				return can._toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
 			} }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})
@@ -361,8 +361,8 @@ Volcanos(chat.ONAPPEND, {
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""),
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.page.style(can, can._output, "visibility", "", "position", ""), can.page.Remove(can, output_old)
-				can.isCmdMode() && (can.user.agent.cmd = can)
-				can.isCmdMode() && can.user.agent.init && can.user.agent.init(can)
+				can.isCmdMode() && (can.user.agent.cmd = can), can.isCmdMode() && can.user.agent.init && can.user.agent.init(can)
+				can.page.Select(can, document.body, "div.loading", function(target) { can.onmotion.hidden(can, target) })
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -648,6 +648,8 @@ Volcanos(chat.ONAPPEND, {
 					function onclick() { run(event, mdb.MODIFY, [key, ice.FALSE]); return true }
 				}
 			}
+			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
+			if (key == ctx.ACTION && !value && msg.IsDetail()) { return }
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): _value, html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target

@@ -268,7 +268,6 @@ Volcanos(chat.ONIMPORT, {
 		}, target, field)
 	},
 	float: function(can, index, args) { args = args||[]
-		can.user.toast(can, can.user.isMobile)
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
 })
