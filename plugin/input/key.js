@@ -26,7 +26,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		}
 		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
-		can.onmotion.clear(can), can.onappend.table(can, msg, function(value, key, index, item) { value = item[key]
+		can.onmotion.clear(can), can.onappend.table(can.sup, msg, function(value, key, index, item) { value = item[key]
 			if (msg.append.length == 1 && index < 100 && list[value]) { return } list[value] = true
 			return {text: [value, html.TD, [value == ""? html.HR: "", key]], style: msg.append && msg.append.length == 1? kit.Dict(html.MIN_WIDTH, target.offsetWidth-16): {}, onclick: function(event) {
 				can.onengine.signal(can, "onevent", can.request(event))
@@ -36,7 +36,7 @@ Volcanos(chat.ONFIGURE, {key: {
 				can.onappend.style(can, "i-"+index, target.parentNode)
 				// can.onappend.style(can, "s-"+can.base.replaceAll(item[name], "/", "_"), target.parentNode)
 			}}
-		})
+		}, can._output)
 		can.showIcons = function(value, icons, title) { can.ui = can.ui||{}
 			if (!can.ui.img) {
 				can.ui.img = can.page.insertBefore(can, [{type: html.IMG}], target)
