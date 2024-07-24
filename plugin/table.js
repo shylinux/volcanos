@@ -267,7 +267,7 @@ Volcanos(chat.ONIMPORT, {
 			sub.onaction.close = function() { can.onmotion.hidden(can, target) }, can.base.isFunc(cb) && cb(sub)
 		}, target, field)
 	},
-	float: function(can, index, args) { args = args||[]
+	_float: function(can, index, args) { args = args||[]
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
 })
