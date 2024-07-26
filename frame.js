@@ -6,7 +6,8 @@ Volcanos(chat.ONENGINE, {
 				sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, sub, cmds, cb) }
 				can.core.Item(sub.onplugin, function(key, cmd) { sub.onplugin.hasOwnProperty(key) && can.base.isFunc(cmd) && can.onengine.plugin(sub, can.core.Keys(ice.CAN, key), cmd) })
 				can.core.ItemCB(sub.onaction, function(key, cb) { can.onengine.listen(can, key, function(msg) { can.core.CallFunc(cb, {event: msg._event, can: sub, msg: msg}) }) })
-				can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
+				// can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: next, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
+				next(), can.core.CallFunc([sub.onaction, chat._INIT], {can: sub, cb: function() {}, target: sub._target}), delete(sub._history), delete(sub._conf.feature)
 			}, target)
 		}, function() { can.onlayout._init(can, target), can.onmotion._init(can, target), can.onkeymap._init(can, target)
 			can.onengine.signal(can, chat.ONMAIN, can.request()), can.base.isFunc(cb) && cb(can)
@@ -343,11 +344,14 @@ Volcanos(chat.ONAPPEND, {
 			var output_old = can._output; sub._target = sub._output = can._output = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
 			can.page.style(can, can._output, "visibility", "hidden", "position", "fixed")
 			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = output_old.innerHTML }
+			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
+				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
+			}
 			can.onexport._output(sub, msg)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				if (action !== false) { can.onkeymap._build(sub)
 					var list = can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), [])||[]
-					can.onmotion.clear(can, can._action), sub.onappend._action(sub, list, action||can._action)
+					can.onmotion.clear(can, can._action), sub.onappend._action(sub, [{view: "_space"}].concat(list), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
 					if (msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) { can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300) }
@@ -361,8 +365,7 @@ Volcanos(chat.ONAPPEND, {
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""),
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.page.style(can, can._output, "visibility", "", "position", ""), can.page.Remove(can, output_old)
-				can.isCmdMode() && (can.user.agent.cmd = can), can.isCmdMode() && can.user.agent.init && can.user.agent.init(can)
-				can.page.Select(can, document.body, "div.loading", function(target) { can.onmotion.hidden(can, target) })
+				can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -433,7 +436,9 @@ Volcanos(chat.ONAPPEND, {
 			can.page.icons(can, item.icons||item.icon||name, item.space||item._space), {text: title},
 		]}, {view: [html.OPTION, html.FORM]}, html.ACTION, html.OUTPUT, html.STATUS]}])
 	},
-	input: function(can, item, value, target, style) { if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
+	input: function(can, item, value, target, style) {
+		if (["_space"].indexOf(item.view) > -1) { return can.page.Append(can, target, [item]) }
+		if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item.type == html.SELECT) {
 			can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) })

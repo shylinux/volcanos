@@ -427,6 +427,7 @@ var html = {
 	DIV_LAYOUT: "div.layout", DIV_LAYOUT_HEAD: "div.layout.head", DIV_LAYOUT_FOOT: "div.layout.foot", DIV_LAYOUT_LEFT: "div.layout.left",
 	DIV_FLOAT: "div.float", DIV_TOAST: "div.toast", DIV_CARTE: "div.carte",
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
+	ITEM_CARD: "item.card",
 	DIV_ITEM_TEXT: "div.item.text",
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",

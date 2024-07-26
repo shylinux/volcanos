@@ -1,7 +1,12 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, target, cb) {
 		if (msg.index && msg.meta && msg.list) { return cb && cb(msg), can.sup.onimport._field(can.sup, msg) }
-		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.onappend.style(can, html.OUTPUT) }
+		can.page.ClassList.del(can, can._fields, html.FORM)
+		can.page.ClassList.del(can, can._fields, html.OUTPUT)
+		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) {
+			can.page.ClassList.add(can, can._fields, html.FORM)
+			can.onappend.style(can, html.OUTPUT)
+		}
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target), cb && cb(msg) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
@@ -331,13 +336,17 @@ Volcanos(chat.ONKEYMAP, {
 	}, _engine: {},
 })
 Volcanos(chat.ONINPUTS, {
-	_nameicon: function(event, can, msg, target, name) {
+	_nameicon: function(event, can, msg, target, name, title) { name = name||mdb.NAME
 		can.page.Appends(can, can._output, msg.Table(function(value) {
-			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons)},
-				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[name]||value[mdb.NAME]]},
-					can.onappend.label(can, value, {version: icon.version, time: icon.compile}),
+			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons||"usr/icons/icebergs.png")},
+				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[title]||value[name]||value[mdb.NAME]]},
+					can.onappend.label(can, value, kit.Dict(
+						"version", icon.version,
+						"time", icon.compile,
+						name, icon.data,
+					)),
 				]},
-			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons) }}
+			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons||"usr/icons/icebergs.png", value[title]) }}
 		}))
 	},
 	dream: function(event, can, msg, target, name) { can.sup.sub.oninputs._nameicon(event, can, msg, target, name) },

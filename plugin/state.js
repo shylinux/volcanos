@@ -15,7 +15,16 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { sub = sub||can, can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
-	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1]), can.Update() },
+	_cookie: function(can, msg) {
+		// can.user.toast(can, stringify.JSON(msg._arg))
+		can.misc.Cookie(can, msg._arg[0], msg._arg[1])
+		debugger
+		if (msg._arg[2]) {
+			history.go(msg._arg[2])
+		} else {
+			can.Update()
+		}
+	},
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
 		can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
@@ -352,8 +361,9 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		if (!can.base.isIn(can.ConfIndex(), web.PORTAL, code.VIMER, wiki.FEEL)) { push(can.user.trans(can, can.ConfIndex(), can.Conf("help"))) }
-		can.core.List(arguments, function(title, index) { index > 0 && push(title) }), push(can.ConfSpace()||can.misc.Search(can, ice.POD))
+		if (!can.base.isIn(can.ConfIndex(), web.PORTAL, code.VIMER, wiki.FEEL)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }
+		can.core.List(arguments, function(title, index) { index > 0 && push(title) })
+		can.user.isMobile || push(can.user.info.titles||can.ConfSpace()||can.misc.Search(can, ice.POD))
 		can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },

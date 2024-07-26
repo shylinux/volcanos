@@ -11,9 +11,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		// msg.Option(ice.TABLE_CHECKBOX, "")
 		if (msg.Option(ice.TABLE_CHECKBOX) == ice.TRUE) { target._hold = true
 			can.onappend._action(can, [html.CANCEL, html.CONFIRM, msg.Length() > 5? html.FILTER: ""], can._action, {
-				cancel: function() {
-					can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
-				},
+				cancel: function() { can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target) },
 				confirm: function() { var list = msg.Table()
 					can.base.isFunc(cb) && cb(can, can.page.Select(can, can._output, html.TR, function(target) {
 						if (can.page.ClassList.has(can, target, html.SELECT)) {
@@ -49,8 +47,8 @@ Volcanos(chat.ONFIGURE, {key: {
 			target.value = value, can.onmotion.hidden(can, can._target)
 		}
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
-		var style = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)).style||name: name
-		can.core.CallFunc([can.sup.sub, "oninputs", style], {event: event, can: can, msg: msg, target: target, name: name})
+		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
+		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {event: event, can: can, msg: msg, target: target, name: display.name||name, title: display.title})
 		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {
