@@ -1249,6 +1249,35 @@ Volcanos(chat.ONMOTION, {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
+	slideAction: function(can, target) {
+		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]
+		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 120, 60)
+		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 120, 60)
+			beginY = event.touches[0].clientY, beginX = event.touches[0].clientX, beginLeft = parseFloat(target.style.left)||0
+		})
+		target.addEventListener("touchmove", function(event) {
+			if (Math.abs(event.touches[0].clientY - beginY) > Math.abs(event.touches[0].clientX - beginX)) { return }
+			var left = event.touches[0].clientX - beginX + beginLeft
+			target._left = left
+			if (left < 0 && left > -max) { can.page.style(can, event.currentTarget, {left: left}) }
+			can.onmotion.select(can, target.parentNode.parentNode, html.DIV_ITEM, target.parentNode)
+			can.onkeymap.prevent(event)
+		})
+		target.addEventListener("touchend", function(event) {
+			var left = target._left
+			if (left < -max/2) {
+				can.page.style(can, event.currentTarget, {left: -max})
+			} else {
+				can.page.style(can, event.currentTarget, {left: 0})
+			}
+			can.page.Select(can, target.parentNode.parentNode, html.DIV_ITEM+">div.output", function(_target) {
+				if (_target != target) {
+					can.page.style(can, _target, {left: 0})
+					_target._left = 0
+				}
+			})
+		})
+	},
 })
 Volcanos(chat.ONKEYMAP, {
 	_init: function(can, target) { target = target||document.body, can.onkeymap._build(can)

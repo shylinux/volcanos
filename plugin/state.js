@@ -15,12 +15,9 @@ Volcanos(chat.ONIMPORT, {
 	_display: function(can, msg) { can.onappend._output(can, msg, msg.Option(ice.MSG_DISPLAY)) },
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { sub = sub||can, can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
-	_cookie: function(can, msg) {
-		// can.user.toast(can, stringify.JSON(msg._arg))
-		can.misc.Cookie(can, msg._arg[0], msg._arg[1])
-		debugger
-		if (msg._arg[2]) {
-			history.go(msg._arg[2])
+	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1])
+		if (msg._arg[2]) { history.go(msg._arg[2])
+			can.onmotion.delay(can, function() { history.back() }, 300)
 		} else {
 			can.Update()
 		}

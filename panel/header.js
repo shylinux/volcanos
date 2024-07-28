@@ -107,7 +107,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
 				if (can.base.beginWith(location.pathname, nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL, web.CHAT_CMD+web.CHAT_OAUTH_CLIENT)) { return show(msg) }
 				if (location.pathname == nfs.PS && can.base.beginWith(msg.Option(ice.MAIN)||"", nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL)) { return show(msg) }
-				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
+				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {space: msg.plugin[1], index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)
 				msg.Option(nfs.SCRIPT) && can.require(can.base.Obj(msg.Option(nfs.SCRIPT)), function(can) { can.onaction.source(can, msg) })
 				var tool = can._root.Action._conf.tool
 				if (can.Conf(aaa.USERNICK, (msg.Option(aaa.USERNICK)||msg.Option(ice.MSG_USERNICK)||msg.Option(ice.MSG_USERNAME)).slice(0, 8))
