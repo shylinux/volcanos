@@ -338,15 +338,12 @@ Volcanos(chat.ONKEYMAP, {
 Volcanos(chat.ONINPUTS, {
 	_nameicon: function(event, can, msg, target, name, title) { name = name||mdb.NAME
 		can.page.Appends(can, can._output, msg.Table(function(value) {
+			var _title = can.user.trans(can.sup, value[title]||value[name]||value[mdb.NAME], null, "value."+name)
 			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons||"usr/icons/icebergs.png")},
-				{view: html.CONTAINER, list: [{view: [html.TITLE, "", value[title]||value[name]||value[mdb.NAME]]},
-					can.onappend.label(can, value, kit.Dict(
-						"version", icon.version,
-						"time", icon.compile,
-						name, icon.data,
-					)),
+				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
+					can.onappend.label(can, value, kit.Dict("version", icon.version, "time", icon.compile, name, icon.data)),
 				]},
-			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons||"usr/icons/icebergs.png", value[title]) }}
+			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons||"usr/icons/icebergs.png", _title) }}
 		}))
 	},
 	dream: function(event, can, msg, target, name) { can.sup.sub.oninputs._nameicon(event, can, msg, target, name) },

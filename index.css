@@ -184,6 +184,21 @@ div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding)
 div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg-color); }
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
+div.item.card { position:relative; display:flex; align-items:center; padding:0; }
+div.item.card img { height:40px; }
+div.item.card div.info { width:100%; }
+div.item.card div.title { font-size:16px; }
+div.item.card div.title span { margin-right:5px; }
+div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; margin-left:5px; }
+div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; margin-left:5px; }
+div.item.card div.status { font-size:12px; color:gray; }
+div.item.card div.status span { margin-right:5px; }
+div.item.card div.action { height:40px; }
+div.item.card div.action { position:absolute; right:0; }
+div.item.card div.output { padding:10px 0; width:100%; display:flex; transition:left .2s; }
+div.item.card div.output { background-color:var(--output-bg-color); }
+div.item.card.select div.title { font-weight:bold; }
+div.item.card.select div.output { transition:left .5s; }
 div.item img[src*=".ico"] { padding:3px; }
 div.item img[src*=".jpg"] { padding:3px; }
 table.content tr>td img[src*=".jpg"] { padding:5px; }

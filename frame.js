@@ -656,7 +656,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
 			if (key == ctx.ACTION && !value && msg.IsDetail()) { return }
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
-				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): _value, html.TD,
+				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, "value."+key), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event), target.name)
