@@ -48,22 +48,23 @@ Volcanos(chat.ONFIGURE, {key: {
 		}
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
 		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
+		if (display.title && !msg[display.title]) { display.title = msg.append[1] }
 		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {event: event, can: can, msg: msg, target: target, name: display.name||name, title: display.title})
 		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {
 		can.onengine.signal(can, "onevent", can.request(event));
 		meta._force && mod.onclick(event, can, meta, target, cbs)
+		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
 	},
 	onclick: function(event, can, meta, target, cbs) {
 		can.onengine.signal(can, "onevent", can.request(event));
-		(target.value == "" || meta._force) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
+		(target.value == "" || meta._force || target._selectonly) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb, target) { if (target._hold) { return }
-		return
-		debugger
+		if (target._selectonly) { return }
 		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}))
 		sub && can.onmotion.delay(can, sub.close, 300)
 	},

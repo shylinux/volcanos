@@ -439,7 +439,9 @@ Volcanos(chat.ONAPPEND, {
 	input: function(can, item, value, target, style) {
 		if (["_space"].indexOf(item.view) > -1) { return can.page.Append(can, target, [item]) }
 		if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
+		var selectonly = false; if (item.type == html.SELECT) { if (!item.list || item.list.length == 0) { selectonly = true, item.type = html.TEXT } }
 		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
+		if (selectonly) { input._selectonly = true }
 		if (item.type == html.SELECT) {
 			can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) })
 			item.icon = item.icon||icon[item.name]
@@ -614,8 +616,12 @@ Volcanos(chat.ONAPPEND, {
 		if (msg.append[msg.append.length-1] == ctx.ACTION && (!msg[ctx.ACTION] || msg[ctx.ACTION].length == 0)) { msg.append.pop() }
 		var option = can.core.Item(can.Option())
 		var table = can.page.AppendTable(can, msg, target||can.ui.content||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
-			if (msg.append.length == 2 && msg.append[0] == mdb.KEY && msg.append[1] == mdb.VALUE) {
-				if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) { data[item.key] = item.value })
+			if (msg.IsDetail()) {
+				if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) {
+					data[item.key] = item.value
+				})
+				if (can.user.isMobile && key == "key" && !data[value]) { return }
+				if (can.user.isMobile && key != "key" && !data[key]) { return }
 			}
 			function request(event) { delete(data.action); return can.request(event, data, can.Option()) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
@@ -654,7 +660,6 @@ Volcanos(chat.ONAPPEND, {
 				}
 			}
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
-			if (key == ctx.ACTION && !value && msg.IsDetail()) { return }
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, "value."+key), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
@@ -665,6 +670,7 @@ Volcanos(chat.ONAPPEND, {
 					can.sup.onimport.change(event, can.sup, key, value, null, data) || can.sup.onexport.record(can.sup, value, key, data, event)
 				}
 			}, ondblclick: function(event) { if (can.base.isIn(key, mdb.KEY, mdb.HASH, mdb.ID)) { return }
+				if (can.user.isMobile) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(request(event), cmds, cb, true) }
 				item._enter = function(event, value) { if (event.ctrlKey) { run(event, mdb.MODIFY, [key, value.trimRight()]) } }
@@ -1251,30 +1257,25 @@ Volcanos(chat.ONMOTION, {
 	},
 	slideAction: function(can, target) {
 		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]
-		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 120, 60)
-		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 120, 60)
+		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 200, 60)
+		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 200, 60)
 			beginY = event.touches[0].clientY, beginX = event.touches[0].clientX, beginLeft = parseFloat(target.style.left)||0
 		})
 		target.addEventListener("touchmove", function(event) {
 			if (Math.abs(event.touches[0].clientY - beginY) > Math.abs(event.touches[0].clientX - beginX)) { return }
-			var left = event.touches[0].clientX - beginX + beginLeft
-			target._left = left
+			var left = event.touches[0].clientX - beginX + beginLeft; target._left = left
 			if (left < 0 && left > -max) { can.page.style(can, event.currentTarget, {left: left}) }
 			can.onmotion.select(can, target.parentNode.parentNode, html.DIV_ITEM, target.parentNode)
 			can.onkeymap.prevent(event)
 		})
-		target.addEventListener("touchend", function(event) {
-			var left = target._left
+		target.addEventListener("touchend", function(event) { var left = target._left
 			if (left < -max/2) {
 				can.page.style(can, event.currentTarget, {left: -max})
 			} else {
 				can.page.style(can, event.currentTarget, {left: 0})
 			}
 			can.page.Select(can, target.parentNode.parentNode, html.DIV_ITEM+">div.output", function(_target) {
-				if (_target != target) {
-					can.page.style(can, _target, {left: 0})
-					_target._left = 0
-				}
+				if (_target != target) { can.page.style(can, _target, {left: 0}), _target._left = 0 }
 			})
 		})
 	},

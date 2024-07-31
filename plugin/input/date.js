@@ -16,7 +16,6 @@ Volcanos(chat.ONFIGURE, {date: {
 		var ui = can.page.Append(can, can._action, ["time", "date"])
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)), TODAY], ui.time, meta)
 		can.onappend._action(can, [mdb.PREV, [YEAR].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)), [MONTH].concat(can.core.List(1, 13)), mdb.NEXT], ui.date, meta)
-
 		can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE], list: [{type: html.TBODY}]}]).tbody
 		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
 		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
@@ -26,6 +25,8 @@ Volcanos(chat.ONFIGURE, {date: {
 			return now
 		} show(now), can._show = function(d) { d? _cb(show(now = new Date(now.getTime()+d*24*3600*1000))): _cb(show(now)) }
 	})},
+	onfocus: function(event, can, meta, target, cbs, mod) { if (target._selectonly) { target.blur() } },
+	onblur: function(event, can, sub, cb, target) { if (target._selectonly) { return } },
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub && sub.hidden()) { return last(event) } switch (event.key) {
 		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click(), sub._show() }); break
 		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click(), sub._show() }); break

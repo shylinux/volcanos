@@ -14,6 +14,26 @@ Volcanos(chat.ONIMPORT, {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		} cb && cb(msg)
 	},
+	itemcard: function(can, value, list, cb) {
+		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
+			{view: html.ACTION, _init: function(target) { if (!value.action) { return } target.innerHTML = value.action
+				can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
+					var style = can.Conf("_style."+target.name)||can.page.buttonStyle(can, target.name); style && can.onappend.style(can, style, target)
+					target.onclick = function(event) { can.onkeymap.prevent(event)
+						can.Update(can.request(event, value), [ctx.ACTION, target.name])
+					}
+				})
+			}},
+			{view: html.OUTPUT, list: [
+				{img: can.misc.ResourceIcons(can, value.icons)}, {view: html.INFO, list: list},
+			], _init: function(target) { if (!value.action) { return }
+				can.onmotion.slideAction(can, target)
+			}},
+		], onclick: function(event) {
+			can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
+			cb && cb(event)
+		}}
+	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
 			var img = can.misc.Resource(can, value.icon = value.icons||value.icon||value.image)
