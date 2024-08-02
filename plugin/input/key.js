@@ -57,8 +57,8 @@ Volcanos(chat.ONFIGURE, {key: {
 		meta._force && mod.onclick(event, can, meta, target, cbs)
 		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
 	},
-	onclick: function(event, can, meta, target, cbs) {
-		can.onengine.signal(can, "onevent", can.request(event));
+	onclick: function(event, can, meta, target, cbs) { can.onengine.signal(can, "onevent", can.request(event));
+		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
 		(target.value == "" || meta._force || target._selectonly) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)

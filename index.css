@@ -417,7 +417,7 @@ body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
 body>div.input td label { font-family:var(--code-font-family); }
 body>div.input td:hover span.icon { visibility:visible; }
 body>div.input td:hover span.icons { visibility:visible; }
-body>div.input textarea { height:var(--textarea-height); width:var(--form-width) !important; }
+body:not(.mobile)>div.input textarea { height:var(--textarea-height); width:var(--form-width) !important; }
 body>div.input select { width:var(--form-width) !important; }
 body>div.input input.select[type=button] { width:var(--form-width) !important; }
 body>div.input input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
@@ -505,12 +505,12 @@ input.select[type=button]:hover { border:var(--box-notice); }
 input.select[type=button]:focus { border:var(--box-notice); }
 input.select[type=button] { border:var(--input-border); padding:0 var(--button-padding); }
 input[type=button] { border:var(--input-border); border-radius:var(--button-radius); }
-input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+body:not(.mobile) input[type=button]:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 input[type=button].danger:hover { color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 input[type=button].danger { color:var(--danger-bg-color) !important; }
 input[type=button].notice { border:var(--box-notice); }
-table.content tr:hover { background-color:var(--tr-hover-bg-color); }
+body:not(.mobile) table.content tr:hover { background-color:var(--tr-hover-bg-color); }
 table.content tr.select { background-color:var(--tr-hover-bg-color); }
 table.content tr.danger { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 table.content tr.notice { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
@@ -519,7 +519,7 @@ table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.invalid { color:var(--disable-fg-color); }
 table.content tr.expired { color:var(--disable-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
-table.content td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
+body:not(.mobile) table.content td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 table.content td.action { background-color:var(--th-bg-color); color:var(--th-fg-color); }

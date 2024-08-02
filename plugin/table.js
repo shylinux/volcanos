@@ -15,6 +15,7 @@ Volcanos(chat.ONIMPORT, {
 		} cb && cb(msg)
 	},
 	itemcard: function(can, value, list, cb) {
+		cb = cb|| function(event) { can.Option("uid", value.uid), can.Update() }
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			{view: html.ACTION, _init: function(target) { if (!value.action) { return } target.innerHTML = value.action
 				can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
@@ -25,7 +26,7 @@ Volcanos(chat.ONIMPORT, {
 				})
 			}},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can, value.icons)}, {view: html.INFO, list: list},
+				{img: can.misc.ResourceIcons(can, value.icons||value.avatar||value.user_avatar)}, {view: html.INFO, list: list},
 			], _init: function(target) { if (!value.action) { return }
 				can.onmotion.slideAction(can, target)
 			}},
@@ -359,11 +360,12 @@ Volcanos(chat.ONINPUTS, {
 	_nameicon: function(event, can, msg, target, name, title) { name = name||mdb.NAME
 		can.page.Appends(can, can._output, msg.Table(function(value) {
 			var _title = can.user.trans(can.sup, value[title]||value[name]||value[mdb.NAME], null, "value."+name)
-			return {view: html.ITEM, list: [{img: can.misc.Resource(can, value.icons||"usr/icons/icebergs.png")},
+			var icons = can.sup.Conf("_trans.value."+name+".icons."+value[name])||can.sup.Conf("_trans.value."+name+".icons."+value[title])||value.icons||"usr/icons/icebergs.png"
+			return {view: html.ITEM, list: [{img: can.misc.Resource(can, icons), },
 				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
 					can.onappend.label(can, value, kit.Dict("version", icon.version, "time", icon.compile, name, icon.data)),
 				]},
-			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], value.icons||"usr/icons/icebergs.png", _title) }}
+			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], icons, _title) }}
 		}))
 	},
 	dream: function(event, can, msg, target, name) { can.sup.sub.oninputs._nameicon(event, can, msg, target, name) },
