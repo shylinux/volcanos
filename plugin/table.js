@@ -14,6 +14,15 @@ Volcanos(chat.ONIMPORT, {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		} cb && cb(msg)
 	},
+	itemcards: function(can, msg, cb) {
+		if (msg.IsDetail()) { var value = msg.TableDetail()
+			can.page.Append(can, can._output, [can.onimport.itemcard(can, value, cb(value))])
+		} else {
+			can.page.Append(can, can._output, msg.Table(function(value) {
+				return can.onimport.itemcard(can, value, cb(value))
+			}))
+		}
+	},
 	itemcard: function(can, value, list, cb) {
 		cb = cb|| function(event) { can.Option("uid", value.uid), can.Update() }
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
