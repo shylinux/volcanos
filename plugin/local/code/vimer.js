@@ -78,7 +78,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 			can.core.List(msg.Result().split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
 			can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
 		}
-		if (can.onexport.parse(can) == nfs.JS) {
+		if (can.base.isIn(can.onexport.parse(can), nfs.JS, nfs.JSON)) {
 			var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content), can.ui.content._max = 0
 			can.core.List(msg.Option("content").split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
 			can.onaction.selectLine(can, line)
