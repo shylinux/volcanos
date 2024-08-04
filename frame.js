@@ -440,9 +440,13 @@ Volcanos(chat.ONAPPEND, {
 	input: function(can, item, value, target, style) {
 		if (["_space"].indexOf(item.view) > -1) { return can.page.Append(can, target, [item]) }
 		if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
-		var selectonly = false; if (item.type == html.SELECT) { if (!item.list || item.list.length == 0) { selectonly = true, item.type = html.TEXT } }
+		if (item.type == html.SELECT) { item._selectonly = true, item.type = html.TEXT
+			if (item.values && item.values.length > 0) {
+				item._selectonly = false, item.type = html.SELECT
+			}
+		}
 		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
-		if (selectonly) { input._selectonly = true }
+		if (item._selectonly) { input._selectonly = true }
 		if (item.type == html.SELECT) {
 			can.core.List(input.list, function(item) { item.inner = can.user.trans(can, item.inner, item._trans, html.INPUT) })
 			item.icon = item.icon||icon[item.name]
