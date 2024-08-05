@@ -343,7 +343,7 @@ Volcanos(chat.ONAPPEND, {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			} can.onmotion.toggle(can, can._action, true), delete(can._status._cache), delete(can._status._cache_key)
 			var output_old = can._output; sub._target = sub._output = can._output = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
-			can.page.style(can, can._output, "visibility", "hidden", "position", "fixed")
+			can.page.ClassList.add(can, can._output, "_prepare")
 			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = output_old.innerHTML }
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
@@ -363,10 +363,32 @@ Volcanos(chat.ONAPPEND, {
 					can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), can.Conf("_auto"), can.Mode())
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
-				} msg.Defer(), can.base.isFunc(cb) && cb(msg), can.page.style(can, can._target, "visibility", ""),
+				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
-				can.page.style(can, can._output, "visibility", "", "position", ""), can.page.Remove(can, output_old)
 				can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
+				can.page.style(can, can._target, "visibility", "")
+				can.page.style(can, can._output, "visibility", "")
+				if (!can.page.ClassList.has(can, can._target, "_back") && !can.page.ClassList.has(can, can._target, "_goto")) {
+					can.page.style(can, can._output, html.LEFT, 0)
+					can.page.ClassList.del(can, can._output, "_prepare")
+					can.page.Remove(can, output_old)
+					return
+				}
+				var width = can.ConfWidth(), begin = width*3/4
+				can.page.ClassList.add(can, output_old, "_unload")
+				can.core.Timer({interval: 5, length: width/20}, function(timer, interval, index, list) {
+					if (can.page.ClassList.has(can, can._target, "_back")) {
+						can.page.style(can, can._output, html.LEFT, -width+(width-begin)/list.length*(index+1)+begin)
+						can.page.style(can, output_old, html.LEFT, (width-begin)/list.length*(index+1)+begin)
+					} else {
+						can.page.style(can, can._output, html.LEFT, width-(width-begin)/list.length*(index+1)-begin)
+						can.page.style(can, output_old, html.LEFT, -(width-begin)/list.length*(index+1)-begin)
+					}
+				}, function() {
+					can.page.style(can, can._output, html.LEFT, 0)
+					can.page.ClassList.del(can, can._output, "_prepare")
+					can.page.Remove(can, output_old)
+				})
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -1007,6 +1029,7 @@ Volcanos(chat.ONLAYOUT, {
 	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
+		can.page.tagis(target, "div.input") && can.user.isMobile && (layout.top = 40)
 		can.getActionSize(function(left, top, width, height) {
 			left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)-html.ACTION_HEIGHT-(can.isCmdMode()? 0: 20)
 			if (layout.top+target.offsetHeight > top+height) {
