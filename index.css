@@ -200,7 +200,7 @@ div.output.card>div.item>div.title>img { height:var(--header-height); width:var(
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 div.item.card { position:relative; display:flex; align-items:center; padding:0; }
 div.output>div.item.card { border:solid 5px var(--plugin-bg-color); }
-div.item.card img { height:40px; width:40px; margin:5px; }
+div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; }
 div.item.card div.title span { margin-right:5px; }
