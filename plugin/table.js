@@ -16,7 +16,8 @@ Volcanos(chat.ONIMPORT, {
 	},
 	itemcards: function(can, msg, cb) {
 		if (msg.IsDetail()) { var value = msg.TableDetail()
-			can.page.Append(can, can._output, [can.onimport.itemcard(can, value, cb(value))])
+			msg.Show(can)
+			// can.page.Append(can, can._output, [can.onimport.itemcard(can, value, cb(value))])
 		} else {
 			can.page.Append(can, can._output, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value))
