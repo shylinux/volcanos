@@ -22,6 +22,7 @@ Volcanos(chat.ONIMPORT, {
 			can.page.Append(can, can._output, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value))
 			}))
+			msg.Result() && can.onappend.board(can, msg)
 		}
 	},
 	itemcard: function(can, value, list, cb) {
@@ -36,7 +37,7 @@ Volcanos(chat.ONIMPORT, {
 				})
 			}},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can, value.icons||value.avatar||value.user_avatar)}, {view: html.INFO, list: list},
+				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.user_avatar, value.nodename)}, {view: html.INFO, list: list},
 			], _init: function(target) { if (!value.action) { return }
 				can.onmotion.slideAction(can, target)
 			}},

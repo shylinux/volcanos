@@ -366,17 +366,14 @@ Volcanos(chat.ONAPPEND, {
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
-				can.page.style(can, can._target, "visibility", "")
-				can.page.style(can, can._output, "visibility", "")
+				can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
 				if (!can.page.ClassList.has(can, can._target, "_back") && !can.page.ClassList.has(can, can._target, "_goto")) {
-					can.page.style(can, can._output, html.LEFT, 0)
-					can.page.ClassList.del(can, can._output, "_prepare")
+					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
 					return
 				}
-				var width = can.ConfWidth(), begin = width*3/4
-				can.page.ClassList.add(can, output_old, "_unload")
-				can.core.Timer({interval: 5, length: width/20}, function(timer, interval, index, list) {
+				var width = can.ConfWidth(), begin = width-200; can.page.ClassList.add(can, output_old, "_unload")
+				can.core.Timer({length: (width-begin)/10, interval: 10}, function(timer, interval, index, list) {
 					if (can.page.ClassList.has(can, can._target, "_back")) {
 						can.page.style(can, can._output, html.LEFT, -width+(width-begin)/list.length*(index+1)+begin)
 						can.page.style(can, output_old, html.LEFT, (width-begin)/list.length*(index+1)+begin)
@@ -385,8 +382,7 @@ Volcanos(chat.ONAPPEND, {
 						can.page.style(can, output_old, html.LEFT, -(width-begin)/list.length*(index+1)-begin)
 					}
 				}, function() {
-					can.page.style(can, can._output, html.LEFT, 0)
-					can.page.ClassList.del(can, can._output, "_prepare")
+					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
 				})
 			}, target: output}), msg.Defer()
@@ -647,13 +643,13 @@ Volcanos(chat.ONAPPEND, {
 				if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) {
 					data[item.key] = item.value
 				})
-				if (can.user.isMobile && key == "key" && !data[value]) { return }
-				if (can.user.isMobile && key != "key" && !data[key]) { return }
+				if (can.user.isMobile && key == mdb.KEY && !data[value]) { return }
+				if (can.user.isMobile && key != mdb.KEY && !data[key]) { return }
 			}
 			function request(event) { delete(data.action); return can.request(event, data, can.Option()) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
-			if (key == mdb.ICON && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg")? img(can.misc.Resource(can, data[key], data[ice.POD]||data[web.SPACE])): "<i class='"+value+"'></i>" }
+			if (key == mdb.ICON && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg")? img(can.misc.Resource(can, data[key], data.pod||data.space||data.nodename)): "<i class='"+value+"'></i>" }
 			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == aaa.AVATAR && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
@@ -665,7 +661,6 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
-			
 			function onclick() { return false }
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.ENABLE]); return true }
