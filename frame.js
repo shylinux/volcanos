@@ -319,7 +319,8 @@ Volcanos(chat.ONAPPEND, {
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
 				if (can.base.isIn(cmds[1], ctx.COMMAND)) { return }
 				// return can._toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
-				return can.__toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
+				// return can.__toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS),
+				return can.Update()
 			} }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
 		})

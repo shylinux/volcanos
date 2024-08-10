@@ -18,6 +18,11 @@ Volcanos(chat.ONIMPORT, {
 		if (msg.IsDetail()) { var value = msg.TableDetail()
 			msg.Show(can)
 			// can.page.Append(can, can._output, [can.onimport.itemcard(can, value, cb(value))])
+			can.page.Select(can, can._output, html.TR, function(target) {
+				if (target.className.indexOf("_uid") > -1) {
+					can.page.ClassList.add(can, target, "hide")
+				}
+			})
 		} else {
 			can.page.Append(can, can._output, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value))
