@@ -14,10 +14,9 @@ Volcanos(chat.ONIMPORT, {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		} cb && cb(msg)
 	},
+	textView: function(can, value, key, type) { return value[key] && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]} },
 	itemcards: function(can, msg, cb) {
-		if (msg.IsDetail()) { var value = msg.TableDetail()
-			msg.Show(can)
-			// can.page.Append(can, can._output, [can.onimport.itemcard(can, value, cb(value))])
+		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, can._output, html.TR, function(target) {
 				if (target.className.indexOf("_uid") > -1) {
 					can.page.ClassList.add(can, target, "hide")
@@ -26,8 +25,7 @@ Volcanos(chat.ONIMPORT, {
 		} else {
 			can.page.Append(can, can._output, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value))
-			}))
-			msg.Result() && can.onappend.board(can, msg)
+			})), msg.Result() && can.onappend.board(can, msg)
 		}
 	},
 	itemcard: function(can, value, list, cb) {
