@@ -33,7 +33,7 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			// toast && can.user.toastSuccess(msg._can, msg.Option(ctx.ACTION)+lex.SP+ice.SUCCESS)
+			can.user.isMobile || toast && can.user.toastSuccess(msg._can, msg.Option(ctx.ACTION)+lex.SP+ice.SUCCESS)
 			toast && toast.close && toast.close(), toast = true
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
@@ -319,8 +319,7 @@ Volcanos(chat.ONAPPEND, {
 			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
 				if (can.base.isIn(cmds[1], ctx.COMMAND)) { return }
-				// return can._toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
-				// return can.__toast || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS),
+				return can._toast || can.user.isMobile || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
 				return can.Update()
 			} }
 			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
