@@ -15,7 +15,7 @@ Volcanos(chat.ONIMPORT, {
 		} cb && cb(msg)
 	},
 	textView: function(can, value, key, type) { return value[key] && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]} },
-	itemcards: function(can, msg, cb) {
+	itemcards: function(can, msg, cb, cbs) {
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, can._output, html.TR, function(target) {
 				if (target.className.indexOf("_uid") > -1) {
@@ -24,7 +24,7 @@ Volcanos(chat.ONIMPORT, {
 			})
 		} else {
 			can.page.Append(can, can._output, msg.Table(function(value) {
-				return can.onimport.itemcard(can, value, cb(value))
+				return can.onimport.itemcard(can, value, cb(value), cbs)
 			})), msg.Result() && can.onappend.board(can, msg)
 		}
 	},
