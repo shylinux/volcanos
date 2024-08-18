@@ -40,7 +40,7 @@ Volcanos(chat.ONIMPORT, {
 				})
 			}},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.user_avatar, value.nodename)}, {view: html.INFO, list: list},
+				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.user_avatar||can.Conf(mdb.ICONS), value.nodename)}, {view: html.INFO, list: list},
 			], _init: function(target) { if (!value.action) { return }
 				can.onmotion.slideAction(can, target)
 			}},
