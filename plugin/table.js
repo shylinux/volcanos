@@ -18,25 +18,32 @@ Volcanos(chat.ONIMPORT, {
 	itemcards: function(can, msg, cb, cbs) {
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, can._output, html.TR, function(target) {
-				if (target.className.indexOf("_uid") > -1) {
-					can.page.ClassList.add(can, target, "hide")
-				}
+				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
 			})
 		} else {
 			can.page.Append(can, can._output, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value), cbs)
 			})), msg.Result() && can.onappend.board(can, msg)
 		}
+		can.page.Select(can, can._output, html.INPUT_BUTTON, function(target) {
+			var style = can.Conf("_style."+target.name)
+			style && can.page.ClassList.add(can, target, style)
+		})
 	},
 	itemcard: function(can, value, list, cb) {
+		can.core.List(list, function(item) { if (!item || !item.list) { return }
+			for (var i = 0; i < item.list.length; i++) {
+				if (item.list[i] && typeof item.list[i] == code.STRING) {
+					item.list[i] = {text: item.list[i]}
+				}
+			}
+		})
 		cb = cb|| function(event) { can.Option("uid", value.uid), can.Update() }
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			{view: html.ACTION, _init: function(target) { if (!value.action) { return } target.innerHTML = value.action
 				can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 					var style = can.Conf("_style."+target.name)||can.page.buttonStyle(can, target.name); style && can.onappend.style(can, style, target)
-					target.onclick = function(event) { can.onkeymap.prevent(event)
-						can.Update(can.request(event, value), [ctx.ACTION, target.name])
-					}
+					target.onclick = function(event) { can.onkeymap.prevent(event), can.Update(can.request(event, value), [ctx.ACTION, target.name]) }
 				})
 			}},
 			{view: html.OUTPUT, list: [
@@ -46,7 +53,7 @@ Volcanos(chat.ONIMPORT, {
 			}},
 		], onclick: function(event) {
 			can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
-			cb && cb(event)
+			cb && cb(event, value)
 		}}
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
