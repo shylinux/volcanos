@@ -24,6 +24,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_session: function(can, msg) { can.misc.sessionStorage(can, msg._arg[0], msg._arg[1]), can.Update() },
 	_field: function(can, msg, cb) {
+		can.user.isMobile && can.onmotion.clear(can, can._output)
 		can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
 		var height = can.ConfHeight()-can.onexport.actionHeight(can)-(can.onexport.statusHeight(can)||1), width = can.ConfWidth()
 		var tabs = false, tabHash = msg.Option("field.tabs"); if (tabHash) {
@@ -38,7 +39,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Table(function(item) { tabs && can.onmotion.cache(can, function() { return tabHash })
 			can.onappend._plugin(can, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)||item.index; can.run(can.request(event, {pod: item.space}), (msg[ice.FIELD_PREFIX]? msg[ice.FIELD_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
-				can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, true), cb && cb(sub)
+				can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, !can.user.isMobile), cb && cb(sub)
 				if (item.style == html.FLOAT) { return } can.onmotion.delay(can, function() { can.onmotion.scrollIntoView(can, sub._target) }, 300)
 				sub.onexport.output = function() { if (tabs) { msg.Option(ice.MSG_ACTION) && can.onappend._action(can, msg.Option(ice.MSG_ACTION))
 					sub.sub.onimport.tabs(sub.sub, [{name: tabHash.slice(0, 6)}], function() { tabs || can.onmotion.cache(can, function() { return tabHash }) }), tabs = false

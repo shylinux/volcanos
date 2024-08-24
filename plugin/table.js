@@ -15,6 +15,9 @@ Volcanos(chat.ONIMPORT, {
 		} cb && cb(msg)
 	},
 	textView: function(can, value, key, type) { return value[key] && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]} },
+	shareTitle: function(can, msg, title, content) { if (msg.IsDetail()) { var value = msg.TableDetail()
+		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
+	} },
 	itemcards: function(can, msg, cb, cbs) {
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, can._output, html.TR, function(target) {
