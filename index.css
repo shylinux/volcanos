@@ -110,7 +110,7 @@ body.width1 { /* 320-640 手机竖屏 */
 	--table-button:2; --card-button:3;
 }
 body.en { --card-button:3; }
-body.mobile { --project-width:240px; --footer-height:60px; --svg-font-size:13px; }
+body.mobile { --project-width:240px; --footer-height:60px; --svg-font-size:13px; --qrcode-width:320px; }
 body.mobile.dark { --body-bg-color:var(--output-bg-color); --action-output-bg-color:var(--output-bg-color); }
 body.mobile.light { --body-bg-color:var(--output-bg-color); --action-output-bg-color:var(--output-bg-color); }
 body.cmd.web.code.vimer { --code-line-height:24px; }
@@ -200,7 +200,7 @@ div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
 div.item.card { position:relative; display:flex; align-items:center; padding:0; }
-div.output>div.item.card { border:solid 5px var(--plugin-bg-color); }
+// div.output>div.item.card { border:solid 5px var(--plugin-bg-color); }
 div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; }
@@ -686,8 +686,8 @@ table.content.full { width:100%; }
 table.content col.time { width:180px; }
 table.content col.action { width:var(--project); }
 table.content.detail td:first-child { width:var(--input-width); box-shadow:var(--th-box-shadow); }
-body.mobile table.content.detail td:first-child { max-width:120px; word-break:break-all; white-space:break-spaces; }
-table.content.detail td { min-width:80px; }
+body.mobile table.content.detail td:first-child { max-width:150px; word-break:break-all; white-space:break-spaces; }
+table.content.detail td { min-width:90px; }
 fieldset.web.chat.island.portal>div.output>table.content.detail td { min-width:80px; text-align:center; }
 body.void fieldset.web.chat.island.portal>div.status { display:none; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
