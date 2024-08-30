@@ -366,7 +366,7 @@ fieldset.input.date>div.output td span.lunar.fest { color:red; }
 fieldset.input.date>div.output td { cursor:pointer; }
 fieldset.input.date>div.status { text-align:center; border-top:unset; }
 fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
-body.mobile fieldset.input.date { left:25px !important; }
+body.mobile fieldset.input.date { left:0 !important; width:100%; }
 fieldset.input.float { border-radius:0; padding:0; }
 fieldset.input.float table.content th { padding:var(--input-padding); }
 fieldset.input.float table.content td { padding:var(--input-padding); }
