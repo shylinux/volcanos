@@ -210,7 +210,7 @@ div.item.card div.title span.role { border:var(--box-notice); color:var(--notice
 div.item.card div.title span.status { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; margin-left:5px; }
 div.item.card div.status { font-size:12px; color:gray; }
 div.item.card div.status span { margin-right:5px; }
-div.item.card div.action { height:40px; }
+div.item.card div.action { max-width:200px; display:flex; align-items:center; }
 div.item.card div.action { position:absolute; right:0; }
 div.item.card div.action input[type=button] { border:none; margin-left:5px; }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }

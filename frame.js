@@ -669,14 +669,14 @@ Volcanos(chat.ONAPPEND, {
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.ENABLE, ice.TRUE)) { _value = `<i class="${icon.disable}">`
 				function onclick() { run(event, mdb.MODIFY, [mdb.STATUS, mdb.DISABLE]); return true }
 			}
-			if (key == mdb.ENABLE) {
+			if (key == mdb.DISABLE) {
 				if (value == ice.TRUE) { _value = `<i class="${icon.disable}">`
 					function onclick() { run(event, mdb.MODIFY, [key, ice.FALSE]); return true }
 				} else { _value = `<i class="${icon.enable}">`
 					function onclick() { run(event, mdb.MODIFY, [key, ice.TRUE]); return true }
 				}
 			}
-			if (key == mdb.DISABLE) {
+			if (key == mdb.ENABLE) {
 				if (value == ice.FALSE) { _value = `<i class="${icon.enable}">`
 					function onclick() { run(event, mdb.MODIFY, [key, ice.TRUE]); return true }
 				} else { _value = `<i class="${icon.disable}">`
