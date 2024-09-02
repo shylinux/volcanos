@@ -708,8 +708,8 @@ Volcanos(chat.ONAPPEND, {
 				if (option.indexOf(key) > -1) { can.onappend.style(can, "k-"+value, target.parentNode) }
 				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
-				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.TRUE? mdb.ENABLE: mdb.DISABLE, target.parentNode) }
-				if (key == mdb.DISABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }
+				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }
+				if (key == mdb.DISABLE) { can.onappend.style(can, value == ice.TRUE? mdb.ENABLE: mdb.DISABLE, target.parentNode) }
 				if (key == ctx.ACTION && msg.IsDetail()) { can.onappend.style(can, ctx.ACTION, target.parentNode) }
 				key == ctx.ACTION && can.onappend.mores(can, target, data, msg.IsDetail()? 20: html.TABLE_BUTTON)
 				var list = can.page.Select(can, target, html.INPUT, function(target) { var _icon = (can.page.icons(can, target.name)||{}).icon
