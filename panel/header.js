@@ -99,6 +99,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
 		}
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
+			if (msg.Option(ice.MSG_PROCESS) == "_open") { return can.user.jumps(msg.Option("_arg")) }
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
 			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
