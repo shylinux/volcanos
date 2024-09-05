@@ -21,6 +21,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
 	itemcards: function(can, msg, cb, cbs) {
+		can.onimport.shareTitle && can.onimport.shareTitle(can, msg)
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, can._output, html.TR, function(target) {
 				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
