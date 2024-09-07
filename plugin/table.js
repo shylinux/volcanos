@@ -20,18 +20,18 @@ Volcanos(chat.ONIMPORT, {
 	shareTitle: function(can, msg, title, content) { if (msg.IsDetail()) { var value = msg.TableDetail()
 		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
-	itemcards: function(can, msg, cb, cbs) {
+	itemcards: function(can, msg, cb, cbs, target) { target = target||can._output
 		can.onimport.shareTitle && can.onimport.shareTitle(can, msg)
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
-			can.page.Select(can, can._output, html.TR, function(target) {
+			can.page.Select(can, target, html.TR, function(target) {
 				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
 			})
 		} else {
-			can.page.Append(can, can._output, msg.Table(function(value) {
+			can.page.Append(can, target, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value), cbs)
 			})), msg.Result() && can.onappend.board(can, msg)
 		}
-		can.page.Select(can, can._output, html.INPUT_BUTTON, function(target) {
+		can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			var style = can.Conf("_style."+target.name)
 			style && can.page.ClassList.add(can, target, style)
 		})
@@ -53,7 +53,7 @@ Volcanos(chat.ONIMPORT, {
 				})
 			}},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.user_avatar||can.Conf(mdb.ICONS), value.nodename)}, {view: html.INFO, list: list},
+				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.command_icon||value.service_icon||value.avatar||value.user_avatar||can.Conf(mdb.ICONS)||can.user.info.favicon, value.nodename||can.user.info.nodename)}, {view: html.INFO, list: list},
 			], _init: function(target) { if (!value.action) { return }
 				can.onmotion.slideAction(can, target)
 			}},
