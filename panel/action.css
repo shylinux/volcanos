@@ -25,4 +25,4 @@ fieldset.Action.grid>div.project.toggle { display:none; }
 fieldset.Action>div.toggle.project { padding-top:50px; height:150px; top:30%; }
 body:not(.mobile) fieldset.Action>div.project.toggle { display:none; }
 body.mobile fieldset.Action>div.project.toggle { top:60%; }
-body.mobile fieldset.Action>div.action div.item { display:none; }
+// body.mobile fieldset.Action>div.action div.item { display:none; }
