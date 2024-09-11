@@ -53,19 +53,21 @@ Volcanos(chat.ONFIGURE, {key: {
 		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {
-		can.onengine.signal(can, "onevent", can.request(event));
-		meta._force && mod.onclick(event, can, meta, target, cbs)
+		// can.onengine.signal(can, "onevent", can.request(event));
 		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
+		meta._force && mod.onclick(event, can, meta, target, cbs)
 	},
-	onclick: function(event, can, meta, target, cbs) { can.onengine.signal(can, "onevent", can.request(event));
+	onclick: function(event, can, meta, target, cbs) {
+		// can.onengine.signal(can, "onevent", can.request(event));
 		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
 		(target.value == "" || meta._force || target._selectonly) && cbs(function(sub, cb) { if (sub.Status(mdb.TOTAL) > 0) { return }
 		sub.sup = can._fields? can.sup: can
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
-	onblur: function(event, can, sub, cb, target) { if (target._hold) { return }
+	onblur: function(event, can, sub, cb, target) {
+		if (target._hold) { return }
 		if (target._selectonly) { return }
-		can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}))
+		// can.onengine.signal(can, "onevent", can.request(event, {query: can.page.getquery(can, target)+","+target.value}))
 		sub && can.onmotion.delay(can, sub.close, 300)
 	},
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }

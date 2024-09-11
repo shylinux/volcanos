@@ -460,9 +460,7 @@ Volcanos(chat.ONAPPEND, {
 		if (["_space"].indexOf(item.view) > -1) { return can.page.Append(can, target, [item]) }
 		if ([html.BR, html.HR].indexOf(item.type) > -1) { return can.page.Append(can, target, [item]) }
 		if (item.type == html.SELECT) { item._selectonly = true, item.type = html.TEXT
-			if (item.values && item.values.length > 0) {
-				item._selectonly = false, item.type = html.SELECT
-			}
+			if (item.values && item.values.length > 0) { item._selectonly = false, item.type = html.SELECT }
 		}
 		var _icon = [], _item = can.base.Copy({className: "", type: "", name: ""}, item), input = can.page.input(can, _item, value)
 		if (item._selectonly) { input._selectonly = true }
@@ -497,7 +495,7 @@ Volcanos(chat.ONAPPEND, {
 			input.data.type = html.BUTTON, input.value = can.user.trans(can, item.name)
 		}
 		if (item.range) { input._init = function(target) { can.onappend.figure(can, item, target, function(sub, value, old) { target.value = value, can.core.CallFunc([can.onaction, item.name], [event, can, item.name]) }) } }
-		var _style = can.page.buttonStyle(can, item.name)
+		var _style = can.Conf("_style."+item.name)||can.page.buttonStyle(can, item.name)
 		var _input = can.page.Append(can, target, [{view: [[html.ITEM].concat(style, [item.type, item.name, item._className, item.icon? "_icon": ""], _style)], list: [item.icon && {icon: item.icon}, input].concat(_icon), _init: function(target, _input) {
 			if (item.type == html.MULTIPLE) {
 				can.onappend.multiple(can, item, _input.input)
@@ -638,6 +636,17 @@ Volcanos(chat.ONAPPEND, {
 		if (can.user.isMobile) { can.base.toLast(msg.append, mdb.TIME) } can.base.toLast(msg.append, web.LINK), can.base.toLast(msg.append, ctx.ACTION)
 		if (msg.append[msg.append.length-1] == ctx.ACTION && can.core.List(msg[ctx.ACTION], function(item) { if (item) { return item } }).length == 0) { msg.append.pop() }
 		if (msg.append[msg.append.length-1] == ctx.ACTION && (!msg[ctx.ACTION] || msg[ctx.ACTION].length == 0)) { msg.append.pop() }
+		if (msg.IsDetail()) {
+			for (var i = 0; i < msg[mdb.KEY].length; i++) {
+				if (msg[mdb.KEY][i] == "action") { var action = msg[mdb.VALUE][i]
+					for (var j = i; j < msg[mdb.KEY].length-1; j++) {
+						msg[mdb.KEY][j] = msg[mdb.KEY][j+1], msg[mdb.VALUE][j] = msg[mdb.VALUE][j+1]
+					}
+					msg[mdb.KEY][j] = "action", msg[mdb.VALUE][j] = action
+					break
+				}
+			}
+		}
 		var option = can.core.Item(can.Option())
 		var table = can.page.AppendTable(can, msg, target||can.ui.content||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
 			if (msg.IsDetail()) {
@@ -744,12 +753,12 @@ Volcanos(chat.ONAPPEND, {
 		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
 			target.onclick = function(event) {
 				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
-				can.misc.Event(event, can, function(msg) { can.Update(can.request(event, can.Option(), {_toast: target.name}), [ctx.ACTION, target.name], function(msg) {
+				can.Update(can.request(event, can.Option(), {_toast: target.name, _cancel: function(event) {
 					can.page.ClassList.del(can, target, "disable")
-					// can.page.ClassList.del(can, can._fields, "form")
-					// can.page.ClassList.del(can, can._fields, "output")
+				}}), [ctx.ACTION, target.name], function(msg) {
+					can.page.ClassList.del(can, target, "disable")
 					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
-				}) })
+				})
 			}
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code
 	},

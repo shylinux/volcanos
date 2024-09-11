@@ -290,6 +290,7 @@ Volcanos(chat.ONIMPORT, {
 		var sup = can._stacks_root; sup._stacks = sup._stacks||{}; var sub = (sup._stacks[key]||[])[0]; if (sub) { return sub._select() }
 		var _output = sup._target.parentNode; value.style = html.OUTPUT
 		sup.onappend.plugin(sup, value, function(sub) {
+			can.onimport.myField(can, sub)
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = sup._stacks[key] = [sub], _sub._stacks_root = sup, sub._select() }
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, html.FIELDSET, function(target) { can.onmotion.toggle(can, target, target == sub._target) })
@@ -297,6 +298,13 @@ Volcanos(chat.ONIMPORT, {
 				can.page.style(can, sub._action, html.DISPLAY, html.NONE), sub._output.innerHTML == "" && sub.Update()
 			}, sub._select(), cb && cb(sub)
 		}, _output)
+	},
+	myField: function(can, sub) {
+		sub.onexport._output = function(_sub) {
+			can.core.Item(can.onimport, function(key, value) { _sub.onimport[key] = _sub.onimport[key]||value })
+			can.core.Item(can.onaction, function(key, value) { _sub.onaction[key] = _sub.onaction[key]||value })
+			can.core.Item(can.onexport, function(key, value) { _sub.onexport[key] = _sub.onexport[key]||value })
+		}
 	},
 	myStory: function(can, value) {
 		if (!can._stacks_current) { var sup = can.sup; can._stacks_root = sup, sup._stacks = {}
@@ -308,7 +316,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.style(can, _action, html.DISPLAY, html.NONE), sup._output.innerHTML == "" && sup.Update()
 			}
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
-		value.type = html.STORY, value.style = html.OUTPUT, value.height = can.ConfHeight()-html.ACTION_HEIGHT
+		value.type = html.STORY, value.style = html.OUTPUT, value.height = can.ConfHeight()-48
 		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
 				var value = sub.Conf(key); value && can.core.Item(can.Conf(key), function(k, v) { value[k] = value[k]||v })
@@ -323,14 +331,12 @@ Volcanos(chat.ONIMPORT, {
 			sub.onimport._field = function(sub, msg, cb) {
 				msg.Table(function(value) { value._goback = function() { goback(true) }, can.onimport.myStory(can, value) })
 			}
-			sub.onexport._output = function(_sub) {
-				can.core.Item(can.onimport, function(key, value) { _sub.onimport[key] = _sub.onimport[key]||value })
-				can.core.Item(can.onexport, function(key, value) { _sub.onexport[key] = _sub.onexport[key]||value })
-			}
+			can.onimport.myField(can, sub)
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
-			}
+				can.page.style(can, sub._output, "left", "0")
+			}, can.page.style(can, sub._output, "left", "100")
 			function goback(clear) { if (value._goback) { return value._goback() }
 				if (clear) { if (sub.Option(UID)) { sub.Option(UID, "") } }
 				if (sub.Option(UID)) { return sub.Option(UID, ""), sub.Update() }
@@ -385,12 +391,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 		cb = cb|| function(event) { can.Option(UID, value.uid), can.Update() }
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
-			{view: html.ACTION, _init: function(target) { if (!value.action) { return } target.innerHTML = value.action
-				can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
-					var style = can.Conf("_style."+target.name)||can.page.buttonStyle(can, target.name); style && can.onappend.style(can, style, target)
-					target.onclick = function(event) { can.onkeymap.prevent(event), can.Update(can.request(event, value), [ctx.ACTION, target.name]) }
-				})
-			}},
+			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target) }},
 			{view: html.OUTPUT, list: [
 				{img: can.misc.ResourceIcons(can,
 					value.icons||value.icon||value.command_icon||value.service_icon||

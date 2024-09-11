@@ -143,7 +143,7 @@ Volcanos(chat.ONLAYOUT, {
 Volcanos(chat.ONEXPORT, {
 	size: function(can, msg) {
 		msg.Option(html.LEFT, can._output.offsetLeft), msg.Option(html.TOP, can._output.offsetTop)
-		msg.Option(html.HEIGHT, can._output.offsetHeight), msg.Option(html.WIDTH, can._output.offsetWidth)
+		msg.Option(html.HEIGHT, can._output.offsetHeight||window.innerHeight), msg.Option(html.WIDTH, can._output.offsetWidth||window.innerWidth)
 		msg.Option(html.MARGIN_Y, can.Conf(html.MARGIN_Y)), msg.Option(html.MARGIN_X, can.Conf(html.MARGIN_X))
 	},
 	layout: function(can) { return can._layout||can.onlayout._storage(can)||can.misc.SearchOrConf(can, html.LAYOUT)||"" },
