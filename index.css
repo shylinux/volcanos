@@ -43,7 +43,7 @@ body {
 body {
 	--body-bg-color:var(--panel-bg-color); --body-fg-color:var(--plugin-fg-color);
 	--legend-bg-color:var(--plugin-bg-color); --legend-fg-color:var(--plugin-fg-color);
-	--input-bg-color:var(--plugin-bg-color); --input-fg-color: var(--output-fg-color);
+	--input-bg-color:var(--output-bg-color); --input-fg-color: var(--output-fg-color);
 	--output-bg-color:var(--plugin-bg-color); --output-fg-color:var(--plugin-fg-color);
 	--th-bg-color:var(--legend-bg-color); --th-fg-color:var(--legend-fg-color);
 	--tr-hover-bg-color:var(--hover-bg-color); --td-hover-bg-color:var(--hover-bg-color);
