@@ -25,8 +25,12 @@ Volcanos(chat.ONFIGURE, {date: {
 			return now
 		} show(now), can._show = function(d) { d? _cb(show(now = new Date(now.getTime()+d*24*3600*1000))): _cb(show(now)) }
 	})},
-	onfocus: function(event, can, meta, target, cbs, mod) { if (target._selectonly) { target.blur() } },
-	onblur: function(event, can, sub, cb, target) { if (target._selectonly) { return } },
+	onfocus: function(event, can, meta, target, cbs, mod) {
+		if (target._selectonly) { can.onmotion.delay(can, function() { target.blur() }) }
+	},
+	onblur: function(event, can, sub, cb, target) {
+		if (target._selectonly) { return }
+	},
 	onkeydown: function(event, can, meta, cb, target, sub, last) { if (sub && sub.hidden()) { return last(event) } switch (event.key) {
 		case "n": can.page.SelectInput(can, sub._action, mdb.NEXT, function(target) { target.click(), sub._show() }); break
 		case "p": can.page.SelectInput(can, sub._action, mdb.PREV, function(target) { target.click(), sub._show() }); break

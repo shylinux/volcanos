@@ -16,7 +16,8 @@ Volcanos(chat.ONIMPORT, {
 	_clear: function(can, msg) { can.onmotion.clear(can) },
 	_inner: function(can, sub, msg) { sub = sub||can, can.onmotion.scrollIntoView(can, can.onappend.table(sub, msg)), can.onmotion.scrollIntoView(can, can.onappend.board(sub, msg)), can.onmotion.story.auto(sub) },
 	_cookie: function(can, msg) { can.misc.Cookie(can, msg._arg[0], msg._arg[1])
-		if (msg._arg[2]) { history.go(msg._arg[2])
+		if (msg._arg[2]) {
+			history.go(msg._arg[2])
 			can.onmotion.delay(can, function() { history.back() }, 300)
 		} else {
 			can.Update()

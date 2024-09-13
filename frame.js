@@ -276,6 +276,7 @@ Volcanos(chat.ONAPPEND, {
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
 				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], value: item.value, values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
+					if (!can.onexport) { return }
 					var button = event.target.value; can.onexport.session && can.onexport.session(can, "action:"+(item.name||item[0]), button)
 					can.onaction._select && can.onaction._select(event, can, item[0], button)
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
@@ -1292,8 +1293,8 @@ Volcanos(chat.ONMOTION, {
 	},
 	slideAction: function(can, target) {
 		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]
-		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 200, 60)
-		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 200, 60)
+		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 240, 60)
+		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 240, 60)
 			beginY = event.touches[0].clientY, beginX = event.touches[0].clientX, beginLeft = parseFloat(target.style.left)||0
 		})
 		target.addEventListener("touchmove", function(event) {

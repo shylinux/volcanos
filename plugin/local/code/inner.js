@@ -462,7 +462,7 @@ Volcanos(chat.ONACTION, {
 	show: function(event, can) { can._msg._profile_hidden = false, can.runAction(can.request(event, {_toast: "渲染中...", args: can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.RENDER, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.profile(can, msg) }) },
 	exec: function(event, can) { can.runAction(can.request(event, {_toast: "执行中...", args: can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.ENGINE, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.display(can, msg) }) },
 	plug: function(event, can, button) {
-		function show(index, args) { input.cancel(); can.onimport.toolkit(can, {index: index, args: can.core.Split(args||"")}, function(sub) { sub.select() }) }
+		function show(index, args) { input.cancel({}, can, "cancel"); can.onimport.toolkit(can, {index: index, args: can.core.Split(args||"")}, function(sub) { sub.select() }) }
 		var input = can.user.input(can.request(event, {type: button}), can, [{type: html.TEXT, name: ctx.INDEX, run: function(event, cmds, cb) { can.run(event, cmds, function(msg) {
 			if (cmds[0] == ctx.ACTION && cmds[1] == mdb.INPUTS && cmds[2] == ctx.INDEX) { var _msg = can.request({})
 				can.core.Item(can.db.toolkit, function(index) { _msg.Push(ctx.INDEX, index) }), _msg.Push(ctx.INDEX, ""), _msg.Copy(msg), cb(_msg)
@@ -480,7 +480,7 @@ Volcanos(chat.ONACTION, {
 					can.core.Item(can.onengine.plugin.meta, function(key, value) { push(ctx.INDEX, "can."+key) }), cb(_msg)
 				} else { cb(msg) }
 			}, true)
-		}}], function(list, input) { input.cancel(); var ls = can.core.Split(list[0], nfs.DF, nfs.DF); switch (ls[0]) {
+		}}], function(list, input) { input.cancel({}, can, "cancel"); var ls = can.core.Split(list[0], nfs.DF, nfs.DF); switch (ls[0]) {
 			case web.HTTP: return can.onimport.tabview(can, "", list[0], web.SPACE)
 			case nfs.LINE: return can.onaction.selectLine(can, parseInt(ls[1]), true)
 			case web.SPACE: return can.onimport.tabview(can, "", ls[1].indexOf(web.HTTP) == 0? list[0].slice(6): ls[1], web.SPACE)
