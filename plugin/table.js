@@ -284,9 +284,8 @@ Volcanos(chat.ONIMPORT, {
 		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
 			can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): ""
 		)
-		can.user.agent.init(can,
-			(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can.Conf("icons")? can.misc.Resource(can, can.Conf("icons")): can.user.info.nodetype == "worker"? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): "",
+		can.user.agent.init(can, (can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
+			can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): "",
 		)
 	},
 	myPlugin: function(can, value, cb) {
@@ -295,11 +294,7 @@ Volcanos(chat.ONIMPORT, {
 		var _output = sup._target.parentNode; value.style = html.OUTPUT
 		sup.onappend.plugin(can._root.Action, value, function(sub) { can.onimport.myField(can, sub)
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = sup._stacks[key] = [sub], _sub._stacks_root = sup, sub._select() }
-			sub._select = function() { can.onimport.myOption(sub)
-				can.page.SelectChild(can, _output, html.FIELDSET, function(target) { can.onmotion.toggle(can, target, target == sub._target) })
-				can.page.SelectChild(can, sub._output, "*", function(target) { can.onmotion.toggle(can, target, true) })
-				can.page.style(can, sub._action, html.DISPLAY, html.NONE), sub._output.innerHTML == "" && sub.Update()
-			}, sub._select(), cb && cb(sub)
+			sub._select = function() { can.onimport.myPluginSelect(can, sub, _output) }, sub._select(), cb && cb(sub)
 		}, _output)
 	},
 	myField: function(can, sub) {
@@ -309,18 +304,21 @@ Volcanos(chat.ONIMPORT, {
 			can.core.Item(can.onexport, function(key, value) { _sub.onexport[key] = _sub.onexport[key]||value })
 		}
 	},
+	myPluginSelect: function(can, sub, _output) {
+		can.page.SelectChild(can, _output, html.FIELDSET, function(target) { can.onmotion.toggle(can, target, target == sub._target) })
+		can.page.SelectChild(can, sub._output, "*", function(target) { can.onmotion.toggle(can, target, true) })
+		can.page.style(can, sub._action, html.DISPLAY, html.NONE), sub._output.innerHTML == "" && sub.Update()
+		can.user.isMobile && sub.onimport.size(sub, window.innerHeight, window.innerWidth, false)
+		can.onimport.myOption(sub)
+	},
 	myStory: function(can, value) {
 		if (!can._stacks_current) { var sup = can.sup; can._stacks_root = sup, sup._stacks = {}
 			var key = [can.ConfSpace(), can.ConfIndex()].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))).join(",")
 			can._stacks_current = sup._stacks[key] = [can.sup]
-			sup._select = function() { var target = sup._target.parentNode; can.onimport.myOption(sup)
-				can.page.SelectChild(can, target, html.FIELDSET, function(target) { can.onmotion.toggle(can, target, target == sup._target) })
-				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, true) })
-				can.page.style(can, _action, html.DISPLAY, html.NONE), sup._output.innerHTML == "" && sup.Update()
-				can.user.isMobile && sup.onimport.size(sup, window.innerHeight, window.innerWidth, false)
-			}
+			sup._select = function() { can.onimport.myPluginSelect(can, sup, sup._target.parentNode) }
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
-		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-48
+		var ACTION_HEIGHT = 48
+		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
 				var value = sub.Conf(key); value && can.core.Item(can.Conf(key), function(k, v) { value[k] = value[k]||v })
@@ -355,6 +353,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
 				var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback() }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload() })]
 				can.page.Appends(can, _action, list), can.page.style(can, _action, html.DISPLAY, html.BLOCK)
+				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 			}, sub._select()
 		}, _output)
 	},
@@ -375,7 +374,7 @@ Volcanos(chat.ONIMPORT, {
 	myView: function(can, msg, cb, cbs, target) {
 		can.onimport.itemcards(can, msg, cb, cbs, target||can.ui.list)
 	},
-	itemcards: function(can, msg, cb, cbs, target) { target = target||can._output
+	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
 		can.onimport.shareTitle(can, msg)
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, target, html.TR, function(target) {
@@ -415,8 +414,16 @@ Volcanos(chat.ONIMPORT, {
 			can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
 		}}
 	},
-	textView: function(can, value, key, type) { if (!type) { type = key.split("_").pop() }
-		return value[key] && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
+	textView: function(can, value, key, type) {
+		if (!key) {
+			can.core.Item(value, function(k, v) {
+				if (k == "status" || can.base.endWith(k, "_status")) {
+					key = k
+				}
+			})
+		}
+		if (!type) { type = key.split("_").pop() }
+		return value[key] && value[key] != "finish" && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
 	timeView: function(can, value) { return {text: [can.base.TimeTrim(value.updated_at||value.created_at), "", mdb.TIME]} },
