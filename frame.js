@@ -1,6 +1,7 @@
 Volcanos(chat.ONENGINE, {
 	_init: function(can, meta, list, cb, target) {
 		can.Option = function() {}, can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
+		can.Inputs = can.page.Append(can, document.body, ["inputs"])._target
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, item, item.list, function(sub) { can[item.name] = sub, sub.db = {}, sub.ui = {}, sub.db._boot = can.misc._time()
 				sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, sub, cmds, cb) }
@@ -22,8 +23,11 @@ Volcanos(chat.ONENGINE, {
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
+		
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() {
-		if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, _toast) }, 30) }
+			if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, _toast)
+		}, 30) }
+		
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) {
 			can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
@@ -33,8 +37,12 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			can.user.isMobile || toast && can.user.toastSuccess(msg._can, msg.Option(ctx.ACTION)+lex.SP+ice.SUCCESS)
+			// can.user.isMobile ||
+			toast && can.user.toastSuccess(msg._can, _toast)
 			toast && toast.close && toast.close(), toast = true
+			delete(sub._toast)
+			delete(sub.__toast)
+			
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -478,8 +486,10 @@ Volcanos(chat.ONAPPEND, {
 		}
 		input.onclick = item.onclick
 		if (item.type == html.TEXT) {
-			input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
-			input.title = can.user.trans(can, input.title||input.placeholder||input.name, item._trans, html.INPUT)
+			if (!can.user.isMobile) {
+				input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
+				input.title = can.user.trans(can, input.title||input.placeholder||input.name, item._trans, html.INPUT)
+			}
 			input.onkeydown = item.onkeydown||function(event) { if (event.key == code.ENTER) { return can.Update(), can.onkeymap.prevent(event) }
 				can.onkeymap.input(event, can), can.onkeymap.selectOutput(event, can)
 			}
@@ -522,7 +532,7 @@ Volcanos(chat.ONAPPEND, {
 			can.user.trans(can, kit.Dict(target.name, target.value))
 			return {type: html.BUTTON, name: target.name, value: target.value, style: _style}
 		})
-		function run(event, button) { button && can.run(can.request(event, value, can.Option())._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
+		function run(event, button) { button && can.run(can.request(event, value, can.Option(), {_toast: can.user.trans(can, button)})._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
 		if (list.length <= limit) {
 			target.onclick = function(event) { run(event, event.target.name) }
 		} else {
@@ -698,7 +708,7 @@ Volcanos(chat.ONAPPEND, {
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, "value."+key), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
-				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event), target.name)
+				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event, {_toast: can.user.trans(can, target.name)}), target.name)
 					meta && meta[target.name]? can.user.input(event, can, meta[target.name], function(args) { run(event, target.name, args) }, data): run(event, target.name)
 				} else {
 					can.sup.onimport.change(event, can.sup, key, value, null, data) || can.sup.onexport.record(can.sup, value, key, data, event)

@@ -403,47 +403,48 @@ body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:ri
 body>div.carte div.item span.name { flex-grow:1; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
-body>div.input.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
-body>div.input.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
-body>div.input { padding:var(--plugin-padding); }
-body>div.input { padding:var(--plugin-padding); }
-body>div.input>legend { background-color:var(--input-bg-color); float:right; padding:0; }
-body>div.input tr { margin:var(--button-margin); }
-body>div.input td { padding:var(--table-padding); }
-body>div.input td span.must { color:red; padding:0 5px; }
-body>div.input td:nth-child(2) { padding:var(--table-padding) 0; }
-body.mobile>div.input tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
-body.mobile>div.input td { padding:0 var(--button-padding); margin:var(--button-margin); }
-body.mobile>div.input td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
-body.mobile>div.input td:nth-child(2) { display:none; }
-body>div.input tr.img td:last-child>span { display:none; }
-body>div.input tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
-body>div.input tr.img td:last-child>div.item>div { background-color:gray; margin:var(--input-margin); }
-body>div.input tr.img td:last-child>div>span { font-size:var(--action-height); }
-body>div.input tr.img td:last-child>div>span.icon { display:none; }
-body>div.input tr.icon td:last-child { position:relative; }
-body>div.input tr.icon td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
-body>div.input tr.icon td:last-child input { padding-left:var(--action-height); }
-body>div.input tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
-body>div.input tr.icons td:last-child span:not(.icon) { font-family:var(--code-font-family); position:absolute; left:33px; }
-body>div.input tr.icons td:last-child input { padding-left:var(--action-height); }
-body>div.input td span.icon { margin-left:-20px; visibility:hidden; }
-body>div.input td span.icons { margin-left:-20px; visibility:hidden; }
-body>div.input td label { font-family:var(--code-font-family); }
-body>div.input td:hover span.icon { visibility:visible; }
-body>div.input td:hover span.icons { visibility:visible; }
-body:not(.mobile)>div.input textarea { height:var(--textarea-height); width:var(--form-width) !important; }
-body>div.input select { width:var(--form-width) !important; }
-body>div.input input.select[type=button] { width:var(--form-width) !important; }
-body>div.input input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
-body>div.input input[type=text] { width:var(--form-width) !important; padding-left:24px; }
-body>div.input input[name=cancel] { border:var(--box-danger); }
-body>div.input input[name=submit] { border:var(--box-notice); }
-body>div.input input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-body>div.input input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
-body>div.input div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move; }
-body>div.input div.action>div.item { margin-left:var(--button-margin); float:right; }
-body>div.input div.action>div.item>input[type=button] { min-width:112px; }
+body div.input.float.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
+body div.input.float.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
+body div.input.float { padding:var(--plugin-padding); }
+body div.input.float { padding:var(--plugin-padding); }
+body div.input.float>legend { background-color:var(--input-bg-color); float:right; padding:0; }
+body div.input.float tr { margin:var(--button-margin); }
+body div.input.float td { padding:var(--table-padding); }
+body div.input.float td span.must { color:red; padding:0 5px; }
+body div.input.float td:nth-child(2) { padding:var(--table-padding) 0; }
+body.mobile div.input.float table { width:100%; }
+body.mobile div.input.float tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
+body.mobile div.input.float td { padding:0 var(--button-padding); margin:var(--button-margin); }
+body.mobile div.input.float td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
+body.mobile div.input.float td:nth-child(2) { display:none; }
+body div.input.float tr.img td:last-child>span { display:none; }
+body div.input.float tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
+body div.input.float tr.img td:last-child>div.item>div { background-color:gray; margin:var(--input-margin); }
+body div.input.float tr.img td:last-child>div>span { font-size:var(--action-height); }
+body div.input.float tr.img td:last-child>div>span.icon { display:none; }
+body div.input.float tr.icon td:last-child { position:relative; }
+body div.input.float tr.icon td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
+body div.input.float tr.icon td:last-child input { padding-left:var(--action-height); }
+body div.input.float tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
+body div.input.float tr.icons td:last-child span:not(.icon) { font-family:var(--code-font-family); position:absolute; left:33px; }
+body div.input.float tr.icons td:last-child input { padding-left:var(--action-height); }
+body div.input.float td span.icon { margin-left:-20px; visibility:hidden; }
+body div.input.float td span.icons { margin-left:-20px; visibility:hidden; }
+body div.input.float td label { font-family:var(--code-font-family); }
+body div.input.float td:hover span.icon { visibility:visible; }
+body div.input.float td:hover span.icons { visibility:visible; }
+body:not(.mobile)>div.input.float textarea { height:var(--textarea-height); width:var(--form-width) !important; }
+body div.input.float select { width:var(--form-width) !important; }
+body div.input.float input.select[type=button] { width:var(--form-width) !important; }
+body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
+body div.input.float input[type=text] { width:var(--form-width) !important; padding-left:24px; }
+body div.input.float input[name=cancel] { border:var(--box-danger); }
+body div.input.float input[name=submit] { border:var(--box-notice); }
+body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+body div.input.float div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move; }
+body div.input.float div.action>div.item { margin-left:var(--button-margin); float:right; }
+body div.input.float div.action>div.item>input[type=button] { min-width:112px; }
 body>div.input.login { flex-direction:column; }
 body>div.input.login>div.action { border-bottom:var(--box-border); padding:0; flex-direction:row; }
 body>div.input.login>div.action>div.tabs { padding:var(--button-padding); }
@@ -470,7 +471,7 @@ body>div.upload div.status div.size { text-align:center; }
 body.mobile>div.input { margin:10px; width:calc(100% - 20px); left:0 !important; }
 body.mobile>div.input table { width:100%; }
 body.mobile>div.input td { padding:0; }
-body.mobile>div.input table input { width:100% !important; }
+body.mobile div.input.float table input { width:100% !important; }
 /* display */
 fieldset:not(.Action) { position:relative; }
 fieldset>form.option:not(.hide), fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
