@@ -1,7 +1,7 @@
 Volcanos(chat.ONENGINE, {
 	_init: function(can, meta, list, cb, target) {
+		can.user.isMobile && (can.Inputs = can.page.Append(can, document.body, ["inputs"])._target)
 		can.Option = function() {}, can.run = function(event, cmds, cb) { var msg = can.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, can, cmds, cb) }
-		can.Inputs = can.page.Append(can, document.body, ["inputs"])._target
 		can.core.Next(list, function(item, next) { item.type = chat.PANEL
 			can.onappend._init(can, item, item.list, function(sub) { can[item.name] = sub, sub.db = {}, sub.ui = {}, sub.db._boot = can.misc._time()
 				sub.run = function(event, cmds, cb) { var msg = sub.request(event); cmds = cmds||[]; return (can.onengine[cmds[0]]||can.onengine._remote)(event, can, msg, sub, cmds, cb) }
@@ -23,11 +23,9 @@ Volcanos(chat.ONENGINE, {
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
-		
 		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() {
-			if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, _toast)
-		}, 30) }
-		
+			if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, can.user.trans(sub, _toast))
+		}, 0) }
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) {
 			can.base.isUndefined(sub._daemon) && can.ondaemon._list[0] && (sub._daemon = can.ondaemon._list.push(sub)-1)
 			if (sub._daemon) { msg.Option(ice.MSG_DAEMON, can.core.Keys(can.ondaemon._list[0], sub._daemon)) }
@@ -37,12 +35,7 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			// can.user.isMobile ||
-			toast && can.user.toastSuccess(msg._can, _toast)
-			toast && toast.close && toast.close(), toast = true
-			delete(sub._toast)
-			delete(sub.__toast)
-			
+			toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true, delete(sub._toast), delete(sub.__toast)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -376,12 +369,16 @@ Volcanos(chat.ONAPPEND, {
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
+				sub.onmotion.touchAction(sub)
 				can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
 				if (!can.page.ClassList.has(can, can._target, "_back") && !can.page.ClassList.has(can, can._target, "_goto")) {
 					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
 					return
 				}
+				can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
+				can.page.Remove(can, output_old)
+				return
 				var width = can.ConfWidth(), begin = width-200; can.page.ClassList.add(can, output_old, "_unload")
 				can.core.Timer({length: (width-begin)/10, interval: 10}, function(timer, interval, index, list) {
 					if (can.page.ClassList.has(can, can._target, "_back")) {
@@ -1310,11 +1307,17 @@ Volcanos(chat.ONMOTION, {
 		target.addEventListener("touchmove", function(event) {
 			if (Math.abs(event.touches[0].clientY - beginY) > Math.abs(event.touches[0].clientX - beginX)) { return }
 			var left = event.touches[0].clientX - beginX + beginLeft; target._left = left
+			if (beginLeft == 0 && left > 0) { return }
 			if (left < 0 && left > -max) { can.page.style(can, event.currentTarget, {left: left}) }
 			can.onmotion.select(can, target.parentNode.parentNode, html.DIV_ITEM, target.parentNode)
 			can.onkeymap.prevent(event)
 		})
 		target.addEventListener("touchend", function(event) { var left = target._left
+			var msg = can.request(event)
+			if (event.currentTarget.offsetLeft < 0) {
+				if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
+				
+			}
 			if (left < -max/2) {
 				can.page.style(can, event.currentTarget, {left: -max})
 			} else {
@@ -1324,6 +1327,40 @@ Volcanos(chat.ONMOTION, {
 				if (_target != target) { can.page.style(can, _target, {left: 0}), _target._left = 0 }
 			})
 		})
+	},
+	touchAction: function(can, target) { target = target||can.ui.list||can.ui.output||can._output
+		var beginY = 0, beginX = 0, spanY = 0, spanX = 0, data
+		function direction() {
+			if (Math.abs(spanX) > Math.abs(spanY)) {
+				if (Math.abs(spanX) < 50) {
+					return "move"
+				} else if (spanX > 0) {
+					return "right"
+				} else {
+					return "left"
+				}
+			} else {
+				if (Math.abs(spanY) < 50) {
+					return "move"
+				} else if (spanY > 0) {
+					return "down"
+				} else {
+					return "up"
+				}
+			}
+		}
+		target.ontouchstart = function(event) {
+			beginY = event.touches[0].clientY, beginX = event.touches[0].clientX, spanY = 0, spanX = 0
+		}
+		target.ontouchmove = function(event) { var msg = can.request(event)
+			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
+			spanY = event.touches[0].clientY-beginY, spanX = event.touches[0].clientX-beginX
+			can.onaction.onslidemove(event, can, data = {beginX: beginX, beginY: beginY, spanX: spanX, spanY: spanY}, direction())
+		}
+		target.ontouchend = function(event) { var msg = can.request(event)
+			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
+			data && can.onaction["onslide"+direction()](event, can, data, direction(), target)
+		}
 	},
 })
 Volcanos(chat.ONKEYMAP, {

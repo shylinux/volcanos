@@ -60,10 +60,10 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 	_runs: function(event, can, button, cb) { var meta = can.Conf(), msg = can.request(event); msg.Option(ctx.ACTION, button)
 		can.user.input(event, can, meta.feature[button], function(data, args) { msg.Option(data), can.onaction._run(event, can, button, args, cb) })
 	},
-	save: function(event, can, button) { var p = can.Option(nfs.PATH)+can.Option(nfs.FILE); can.user.toastProcess(can, p, button)
-		can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can)})
+	save: function(event, can, button) {
+		can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can), _toast: button})
 		can.onaction._run(event, can, button, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			can.onaction.reload(can, msg), can.user.toastSuccess(can, p, button)
+			can.onaction.reload(can, msg)
 		})
 	},
 	reload: function(can, msg) {
@@ -90,7 +90,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 	script: function(event, can, button) { can.onaction._runs(event, can, button) },
 	create: function(event, can, button) { can.onaction._runs(event, can, button) },
 	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: can.user.trans(can, button, "创建模块")}), can, button) },
-	compile: function(event, can, button) { var msg = can.request(event); msg.Option(chat._TOAST, "")
+	compile: function(event, can, button) { var msg = can.request(event, {_toast: button})
 		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden()
 			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
 				can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })

@@ -335,23 +335,34 @@ Volcanos(chat.ONIMPORT, {
 				msg.Table(function(value) { value._goback = function(event) { goback(event, true) }, can.onimport.myStory(can, value) })
 			}
 			can.onimport.myField(can, sub)
+			var margin = 100; can.page.style(can, sub._target, html.LEFT, margin)
+			can.core.Timer({interval: 10, length: 50}, function(timer, interval, index, list) {
+				can.page.style(can, sub._target, html.LEFT, margin-(index+1)*(margin/list.length))
+			}, function() {})
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
-				can.page.style(can, sub._output, "left", "0")
-			}, can.page.style(can, sub._output, "left", "100")
-			function goback(event, clear) { if (value._goback) { return value._goback(event) }
+			}
+			function goback(event, clear) {
+				if (can._stacks_current.length == 1) { return }
+				if (value._goback) { return value._goback(event) }
 				sub.request(event, {_toast: can.user.trans(can, "reload", "刷新")})
 				if (clear) { if (sub.Option(UID)) { sub.Option(UID, "") } }
 				if (sub.Option(UID)) { return sub.Option(UID, ""), sub.Update(event) }
-				var last = can._stacks_current.pop(); can.page.Remove(can, last._target)
-				var last = can._stacks_current[can._stacks_current.length-1]; if (last._select) {
-					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
-					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
-					return last._select()
-				}
+				var _last = can._stacks_current.pop()
+				can.core.Timer({interval: 10, length: 50}, function(timer, interval, index, list) {
+					can.page.style(can, _last._target, html.LEFT, (index+1)*(margin/list.length))
+				}, function() { can.page.Remove(can, _last._target)
+					var last = can._stacks_current[can._stacks_current.length-1]; if (last._select) {
+						if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
+						can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
+						return last._select()
+					}
+				})
 			}
-			function reload(event) { sub.Update(sub.request(event, {_toast: can.user.trans(can, "reload", "刷新")})) }
+			function reload(event) {
+				sub.Update(sub.request(event, {_toast: can.user.trans(can, "reload", "刷新")}))
+			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
 				var list = [can.page.button(can, can.user.trans(can, "", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
@@ -392,7 +403,7 @@ Volcanos(chat.ONIMPORT, {
 			var style = can.Conf("_style."+target.name); style && can.page.ClassList.add(can, target, style)
 		})
 	},
-	itemcard: function(can, value, list, cb) {
+	itemcard: function(can, value, list, cb) { if (!list) { return }
 		can.core.List(list, function(item) { if (!item || !item.list) { return }
 			for (var i = 0; i < item.list.length; i++) { if (item.list[i] && typeof item.list[i] == code.STRING) { item.list[i] = {text: item.list[i]} } }
 		})
@@ -469,6 +480,29 @@ Volcanos(chat.ONACTION, {
 	onkeydown: function(event, can) {
 		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs||can._action, html.DIV_TABS)) { return }
 		can.onkeymap._parse(event, can)
+	},
+	onslidemove: function(event, can, data, direction) {
+		// can.user.toast(can, [direction, data.spanX, data.spanY].join(","))
+	},
+	onslideright: function(event, can, data, direction) {
+		can.onaction._goback && can.onaction._goback(event)
+	},
+	onslideleft: function(event, can, data, direction) {
+		var button = can.base.Obj(can._msg.Option("_action"), [])[0]
+		button && can.run({}, [ctx.ACTION, button])
+	},
+	onslidedown: function(event, can, data, direction) {
+		var target = can.ui.list||can.ui.output||can._output
+		if (target.scrollTop == 0) {
+			can.Update(can.request(event, {_toast: "reload"}))
+		}
+	},
+	onslideup: function(event, can, data, direction) {
+		return
+		var target = can.ui.list||can._output
+		if (target.offsetHeight+target.scrollTop == target.scrollHeight) {
+			can.Update(can.request(event, {_toast: "reload"}))
+		}
 	},
 })
 Volcanos(chat.ONKEYMAP, {
