@@ -1298,6 +1298,22 @@ Volcanos(chat.ONMOTION, {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
+	slideIn: function(can) { var margin = 100
+		var target = can._target
+		can.page.style(can, target, html.LEFT, margin)
+		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
+			can.page.style(can, target, html.LEFT, margin-(index+1)*(margin/list.length))
+		}, function() {})
+	},
+	slideOut: function(can, cb) { var margin = 100
+		var target = can._target
+		if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
+		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
+			can.page.style(can, target, html.LEFT, (index+1)*(margin/list.length))
+		}, function() {
+			can.page.Remove(can, target), cb && cb()
+		})
+	},
 	slideAction: function(can, target) {
 		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]
 		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 240, 60)
@@ -1332,7 +1348,7 @@ Volcanos(chat.ONMOTION, {
 		var beginY = 0, beginX = 0, spanY = 0, spanX = 0, data
 		function direction() {
 			if (Math.abs(spanX) > Math.abs(spanY)) {
-				if (Math.abs(spanX) < 50) {
+				if (Math.abs(spanX) < 100) {
 					return "move"
 				} else if (spanX > 0) {
 					return "right"
@@ -1340,7 +1356,7 @@ Volcanos(chat.ONMOTION, {
 					return "left"
 				}
 			} else {
-				if (Math.abs(spanY) < 50) {
+				if (Math.abs(spanY) < 150) {
 					return "move"
 				} else if (spanY > 0) {
 					return "down"
@@ -1355,6 +1371,7 @@ Volcanos(chat.ONMOTION, {
 		target.ontouchmove = function(event) { var msg = can.request(event)
 			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
 			spanY = event.touches[0].clientY-beginY, spanX = event.touches[0].clientX-beginX
+			if (Math.abs(spanX) > Math.abs(spanY)) { can.onkeymap.prevent(event) }
 			can.onaction.onslidemove(event, can, data = {beginX: beginX, beginY: beginY, spanX: spanX, spanY: spanY}, direction())
 		}
 		target.ontouchend = function(event) { var msg = can.request(event)

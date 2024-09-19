@@ -272,8 +272,7 @@ Volcanos(chat.ONIMPORT, {
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
 	
-	myOption: function(can) { var sub = can.sub; if (!sub) { return } var plugin = sub._stacks_current[0]
-		current = plugin.current||{}
+	myOption: function(can) { var sub = can.sub; if (!sub) { return } var plugin = sub._stacks_current[0]; current = plugin.current||{}
 		if (plugin == sub._stacks_root) { var PLACE_UID = can.core.Item(can.Option())[0]
 			if (sub._stacks_current.length == 1) {
 				plugin.sub.onexport.hash(plugin.sub, can.Option(PLACE_UID))
@@ -311,13 +310,12 @@ Volcanos(chat.ONIMPORT, {
 			sub._select = function() { can.onimport.myPluginSelect(can, sub, _output) }, sub._select(), cb && cb(sub)
 		}, _output)
 	},
-	myStory: function(can, value) {
+	myStory: function(can, value) { var ACTION_HEIGHT = 48
 		if (!can._stacks_current) { var sup = can.sup; can._stacks_root = sup, sup._stacks = {}
 			var key = [can.ConfSpace(), can.ConfIndex()].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))).join(",")
 			can._stacks_current = sup._stacks[key] = [can.sup]
 			sup._select = function() { can.onimport.myPluginSelect(can, sup, sup._target.parentNode) }
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
-		var ACTION_HEIGHT = 48
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
@@ -325,43 +323,46 @@ Volcanos(chat.ONIMPORT, {
 			})
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
-				run(can.request(event, {
+				run(sub.request(event, {
 					city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
 					dashboard_uid: current["dashboard_uid"], storage_uid: current["storage_uid"],
 					command_uid: sub.Conf("command_uid"), portal_name: can.ConfHelp(),
 				}, can.base.Obj(sub.Conf("field.option"))), cmds, cb)
 			}
-			sub.onimport._field = function(sub, msg, cb) {
-				msg.Table(function(value) { value._goback = function(event) { goback(event, true) }, can.onimport.myStory(can, value) })
-			}
-			can.onimport.myField(can, sub)
-			var margin = 100; can.page.style(can, sub._target, html.LEFT, margin)
-			can.core.Timer({interval: 10, length: 50}, function(timer, interval, index, list) {
-				can.page.style(can, sub._target, html.LEFT, margin-(index+1)*(margin/list.length))
-			}, function() {})
+			can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
 			}
-			function goback(event, clear) {
-				if (can._stacks_current.length == 1) { return }
-				if (value._goback) { return value._goback(event) }
-				sub.request(event, {_toast: can.user.trans(can, "reload", "刷新")})
-				if (clear) { if (sub.Option(UID)) { sub.Option(UID, "") } }
-				if (sub.Option(UID)) { return sub.Option(UID, ""), sub.Update(event) }
+			sub.onimport._field = function(msg) { can.onmotion.clear(can, sub._output)
+				var sup = sub
+				msg.Table(function(value) {
+					can.onappend.plugin(can, value, function(sub) {
+						var run = sub.run; sub.run = function(event, cmds, cb) {
+							run(sub.request(event, {
+								city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
+								dashboard_uid: current["dashboard_uid"], storage_uid: current["storage_uid"],
+								command_uid: sub.Conf("command_uid"), portal_name: can.ConfHelp(),
+							}, can.base.Obj(sub.Conf("field.option")), sup.Option()), cmds, cb)
+						}
+					}, sub._output)
+				})
+			}
+			function goback(event) { if (can._stacks_current.length == 1) { return }
+				if (sub._history.length > 1) {
+					sub.request(event, {_toast: "reload"})
+					return sub.onimport.back(event, sub)
+				}
 				var _last = can._stacks_current.pop()
-				can.core.Timer({interval: 10, length: 50}, function(timer, interval, index, list) {
-					can.page.style(can, _last._target, html.LEFT, (index+1)*(margin/list.length))
-				}, function() { can.page.Remove(can, _last._target)
-					var last = can._stacks_current[can._stacks_current.length-1]; if (last._select) {
-						if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
-						can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
-						return last._select()
-					}
+				can.onmotion.slideOut(_last, function() {
+					var last = can._stacks_current[can._stacks_current.length-1]; last._select()
+					last.request(event, {_toast: "reload"})
+					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
+					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
 				})
 			}
 			function reload(event) {
-				sub.Update(sub.request(event, {_toast: can.user.trans(can, "reload", "刷新")}))
+				sub.Update(sub.request(event, {_toast: "reload"}))
 			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
@@ -489,7 +490,7 @@ Volcanos(chat.ONACTION, {
 	},
 	onslideleft: function(event, can, data, direction) {
 		var button = can.base.Obj(can._msg.Option("_action"), [])[0]
-		button && can.run({}, [ctx.ACTION, button])
+		button && can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
 	},
 	onslidedown: function(event, can, data, direction) {
 		var target = can.ui.list||can.ui.output||can._output
