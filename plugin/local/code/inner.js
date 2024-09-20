@@ -220,7 +220,7 @@ Volcanos(chat.ONIMPORT, {
 			}} }, target), can.onappend.board(can, msg, target), msg.Option(ice.MSG_STATUS) && can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, target, [html.STATUS])._target)
 		} else {
 			return can.onmotion.toggle(can, target, false), can.onimport.layout(can), can.user.toastFailure(can, "nothing to display")
-		} return can.onmotion.toggle(can, target, true), can.onmotion.delay(can, function() { can.onimport.layout(can), can.user.toastSuccess(can) }, 0)
+		} return can.onmotion.toggle(can, target, true), can.onimport.layout(can)
 	},
 	toolkit: function(can, meta, cb) { can.base.isString(meta) && (meta = {index: meta})
 		var key = [meta.index].concat(meta.args).join(","), sub = can.db.toolkit[key]; if (sub) { sub.select(); return }
@@ -459,8 +459,8 @@ Volcanos(chat.ONACTION, {
 			msg.Append(nfs.FILE)? can.onimport.tabview(can, msg.Append(nfs.PATH), msg.Append(nfs.FILE), msg.Append(nfs.LINE)): can.user.toastFailure(can, "not found "+value)
 		})
 	}), can.page.Select(can, tr, "td.text", function(td) { offset += td.innerText.length+1 }) }) },
-	show: function(event, can) { can._msg._profile_hidden = false, can.runAction(can.request(event, {_toast: "渲染中...", args: can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.RENDER, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.profile(can, msg) }) },
-	exec: function(event, can) { can.runAction(can.request(event, {_toast: "执行中...", args: can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.ENGINE, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.display(can, msg) }) },
+	show: function(event, can) { can._msg._profile_hidden = false, can.runAction(can.request(event, {_toast: "渲染", args: can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.RENDER, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.profile(can, msg) }) },
+	exec: function(event, can) { can.runAction(can.request(event, {_toast: "执行", args: can.onexport.session(can, DISPLAY_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE))}), mdb.ENGINE, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onimport.display(can, msg) }) },
 	plug: function(event, can, button) {
 		function show(index, args) { input.cancel({}, can, "cancel"); can.onimport.toolkit(can, {index: index, args: can.core.Split(args||"")}, function(sub) { sub.select() }) }
 		var input = can.user.input(can.request(event, {type: button}), can, [{type: html.TEXT, name: ctx.INDEX, run: function(event, cmds, cb) { can.run(event, cmds, function(msg) {

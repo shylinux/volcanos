@@ -35,7 +35,8 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true, delete(sub._toast), delete(sub.__toast)
+			toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
+			// delete(sub._toast), delete(sub.__toast)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -218,8 +219,9 @@ Volcanos(chat.ONAPPEND, {
 			}[item.name||item||""]; if (!icon) { return } item.style = "icons"
 			can.page.Append(can, option, [{view: [[html.ITEM, html.ICON, icon.name, item.name], html.DIV, can.page.unicode[icon.name]], title: can.user.trans(can, item.name), onclick: function(event) {
 				can.onengine.signal(can, "onevent", can.request(event, {_type: html.OPTION}))
+				var msg = can.request(event, {_toast: can.base.isIn(item.name, "list", "back")? "reload": item.name}), cmds = [ctx.ACTION, item.name];
 				if (icon.cb) { return icon.cb(event) }
-				var msg = can.request(event), cmds = [ctx.ACTION, item.name]; msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
+				msg.RunAction(event, can.sub, cmds) || msg.RunAction(event, can, cmds) || can.Update(event, cmds)
 			}}])
 		})
 		while (args.length > 0) { if (args[args.length-1] != "") { break } args.pop() }
@@ -768,6 +770,8 @@ Volcanos(chat.ONAPPEND, {
 					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
 				})
 			}
+			var style = can.page.buttonStyle(can, target.name)
+			can.onappend.style(can, style, target)
 		}) } return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target) },
@@ -1394,6 +1398,8 @@ Volcanos(chat.ONKEYMAP, {
 		} }), can.onkeymap._engine[mode] = engine
 	}) },
 	_parse: function(event, can, mode, target, list) { mode = mode||mdb.PLUGIN, target = target||can._output; if (!list) { list = target._key_list||[], target._key_list = list }
+		delete(event._msg)
+		var msg = can.request(event)
 		if (event.metaKey && !can.user.isWebview) { return list } if ([code.SHIFT, code.CONTROL, code.META, code.ALT].indexOf(event.key) > -1) { return list }
 		list.push(event.key); for (var pre = 0; pre < list.length; pre++) { if ("0" <= list[pre] && list[pre] <= "9") { continue } break }
 		var count = parseInt(list.slice(0, pre).join(""))||1, map = can.onkeymap._mode[mode]
