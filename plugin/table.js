@@ -281,10 +281,11 @@ Volcanos(chat.ONIMPORT, {
 			}
 		}
 		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
-			can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): ""
+			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
 		)
-		can.user.agent.init(can, (can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): "",
+		can.user.agent.init(can,
+			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
+			can._msg.Option("share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 		)
 	},
 	myField: function(can, sub) {
@@ -334,8 +335,7 @@ Volcanos(chat.ONIMPORT, {
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
 			}
-			sub.onimport._field = function(msg) { can.onmotion.clear(can, sub._output)
-				var sup = sub
+			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) {
 					can.onappend.plugin(can, value, function(sub) {
 						var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -349,13 +349,9 @@ Volcanos(chat.ONIMPORT, {
 				})
 			}
 			function goback(event) { if (can._stacks_current.length == 1) { return }
-				if (sub._history.length > 1) {
-					sub.request(event, {_toast: "reload"})
-					return sub.onimport.back(event, sub)
-				}
+				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub) }
 				var _last = can._stacks_current.pop()
-				can.onmotion.slideOut(_last, function() {
-					var last = can._stacks_current[can._stacks_current.length-1]; last._select()
+				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]; last._select()
 					last.request(event, {_toast: "reload"})
 					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
 					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
@@ -408,7 +404,7 @@ Volcanos(chat.ONIMPORT, {
 		can.core.List(list, function(item) { if (!item || !item.list) { return }
 			for (var i = 0; i < item.list.length; i++) { if (item.list[i] && typeof item.list[i] == code.STRING) { item.list[i] = {text: item.list[i]} } }
 		})
-		cb = cb|| function(event) { can.Option(UID, value.uid), can.Update() }
+		cb = cb|| function(event) { if (value.uid) { can.Option(UID, value.uid), can.Update() } }
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target) }},
 			{view: html.OUTPUT, list: [
@@ -416,9 +412,15 @@ Volcanos(chat.ONIMPORT, {
 					value.icons||value.icon||value.command_icon||value.service_icon||
 					value.avatar||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
 				), onclick: function(event) { can.onkeymap.prevent(event)
-					value.user_uid && can.onappend.plugin(can, {index: "web.team.gonganxitong.profile", args: [value.user_uid]})
+					if (value.auth_uid) {
+						can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [value.auth_uid]})
+					} else if (value.user_uid) {
+						can.onimport.myStory(can, {index: "web.team.gonganxitong.user", args: [value.user_uid]})
+					} else {
+						can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
+					}
 				}},
-				{view: html.INFO, list: list},
+				{view: html.CONTAINER, list: list},
 			], _init: function(target) {
 				value.action && can.onmotion.slideAction(can, target)
 			}},
@@ -429,6 +431,29 @@ Volcanos(chat.ONIMPORT, {
 	textView: function(can, value, key, type) {
 		key || can.core.Item(value, function(k, v) { if (k == "status" || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
 		return value[key] && value[key] != "finish" && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
+	},
+	cityView: function(can, value) {
+		return {text: value.city_name, onclick: function(event) {
+			can.run(event, [ctx.RUN, "web.team.gonganxitong.city", value.city_name], function(msg) {
+				if (msg.Append("auth_uid")) {
+					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
+				} else {
+					can.onimport.myStory(can, {index: "web.team.gonganxitong.city", args: [value.city_name]})
+				}
+			})
+		}}
+	},
+	streetView: function(can, value) {
+		return {text: value._street, onclick: function(event) {
+			var cmd = value.company_name? "web.team.guanlixitong.company": value.school_name? "web.team.jiaowuxitong.school": value.street_name? "web.team.gonganxitong.street": ""
+			can.run(event, [ctx.RUN, cmd, value.city_name, value._street], function(msg) {
+				if (msg.Append("auth_uid")) {
+					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
+				} else {
+					can.onimport.myStory(can, {index: cmd, args: [value.city_name, value._street]})
+				}
+			})
+		}}
 	},
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
 	timeView: function(can, value, key) {
@@ -444,7 +469,12 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
-		return can.user.isMobile && {view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target)
+		return {view: html.ACTION, _init: function(target) {
+			if (value.Option) {
+				can.onappend._action(can, value.Option(ice.MSG_ACTION), target)
+				return
+			}
+			can.page.appendAction(can, value, target)
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 				if (filter.length > 0) {
 					filter.indexOf(target.name) == -1 && can.page.Remove(can, target)

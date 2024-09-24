@@ -320,7 +320,10 @@ Volcanos(chat.ONAPPEND, {
 		var p = can._history[can._history.length-1]; p && p._opts && can.request(event, p._opts)
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) { var _can = can._fields? can.sup: can
 			if (can.base.isFunc(cb) && !cb(msg)) { return } if (silent) { return }
-			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) { return } }
+			if (_can == (msg._can._fields? msg._can.sup: msg._can)) { if (can.core.CallFunc([_can, chat.ONIMPORT, ice.MSG_PROCESS], {can: _can, msg: msg})) {
+				can.onmotion.delay(can, function() { can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "") }, 300)
+				return
+			} }
 			if (cmds && cmds[0] == ctx.ACTION) { if (can.base.isIn(cmds[1], mdb.CREATE, mdb.INSERT, mdb.PRUNES, mdb.EXPORT, mdb.IMPORT, "exports", "imports", nfs.TRASH) || msg.Length() == 0 && !msg.Result()) {
 				if (can.base.isIn(cmds[1], ctx.COMMAND)) { return }
 				return can._toast || can.user.isMobile || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
@@ -348,20 +351,21 @@ Volcanos(chat.ONAPPEND, {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			} can.onmotion.toggle(can, can._action, true), delete(can._status._cache), delete(can._status._cache_key)
 			var output_old = can._output; sub._target = sub._output = can._output = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
-			can.page.ClassList.add(can, can._output, "_prepare")
 			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = output_old.innerHTML }
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
-			}
+			} can.page.ClassList.add(can, can._output, "_prepare")
 			can.onexport._output(sub, msg)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
+				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output), sub.onmotion.touchAction(sub)
 				if (action !== false) { can.onkeymap._build(sub)
 					var list = can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), [])||[]
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, [{view: "_space"}].concat(list), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
-					if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
+					// if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
 					if (msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) { can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300) }
-				} can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output)
+				}
+				
 				if (can.onimport.size) {
 					can.page.ClassList.has(can, can._target, html.FLOAT) && !can.page.ClassList.has(can, can._target, html.PLUG)?
 					can.onimport.size(can, can.ConfHeight(), can.base.Min(can.ConfWidth(), can._target.offsetWidth), can.Conf("_auto"), can.Mode()):
@@ -369,31 +373,12 @@ Volcanos(chat.ONAPPEND, {
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
+				
+				// can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
-				can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
-				sub.onmotion.touchAction(sub)
 				can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
-				if (!can.page.ClassList.has(can, can._target, "_back") && !can.page.ClassList.has(can, can._target, "_goto")) {
-					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
-					can.page.Remove(can, output_old)
-					return
-				}
 				can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 				can.page.Remove(can, output_old)
-				return
-				var width = can.ConfWidth(), begin = width-200; can.page.ClassList.add(can, output_old, "_unload")
-				can.core.Timer({length: (width-begin)/10, interval: 10}, function(timer, interval, index, list) {
-					if (can.page.ClassList.has(can, can._target, "_back")) {
-						can.page.style(can, can._output, html.LEFT, -width+(width-begin)/list.length*(index+1)+begin)
-						can.page.style(can, output_old, html.LEFT, (width-begin)/list.length*(index+1)+begin)
-					} else {
-						can.page.style(can, can._output, html.LEFT, width-(width-begin)/list.length*(index+1)-begin)
-						can.page.style(can, output_old, html.LEFT, -(width-begin)/list.length*(index+1)-begin)
-					}
-				}, function() {
-					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
-					can.page.Remove(can, output_old)
-				})
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -672,6 +657,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == mdb.ICON && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg")? img(can.misc.Resource(can, data[key], data.pod||data.space||data.nodename)): "<i class='"+value+"'></i>" }
 			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == aaa.AVATAR && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if (key == aaa.BACKGROUND && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			// if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }

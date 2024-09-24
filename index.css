@@ -158,8 +158,8 @@ fieldset.plugin.cmd.output>div.output {
 	top:0;
 }
 fieldset.plugin.cmd>div.output {
-	position:absolute;
-	top:32px;
+	// position:absolute;
+	// top:32px;
 }
 div.output._prepare {
 	position:absolute;
