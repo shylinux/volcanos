@@ -17,9 +17,10 @@ Volcanos(chat.ONFIGURE, {date: {
 		can.onappend._action(can, [cli.CLOSE, [HOUR].concat(can.core.List(24)), [MINUTE].concat(can.core.List(0, 60, 5)), [SECOND].concat(can.core.List(0, 60, 5)), TODAY], ui.time, meta)
 		can.onappend._action(can, [mdb.PREV, [YEAR].concat(can.core.List(now.getFullYear() - 10, now.getFullYear() + 10)), [MONTH].concat(can.core.List(1, 13)), mdb.NEXT], ui.date, meta)
 		can._table = can.page.Appends(can, can._output, [{view: [chat.CONTENT, html.TABLE], list: [{type: html.TBODY}]}]).tbody
+		can.page.Append(can, can._output, [{text: "请先选择时间，再选择日期"}])
 		target.value == "" && (now.setMinutes(now.getMinutes()>30? 30: 0), now.setSeconds(0))
 		function show(now) { can.Action(YEAR, now.getFullYear()), can.Action(MONTH, now.getMonth()+1)
-			can.Action(HOUR, now.getHours()), can.Action(MINUTE, parseInt(now.getMinutes()/5)*5), can.Action(SECOND, parseInt(now.getSeconds()/5)*5)
+			can.Action(HOUR, now.getHours()), can.Action(MINUTE, parseInt(now.getMinutes()/30)*30), can.Action(SECOND, 0)
 			can.page.Appends(can, can._table, can.date.List(can, function(event, day) { day.setHours(now.getHours()), day.setMinutes(now.getMinutes()), day.getSeconds(now.getSeconds()), _cb(day), can.close() }, now))
 			var l = can.date.solar2lunar(now); can.page.Appends(can, can._status, [{view: "today", inner: [l.gzYear, l.Animal+"年", l.cnMonth, l.cnDay, l.lunarFestival||l.festival||l.Term, l.Astro].join(lex.SP)}])
 			return now

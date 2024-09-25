@@ -73,14 +73,11 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			} can.runAction(event, cmds[1], cmds.slice(2), cb, true)
 		},
 		runActionCommand: function(event, index, args, cb) {
-			can.request(event)._caller()
-			// can.runAction(event, ctx.RUN, [index].concat(args), cb, true)
+			var msg = can.request(event, {_handle: ice.TRUE}); can.request(event)._caller()
 			can.run(event, [ctx.ACTION, ctx.RUN].concat(index, args||[]), cb, true)
 		},
 		runAction: function(event, action, args, cb, silent) {
-			var msg = can.request(event, {_handle: ice.TRUE})
-			// can.request(can.base.isIn(msg._can, can, can._fields? can.sup: can.sub)? can.Option(): {})._caller()
-			can.request(event, can.Option())._caller()
+			var msg = can.request(event, {_handle: ice.TRUE}); can.request(event, can.Option())._caller()
 			can.run(event, [ctx.ACTION].concat(action, args||[]), cb, silent)
 		},
 		search: function(event, cmds, cb) {

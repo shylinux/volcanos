@@ -37,6 +37,7 @@ Volcanos(chat.ONENGINE, {
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
 			toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
 			// delete(sub._toast), delete(sub.__toast)
+			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -564,6 +565,9 @@ Volcanos(chat.ONAPPEND, {
 			can.page.Select(can, carte._target, html.DIV_ITEM, function(item) {
 				if (target.value == item.innerText) {
 					can.onappend.style(can, html.SELECT, item)
+					can.onmotion.delay(can, function() {
+						can.onmotion.scrollIntoView(can, item)
+					}, 300)
 				}
 			})
 		}, _init: function(target) { can.page.style(can, target, html.WIDTH, (select.offsetWidth||80)+30), can.onappend.style(can, html.HIDE, select) }}, {icon: mdb.SELECT}])

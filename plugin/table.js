@@ -470,12 +470,8 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
-		return {view: html.ACTION, _init: function(target) {
-			if (value.Option) {
-				can.onappend._action(can, value.Option(ice.MSG_ACTION), target)
-				return
-			}
-			if (!can.user.isMobile) { return }
+		return {view: html.ACTION, _init: function(target) { if (!can.user.isMobile) { return }
+			if (value.Option) { return can.onappend._action(can, value.Option(ice.MSG_ACTION), target) }
 			can.page.appendAction(can, value, target)
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 				if (filter.length > 0) {
