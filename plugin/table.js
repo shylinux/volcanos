@@ -307,6 +307,7 @@ Volcanos(chat.ONIMPORT, {
 		var sup = can._stacks_root; sup._stacks = sup._stacks||{}; var sub = (sup._stacks[key]||[])[0]; if (sub) { return sub._select() }
 		var _output = sup._target.parentNode; value.style = html.OUTPUT
 		sup.onappend.plugin(can._root.Action, value, function(sub) { can.onimport.myField(can, sub)
+			sub.misc.localStorage(sub, [sub.ConfSpace(), sub.ConfIndex(), "hash"].join(","), "")
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = sup._stacks[key] = [sub], _sub._stacks_root = sup, sub._select() }
 			sub._select = function() { can.onimport.myPluginSelect(can, sub, _output) }, sub._select(), cb && cb(sub)
 		}, _output)
@@ -474,6 +475,7 @@ Volcanos(chat.ONIMPORT, {
 				can.onappend._action(can, value.Option(ice.MSG_ACTION), target)
 				return
 			}
+			if (!can.user.isMobile) { return }
 			can.page.appendAction(can, value, target)
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 				if (filter.length > 0) {
