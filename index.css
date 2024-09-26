@@ -70,6 +70,7 @@ body {
 	--button-padding:var(--plugin-padding); --button-margin:var(--button-padding);
 	--input-padding:5px; --input-margin:var(--input-padding);
 	--table-padding:var(--button-padding);
+	--item-padding:10px; --item-margin:10px;
 	
 	--header-height:48px; --footer-height:var(--action-height);
 	--action-height:32px; --status-height:32px; --textarea-height:96px;
@@ -158,8 +159,8 @@ fieldset.plugin.cmd.output>div.output { top:0; }
 div.output._prepare { position:absolute; }
 div.output._unload { position:absolute; }
 fieldset._process input {
-	border:var(--box-border) !important;
-	background-color:var(--disable-fg-color) !important;
+	// border:var(--box-border) !important;
+	background-color:transparent !important;
 	color:var(--disable-fg-color) !important;
 }
 body.mobile table.content.checkbox th:first-child { padding:var(--table-padding) var(--input-padding); }
@@ -206,7 +207,8 @@ div.item.card div.title span.status { border:var(--box-notice); color:var(--noti
 div.item.card div.status { font-size:12px; color:gray; }
 div.item.card div.status span { margin-right:5px; }
 div.item.card div.action { max-width:100%; display:flex; align-items:center; }
-div.item.card div.action { position:absolute; right:0; }
+div.item.card div.action { position:absolute; right:0;  }
+body:not(.mobile) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }

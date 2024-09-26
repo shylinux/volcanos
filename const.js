@@ -229,6 +229,8 @@ var nfs = {
 	CHAT_RIVER: "/chat/river/", CHAT_ACTION: "/chat/action/",
 	
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
+	BACKGROUND_JPG: "usr/icons/background.jpg",
+	AVATAR_JPG: "usr/icons/avatar.jpg",
 }
 var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon",
@@ -435,6 +437,8 @@ var html = {
 	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
 	
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
+	BACKGROUND_JPG: "usr/icons/background.jpg",
+	AVATAR_JPG: "usr/icons/avatar.jpg",
 }
 var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal", SUN: "bi bi-sun", MOON: "bi bi-moon-stars",

@@ -360,7 +360,7 @@ Volcanos(chat.ONAPPEND, {
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output), sub.onmotion.touchAction(sub)
 				if (action !== false) { can.onkeymap._build(sub)
-					var list = can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), [])||[]
+					var list = can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), sub.onaction.list||[])
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, [{view: "_space"}].concat(list), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					// if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }

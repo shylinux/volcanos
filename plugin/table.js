@@ -392,10 +392,7 @@ Volcanos(chat.ONIMPORT, {
 		} else {
 			can.page.Append(can, target, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value), cbs)
-			})), msg.Result() && can.onappend.board(can, msg)
-			if (msg.Option(ctx.STYLE)) {
-				can.onappend.style(can, msg.Option(ctx.STYLE))
-			}
+			})), msg.Result() && can.onappend.board(can, msg), can.onappend.style(can, msg.Option(ctx.STYLE))
 		}
 		can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			var style = can.Conf("_style."+target.name); style && can.page.ClassList.add(can, target, style)
@@ -405,7 +402,12 @@ Volcanos(chat.ONIMPORT, {
 		can.core.List(list, function(item) { if (!item || !item.list) { return }
 			for (var i = 0; i < item.list.length; i++) { if (item.list[i] && typeof item.list[i] == code.STRING) { item.list[i] = {text: item.list[i]} } }
 		})
-		cb = cb|| function(event) { if (value.uid) { can.Option(UID, value.uid), can.Update() } }
+		cb = cb|| function(event) { var done = false
+			if (value.uid) { return can.Option(UID, value.uid), can.Update() }
+			can.core.Item(can.Option(), function(k, v) {
+				if (!done && !v) { done = true, can.Option(k, value[k]), can.Update() }
+			})
+		}
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target) }},
 			{view: html.OUTPUT, list: [
