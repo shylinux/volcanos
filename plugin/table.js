@@ -349,13 +349,14 @@ Volcanos(chat.ONIMPORT, {
 					}, sub._output)
 				})
 			}
-			function goback(event) { if (can._stacks_current.length == 1) { return }
-				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub) }
+			function goback(event, cb) { if (can._stacks_current.length == 1) { return cb && cb()}
+				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub), cb && cb() }
 				var _last = can._stacks_current.pop()
 				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]; last._select()
 					last.request(event, {_toast: "reload"})
 					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
 					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
+					cb && cb()
 				})
 			}
 			function reload(event) {
@@ -433,7 +434,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	textView: function(can, value, key, type) {
 		key || can.core.Item(value, function(k, v) { if (k == "status" || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
-		return value[key] && value[key] != "finish" && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
+		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
 	cityView: function(can, value) {
 		return {text: value.city_name, onclick: function(event) {
@@ -469,7 +470,7 @@ Volcanos(chat.ONIMPORT, {
 	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	shareTitle: function(can, msg, title, content) { if (msg.IsDetail()) { var value = msg.TableDetail()
-		msg.Option("_share_title", (value[title]||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
+		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
 		return {view: html.ACTION, _init: function(target) { if (!can.user.isMobile) { return }

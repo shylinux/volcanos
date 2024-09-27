@@ -362,7 +362,7 @@ fieldset.input.date>div.output td span.lunar { font-size:8px; display:block; cle
 fieldset.input.date>div.output td span.lunar.term { color:green; }
 fieldset.input.date>div.output td span.lunar.fest { color:red; }
 fieldset.input.date>div.output td { cursor:pointer; }
-fieldset.input.date>div.output td.select { background-color:var(--notice-bg-color); }
+fieldset.input.date>div.output td.select { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.input.date>div.status { text-align:center; border-top:unset; }
 fieldset.input.date>div.status>div.today { padding:var(--input-padding); }
 body.mobile fieldset.input.date { left:0 !important; width:100%; }
