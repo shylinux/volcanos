@@ -438,7 +438,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	cityView: function(can, value) {
 		return {text: value.city_name, onclick: function(event) {
-			can.run(event, [ctx.RUN, "web.team.gonganxitong.city", value.city_name], function(msg) {
+			can.runAction(event, ctx.RUN, ["web.team.gonganxitong.city", value.city_name], function(msg) {
 				if (msg.Append("auth_uid")) {
 					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
 				} else {
@@ -450,7 +450,7 @@ Volcanos(chat.ONIMPORT, {
 	streetView: function(can, value) {
 		return {text: value._street, onclick: function(event) {
 			var cmd = value.company_name? "web.team.guanlixitong.company": value.school_name? "web.team.jiaowuxitong.school": value.street_name? "web.team.gonganxitong.street": ""
-			can.run(event, [ctx.RUN, cmd, value.city_name, value._street], function(msg) {
+			can.runAction(event, ctx.RUN, [cmd, value.city_name, value._street], function(msg) {
 				if (msg.Append("auth_uid")) {
 					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
 				} else {
@@ -473,7 +473,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
-		return {view: html.ACTION, _init: function(target) { if (!can.user.isMobile) { return }
+		return {view: html.ACTION, _init: function(target) {
 			if (value.Option) { return can.onappend._action(can, value.Option(ice.MSG_ACTION), target) }
 			can.page.appendAction(can, value, target)
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
