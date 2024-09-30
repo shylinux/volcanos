@@ -318,6 +318,7 @@ Volcanos(chat.ONIMPORT, {
 			can._stacks_current = sup._stacks[key] = [can.sup]
 			sup._select = function() { can.onimport.myPluginSelect(can, sup, sup._target.parentNode) }
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
+		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
@@ -339,6 +340,10 @@ Volcanos(chat.ONIMPORT, {
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) {
 					can.onappend.plugin(can, value, function(sub) {
+						sub.onexport.output = function(_sub, msg) {
+							_sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
+							can.onimport.myOption(sub)
+						}
 						var run = sub.run; sub.run = function(event, cmds, cb) {
 							run(sub.request(event, {
 								city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
@@ -412,17 +417,11 @@ Volcanos(chat.ONIMPORT, {
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target) }},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can,
-					value.icons||value.icon||value.command_icon||value.service_icon||
-					value.avatar||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
-				), onclick: function(event) { can.onkeymap.prevent(event)
-					if (value.auth_uid) {
-						can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [value.auth_uid]})
-					} else if (value.user_uid) {
-						can.onimport.myStory(can, {index: "web.team.gonganxitong.user", args: [value.user_uid]})
-					} else {
-						can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
-					}
+				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||
+					value.auth_avatar||value.command_icon||value.service_icon||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
+				), onclick: function(event) {
+					// can.onkeymap.prevent(event)
+					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
 			], _init: function(target) {

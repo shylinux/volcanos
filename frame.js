@@ -534,8 +534,8 @@ Volcanos(chat.ONAPPEND, {
 		can.page.insertBefore(can, can.onappend.filter(can, can._action, can.ui.content||can._output).parentNode, (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
 	},
 	filter: function(can, target, output) { output = output||can.ui.content||target
-		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: "search in n items", onkeydown: function() {}, onkeyup: function(event) {
-			var value = event.currentTarget? event.currentTarget.value: ""
+		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
+			var value = (event.currentTarget? event.currentTarget.value: "").trim()
 			if (can.sub && can.sub.onaction && can.sub.onaction.filter && can.sub.onaction.filter(event, can.sub, value)) {
 				return
 			}
@@ -638,9 +638,7 @@ Volcanos(chat.ONAPPEND, {
 		if (msg.IsDetail()) {
 			for (var i = 0; i < msg[mdb.KEY].length; i++) {
 				if (msg[mdb.KEY][i] == "action") { var action = msg[mdb.VALUE][i]
-					for (var j = i; j < msg[mdb.KEY].length-1; j++) {
-						msg[mdb.KEY][j] = msg[mdb.KEY][j+1], msg[mdb.VALUE][j] = msg[mdb.VALUE][j+1]
-					}
+					for (var j = i; j < msg[mdb.KEY].length-1; j++) { msg[mdb.KEY][j] = msg[mdb.KEY][j+1], msg[mdb.VALUE][j] = msg[mdb.VALUE][j+1] }
 					msg[mdb.KEY][j] = "action", msg[mdb.VALUE][j] = action
 					break
 				}
@@ -648,10 +646,8 @@ Volcanos(chat.ONAPPEND, {
 		}
 		var option = can.core.Item(can.Option())
 		var table = can.page.AppendTable(can, msg, target||can.ui.content||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
-			if (msg.IsDetail()) {
-				if (key == mdb.VALUE) { key = data.key } data = {}, can.core.List(list, function(item) {
-					data[item.key] = item.value
-				})
+			if (msg.IsDetail()) { if (key == mdb.VALUE) { key = data.key } data = {}
+				can.core.List(list, function(item) { data[item.key] = item.value })
 				if (can.user.isMobile && key == mdb.KEY && !data[value]) { return }
 				if (can.user.isMobile && key != mdb.KEY && !data[key]) { return }
 			}
@@ -663,6 +659,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == aaa.AVATAR && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == aaa.BACKGROUND && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if (key == "auth_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			// if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
 			// if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }

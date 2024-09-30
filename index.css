@@ -195,7 +195,7 @@ div.output.card>div.item>div.title>div.title>span { padding:var(--input-padding)
 div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg-color); }
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { padding:var(--input-padding); }
-div.item.card { position:relative; display:flex; align-items:center; padding:0; }
+div.item.card:not(.hide) { position:relative; display:flex; align-items:center; padding:0; }
 // div.output>div.item.card { border:solid 5px var(--plugin-bg-color); }
 div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
@@ -758,9 +758,9 @@ body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--i
 body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
-div.item.text:hover>i:first-child { color:unset; }
+body:mobile(.mobile) div.item.text:hover>i:first-child { color:unset; }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
-div.item.text:hover>span.icon { visibility:visible; }
+body:not(.mobile) div.item.text:hover>span.icon { visibility:visible; }
 div.item.button { position:relative; height:var(--action-height); }
 div.item.button.icons.state { margin-right:var(--input-margin); }
 div.item.button.icons>i { font-size:20px; padding:var(--input-padding); }
