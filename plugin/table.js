@@ -281,11 +281,11 @@ Volcanos(chat.ONIMPORT, {
 			}
 		}
 		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
-			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
+			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")||can.user.info.titles
 		)
 		can.user.agent.init(can,
 			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can._msg.Option("share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
+			can._msg.Option("_share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 		)
 	},
 	myField: function(can, sub) {
@@ -319,6 +319,7 @@ Volcanos(chat.ONIMPORT, {
 			sup._select = function() { can.onimport.myPluginSelect(can, sup, sup._target.parentNode) }
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
 		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
+		value.index.split(".").pop() == "credit" && (ACTION_HEIGHT = 0)
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
@@ -338,7 +339,7 @@ Volcanos(chat.ONIMPORT, {
 				sub.sub.onaction._goback = goback
 			}
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
-				msg.Table(function(value) {
+				msg.Table(function(value) { value.style = html.OUTPUT
 					can.onappend.plugin(can, value, function(sub) {
 						sub.onexport.output = function(_sub, msg) {
 							_sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
@@ -525,10 +526,11 @@ Volcanos(chat.ONACTION, {
 		can.onaction._goback && can.onaction._goback(event)
 	},
 	onslideleft: function(event, can, data, direction) {
-		var button = can.base.Obj(can._msg.Option("_action"), [])[0]
-		button && can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
+		var button = can.base.Obj(can._msg.Option("_action"), [])[0]; if (!button) { return }
+		can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
 	},
 	onslidedown: function(event, can, data, direction) {
+		return
 		var target = can.ui.list||can.ui.output||can._output
 		if (target.scrollTop == 0) {
 			can.Update(can.request(event, {_toast: "reload"}))
