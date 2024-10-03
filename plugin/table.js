@@ -307,7 +307,7 @@ Volcanos(chat.ONIMPORT, {
 		var sup = can._stacks_root; sup._stacks = sup._stacks||{}; var sub = (sup._stacks[key]||[])[0]; if (sub) { return sub._select() }
 		var _output = sup._target.parentNode; value.style = html.OUTPUT
 		sup.onappend.plugin(can._root.Action, value, function(sub) { can.onimport.myField(can, sub)
-			sub.misc.localStorage(sub, [sub.ConfSpace(), sub.ConfIndex(), "hash"].join(","), "")
+			sub.misc.localStorage(sub, [sub.ConfSpace(), sub.ConfIndex(), mdb.HASH].join(","), "")
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = sup._stacks[key] = [sub], _sub._stacks_root = sup, sub._select() }
 			sub._select = function() { can.onimport.myPluginSelect(can, sub, _output) }, sub._select(), cb && cb(sub)
 		}, _output)
@@ -376,9 +376,6 @@ Volcanos(chat.ONIMPORT, {
 			}, sub._select()
 		}, _output)
 	},
-	myFloat: function(can, value) {
-		
-	},
 	myTabs: function(can, key, list, target) { var last = can.misc.Cookie(can, key)
 		if (!target && !can.ui.tabs) { can.ui = can.page.Append(can, can._output, [html.TABS, html.LIST]) } target = target||can.ui.tabs
 		can.page.Append(can, target, can.core.List(list, function(value) {
@@ -421,7 +418,7 @@ Volcanos(chat.ONIMPORT, {
 				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||
 					value.auth_avatar||value.command_icon||value.service_icon||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
 				), onclick: function(event) {
-					// can.onkeymap.prevent(event)
+					can.onkeymap.prevent(event)
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
@@ -435,29 +432,6 @@ Volcanos(chat.ONIMPORT, {
 	textView: function(can, value, key, type) {
 		key || can.core.Item(value, function(k, v) { if (k == "status" || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
 		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
-	},
-	cityView: function(can, value) {
-		return {text: value.city_name, onclick: function(event) {
-			can.runAction(event, ctx.RUN, ["web.team.gonganxitong.city", value.city_name], function(msg) {
-				if (msg.Append("auth_uid")) {
-					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
-				} else {
-					can.onimport.myStory(can, {index: "web.team.gonganxitong.city", args: [value.city_name]})
-				}
-			})
-		}}
-	},
-	streetView: function(can, value) {
-		return {text: value._street, onclick: function(event) {
-			var cmd = value.company_name? "web.team.guanlixitong.company": value.school_name? "web.team.jiaowuxitong.school": value.street_name? "web.team.gonganxitong.street": ""
-			can.runAction(event, ctx.RUN, [cmd, value.city_name, value._street], function(msg) {
-				if (msg.Append("auth_uid")) {
-					can.onimport.myStory(can, {index: "web.team.renzhengshouquan.profile", args: [msg.Append("auth_uid")]})
-				} else {
-					can.onimport.myStory(can, {index: cmd, args: [value.city_name, value._street]})
-				}
-			})
-		}}
 	},
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
 	timeView: function(can, value, key) {
