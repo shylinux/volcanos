@@ -407,6 +407,7 @@ Volcanos(chat.ONIMPORT, {
 			for (var i = 0; i < item.list.length; i++) { if (item.list[i] && typeof item.list[i] == code.STRING) { item.list[i] = {text: item.list[i]} } }
 		})
 		cb = cb|| function(event) { var done = false
+			if (can.onaction.carddetail && can.onaction.carddetail(event, can, value)) { return }
 			if (value.uid) { return can.Option(UID, value.uid), can.Update() }
 			can.core.Item(can.Option(), function(k, v) {
 				if (!done && !v) { done = true, can.Option(k, value[k]), can.Update() }
