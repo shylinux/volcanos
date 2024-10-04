@@ -1307,6 +1307,7 @@ Volcanos(chat.ONMOTION, {
 	},
 	slideAction: function(can, target) {
 		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]
+		if (!action.innerHTML) { return }
 		var beginY, beginX, beginLeft, max = can.base.Max(action.offsetWidth, 240, 60)
 		target.addEventListener("touchstart", function(event) { max = can.base.Max(action.offsetWidth, 240, 60)
 			beginY = event.touches[0].clientY, beginX = event.touches[0].clientX, beginLeft = parseFloat(target.style.left)||0

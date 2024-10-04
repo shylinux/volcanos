@@ -388,7 +388,6 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport.itemcards(can, msg, cb, cbs, target||can.ui.list)
 	},
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
-		can.onimport.shareTitle(can, msg)
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
 			can.page.Select(can, target, html.TR, function(target) {
 				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
@@ -401,6 +400,7 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			var style = can.Conf("_style."+target.name); style && can.page.ClassList.add(can, target, style)
 		})
+		can.onimport.shareTitle(can, msg)
 	},
 	itemcard: function(can, value, list, cb) { if (!list) { return }
 		can.core.List(list, function(item) { if (!item || !item.list) { return }
@@ -413,12 +413,13 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
-			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target) }},
+			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target)
+				can.user.isMobile && can.page.Select(can, target, "input.notice", function(target) { can.page.Remove(can, target) })
+			}},
 			{view: html.OUTPUT, list: [
 				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||
 					value.auth_avatar||value.command_icon||value.service_icon||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
-				), onclick: function(event) {
-					can.onkeymap.prevent(event)
+				), onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
@@ -443,8 +444,10 @@ Volcanos(chat.ONIMPORT, {
 	},
 	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
-	shareTitle: function(can, msg, title, content) { if (msg.IsDetail()) { var value = msg.TableDetail()
-		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid).slice(0, 6)), msg.Option("_share_content", value[content]||value.info)
+	shareTitle: function(can, msg, title, content, icons) { if (msg.IsDetail()) { var value = msg.TableDetail()
+		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid).slice(0, 6))
+		msg.Option("_share_content", msg.Option("_share_content")||value[content]||value.content||value.info)
+		msg.Option("_share_icons", msg.Option("_share_icons")||value[icons]||value.icons||value.avatar)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
 		return {view: html.ACTION, _init: function(target) {
