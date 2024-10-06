@@ -290,6 +290,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	myField: function(can, sub) {
 		sub.onexport._output = function(_sub) {
+			_sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 			can.core.Item(can.onimport, function(key, value) { _sub.onimport[key] = _sub.onimport[key]||value })
 			can.core.Item(can.onaction, function(key, value) { _sub.onaction[key] = _sub.onaction[key]||value })
 			can.core.Item(can.onexport, function(key, value) { _sub.onexport[key] = _sub.onexport[key]||value })
@@ -334,15 +335,15 @@ Volcanos(chat.ONIMPORT, {
 				}, can.base.Obj(sub.Conf("field.option"))), cmds, cb)
 			}
 			can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
-			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
+			sub.onexport.output = function(_sub, msg) {
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
 			}
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) { value.style = html.OUTPUT
 					can.onappend.plugin(can, value, function(sub) {
+						can.onimport.myField(can, sub)
 						sub.onexport.output = function(_sub, msg) {
-							_sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 							can.onimport.myOption(sub)
 						}
 						var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -438,7 +439,7 @@ Volcanos(chat.ONIMPORT, {
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
 	timeView: function(can, value, key) {
 		if (key) { return {text: [can.user.trans(can, key, null, html.INPUT)+": "+can.base.TimeTrim(value[key]), "", mdb.TIME]} }
-		return {text: [can.base.TimeTrim(value[key]||value.updated_at||value.created_at), "", mdb.TIME]}
+		return {text: [can.base.TimeTrim(value[key]||value.updated_at||value.created_at||value.time), "", mdb.TIME]}
 	},
 	unitView: function(can, value, key, unit) { if (!value[key]) { return }
 		return {text: [[can.user.trans(can, key, null, html.INPUT)+":", value[key]].concat(unit? [unit]: []).join(" "), "", key]}
@@ -504,6 +505,7 @@ Volcanos(chat.ONACTION, {
 		can.onaction._goback && can.onaction._goback(event)
 	},
 	onslideleft: function(event, can, data, direction) {
+		return
 		var button = can.base.Obj(can._msg.Option("_action"), [])[0]; if (!button) { return }
 		can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
 	},

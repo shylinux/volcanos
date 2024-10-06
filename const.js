@@ -285,12 +285,10 @@ var chat = {
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),
 	panel_list: [{name: "Header", style: "head"}, {name: "River",  style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
-	plugin_list: [
-		"state.js",
-		"input.js",
-		"table.js",
+	plugin_list: ["state.js", "input.js", "table.js",
 		"input/key.js",
 		"input/date.js",
+	].concat(navigator.userAgent.indexOf("Mobile") > -1? []: [
 		"story/json.js",
 		"story/stats.js",
 		"story/spides.js",
@@ -304,7 +302,7 @@ var chat = {
 		"local/wiki/feel.js",
 		"local/wiki/word.js",
 		"local/team/plan.js",
-	].map(function(p) { return "/v/plugin/"+p }),
+	]).map(function(p) { return "/v/plugin/"+p }),
 	PLUGIN_LOCAL: "/plugin/local/", PLUGIN_STORY: "/plugin/story/", PLUGIN_INPUT: "/plugin/input/",
 	PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js", PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/v/frame.js",

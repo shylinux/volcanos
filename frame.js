@@ -711,7 +711,7 @@ Volcanos(chat.ONAPPEND, {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
-				if (option.indexOf(key) > -1) { can.onappend.style(can, "k-"+value, target.parentNode) }
+				if (option.indexOf(key) > -1) { can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode) }
 				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }

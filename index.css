@@ -119,6 +119,12 @@ table.content th.select[data-asc="0"] i.bi-sort-up { display:none; }
 table.content th.select[data-asc="1"] i.bi-sort-down-alt { display:none; }
 table.content td.option { cursor:pointer; }
 table.content td { padding:var(--table-padding); }
+fieldset.log.debug table.content td:last-child {
+	// white-space:pre-line;
+	// word-break:break-all;
+	white-space:pre;
+	max-width:800px; min-width:600px;
+}
 table.content td i { padding:var(--input-padding); }
 table.content:not(.detail) td img { height:48px; width:auto; }
 table.content:not(.detail) td input.icons { display:none; }
@@ -195,7 +201,8 @@ div.item.card div.title span.status { border:var(--box-notice); color:var(--noti
 div.item.card div.status { font-size:12px; color:gray; }
 div.item.card div.status span { margin-right:5px; }
 div.item.card div.action { max-width:100%; display:flex; align-items:center; }
-div.item.card div.action { position:absolute; right:0;  }
+div.item.card div.action { position:absolute; right:0; }
+div.item.card div.title div.action { top:0; }
 body:not(.mobile) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }

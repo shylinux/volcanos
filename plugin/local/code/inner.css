@@ -51,7 +51,7 @@ fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar { padding:
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.qrcode i { margin-top:3px; }
 fieldset.inner.cmd>div.output>div.layout>div.tabs>div.head>div.avatar>img { height:32px; clip-path:circle(40%); }
 fieldset.inner.cmd>div.output>div.layout>div.path:not(.hide) { display:flex; }
-fieldset.inner.cmd>div.output>div.layout>div.plug { box-shadow:var(--th-box-shadow); height:var(--action-height); overflow:auto; }
+fieldset.inner.cmd>div.output>div.layout>div.plug { box-shadow:var(--th-box-shadow); background-color:var(--plugin-bg-color); height:var(--action-height); overflow:auto; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend { padding:0 var(--input-padding); padding-right:0; margin-right:0; float:right; }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend:hover { box-shadow:var(--notice-box-shadow); }
 fieldset.inner.cmd>div.output>div.layout>div.plug>legend>span.remove { padding:0 var(--input-padding); }

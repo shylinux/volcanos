@@ -106,6 +106,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
 			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
 			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
+			can.user.isMobile && (msg["theme.list"] = ["dark.css", "light.css"])
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
 				if (can.base.beginWith(location.pathname, nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL, web.CHAT_CMD+web.CHAT_OAUTH_CLIENT)) { return show(msg) }
