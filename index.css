@@ -397,8 +397,8 @@ body>div.carte div.item span.icon.next { line-height:22px; height:22px; float:ri
 body>div.carte div.item span.name { flex-grow:1; }
 body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
-body div.input.float.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
-body div.input.float.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color); border:var(--box-border) !important; }
+body div.input.float.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color) !important; border:var(--box-border) !important; }
+body div.input.float.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color) !important; border:var(--box-border) !important; }
 body div.input.float { padding:var(--plugin-padding); }
 body div.input.float { padding:var(--plugin-padding); }
 body div.input.float>legend { background-color:var(--input-bg-color); float:right; padding:0; }
