@@ -5,7 +5,10 @@ const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, code.INNER), can.Mode(msg.Option("mode")||can.Mode())
-		if (can.Mode() == ice.MSG_RESULT) { msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE) }
+		if (can.Mode() == ice.MSG_RESULT) {
+			can.Conf("_width", can.ConfWidth())
+			msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE)
+		}
 		can.onmotion.clear(can, can._output), msg.result = msg.result||[""]
 		var paths = can.core.Split(can.Option(nfs.PATH)); can.Option(nfs.PATH, paths[0])
 		can.core.List([nfs.PATH, nfs.FILE, nfs.LINE], function(key) { msg.Option(key) && can.Option(key, msg.Option(key)) })
@@ -255,7 +258,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 	}) },
 	layout: function(can) {
-		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, (can.Conf("_width")||can.ConfWidth())-3) }
 		if (can.isSimpleMode() && !can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
 		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(can.page.height())) }

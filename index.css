@@ -433,7 +433,7 @@ body div.input.float input.select[type=button] { width:var(--form-width) !import
 body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
 body div.input.float input[type=text] { width:var(--form-width) !important; padding-left:24px; }
 body div.input.float input[name=cancel] { border:var(--box-danger); background-color:transparent; color:var(--danger-bg-color); }
-body div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+body.mobile div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 body div.input.float div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move; }
@@ -661,7 +661,7 @@ body { font-family:var(--body-font-family); }
 legend { font-family:var(--legend-font-family); font-style:italic; }
 input { font-family:var(--input-font-family); }
 kbd { font-family:var(--code-font-family); line-height:var(--code-line-height); }
-kbd:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+// kbd:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 table.content { font-family:var(--table-font-family); }
 table.content th { font-family:var(--input-font-family); font-style:italic; }
 body div.output>div.code { font-family:var(--table-font-family); padding:var(--table-padding); }
