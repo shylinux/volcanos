@@ -5,8 +5,7 @@ const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, code.INNER), can.Mode(msg.Option("mode")||can.Mode())
-		if (can.Mode() == ice.MSG_RESULT) {
-			can.Conf("_width", can.ConfWidth())
+		if (can.Mode() == ice.MSG_RESULT) { can.Conf("_width", can.ConfWidth())
 			msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE)
 		}
 		can.onmotion.clear(can, can._output), msg.result = msg.result||[""]
