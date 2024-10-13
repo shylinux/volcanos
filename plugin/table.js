@@ -12,17 +12,20 @@ Volcanos(chat.ONIMPORT, {
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
-			var img = can.misc.Resource(can, value.icon = value.icons||value.icon||value.image)
+			var img = can.misc.ResourceIcons(can, value.icon = value.icons||value.icon||value.image)
 			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
 				{view: [wiki.TITLE, html.DIV], list: [
-					value.icon && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
+					img && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
 					{view: wiki.TITLE, list: [{text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}, can.onappend.label(can, value)]},
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON)
 					can.page.Select(can, target, html.INPUT, function(target) { can.onappend.style(can, target.name, target) })
 				}},
 			]}
-		})), can.onimport.layout = can.onimport.layout||function() { var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height } }
+		})), can.onimport.layout = can.onimport.layout||function() {
+			var height = can.onlayout.expand(can, target); can.sup.onexport.outputMargin = function() { return height }
+			can.onmotion.delay(can, function() { can.onlayout.expand(can, target) })
+		}
 	},
 	icon: function(can, msg, target, cb) { msg.Table(function(value) {
 		var icon = can.misc.Resource(can, value.icons||value.icon||can.page.drawText(can, value.name, 80), value.space||msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
