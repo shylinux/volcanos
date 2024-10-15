@@ -1,14 +1,17 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, wiki.FEEL)
 		can.run({}, [], function(_msg) { can.db.albums = _msg
-			can.ui = can.onappend.layout(can), can.user.isMobile && (can.onaction.list = [web.UPLOAD]), cb && cb(msg)
+			can.ui = can.onappend.layout(can)
+			// can.user.isMobile && (can.onaction.list = [web.UPLOAD])
+			cb && cb(msg)
 			if (can.base.isIn(can.Action("sort")||"", mdb.TIME, "")) {
 				can.onimport._project(can, msg)
 			} else {
 				can.onaction.sort({}, can, "sort", can.Action("sort"))
 			} can.onimport.page(can, can.db.list, can.db.begin = 0)
-			can.onmotion.toggle(can, can.ui.display, can.user.isMobile || can.page.isDisplay(can.ui.project)), can.onimport.layout(can)
+			can.onmotion.toggle(can, can.ui.display, can.page.isDisplay(can.ui.project)), can.onimport.layout(can)
 		})
+		can.onmotion.toggle(can, can._action, true)
 	},
 	_project: function(can, msg) { can.db.list = [], can.db.dir_root = msg.Option(nfs.DIR_ROOT)
 		can.ui.albums = can.page.Appends(can, can.ui.project, ["albums"])._target
