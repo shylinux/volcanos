@@ -559,7 +559,7 @@ Volcanos(chat.ONAPPEND, {
 			var carte = can.user.carte(event, can, {}, can.core.List(item.values, function(item) {
 				return can.user.trans(can, item, null, html.VALUE)
 			}), function(event, button) { carte.close()
-				if (target.value != button) { target.value = button, select.value = trans[button], select.onchange && select.onchange({target: select}) }
+				if (target.value != button) { target.value = button, select.value = trans[button], select.onchange && select.onchange(event) }
 				return true
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
 			can.page.Select(can, carte._target, html.DIV_ITEM, function(item) {

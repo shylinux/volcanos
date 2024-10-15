@@ -79,6 +79,7 @@ body {
 		--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
 	}
 }
+body.light { --panel-bg-color:black; --panel-fg-color:silver; }
 body.width6 { /* 1920-2240 大显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px;
 	--qrcode-width:420px; --card-height:160px;
