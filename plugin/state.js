@@ -40,6 +40,7 @@ Volcanos(chat.ONIMPORT, {
 		var option = can.base.Obj(msg.Option("field.option"))
 		msg.Table(function(item) { tabs && can.onmotion.cache(can, function() { return tabHash })
 			var sup = item.space? can._root.Action: can
+			height = item._height||height, width = item._width||width
 			can.onappend._plugin(sup, item, {index: item.index, args: can.base.Obj(item.args||item.arg, []), height: height, width: width}, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 				sub.run = function(event, cmds, cb) { var index = msg.Option(ice.MSG_INDEX)||item.index; sup.run(can.request(event, {pod: item.space}, option), (msg[ice.FIELD_PREFIX]? msg[ice.FIELD_PREFIX]: index? [ctx.RUN, index]: []).concat(cmds), cb, true) }
 				can.page.ClassList.has(can, sub._target, html.FLOAT)? can.onmotion.float(sub): sub.onimport.size(sub, height, width, !can.user.isMobile), cb && cb(sub)
