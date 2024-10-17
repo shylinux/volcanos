@@ -7,9 +7,10 @@ Volcanos(chat.ONIMPORT, {
 			can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
 			if (list.length == 0) {
 				can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
-				can.user.info.nodetype == web.WORKER && item._command == web.WORD && (list = [river, storm, item._command])
+				can.user.info.nodetype == web.WORKER && item._command == web.VIMER && (list = [river, storm, item._command])
 			}
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
+				sub.Conf(ice.AUTO, cli.DELAY)
 				if (msg.detail && can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
@@ -18,8 +19,7 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}, function() { can.onaction.layout(can, list[3]), _select._tabs.click() })
 	},
-	_tabs: function(can, sub, meta) {
-		var _init = true
+	_tabs: function(can, sub, meta) { var _init = true
 		var tabs = [{view: [[html.TABS, meta.name], "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub
 			can.onmotion.select(can, can._output, html.FIELDSET_PLUGIN, sub._target)
 			can.onmotion.select(can, can._action, html.DIV_ITEM, sub._tabs)
@@ -27,13 +27,13 @@ Volcanos(chat.ONIMPORT, {
 			// can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
 			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
+			sub.Conf(ice.AUTO) == cli.DELAY && sub._output.innerHTML == "" && sub.Update(can.request(event, {_toast: "load"}))
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 			can.onengine.signal(can, "onindex", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event, {index: sub.ConfIndex()})), _init = false
 			// can.onengine.signal(can, "onevent", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event)), _init = false
 		}, oncontextmenu: sub._legend.onclick}]; sub._header_tabs = can.page.Append(can, can._header_tabs, tabs)._target, sub._tabs = can.page.Append(can, can._action, tabs)._target
 	},
-	_menu: function(can, msg) { if (can.user.isMobile) { return }
-		if (!can.user.isTechOrRoot(can)) { return }
+	_menu: function(can, msg) { if (can.user.isMobile) { return } if (!can.user.isTechOrRoot(can)) { return }
 		var target = can.setHeaderMenu(can.base.Obj(can.Conf(chat.MENUS)||msg.Option(chat.MENUS), can.onaction._menus), function(event, button, list) { list && can.core.CallFunc([can.onaction, list[0]], [can, button]) })
 		can.onmotion.hidden(can, can._header_tabs = can.page.Append(can, target, ["_tabs"])._target)
 	},

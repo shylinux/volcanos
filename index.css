@@ -204,13 +204,13 @@ div.item.card div.status span { margin-right:5px; }
 div.item.card div.action { max-width:100%; display:flex; align-items:center; }
 div.item.card div.action { position:absolute; right:0; }
 div.item.card div.title div.action { top:0; }
-body:not(.mobile) div.item.card div.action { z-index:1; }
+body:not(.width1) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; }
-body.mobile div.item.card div.output { width:100%; }
-body.mobile div.item.card div.output { background-color:var(--output-bg-color); }
+body.width1 div.item.card div.output { width:100%; }
+body.width1 div.item.card div.output { background-color:var(--output-bg-color); }
 div.item.card.select div.title { font-weight:bold; }
 div.item.card.select div.output { transition:left .5s; }
 div.item img[src*=".ico"] { padding:3px; }
@@ -599,8 +599,8 @@ fieldset.input>span.close { line-height:16px; padding:var(--input-padding); posi
 fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.float { background-color:var(--float-bg-color); }
 div.carte div.item:hover { background-color:var(--hover-bg-color); }
-div.carte div.item.notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-div.carte div.item.danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+div.carte div.item.notice:hover { background-color:var(--notice-bg-color) !important; color:var(--notice-fg-color) !important; }
+div.carte div.item.danger:hover { background-color:var(--danger-bg-color) !important; color:var(--danger-fg-color) !important; }
 /* z-index */
 table.content.action td:last-child { z-index:1; }
 table.content.checkbox td:first-child { z-index:1; }
@@ -626,6 +626,7 @@ body.light fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-
 body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
 body.light fieldset.vimer fieldset.story>legend { margin-right:var(--input-margin); padding:0 var(--input-padding); }
 fieldset.story>legend { border-top-left-radius:var(--plugin-radius); }
+fieldset.story.float>legend { padding:0 10px; }
 fieldset>form.option div.item:not(.icon) { box-shadow:var(--input-box-shadow); }
 fieldset>form.option div.item.select { border-radius:var(--button-radius); }
 fieldset>form.option div.item.button { border-radius:var(--button-radius); }

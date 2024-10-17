@@ -113,8 +113,10 @@ var web = {
 	PORTAL: "portal", DESKTOP: "desktop",
 	STUDIO: "studio", SERVICE: "service",
 	MESSAGE: "message",
-	WORD: "word",
+	STATUS: "status",
 	VIMER: "vimer",
+	WORD: "word",
+	PLAN: "plan",
 	
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",

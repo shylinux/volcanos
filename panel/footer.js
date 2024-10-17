@@ -10,9 +10,10 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport._title(can, msg, target)
 		can.onimport._storm(can, msg, target)
 		can.core.List([
-			{index: chat.TUTOR},
-			{index: chat.FLOWS, value: "流程"},
-			{index: chat.MESSAGE},
+			// {index: chat.TUTOR},
+			// {index: chat.FLOWS, value: "流程"},
+			// {index: chat.MESSAGE},
+			{index: web.SPIDE, value: "服务"},
 			{index: cli.RUNTIME},
 			{index: code.XTERM, args: [cli.SH]},
 		], function(value) { value.type = html.BUTTON, value.name = value.index

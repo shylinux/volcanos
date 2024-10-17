@@ -303,7 +303,7 @@ Volcanos(chat.ONAPPEND, {
 			}: {_space: "",
 				full: !can.isCmdMode() && "切换全屏",
 				open: !can.isCmdMode() && "打开链接",
-				chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
+				// chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",
 				// help: can.page.ClassList.has(can, can._fields||can._target, html.PLUGIN) && can.Conf("_help") && can.Conf("_help") != "" && "查看文档",
 			}, function(key, value) {
 				return (value || value === "") && {view: [[html.ITEM, html.BUTTON, key, mdb.ICONS, "state"]], list: [{icon: icon[key]}],
@@ -435,8 +435,7 @@ Volcanos(chat.ONAPPEND, {
 	
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
-			"cluster",
-			"launchTemplate",
+			"cluster", "launchTemplate",
 			tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH, web.SERVICE,
 			can.core.Split(can.ConfIndex(), nfs.PT).pop()
 		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT))
