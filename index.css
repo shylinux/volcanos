@@ -910,10 +910,15 @@ body.print fieldset.draw div.output { background-color:lightgray; }
 body.print fieldset.draw div.output div.content svg { background-color:lightgray; }
 /* misc */
 fieldset.iframe>form.option>div.item.hash input { width:var(--form-width); }
-fieldset.iframe.float>form.option>div.item:not(.delete) { display:none; }
+fieldset.iframe.float>form.option>div.item:not(.delete):not(.refresh) { display:none; }
 fieldset.iframe.float>form.option>div.item.hash input { width:var(--form-width); }
 fieldset.iframe>div.status { display:none; }
 fieldset.iframe.float { border:0; }
+fieldset.iframe.float { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
+fieldset.iframe.float>legend { background-color:var(--panel-bg-color); color:var(--panel-fg-color); }
+fieldset.iframe.float.portal { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+fieldset.iframe.float.portal>legend { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+fieldset.iframe.float.portal>div.action>div.item.full { display:none; }
 fieldset.desktop { border:0; }
 fieldset.desktop>legend { background-color:transparent; color:silver; }
 fieldset.desktop>form.option>div.item:not(.delete) { display:none; }
@@ -986,9 +991,9 @@ fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); }
 fieldset.draw>div.output>svg { margin-bottom:-5px; }
 fieldset.draw>div.output>svg { min-height:100%; }
-body.dark fieldset.float { background-color:#000c; }
+body.dark fieldset.float:not(.iframe) { background-color:#000c; }
 body.dark fieldset.float>div.output { background-color:transparent; }
-body.light fieldset.float { background-color:#fffc; }
+body.light fieldset.float:not(.iframe) { background-color:#fffc; }
 body.light fieldset.float>div.output { background-color:transparent; }
 fieldset.draw.spides>div.output>svg text { cursor:pointer; }
 fieldset.draw.spides>div.output>svg path { stroke-width:1; }

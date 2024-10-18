@@ -185,7 +185,10 @@ Volcanos(chat.ONAPPEND, {
 			},
 			Clone: function() { meta.args = can.page.SelectArgs(can), can.onappend._init(can, meta, list, function(sub) { can.base.isFunc(cb) && cb(sub, true), can.onmotion.delay(can, sub.Focus) }, target) },
 		}, list, function(sub) { meta.feature = can.base.Obj(meta.feature, {}), sub.Conf(meta), field._can = sub
-			can.onappend.style(sub, meta.index? meta.index.split(nfs.PT): meta.name), can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onappend.style(sub, sub.Mode())
+			can.onappend.style(sub, meta.index? meta.index.split(nfs.PT): meta.name)
+			can.onappend.style(sub, sub.Conf(ctx.STYLE))
+			can.onappend.style(sub, sub.Conf("_style"))
+			can.onappend.style(sub, sub.Mode())
 			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE)), sub.isCmdMode() && sub.Conf(can.misc.Search(can))
 			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
@@ -301,6 +304,7 @@ Volcanos(chat.ONAPPEND, {
 				open: !can.isCmdMode() && "打开链接",
 				// chat: "发送聊天",
 			}: {_space: "",
+				qrcode: !can.isCmdMode() && "生成链接",
 				full: !can.isCmdMode() && "切换全屏",
 				open: !can.isCmdMode() && "打开链接",
 				// chat: can.user.isTechOrRoot(can) && can.ConfIndex() != chat.MESSAGE && "发送聊天",

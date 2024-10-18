@@ -126,7 +126,7 @@ Volcanos(chat.ONIMPORT, {
 			(can.page.style(can, can._output, html.HEIGHT, height, html.WIDTH, width, html.MAX_HEIGHT, "", html.MAX_WIDTH, ""), can.page.style(can, can._target, html.WIDTH, width))
 		if (can.misc.Search(can, log.DEBUG) == ice.TRUE) { can.Status(html.HEIGHT, can.base.Max(height, can._output.offsetHeight), html.WIDTH, width) }
 		can.page.style(can, can._status, html.MAX_WIDTH, width)
-		can.core.List(can._plugins, function(sub) { sub.onimport.size(sub, height, width, false) })
+		can.core.List(can._plugins, function(sub) { can.page.tagis(sub._target, "fieldset.float") || sub.onimport.size(sub, height, width, false) })
 		var sub = can.sub; if (!sub) { return auto } sub.Mode(mode), sub.ConfHeight(height), sub.ConfWidth(width), can.onimport._size(can)
 		mode? sub.onlayout[mode](sub, height, width): sub.onlayout._init(sub, height, width)
 		return auto

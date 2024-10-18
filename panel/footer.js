@@ -14,6 +14,7 @@ Volcanos(chat.ONIMPORT, {
 			// {index: chat.FLOWS, value: "流程"},
 			// {index: chat.MESSAGE},
 			{index: web.SPIDE, value: "服务"},
+			{index: web.SPACE, value: "空间"},
 			{index: cli.RUNTIME},
 			{index: code.XTERM, args: [cli.SH]},
 		], function(value) { value.type = html.BUTTON, value.name = value.index
