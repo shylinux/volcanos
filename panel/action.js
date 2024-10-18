@@ -27,7 +27,7 @@ Volcanos(chat.ONIMPORT, {
 			// can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
 			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
-			sub.Conf(ice.AUTO) == cli.DELAY && sub._output.innerHTML == "" && sub.Update(can.request(event, {_toast: "load"}))
+			sub.Conf(ice.AUTO) == cli.DELAY && sub._output.innerHTML == "" && sub.Update(event)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 			can.onengine.signal(can, "onindex", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event, {index: sub.ConfIndex()})), _init = false
 			// can.onengine.signal(can, "onevent", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event)), _init = false
