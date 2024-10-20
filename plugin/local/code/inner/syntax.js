@@ -273,8 +273,11 @@ Volcanos(chat.ONSYNTAX, {
 			"not": code.DATATYPE, "first-child": code.DATATYPE, "last-child": code.DATATYPE, "nth-child": code.DATATYPE,
 			"placeholder": code.DATATYPE, "hover": code.DATATYPE, "focus": code.DATATYPE,
 			
+			"$option": code.KEYWORD,
 			"$action": code.KEYWORD,
 			"$output": code.KEYWORD,
+			"$project": code.KEYWORD,
+			"$content": code.KEYWORD,
 			
 			"output": code.KEYWORD,
 			"background-color": code.FUNCTION, "color": code.FUNCTION,

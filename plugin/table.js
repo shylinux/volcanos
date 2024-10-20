@@ -126,9 +126,14 @@ Volcanos(chat.ONIMPORT, {
 		can.user.carteItem(event, can, item)
 	},
 	_item: function(can, item, cb, cbs) {
-		item._hash = item._hash||item.hash||item.zone||item.path||item.name
+		item._hash = item._hash||item.sess||item.hash||item.zone||item.path||item.name
 		item._title = item._title||item.name||item.path||item.zone||item.hash
 		item._select == undefined && can.db.hash[0] && (item._select = can.db.hash[0] == item._hash)
+		if (typeof item._hash == code.OBJECT) { item._select = true
+			for (var i = 0; i < item._hash.length; i++) {
+				if (item._hash[i] != can.db.hash[i]) { item._select = false; break }
+			}
+		}
 		return {view: [[html.ITEM, item.type, item.role, item.status]], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item),
 		].concat(can.onimport._nick(can, item), item._label||[], [
@@ -309,7 +314,8 @@ Volcanos(chat.ONIMPORT, {
 	myPlugin: function(can, value, cb) {
 		var key = [value.space||can.ConfSpace(), value.index||can.ConfIndex()].concat(value.args||"").join(",")
 		var sup = can._stacks_root; sup._stacks = sup._stacks||{}; var sub = (sup._stacks[key]||[])[0]; if (sub) { return sub._select() }
-		var _output = sup._target.parentNode; value.style = html.OUTPUT
+		var _output = sup._target.parentNode; value.height = sup.ConfHeight(), value.width = sup.ConfWidth()
+		value.style = html.OUTPUT
 		sup.onappend.plugin(can._root.Action, value, function(sub) { can.onimport.myField(can, sub)
 			sub.misc.localStorage(sub, [sub.ConfSpace(), sub.ConfIndex(), mdb.HASH].join(","), "")
 			sub.onexport.output = function(_sub, msg) { _sub._stacks_current = sup._stacks[key] = [sub], _sub._stacks_root = sup, sub._select() }
