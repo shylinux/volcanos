@@ -32,7 +32,7 @@ Volcanos(chat.ONFIGURE, {
 			})
 			function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 				var cache, list = can.core.List(msg.Table(), function(value) {
-					if (path == nfs.SRC && can.base.isIn(value.path, "main.ico", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
+					if (path == nfs.SRC && can.base.isIn(value.path, "main.ico", "main.png", "main.jpg", "main.svg", "version.go", "binpack.go", "binpack_usr.go")) { return }
 					if (path == nfs.USR_RELEASE && can.base.isIn(value.path, "conf.go", "binpack.go")) { return }
 					if (path == args[0] && args[1].indexOf(value.path) == 0) { value.expand = true }
 					return value

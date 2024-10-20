@@ -366,7 +366,7 @@ Volcanos(chat.ONEXPORT, {
 			if (arguments.length == 2 && !can.base.isIn(can.ConfIndex(), web.PORTAL, code.VIMER, wiki.FEEL)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }
 		}
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) })
-		can.user.isMobile || push(can.user.info.titles||can.ConfSpace()||can.misc.Search(can, ice.POD))
+		can.user.isMobile || push(can.user.mod.isPod? can.user.info.titles||can.ConfSpace()||can.misc.Search(can, ice.POD): location.host)
 		can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },

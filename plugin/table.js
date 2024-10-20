@@ -485,9 +485,7 @@ Volcanos(chat.ONLAYOUT, {
 	cmd: function(can, height, width) { can.onlayout._init(can, height, width) },
 })
 Volcanos(chat.ONEXPORT, {
-	title: function(can, title) {
-		can.sup.onexport.title.apply(can.sup.onexport, [can.sup].concat(can.core.List(arguments).slice(1)))
-	},
+	title: function(can, title) { can.sup.onexport.title.apply(can.sup.onexport, [can.sup].concat(can.core.List(arguments).slice(1))) },
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	tabs: function(can) {},
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
