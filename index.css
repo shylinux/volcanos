@@ -159,11 +159,11 @@ fieldset._process input {
 	background-color:transparent !important;
 	color:var(--disable-fg-color) !important;
 }
-body.mobile table.content.checkbox th:first-child { padding:var(--table-padding) var(--input-padding); }
-body.mobile table.content.checkbox td:first-child { padding:var(--table-padding) var(--input-padding); }
-body.mobile table.content.action th:last-child { padding:var(--table-padding) var(--input-padding); }
-body.mobile table.content.action td:last-child { padding:var(--table-padding) var(--input-padding); }
-body.mobile table.content.detail thead { display:none; }
+body.width1 table.content.checkbox th:first-child { padding:var(--table-padding) var(--input-padding); }
+body.width1 table.content.checkbox td:first-child { padding:var(--table-padding) var(--input-padding); }
+body.width1 table.content.action th:last-child { padding:var(--table-padding) var(--input-padding); }
+body.width1 table.content.action td:last-child { padding:var(--table-padding) var(--input-padding); }
+body.width1 table.content.detail thead { display:none; }
 table.content input { border:none; background-color:var(--th-bg-color); padding:var(--input-padding); }
 table.content input:not(:last-child) { margin-right:var(--input-margin); }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
@@ -409,11 +409,11 @@ body div.input.float tr { margin:var(--button-margin); }
 body div.input.float td { padding:var(--table-padding); }
 body div.input.float td span.must { color:red; padding:0 5px; }
 body div.input.float td:nth-child(2) { padding:var(--table-padding) 0; }
-body.mobile div.input.float table { width:100%; }
-body.mobile div.input.float tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
-body.mobile div.input.float td { padding:0 var(--button-padding); margin:var(--button-margin); }
-body.mobile div.input.float td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
-body.mobile div.input.float td:nth-child(2) { display:none; }
+body.width1 div.input.float table { width:100%; }
+body.width1 div.input.float tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
+body.width1 div.input.float td { padding:0 var(--button-padding); margin:var(--button-margin); }
+body.widht1 div.input.float td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
+body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
 body div.input.float tr.img td:last-child>div.item>div { background-color:gray; margin:var(--input-margin); }
@@ -430,7 +430,7 @@ body div.input.float td span.icons { margin-left:-20px; visibility:hidden; }
 body div.input.float td label { font-family:var(--code-font-family); }
 body div.input.float td:hover span.icon { visibility:visible; }
 body div.input.float td:hover span.icons { visibility:visible; }
-body:not(.mobile)>div.input.float textarea { height:var(--textarea-height); width:var(--form-width) !important; }
+body:not(.width1)>div.input.float textarea { height:var(--textarea-height); width:var(--form-width) !important; }
 body div.input.float select { width:var(--form-width) !important; }
 body div.input.float input.select[type=button] { width:var(--form-width) !important; }
 body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
@@ -465,10 +465,10 @@ body>div.upload div.output div.progress { background-color:var(--progress-bg-col
 body>div.upload div.status div.cost { float:left; }
 body>div.upload div.status div.show { float:right; }
 body>div.upload div.status div.size { text-align:center; }
-body.mobile>div.input { margin:10px; width:calc(100% - 20px); left:0 !important; }
-body.mobile>div.input table { width:100%; }
-body.mobile>div.input td { padding:0; }
-body.mobile div.input.float table input { width:100% !important; }
+body.width1>div.input { margin:10px; width:calc(100% - 20px); left:0 !important; }
+body.width1>div.input table { width:100%; }
+body.width1>div.input td { padding:0; }
+body.width1 div.input.float table input { width:100% !important; }
 /* display */
 fieldset:not(.Action) { position:relative; }
 fieldset>form.option:not(.hide) { float:left; }
@@ -752,6 +752,8 @@ div.item.text.line>input { width:80px; }
 body:not(.mobile) div.item.text.hash>input { width:320px; }
 div.item.text.limit>input { width:var(--button-width); }
 div.item.text.offend>input { width:var(--button-width); }
+body:not(.width2):not(.mobile) fieldset.plugin.vimer>form.option>div.item.text.path>input { width:var(--input-width); }
+body:not(.width2):not(.mobile) fieldset.plugin.vimer>form.option>div.item.text.file>input { width:var(--project-width); }
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.width2):not(.mobile) fieldset.plugin.feel>form.option>div.item.text.file>input { width:var(--project-width); }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); height:30px; transition:all 1.2s; }
@@ -1046,7 +1048,7 @@ fieldset.Action>div.output>fieldset.ssh.cloud.profile:hover { box-shadow:none; }
 fieldset.Action>div.output>fieldset.ssh.cloud.profile>div.output { background-color:transparent; }
 fieldset.Action:not(.horizon):not(.grid)>fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.debug) fieldset.plugin.can._notfound { display:none; }
-body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend { border-top:var(--box-notice3); border-top-left-radius:0; margin-right:var(--legend-margin); }
+body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend { border-left:var(--box-notice3); border-top-left-radius:0; margin-right:var(--legend-margin); }
 body:not(.cmd) fieldset.Action>div.output>fieldset.plugin>legend:not(:hover) { background-color:var(--output-bg-color); }
 body:not(.dark) fieldset.draw.trends div.output svg { background-color:#1b5b738c; }
 body.width6 fieldset.plugin.word>form.option>div.item.text>input { width:var(--project-width); }

@@ -1183,11 +1183,10 @@ Volcanos(chat.ONMOTION, {
 		return can.core.Timer(interval||30, function() { cb(self, last, can._delay_list.meta[key]) })
 	},
 	float: function(can) { var target = can._fields||can._target, sup = can._fields? can.sup: can
-		var margin = (can.getFooterHeight()||html.ACTION_HEIGHT)+(can.user.isMobile? html.ACTION_HEIGHT: 0)+html.PLUGIN_MARGIN
-		var height = can.base.Max(can.Conf("_height")||html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-margin), width = can.base.Max(can.Conf("_width")||html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth()-2*html.PLUGIN_MARGIN)
+		var height = can.base.Max(can.Conf("_height")||html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-can.getFooterHeight()-2*html.PLUGIN_MARGIN), width = can.base.Max(can.Conf("_width")||html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth()-2*html.PLUGIN_MARGIN)
 		sup.onimport.size(sup, height, width, false), can.onappend.style(can, html.FLOAT)
 		can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, false) }, can.getHeaderHeight(), can.getRiverWidth())
-		var left = can.page.width()-width-html.PLUGIN_MARGIN, top = can.page.height()-height-margin
+		var left = can.page.width()-width-html.PLUGIN_MARGIN, top = can.page.height()-height-can.getFooterHeight()-html.PLUGIN_MARGIN
 		can.page.style(can, target, html.LEFT, left, html.TOP, top)
 		target.onclick = function(event) {
 			can.page.Select(can, document.body, html.FIELDSET_FLOAT, function(_target) {

@@ -45,6 +45,6 @@ body.width2>fieldset.Header>div.output>div.item.avatar { margin-right:var(--plug
 body.width2>fieldset.Header>div.output>div.item.theme { display:none; }
 body.width2>fieldset.Header>div.output>div.item.time { display:none; }
 body.width2>fieldset.Header:not(.all):not(.tabs)>div.output div.item.title:first-child img { margin-right:0; }
-body.width2>fieldset.Header:not(.all):not(.tabs)>div.output div.item.title:first-child span { display:none; }
+// body.width2>fieldset.Header:not(.all):not(.tabs)>div.output div.item.title:first-child span { display:none; }
 body.width2>fieldset.Footer:not(.all):not(.tabs)>div.output div.item.cmd { display:none; }
 body.width2>fieldset.Footer:not(.all):not(.tabs)>div.output div.item.title { display:none; }
