@@ -182,7 +182,7 @@ div.title>div.status>div.item.access { background-color:var(--danger-bg-color); 
 div.title>div.status>div.item>i { margin-right:var(--input-margin); }
 fieldset.store>div.output>fieldset.story:not(.float) { display:none; }
 div.output.card>div.item { padding:var(--plugin-padding); margin:var(--plugin-padding); min-width:120px; position:relative; float:left; }
-div.output.card>div.item { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
+// div.output.card>div.item { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 div.output.card>div.item:hover { background-color:var(--plugin-bg-color); color:var(--plugin-fg-color); }
 div.output.card>div.item.stop { color:var(--disable-fg-color); }
 div.output.card>div.item>div.title { border-bottom:var(--box-border); font-size:var(--legend-font-size); font-weight:bold; padding-bottom:var(--input-padding); display:flex; align-items:center; }
