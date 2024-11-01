@@ -10,7 +10,7 @@ Volcanos(chat.ONIMPORT, {
 				can.user.info.nodetype == web.WORKER && item._command == web.VIMER && (list = [river, storm, item._command])
 			}
 			can.onappend.plugin(can, item, function(sub, meta, skip) {
-				sub.Conf(ice.AUTO, cli.DELAY)
+				can.user.isMobile || sub.Conf(ice.AUTO, cli.DELAY)
 				if (msg.detail && can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
