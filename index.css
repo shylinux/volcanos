@@ -471,7 +471,7 @@ body.width1>div.input td { padding:0; }
 body.width1 div.input.float table input { width:100% !important; }
 /* display */
 fieldset:not(.Action) { position:relative; }
-fieldset>form.option:not(.hide) { float:left; }
+fieldset>form.option:not(.hide) { float:left; display:contents; }
 fieldset>div.action:not(.hide):not(.flex) { display:contents; } .hide, .hidden { display:none; }
 body:not(.mobile) fieldset:not(.Action):not(.output):not(.cmd)>div.action:not(.hide):not(.flex) { display:flex; overflow:hidden; }
 fieldset.panel>legend, fieldset.panel>div.status { display:none; }
