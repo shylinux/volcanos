@@ -80,6 +80,7 @@ Volcanos(chat.ONIMPORT, {
 }, [""])
 Volcanos(chat.ONFIGURE, {
 	png: function(can, item) { return can.onfigure.image(can, item) },
+	gif: function(can, item) { return can.onfigure.image(can, item) },
 	jpg: function(can, item) { return can.onfigure.image(can, item) },
 	jpeg: function(can, item) { return can.onfigure.image(can, item) },
 	image: function(can, item) { return {img: item._path, title: item.title, onclick: function(event) { item._target.click() }} },

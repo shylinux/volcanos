@@ -289,7 +289,8 @@ Volcanos(chat.ONIMPORT, {
 			}
 		}
 		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
-			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")||can.user.info.titles
+			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
+			// ||can.user.info.titles
 		)
 		can.user.agent.init(can,
 			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
@@ -350,11 +351,8 @@ Volcanos(chat.ONIMPORT, {
 			}
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) { value.style = html.OUTPUT
-					can.onappend.plugin(can, value, function(sub) {
-						can.onimport.myField(can, sub)
-						sub.onexport.output = function(_sub, msg) {
-							can.onimport.myOption(sub)
-						}
+					can.onappend.plugin(can, value, function(sub) { can.onimport.myField(can, sub)
+						sub.onexport.output = function(_sub, msg) { can.onimport.myOption(sub) }
 						var run = sub.run; sub.run = function(event, cmds, cb) {
 							run(sub.request(event, {
 								city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
@@ -380,7 +378,7 @@ Volcanos(chat.ONIMPORT, {
 			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
-				var list = [can.page.button(can, can.user.trans(can, "", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
+				var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
 				can.page.Appends(can, _action, list), can.page.style(can, _action, html.DISPLAY, html.BLOCK)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 			}, sub._select()
