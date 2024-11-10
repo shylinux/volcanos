@@ -197,7 +197,7 @@ div.item.card:not(.hide) { position:relative; display:flex; align-items:center; 
 div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; }
-div.item.card div.title span { margin-right:5px; }
+div.item.card div.title span { margin-right:5px; white-space:pre; }
 div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.status { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
