@@ -511,6 +511,7 @@ var icon = {
 	data: "bi bi-database",
 	branch: "bi bi-diagram-3", commit: "bi bi-hash",
 	message: "bi bi-wechat",
+	address: "bi bi-pin-map",
 	
 	plugin: "bi bi-window-stack",
 	preview: "bi bi-window-stack", show: "bi bi-window-stack",

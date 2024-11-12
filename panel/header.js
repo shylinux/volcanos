@@ -112,6 +112,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.isMobile && (msg["theme.list"] = ["dark.css", "light.css"])
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
+				can.user.info.titles = msg.Option("titles")||document.title
 				if (can.base.beginWith(location.pathname, nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL, web.CHAT_CMD+web.CHAT_OAUTH_CLIENT)) { return show(msg) }
 				if (location.pathname == nfs.PS && can.base.beginWith(msg.Option(ice.MAIN)||"", nfs.WIKI_PORTAL, web.CHAT_CMD+web.WIKI_PORTAL)) { return show(msg) }
 				msg.Option(mdb.PLUGIN) && can.onappend.plugin(can, {space: msg.plugin[1], index: msg.Option(mdb.PLUGIN)}, function(sub) { can.onmotion.hidden(can, sub._target) }, document.body)

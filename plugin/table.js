@@ -352,7 +352,10 @@ Volcanos(chat.ONIMPORT, {
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) { value.style = html.OUTPUT
 					can.onappend.plugin(can, value, function(sub) { can.onimport.myField(can, sub)
-						sub.onexport.output = function(_sub, msg) { can.onimport.myOption(sub) }
+						sub.onexport.output = function(_sub, msg) {
+							can.onimport.myOption(sub)
+							can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
+						}
 						var run = sub.run; sub.run = function(event, cmds, cb) {
 							run(sub.request(event, {
 								city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],

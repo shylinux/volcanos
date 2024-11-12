@@ -35,7 +35,7 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
+			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
 			// delete(sub._toast), delete(sub.__toast)
 			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
