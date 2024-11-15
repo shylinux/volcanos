@@ -559,3 +559,5 @@ try { module.exports = {
 	code: code, wiki: wiki, chat: chat, team: team, mall: mall,
 	http: http, html: html, icon: icon, svg: svg
 } } catch (e) {}
+
+var UID = "uid"

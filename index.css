@@ -142,14 +142,17 @@ table.content.action td:last-child input.danger:hover { background-color:var(--h
 table.content.detail td:first-child { word-break:keep-all; white-space:pre; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td:first-child { position:sticky; left:0; }
-table.content.detail tr td:first-child { background-color:var(--plugin-bg-color); }
-body:not(.mobile) table.content.detail tr:hover td:first-child { background-color:var(--hover-bg-color); }
+table.content.detail tr td:first-child { background-color:var(--plugin-bg-color); cursor:default; }
+body:not(.mobile) table.content.detail tr:hover:not(.action) td:first-child { background-color:var(--hover-bg-color); }
 table.content.detail td i { display:none; }
 table.content.detail td { white-space:break-spaces; }
 table.content.detail tr.action { background-color:var(--plugin-bg-color); position:sticky; bottom:0; }
 table.content.detail tr.action input.icons { display:none; }
 table.content.detail tr.action input { color:var(--notice-bg-color); }
 table.content.detail tr.action input.danger { color:var(--danger-bg-color); }
+table.content.detail tr.action input.notice:not(:hover) {
+	background-color:var(--notice-bg-color); color:var(--notice-fg-color);
+}
 table.content.detail tr.action i { display:unset; color:var(--notice-bg-color); }
 table.content.detail tr.action i.bi-trash { color:var(--danger-bg-color); }
 fieldset.plugin.cmd.output>div.output { top:0; }
@@ -210,6 +213,13 @@ body:not(.width1) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
+div.item.card div.action input[type=button].notice:hover {
+	border:var(--box-notice);
+}
+div.item.card div.action input[type=button].notice:not(:hover) {
+	background-color:var(--notice-bg-color);
+	color:var(--notice-fg-color);
+}
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; }
 body.width1 div.item.card div.output { width:100%; }
@@ -253,7 +263,7 @@ div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
-div.project div.list { margin-left:var(--button-margin); clear:both; }
+div.project div.list { padding-left:10px; margin-left:20px; clear:both; }
 div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
@@ -538,7 +548,7 @@ table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.invalid { color:var(--disable-fg-color); }
 table.content tr.expired { color:var(--disable-fg-color); }
 table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
-body:not(.mobile) table.content td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
+body:not(.mobile) table.content tr:not(.action) td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 table.content td.action { background-color:var(--th-bg-color); color:var(--th-fg-color); }

@@ -141,7 +141,8 @@ Volcanos(chat.ONIMPORT, {
 		]), _init: function(target) { target._item = item, item._item = target, can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) {
-			can.db.value = item, can.onexport.hash(can, item._hash), can.onexport.title(can, item._title)
+			can.db.value = item, can.onexport.hash(can, item._hash)
+			item.__title? can.user.title(item.__title): can.onexport.title(can, item._title)
 			cb(event)
 		}, oncontextmenu: function(event) {
 			can.onimport._menu(event, can, item, cbs)
