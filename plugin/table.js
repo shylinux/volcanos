@@ -466,6 +466,7 @@ Volcanos(chat.ONIMPORT, {
 			if (value.Option) { return can.onappend._action(can, value.Option(ice.MSG_ACTION), target) }
 			can.page.appendAction(can, value, target)
 			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
+				target.value = can.user.trans(can, target.name)
 				if (filter.length > 0) {
 					filter.indexOf(target.name) == -1 && can.page.Remove(can, target)
 				} else {

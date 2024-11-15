@@ -412,7 +412,11 @@ body div.input.float td span.must { color:red; padding:0 5px; }
 body div.input.float td:nth-child(2) { padding:var(--table-padding) 0; }
 body.width1 div.input.float table { width:100%; }
 body.width1 div.input.float tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
-body.width1 div.input.float td { padding:0 var(--button-padding); margin:var(--button-margin); }
+body.width1 div.input.float td {
+	// padding:0 var(--button-padding);
+	padding:0;
+	margin:var(--button-margin);
+}
 body.widht1 div.input.float td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
 body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }

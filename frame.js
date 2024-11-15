@@ -488,7 +488,7 @@ Volcanos(chat.ONAPPEND, {
 				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
-			item.icon = item.icon||can.Conf(["_icons", item.name])||icon[item.name]
+			item.icon = item.icon||can.Conf(["_trans.input.icons", item.name])||can.Conf(["_icons", item.name])||icon[item.name]
 		}
 		if (item.type == html.MULTIPLE) {
 			input.data.type = html.BUTTON, input.value = can.user.trans(can, item.name)
@@ -726,6 +726,7 @@ Volcanos(chat.ONAPPEND, {
 				})
 				can.core.List(list, function(target) { can.onappend.style(can, html.ICONS, target);
 					var _icon = (can.page.icons(can, target.name)||{}).icon; if (target.name == mdb.DELETE) { _icon = icon.trash }
+					target.value = can.user.trans(can, target.name)
 					can.page.insertBefore(can, [{icon: _icon+(" "+(can.page.buttonStyle(can, target.name)||"")), title: can.user.trans(can, target.name), onclick: target.onclick||function(event) {
 						can.onengine.signal(can, "onevent", can.request(event, {_type: html.BUTTON}))
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
