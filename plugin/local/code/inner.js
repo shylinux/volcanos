@@ -185,10 +185,10 @@ Volcanos(chat.ONIMPORT, {
 			can.onimport.process(can, msg, can.ui.profile, height, width-border, function(sub) {
 				_msg._profile_plugin = sub
 				can.ui.profile._plugin = sub, can.page.style(can, sub._output, html.MAX_WIDTH, "")
-				sub.onaction.close = function() {
-					can._msg._profile_hidden = true
-					can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), ""),
-				can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can) }
+				sub.onaction.close = function() { can._msg._profile_hidden = true
+					can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), "")
+					can.onmotion.hidden(can, can.ui.profile), can.onimport.layout(can)
+				}
 				sub.Conf(ctx.ARGS) && can.onexport.session(can, PROFILE_ARGS+can.Option(nfs.PATH)+can.Option(nfs.FILE), JSON.stringify(sub.Conf(ctx.ARGS)))
 				can.page.style(can, can.ui.profile, html.WIDTH, width+border, html.MAX_WIDTH, width+border), can.onimport.layout(can)
 			})
@@ -199,6 +199,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport.process(can, msg, can.ui.display, height-border, width, function(sub) { can.ui.display._plugin = _msg._display = sub
 			sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 			sub.onimport.size(sub, height-border, width, true), can.onimport.layout(can)
+			// can.onmotion.delay(can, function() { can.onimport.layout(can) })
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
