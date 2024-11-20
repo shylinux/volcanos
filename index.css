@@ -443,8 +443,8 @@ body div.input.float td:hover span.icons { visibility:visible; }
 body:not(.width1)>div.input.float textarea { height:var(--textarea-height); width:var(--form-width) !important; }
 body div.input.float select { width:var(--form-width) !important; }
 body div.input.float input.select[type=button] { width:var(--form-width) !important; }
-body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding-left:24px; }
-body div.input.float input[type=text] { width:var(--form-width) !important; padding-left:24px; }
+body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding:0 24px; }
+body div.input.float input[type=text] { width:var(--form-width) !important; padding:0 24px; }
 body div.input.float input[name=cancel] { border:var(--box-danger); background-color:transparent; color:var(--danger-bg-color); }
 body.mobile div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
