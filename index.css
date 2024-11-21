@@ -213,7 +213,7 @@ body:not(.width1) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
-div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
+body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; }
