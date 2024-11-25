@@ -1298,7 +1298,9 @@ Volcanos(chat.ONMOTION, {
 		can.page.style(can, target, html.LEFT, margin)
 		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.LEFT, margin-(index+1)*(margin/list.length))
-		}, function() {})
+		}, function() {
+			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
+		})
 	},
 	slideOut: function(can, cb) { var margin = 100
 		var target = can._target
@@ -1307,6 +1309,7 @@ Volcanos(chat.ONMOTION, {
 			can.page.style(can, target, html.LEFT, (index+1)*(margin/list.length))
 		}, function() {
 			can.page.Remove(can, target), cb && cb()
+			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 		})
 	},
 	slideAction: function(can, target) {

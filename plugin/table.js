@@ -353,8 +353,7 @@ Volcanos(chat.ONIMPORT, {
 			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) { value.style = html.OUTPUT
 					can.onappend.plugin(can, value, function(sub) { can.onimport.myField(can, sub)
-						sub.onexport.output = function(_sub, msg) {
-							can.onimport.myOption(sub)
+						sub.onexport.output = function(_sub, msg) { can.onimport.myOption(sub)
 							can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 						}
 						var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -371,6 +370,7 @@ Volcanos(chat.ONIMPORT, {
 				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub), cb && cb() }
 				var _last = can._stacks_current.pop()
 				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]; last._select()
+					can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 					last.request(event, {_toast: "reload"})
 					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
 					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
