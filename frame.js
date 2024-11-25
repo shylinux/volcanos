@@ -356,6 +356,7 @@ Volcanos(chat.ONAPPEND, {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
 			} can.onmotion.toggle(can, can._action, true), delete(can._status._cache), delete(can._status._cache_key)
 			var output_old = can._output; sub._target = sub._output = can._output = output = can.page.insertBefore(can, [html.OUTPUT], can._status)
+			can.page.style(can, sub._output, html.MAX_HEIGHT, can.ConfHeight(), html.MAX_WIDTH, can.ConfWidth())
 			if (sub.Mode() == ice.MSG_RESULT) { can._output.innerHTML = output_old.innerHTML }
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
