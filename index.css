@@ -478,7 +478,7 @@ body>div.upload div.status div.size { text-align:center; }
 body.width1>div.input { margin:10px; width:calc(100% - 20px); left:0 !important; }
 body.width1>div.input table { width:100%; }
 body.width1>div.input td { padding:0; }
-body.width1 div.input.float table input { width:100% !important; }
+body.width1 div.input.float table input[type=text] { width:100% !important; }
 /* display */
 fieldset:not(.Action) { position:relative; }
 fieldset>form.option:not(.hide) { float:left; display:contents; }
