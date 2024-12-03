@@ -450,7 +450,7 @@ Volcanos(chat.ONIMPORT, {
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
 	timeView: function(can, value, key) {
 		if (key) { return {text: [can.user.trans(can, key, null, html.INPUT)+": "+can.base.TimeTrim(value[key]), "", mdb.TIME]} }
-		return {text: [can.base.TimeTrim(value[key]||value.updated_at||value.created_at||value.time), "", mdb.TIME]}
+		return {text: [can.base.TimeTrim(value[key]||value.browse_time||value.updated_at||value.created_at||value.time), "", mdb.TIME]}
 	},
 	unitView: function(can, value, key, unit) { if (!value[key]) { return }
 		return {text: [[can.user.trans(can, key, null, html.INPUT)+":", value[key]].concat(unit? [unit]: []).join(" "), "", key]}
