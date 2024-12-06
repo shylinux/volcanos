@@ -83,6 +83,12 @@ tr.line>td.text { white-space:pre; line-height:var(--code-line-height); padding-
 tr.line:hover { background-color:var(--hover-bg-color); }
 tr.line.delete { background-color:#3c2626; }
 tr.line.insert { background-color:#283e2d; }
+body div.input.inner.find.float div.action>div.item {
+	float:left;
+}
+body div.input.inner.find.float div.action>div.item>input {
+	min-width:unset;
+}
 body.light tr.line.delete { background-color:#ffeef0; }
 body.light tr.line.insert { background-color:#e6ffed; }
 body.white tr.line.delete { background-color:#e6ffed; }
