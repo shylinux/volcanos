@@ -97,6 +97,9 @@ Volcanos(chat.ONDAEMON, {
 			can.base.isFunc(sub.Update) && sub.Update()
 		}
 	},
+	cookie: function(can, msg, arg) {
+		can.misc.Cookie(can, arg[1], arg[0])
+	},
 	grant: function(can, msg, sub, arg) {
 		var toast = can.user.toast(can, {duration: arg[1]||10000, content: "grant "+arg[0], action: shy({
 			confirm: function(event) { toast.close(), can.run(can.request(event, {name: arg[0]}), [ctx.ACTION, ctx.RUN, web.SPACE, aaa.LOGIN]) },
