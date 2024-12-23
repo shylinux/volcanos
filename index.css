@@ -46,7 +46,7 @@ body {
 	--header-height:48px; --footer-height:var(--action-height);
 	--action-height:32px; --status-height:32px; --textarea-height:96px;
 	--input-width:140px; --button-width:60px; --form-width:360px; --url-input-width:480px;
-	--card-width:300px; --card-height:160px; --qrcode-width:360px; --qrcode-height:363px;
+	--card-width:300px; --card-height:160px; --qrcode-width:320px; --qrcode-height:323px;
 	--story-height:var(--float-height); --iframe-height:420px;
 	--plug-height:480px; --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width);
@@ -500,7 +500,8 @@ fieldset.vimer>div.output div.project fieldset.plug:not(.hide) { position:static
 fieldset.vimer>div.output div.project fieldset.plug>div.output { height:100%; }
 fieldset.vimer>div.output div.project fieldset.plug div.output.card>div.item { min-width:120px; width:calc(100% - 2*var(--input-margin)); }
 div.float { position:fixed; }
-div.output { position:relative; } div.content { position:relative; }
+div.output { position:relative; }
+// div.content { position:relative; }
 div.output>div.code { position:sticky; left:0; }
 div.output>div.code>img { margin:5px; max-width:100%; }
 div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
