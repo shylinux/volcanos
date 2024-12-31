@@ -21,7 +21,7 @@ Volcanos(chat.ONIMPORT, {
 	list: function(can, root, cb, cbs, target) { target = target||can._output
 		can.core.List(root.list, function(item) { var ui = can.page.Append(can, target, [{view: [[html.ITEM, "open"]], list: [{text: item.meta.name}, item.list && {icon: icon.CHEVRON_DOWN}], onclick: function(event) {
 			can.page.ClassList.set(can, ui.item, "open", can.base.isFunc(cb) && cb(event, item) || can.onmotion.toggle(can, ui.list))
-			can.onmotion.select(can, target, html.DIV_ITEM, event.target)
+			can.onmotion.select(can, target, html.DIV_ITEM, event.currentTarget)
 		}, _init: function(target) { if (item.meta.name == "_") { target.innerHTML = "", can.onappend.style(can, html.SPACE, target) }
 			cbs && cbs(target, item)
 		}}, {view: html.LIST}]); can.onimport.list(can, item, cb, cbs, ui.list) })
@@ -77,7 +77,7 @@ Volcanos(chat.ONIMPORT, {
 		}) }
 	},
 	field: function(can, meta, target) { var item = can.base.Obj(meta.meta), padding = can.Conf(html.PADDING)
-		var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-4*html.ACTION_HEIGHT-2*padding), width = item.width||can.ConfWidth()-2*padding-2
+		var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-4*html.ACTION_HEIGHT-2*padding), width = item.width||can.ConfWidth()-2*padding
 		can.core.Item(item, function(key, value) { if (can.base.beginWith(key, "meta.")) { can.core.Value(item, key, value), delete(item[key]) } })
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
@@ -85,6 +85,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
 				sub.sub && sub.sub.ui.content && can.page.style(can, sub.sub.ui.content, html.HEIGHT, "", "overflow-y", "hidden")
 			}, sub.onimport.size(sub, height, width, true)
+			can.onimport.layout(can)
 		}, can._output, target)
 	},
 	layout: function(can) { padding = can.Conf(html.PADDING)

@@ -464,6 +464,7 @@ body>div.input.login>div.display>label { color:var(--disable-fg-color); font-sty
 body>div.input.login>div.display>span.item { font-style:italic; word-break:break-all; border-left:var(--box-notice3); padding-left:var(--button-padding); margin:var(--button-margin) 0; }
 body>div.input.login>div.display div.sso { cursor:pointer; }
 body>div.input.login>div.display div.sso div.item { padding:var(--input-padding); }
+body.mobile>div.input.login>div.display div.sso div.item.relay { display:none; }
 body>div.input.login>div.display div.sso div.item:hover { background-color:var(--hover-bg-color); }
 body>div.input.login>div.display div.sso div.item>img { height:var(--action-height); width:var(--action-height); }
 body>div.input.login>div.display div.sso div.item>span { line-height:var(--action-height); padding:var(--input-padding); }

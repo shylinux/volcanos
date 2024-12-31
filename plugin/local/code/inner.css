@@ -1,3 +1,4 @@
+fieldset.inner>div.output div.content { position:relative; }
 fieldset.inner>div.output div.content td.text { height:var(--code-line-height); }
 fieldset.inner>div.output div.content td.text span.keyword { color:var(--code-keyword); box-shadow:var(--keyword-box-shadow); }
 fieldset.inner>div.output div.content td.text span.comment { color:var(--code-comment); }

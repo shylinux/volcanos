@@ -32,6 +32,8 @@ div.item:not(.string):not(.number):not(.boolean)>span.value { color:var(--disabl
 span.item:not(.string):not(.number):not(.boolean)>span.value { color:var(--disable-fg-color); font-style:italic; }
 fieldset.debug div.output table.content * { font-size:14px; }
 fieldset.debug span.path { color:silver; font-style:italic; }
+html.login body.width1 fieldset.Footer { display:none; }
+html.login body.width1 fieldset.Header { display:none; }
 body.dark fieldset.debug span.path { color:gray; }
 body.dark fieldset.debug span.target { color:gray; }
 body.dark div.item:not(.string):not(.number):not(.boolean)>span.value { color:gray; }
