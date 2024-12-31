@@ -80,6 +80,7 @@ Volcanos(chat.ONIMPORT, {
 		var height = can.base.Max(html.STORY_HEIGHT, can.ConfHeight()-4*html.ACTION_HEIGHT-2*padding), width = item.width||can.ConfWidth()-2*padding
 		can.core.Item(item, function(key, value) { if (can.base.beginWith(key, "meta.")) { can.core.Value(item, key, value), delete(item[key]) } })
 		can.onappend.plugin(can, item, function(sub) { can._plugins = (can._plugins||[]).concat([sub])
+			can.user.isMobile || sub.Conf("__width", item.width)
 			can.core.Value(item, "auto.cmd") && can.onmotion.delay(function() { sub.runAction(sub.request({}, can.core.Value(item, "opts")), can.core.Value(item, "auto.cmd")) })
 			var size = sub.onimport.size; sub.onimport.size = function(can, height, width, auto, mode) { size(can, height, width, auto, mode)
 				can.page.style(can, sub._output, html.MAX_HEIGHT, "", "overflow-y", "hidden")
