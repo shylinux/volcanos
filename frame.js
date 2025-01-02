@@ -258,6 +258,7 @@ Volcanos(chat.ONAPPEND, {
 		var auto; can.core.Next(can.core.Value(can, [chat.ONIMPORT, mdb.LIST])||meta.inputs, add, function() {
 			var p = can.misc.Search(can, ctx.ACTION); auto || can.page.style(can, can._target, "visibility", "")
 			can.isCmdMode() || can.page.style(can, can._target, "visibility", "")
+			if (can.Conf("feature.mode") == "result") { return }
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
 				
 			} else if (p && can.isCmdMode()) {

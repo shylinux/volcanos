@@ -353,7 +353,7 @@ Volcanos(chat.ONSYNTAX, {
 			can.onmotion.delay(can, function() { can.onappend.scroll(can) })
 		}
 		can.require([chat.PLUGIN_LOCAL+"code/inner/syntax.js"], function() { var parse = can.onexport.parse(can); can.Conf(chat.PLUG) && (can.onsyntax[parse] = can.Conf(chat.PLUG))
-			var p = can.onsyntax[parse]; !p? can.runAction({}, mdb.PLUGIN, [parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) { p = can.base.Obj(msg.Result())
+			var p = can.onsyntax[parse]; !p && msg.Option(nfs.FILE)? can.runAction({}, mdb.PLUGIN, [parse, msg.Option(nfs.FILE), msg.Option(nfs.PATH)], function(msg) { p = can.base.Obj(msg.Result())
 				p && p.script? can.require([p.script], function() { show(can.onsyntax[msg.Option(lex.PARSE)||parse]) }): show(can.onsyntax[parse] = p)
 			}): show(p)
 		})
