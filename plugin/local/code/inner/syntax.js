@@ -133,8 +133,7 @@ Volcanos(chat.ONSYNTAX, {
 		regexp: {"[A-Z_0-9]+": code.CONSTANT},
 		keyword: {
 			"source": code.KEYWORD, "return": code.KEYWORD,
-			"config": code.KEYWORD,
-			"command": code.KEYWORD,
+			"command": code.KEYWORD, "config": code.KEYWORD,
 			"create": code.FUNCTION, "modify": code.FUNCTION, "insert": code.FUNCTION,
 			"spide": code.DATATYPE, "serve": code.DATATYPE, "dream": code.DATATYPE,
 			"user": code.DATATYPE,
@@ -145,6 +144,7 @@ Volcanos(chat.ONSYNTAX, {
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			"style": code.KEYWORD,
 			"inner": code.KEYWORD,
+			"publish": code.KEYWORD,
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
