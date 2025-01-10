@@ -196,8 +196,7 @@ Volcanos(chat.ONEXPORT, {
 	avatar: function(can) { return can.misc.Resource(can, can.user.info.avatar == "void"? "": can.user.info.avatar) },
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	theme: function(can) { return can._theme || can.misc.SearchOrConf(can, chat.THEME) || can.__theme || "" },
-// || (can.base.isNight()? html.DARK: html.LIGHT) },
-height: function(can) { return can._target.offsetHeight },
+	height: function(can) { return can._target.offsetHeight },
 })
 Volcanos(chat.ONPLUGIN, {
 	location: shy("请求地址", {copy: function(can) { can.user.copy(msg._event, can, location.href) }}, [web.LINK, ice.LIST, ice.COPY], function(can, msg, cb) {
