@@ -750,7 +750,8 @@ body.windows form.option>div.item.icon.refresh { font-size:24px; line-height:28p
 body.windows form.option>div.item.icon.goback { font-size:24px; line-height:28px; }
 body.windows div.item.button.refresh>span.icon { font-size:22px; line-height:28px; }
 body.windows div.item.button.create>span.icon { line-height:28px; }
-div.item.text { position:relative; display:flex; align-items:center; }
+// div.item.text { position:relative; display:flex; align-items:center; }
+div.item.text { position:relative; align-items:center; }
 div.item.text.filter input { padding-left:24px; }
 div.item.text._icon input { padding-left:24px; }
 div.item.select._icon i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
