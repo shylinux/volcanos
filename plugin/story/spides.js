@@ -1,4 +1,5 @@
-Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
+Volcanos(chat.ONIMPORT, {
+	_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can), can.onmotion.toggle(can, can._action, true)
 		can.onappend._status(can, msg.Option(ice.MSG_STATUS))
@@ -6,7 +7,8 @@ Volcanos(chat.ONIMPORT, {_init: function(can, msg, cb) { can.page.requireDraw(ca
 	_tree: function(can, list, field, split) { var node = {}; can.core.List(list, function(item) { can.core.List(item[field].split(split), function(value, index, array) {
 		var last = array.slice(0, index).join(split)||can.dir_root, name = array.slice(0, index+1).join(split)
 		value && !node[name] && (node[last] = node[last]||{name: last, meta: {}, list: []}).list.push(node[name] = {
-			name: value+(index==array.length-1? "": split), file: item[field]||item.file, hide: true, meta: item, list: [], last: node[last],
+			name: value+(index==array.length-1? "": split),
+			file: item.file||item[field]||item.file, hide: true, meta: item, list: [], last: node[last],
 		})
 	}) }); return node },
 	_height: function(can, tree) { tree.height = 0; if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
@@ -59,7 +61,14 @@ Volcanos(chat.ONDETAIL, {
 		for (var node = tree; node; node = node.last) { can.request(event, node.meta) }
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat(can.Conf(ctx.ACTION)||[], [tree.file||"", tree.name]), function(msg) {
 			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line]) }
-			if (msg.Append(mdb.INDEX)) { return msg.Table(function(value) { can.onappend._float(can, value.index, value.args) }) }
+			if (msg.Append(mdb.INDEX)) {
+				return msg.Table(function(value) { value.style = html.FLOAT
+					can.onappend.plugin(can, value, function(sub) {})
+				})
+			}
+			tree.list = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))[can.dir_root].list
+			tree.hide = false
+			can.onimport.layout(can)
 		}, true)
 	},
 })
