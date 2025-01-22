@@ -478,6 +478,10 @@ Volcanos(chat.ONAPPEND, {
 			}
 		}
 		input.onclick = item.onclick
+		if (item.type == html.PASSWORD) {
+			input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
+			input.title = can.user.trans(can, input.title||input.placeholder||input.name, item._trans, html.INPUT)
+		}
 		if (item.type == html.TEXT) {
 			if (!can.user.isMobile) {
 				input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
