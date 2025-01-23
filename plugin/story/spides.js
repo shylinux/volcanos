@@ -1,14 +1,13 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
-		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onimport.layout(can), can.onmotion.toggle(can, can._action, true)
-		can.onappend._status(can, msg.Option(ice.MSG_STATUS))
+		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onappend._status(can, msg.Option(ice.MSG_STATUS)), can.onimport.layout(can)
+		can.onappend.style(can, "spides")
 	}) },
 	_tree: function(can, list, field, split) { var node = {}; can.core.List(list, function(item) { can.core.List(item[field].split(split), function(value, index, array) {
 		var last = array.slice(0, index).join(split)||can.dir_root, name = array.slice(0, index+1).join(split)
 		value && !node[name] && (node[last] = node[last]||{name: last, meta: {}, list: []}).list.push(node[name] = {
-			name: value+(index==array.length-1? "": split),
-			file: item.file||item[field]||item.file, hide: true, meta: item, list: [], last: node[last],
+			name: value+(index==array.length-1? "": split), file: item.file||item[field]||item.file, hide: true, meta: item, list: [], last: node[last],
 		})
 	}) }); return node },
 	_height: function(can, tree) { tree.height = 0; if (tree.list.length == 0 || tree.hide) { return tree.height = 1 }
@@ -17,7 +16,9 @@ Volcanos(chat.ONIMPORT, {
 	_width: function(can, tree) { tree.width = 0; if (tree.list.length == 0 || tree.hide) {
 		return tree.width = can.onimport.draw(can, {shape: html.TEXT, points: [{x: 0, y: 0}], style: {inner: tree.name}}).Val(svg.TEXT_LENGTH)+can.margin
 	} can.core.List(tree.list, function(item) { tree.width += can.onimport._width(can, item) }); return tree.width },
-	_color: function(can, tree) { return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW) },
+	_color: function(can, tree) {
+		return tree.meta.color || (tree.list == 0? cli.PURPLE: cli.YELLOW)
+	},
 	layout: function(can) {
 		can.ui.svg && can.ui.svg.Val(svg.FONT_SIZE, can.size = parseInt(can.Action(html.SIZE)||24)), can.margin = parseInt(can.Action(html.MARGIN)||10)
 		can._tree && can._tree[can.dir_root] && can.core.CallFunc(can.onaction[can.Action(html.VIEW)||"横向"], [event, can, can.Action(html.VIEW)])

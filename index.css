@@ -938,7 +938,7 @@ fieldset.iframe.float.portal { background-color:var(--notice-bg-color); color:va
 fieldset.iframe.float.portal>legend { background-color:var(--notice-bg-color); color:var(--notice-fg-color); margin-right:10px; }
 fieldset.iframe.float.portal>div.action>div.item.full { display:none; }
 fieldset.desktop { border:0; }
-fieldset.desktop>legend { background-color:transparent; color:white; }
+fieldset.desktop>legend:not(:hover) { background-color:transparent; color:white; }
 fieldset.desktop>form.option>div.item:not(.delete) { display:none; }
 fieldset.desktop>form.option>div.item.delete { color:silver; }
 fieldset.desktop>div.action>div.item.text { display:none; }
@@ -997,6 +997,7 @@ fieldset.offer>div.output>table.content tr.invite { background-color:var(--notic
 fieldset.apply>div.output>table.content.detail.apply tr.action td.action { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.trans>div.output>fieldset { margin:var(--button-margin); }
 fieldset.config form.option input[name=key] { width:var(--project-width); }
+body.dark fieldset.spides>div.output>svg>text:hover { fill:white; }
 fieldset.rich>div.output>table.content { font-family:var(--code-font-family); }
 fieldset.plan div.output div.content>table.content { height:100%; width:100%; }
 fieldset.plan>div.output>div.layout>div.layout>div.profile:not(.toggle) { width:unset; flex:unset; }
