@@ -938,7 +938,7 @@ fieldset.iframe.float.portal { background-color:var(--notice-bg-color); color:va
 fieldset.iframe.float.portal>legend { background-color:var(--notice-bg-color); color:var(--notice-fg-color); margin-right:10px; }
 fieldset.iframe.float.portal>div.action>div.item.full { display:none; }
 fieldset.desktop { border:0; }
-fieldset.desktop>legend { background-color:transparent; color:silver; }
+fieldset.desktop>legend { background-color:transparent; color:white; }
 fieldset.desktop>form.option>div.item:not(.delete) { display:none; }
 fieldset.desktop>form.option>div.item.delete { color:silver; }
 fieldset.desktop>div.action>div.item.text { display:none; }

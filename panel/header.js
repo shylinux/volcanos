@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {
 	_title: function(can, msg, target) {
 		can.core.List(can.base.getValid(can.Conf(chat.TITLE)||msg.result, [
 			// can.user.title()||
-			decodeURIComponent(can.user.info.titles||can.misc.Search(can, ice.POD)||location.host)
+			decodeURIComponent((window == top? can.user.info.titles: "")||can.misc.Search(can, ice.POD)||location.host)
 		]), function(item) {
 			can.page.Append(can, target, [{view: [[html.ITEM, chat.TITLE, html.FLEX]], list: [{img: can.misc.ResourceFavicon(can)}, {text: item}], title: "返回主页", onclick: function(event) { can.onaction.title(event, can) }}])
 		})

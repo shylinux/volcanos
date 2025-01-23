@@ -62,14 +62,24 @@ Volcanos(chat.ONDETAIL, {
 		can.run(can.request(event, can.Option()), can.base.Obj(can.Conf(lex.PREFIX), []).concat(can.Conf(ctx.ACTION)||[], [tree.file||"", tree.name]), function(msg) {
 			if (msg.Length() == 0) { return can.onappend._float(can, web.CODE_INNER, [can._msg.Option(nfs.DIR_ROOT), tree.file, tree.line]) }
 			if (msg.Append(mdb.INDEX)) {
-				return msg.Table(function(value) { value.style = html.FLOAT
-					can.onappend.plugin(can, value, function(sub) {})
-				})
+				return msg.Table(function(value) { value.style = html.FLOAT, can.onappend.plugin(can, value, function(sub) {}) })
 			}
 			tree.list = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))[can.dir_root].list
-			tree.hide = false
-			can.onimport.layout(can)
+			tree.hide = false, can.onimport.layout(can)
 		}, true)
 	},
+	oncontextmenu: function(event, can, tree) {
+		can.user.carte(event, can, {}, [
+			wiki.PORTAL, chat.DESKTOP, web.DREAM, web.STORE, web.ADMIN,
+			wiki.WORD, code.VIMER, code.STATUS, code.COMPILE, cli.RUNTIME, code.XTERM,
+		], function(event, button) {
+			if (button == web.ADMIN) {
+				can.onappend.plugin(can, {index: web.CHAT_IFRAME, args: [
+					can.misc.MergePodCmd(can, {pod: tree.file, cmd: web.ADMIN})
+				], title: tree.name+"."+web.ADMIN, style: html.FLOAT}, function(sub) {})
+			} else {
+				can.onappend.plugin(can, {space: tree.file, index: button, style: html.FLOAT}, function(sub) {})
+			}
+		})
+	},
 })
-Volcanos(chat.ONEXPORT, {list: [mdb.TIME, mdb.COUNT]})

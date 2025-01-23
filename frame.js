@@ -156,7 +156,7 @@ Volcanos(chat.ONAPPEND, {
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
-		can.isCmdMode() && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
+		can.isCmdMode() && meta.style != "float" && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [], db: {hash: [""]}, ui: {},
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key } try {
@@ -393,12 +393,11 @@ Volcanos(chat.ONAPPEND, {
 		})
 	},
 	_status: function(can, list, status, msg) { list && list.Option && (list = list.Option(ice.MSG_STATUS)||[])
+		var keys = {}, fileline = can.Conf("_fileline")||""
 		status = status||can._status, can.onmotion.clear(can, status)
-		var keys = {}
-		var fileline = can.Conf("_fileline")||""
 		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
 			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
-		], can.misc.Search(can, log.DEBUG) == ice.TRUE? [
+		], can.misc.Search(can, log.DEBUG) == ice.TRUE && can.ConfIndex() != code.VIMER? [
 			fileline && {name: nfs.SOURCE, value: can.base.trimPrefix(fileline.split("?")[0], nfs.REQUIRE, nfs.P), onclick: function(event) { can.onkeymap.prevent(event)
 				var ls = can.misc.SplitPath(can, fileline); if (event.metaKey) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
