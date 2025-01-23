@@ -1,5 +1,6 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.page.requireDraw(can, function() { msg.append && can.ConfDefault({field: msg.append[0], split: nfs.PS})
+		can.db.count = msg.Length()
 		can.dir_root = can.Conf(nfs.DIR_ROOT)||msg.Option(nfs.DIR_ROOT), can._tree = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))
 		can.onaction.list = [], can.base.isFunc(cb) && cb(msg), can.onappend._status(can, msg.Option(ice.MSG_STATUS)), can.onimport.layout(can)
 		can.onappend.style(can, "spides")
@@ -65,6 +66,7 @@ Volcanos(chat.ONDETAIL, {
 			if (msg.Append(mdb.INDEX)) {
 				return msg.Table(function(value) { value.style = html.FLOAT, can.onappend.plugin(can, value, function(sub) {}) })
 			}
+			can.Status(mdb.COUNT, can.db.count += msg.Length())
 			tree.list = can.onimport._tree(can, msg.Table(), can.Conf(mdb.FIELD), can.Conf(lex.SPLIT))[can.dir_root].list
 			tree.hide = false, can.onimport.layout(can)
 		}, true)
