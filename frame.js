@@ -166,13 +166,8 @@ Volcanos(chat.ONAPPEND, {
 					return can.base.isUndefined(value)? (value = target.innerText): (target.innerHTML = value.trim? value.trim(): value+"")
 				}); return value
 			} catch (e) {} },
-			Action: function(key, value) {
-				// value && (value = can.user.trans(sub, value, null, html.INPUT))
-				return can.page.SelectArgs(can, action, key, value)[0]
-			},
-			Option: function(key, value) {
-				// value && (value = can.user.trans(sub, value, null, html.INPUT));
-			return can.page.SelectArgs(can, option, key, value)[0] },
+			Action: function(key, value) { return can.page.SelectArgs(can, action, key, value)[0] },
+			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
 				sub.request(event, sub.Option())

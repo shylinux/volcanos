@@ -5,8 +5,10 @@ const CURRENT_FILE = "web.code.inner:currentFile", SELECT_LINE = "selectLine"
 const VIEW_CREATE = "tabview.view.create", VIEW_REMOVE = "tabview.view.remove", LINE_SELECT = "tabview.line.select"
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, code.INNER), can.Mode(msg.Option("mode")||can.Mode())
-		if (can.Mode() == ice.MSG_RESULT) { can.Conf("_width", can.base.Max(can.ConfWidth(), window.innerWidth-12))
+		if (can.Mode() == ice.MSG_RESULT) {
+			can.Conf("_width", can.base.Max(can.ConfWidth(), window.innerWidth-12))
 			msg.result = msg.result||[can._output.innerHTML], can.Mode(chat.SIMPLE), can.sup.Mode(chat.SIMPLE)
+			can.Option(nfs.FILE, can.Conf(nfs.FILE)||can.Option(nfs.FILE))
 		}
 		can.onmotion.clear(can, can._output), msg.result = msg.result||[""]
 		var paths = can.core.Split(can.Option(nfs.PATH)); can.Option(nfs.PATH, paths[0])
@@ -579,7 +581,9 @@ Volcanos(chat.ONEXPORT, {
 	selection: function(can, str) { var s = document.getSelection().toString(), begin = str.indexOf(s), end = begin+s.length
 		for (var i = begin; i >= 0; i--) { if (str[i].match(/[a-zA-Z0-9_.]/)) { s = str.slice(i, end) } else { break } } return s
 	},
-	parse: function(can) { return can._msg.Option(lex.PARSE)||can.base.Ext(can.Option(nfs.FILE)) },
+	parse: function(can) {
+		return can._msg.Option(lex.PARSE)||can.base.Ext(can.Option(nfs.FILE))
+	},
 	split: function(can, file) { var ls = file.split(nfs.PS); if (ls.length == 1) { return [nfs.PWD, ls[0]] }
 		if (ls[0] == ice.USR) { return [ls.slice(0, 2).join(nfs.PS)+nfs.PS, ls.slice(2).join(nfs.PS)] }
 		return [ls.slice(0, 1).join(nfs.PS)+nfs.PS, ls.slice(1).join(nfs.PS)]

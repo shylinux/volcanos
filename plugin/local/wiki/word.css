@@ -2,7 +2,12 @@ fieldset.word>div.output { padding:var(--plugin-padding); }
 fieldset.word>div.output p { margin:var(--title-margin) auto; }
 fieldset.word>div.output h3 { margin-top:var(--title-margin); }
 fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align:center; }
-fieldset.word>div.output ul { margin:20px; }
+fieldset.word>div.output code {
+	font-style: italic;
+}
+fieldset.word>div.output ul {
+	margin:20px; font-family:var(--code-font-family);
+}
 fieldset.word>div.output ul>li:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 fieldset.word>div.output img { display:block; margin:auto; max-height:100%; max-width:100%; }
 fieldset.word>div.output div.project img { margin:unset; }
