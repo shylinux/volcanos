@@ -47,7 +47,7 @@ body {
 	--action-height:32px; --status-height:32px; --textarea-height:96px;
 	--input-width:140px; --button-width:60px; --form-width:360px; --url-input-width:480px;
 	--card-width:300px; --card-height:160px; --qrcode-width:320px; --qrcode-height:323px;
-	--story-height:var(--float-height); --iframe-height:420px;
+	--story-height:var(--float-height); --iframe-height:480px;
 	--plug-height:480px; --plug-width:var(--float-width);
 	--desktop-height:684px; --desktop-width:var(--float-width);
 	--desktop-menu-height:25px; --desktop-width:var(--float-width);

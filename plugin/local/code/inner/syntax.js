@@ -144,6 +144,9 @@ Volcanos(chat.ONSYNTAX, {
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			"style": code.KEYWORD,
 			"inner": code.KEYWORD,
+			"project": code.KEYWORD,
+			"product": code.KEYWORD,
+			"material": code.KEYWORD,
 			"publish": code.KEYWORD,
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
