@@ -667,11 +667,9 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "auth_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
-			// if (key == web.SPACE && value) { _value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: value}), value) }
-			// if (key == mdb.NAME && value) { _value = can.user.trans(can, value, null, html.INPUT) }
 			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
-			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
+			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
