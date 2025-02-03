@@ -705,7 +705,7 @@ body.void fieldset.web.chat.island.portal>div.status { display:none; }
 table.content, div.code, div.story[data-type=spark] { white-space:pre; margin:0; }
 div.output>div.code video { max-width:100%; }
 div.story[data-type=spark] { border-left:var(--box-notice3); padding:var(--input-padding) var(--table-padding); }
-div.story[data-type=spark][data-name=shell] { box-shadow:var(--plugin-box-shadow); }
+// div.story[data-type=spark][data-name=shell] { box-shadow:var(--plugin-box-shadow); }
 fieldset.inner.result>div.output { border-left:var(--box-danger3); }
 iframe { height:var(--iframe-height); width:100%; }
 fieldset>form.option>div.item.text.cmd { width:100%; }
