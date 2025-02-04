@@ -524,6 +524,7 @@ var icon = {
 	host: "bi bi-pc-display",
 	port: "bi bi-hash",
 	arch: "bi bi-cpu", os: "bi bi-ubuntu",
+	cpu: "bi bi-cpu",
 	role: "bi bi-person-square",
 	title: "bi bi-textarea-t",
 	type: "bi bi-card-list",

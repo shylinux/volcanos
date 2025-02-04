@@ -772,7 +772,7 @@ body:not(.width2):not(.mobile) fieldset.plugin.feel>form.option>div.item.text.fi
 body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); height:30px; transition:all 1.2s; }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }
-div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; padding:var(--input-padding); }
+div.item.text>i:first-child { color:var(--disable-fg-color); position:absolute; left:0; top:3px; padding:var(--input-padding); }
 body:mobile(.mobile) div.item.text:hover>i:first-child { color:unset; }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
 body:not(.mobile) div.item.text:hover>span.icon { visibility:visible; }
