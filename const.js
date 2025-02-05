@@ -106,6 +106,7 @@ var web = {
 	CANCEL: "cancel", SUBMIT: "submit", CONFIRM: "confirm", REFRESH: "refresh",
 	UPLOAD: "upload", DOWNLOAD: "download", PREVIEW: "preview", TOIMAGE: "toimage",
 	
+	CLIENT_NAME: "client.name",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/", BASIC_LOGIN: "/basic/login",
 	CHAT_SSO: "/chat/sso/", CHAT_POD: "/chat/pod/", CHAT_CMD: "/chat/cmd/",
 	
