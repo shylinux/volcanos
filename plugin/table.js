@@ -127,6 +127,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_item: function(can, item, cb, cbs) {
 		item._hash = item._hash||item.sess||item.hash||item.zone||item.path||item.name
+		item._hash = item._hash.replaceAll(":", "_")
 		item._title = item._title||item.name||item.path||item.zone||item.hash
 		item._select == undefined && can.db.hash[0] && (item._select = can.db.hash[0] == item._hash)
 		if (typeof item._hash == code.OBJECT) { item._select = true
