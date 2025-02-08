@@ -280,7 +280,7 @@ var chat = {
 	SHARE: "share", RIVER: "river", STORM: "storm", FIELD: "field", TOOL: "tool",
 	STATE: "state", MENUS: "menus", SSO: "sso", LOCATION: "location", IFRAME: "iframe", DESKTOP: "desktop",
 	OUTPUT: "output", SIMPLE: "simple", FLOAT: "float", FULL: "full", CMD: "cmd",
-	MESSAGE: "message",
+	MESSAGE: "message", REQUEST: "request", RESPONSE: "response",
 	MATRIX: "matrix",
 	TUTOR: "tutor",
 	FLOWS: "flows",
