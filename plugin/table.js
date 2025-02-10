@@ -234,10 +234,12 @@ Volcanos(chat.ONIMPORT, {
 				index == 0 && can.onappend.plugin(can, value, function(sub) { can.db.value._content_plugin = sub, can.onimport.layout(can) }, can.ui.content)
 				index == 1 && can.onappend.plugin(can, value, function(sub) {
 					can.onmotion.toggle(can, can.ui.display, true)
-				can.db.value._display_plugin = sub, can.onimport.layout(can) }, can.ui.display)
+					can.db.value._display_plugin = sub, can.onimport.layout(can)
+				}, can.ui.display)
 				index == 2 && can.onappend.plugin(can, value, function(sub) {
 					can.onmotion.toggle(can, can.ui.profile, true)
-				can.db.value._profile_plugin = sub, can.onimport.layout(can) }, can.ui.profile)
+					can.db.value._profile_plugin = sub, can.onimport.layout(can)
+				}, can.ui.profile)
 				can.onmotion.delay(can, function() { can.onimport.layout(can) })
 				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 100)
 				can.onmotion.delay(can, function() { can.onimport.layout(can) }, 300)
