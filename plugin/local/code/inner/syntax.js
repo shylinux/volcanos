@@ -148,6 +148,10 @@ Volcanos(chat.ONSYNTAX, {
 			"product": code.KEYWORD,
 			"material": code.KEYWORD,
 			"publish": code.KEYWORD,
+			
+			"username": code.FUNCTION, "usernick": code.FUNCTION,
+			"repos": code.FUNCTION, "binary": code.FUNCTION,
+			"language": code.FUNCTION, "avatar": code.FUNCTION,
 		},
 		func: function(can, push, text, indent, opts) { var ls = can.core.Split(text, "\t ")
 			opts.chapter = opts.chapter||0
