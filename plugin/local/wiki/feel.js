@@ -65,7 +65,7 @@ Volcanos(chat.ONIMPORT, {
 		} can.onmotion.select(can, can.ui.display, "*", item._display)
 	},
 	_file: function(can, path) {
-		return (location.href.indexOf(ice.HTTP) == 0? location.origin: "http://localhost:9020")+can.misc.Resource(can, can.db.dir_root+path, can.ConfSpace())
+		return can.misc.Resource(can, can.db.dir_root+path, can.ConfSpace())
 	},
 	file: function(can, path, item, index, target, auto) { item._path = path = can.onimport._file(can, path)
 		var cb = can.onfigure[can.base.Ext(path)]||can.onfigure[wiki.IMAGE]
