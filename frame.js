@@ -703,8 +703,7 @@ Volcanos(chat.ONAPPEND, {
 				} else {
 					can.sup.onimport.change(event, can.sup, key, value, null, data) || can.sup.onexport.record(can.sup, value, key, data, event)
 				}
-			}, ondblclick: function(event) { if (can.base.isIn(key, mdb.KEY, mdb.HASH, mdb.ID)) { return }
-				if (can.user.isMobile) { return }
+			}, ondblclick: function(event) { if (can.base.isIn(key, mdb.KEY, mdb.HASH, mdb.ID)) { return } if (can.user.isMobile) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(request(event), cmds, cb, true) }
 				item._enter = function(event, value) { if (event.ctrlKey) { run(event, mdb.MODIFY, [key, value.trimRight()]) } }
