@@ -670,6 +670,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
+			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
