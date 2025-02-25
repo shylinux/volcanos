@@ -433,7 +433,10 @@ body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
 body div.input.float tr.icon td:last-child input { padding-left:var(--action-height); }
 body div.input.float tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
-body div.input.float tr.icons td:last-child span:not(.icon) { font-family:var(--code-font-family); position:absolute; left:33px; }
+body div.input.float tr.icons td:last-child span:not(.icon) {
+	font-family:var(--code-font-family); position:absolute; left:33px;
+	line-height:var(--action-height);
+}
 body div.input.float tr.icons td:last-child input { padding-left:var(--action-height); }
 body div.input.float td span.icon { margin-left:-20px; visibility:hidden; }
 body div.input.float td span.icons { margin-left:-20px; visibility:hidden; }
@@ -535,7 +538,8 @@ body:not(.mobile) input[type=button]:hover { background-color:var(--hover-bg-col
 input[type=button].danger:hover { color:var(--danger-fg-color); }
 input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 // input[type=button].danger { color:var(--danger-bg-color) !important; }
-input[type=button].notice { border:var(--box-notice); }
+input[type=button].notice { border:var(--box-notice); color:var(--notice-bg-color); }
+input[type=button].danger { border:var(--box-danger); color:var(--danger-bg-color); }
 body:not(.mobile) table.content tr:hover { background-color:var(--tr-hover-bg-color); }
 table.content tr.select { background-color:var(--tr-hover-bg-color); }
 // table.content tr.danger { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }

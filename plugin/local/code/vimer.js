@@ -25,7 +25,6 @@ Volcanos(chat.ONFIGURE, {
 				if (can.base.beginWith(p, nfs.USR_LOCAL_WORK) || can.base.isIn(p,
 					nfs.USR_ICONS,
 					"usr/material/",
-					// nfs.USR_PROGRAM,
 					nfs.USR_NODE_MODULES,
 					nfs.USR_WEBSOCKET,
 					nfs.USR_GO_QRCODE,
@@ -37,17 +36,17 @@ Volcanos(chat.ONFIGURE, {
 			function show(target, zone, path) { can.run(can.request({}, {dir_root: path, dir_deep: true}), [nfs.PWD], function(msg) {
 				var cache, list = can.core.List(msg.Table(), function(value) {
 					if (path == nfs.SRC && can.base.isIn(value.path,
+						"main.svg",
 						"main.ico",
 						"main.png",
 						"main.jpg",
-						"main.svg",
 						"qrcode.jpg",
 						"version.go",
 						"binpack.go",
 						"binpack_usr.go",
 					)) { return }
 					if (path == nfs.USR_RELEASE && can.base.isIn(value.path, "conf.go", "binpack.go")) { return }
-					if (path == args[0] && args[1].indexOf(value.path) == 0) { value.expand = true }
+					if (path == args[0] && args[1] == value.path) { value.expand = true }
 					return value
 				}); can.onmotion.clear(can, target), zone._total(msg.Length())
 				cache = can.onimport.tree(can, list, function(event, item, target) {

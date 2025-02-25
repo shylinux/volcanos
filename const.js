@@ -439,6 +439,7 @@ var html = {
 	
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	BACKGROUND_JPG: "usr/icons/background.jpg",
+	BACKGROUND_PNG: "usr/icons/background.png",
 	AVATAR_JPG: "usr/icons/avatar.jpg",
 }
 var icon = {

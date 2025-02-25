@@ -752,19 +752,24 @@ Volcanos(chat.ONAPPEND, {
 			var height = can.base.Max(720, can.ConfHeight()); can.page.style(can, target, html.HEIGHT, height, html.WIDTH, can.ConfWidth())
 		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
 			can.page.style(can, target, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
-		}) } else { can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
-			target.onclick = function(event) {
-				if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
-				can.Update(can.request(event, can.Option(), {_toast: target.name, _cancel: function(event) {
-					can.page.ClassList.del(can, target, "disable")
-				}}), [ctx.ACTION, target.name], function(msg) {
-					can.page.ClassList.del(can, target, "disable")
-					var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
-				})
-			}
-			var style = can.page.buttonStyle(can, target.name)
-			can.onappend.style(can, style, target)
-		}) } return code.scrollBy && code.scrollBy(0, 10000), code
+		}) } else {
+			can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
+				target.onclick = function(event) {
+					if (can.page.ClassList.has(can, target, "disable")) { return } can.page.ClassList.add(can, target, "disable")
+					can.Update(can.request(event, can.Option(), {_toast: target.name, _cancel: function(event) {
+						can.page.ClassList.del(can, target, "disable")
+					}}), [ctx.ACTION, target.name], function(msg) {
+						can.page.ClassList.del(can, target, "disable")
+						var sup = can._fields? can.sup: can; if (sup.onimport._process(sup, msg)) { return }
+					})
+				}
+				var style = can.page.buttonStyle(can, target.name)
+				can.onappend.style(can, style, target)
+			})
+			can.page.Select(can, code, html.A, function(target) {
+				target.target = "_blank"
+			})
+		} return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target) },
 	style: function(can, style, target) { if (!style) { return }

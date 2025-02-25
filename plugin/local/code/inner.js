@@ -201,7 +201,6 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport.process(can, msg, can.ui.display, height-border, width, function(sub) { can.ui.display._plugin = _msg._display = sub
 			sub.onaction.close = function() { can.onmotion.hidden(can, can.ui.display), can.onimport.layout(can) }
 			sub.onimport.size(sub, height-border, width, true), can.onimport.layout(can)
-			// can.onmotion.delay(can, function() { can.onimport.layout(can) })
 		})
 	},
 	process: function(can, msg, target, height, width, cb) { can.onmotion.clear(can, target)
