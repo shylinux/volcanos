@@ -13,8 +13,8 @@ Volcanos(chat.ONIMPORT, {
 			// {index: chat.TUTOR},
 			// {index: chat.FLOWS, value: "流程"},
 			// {index: chat.MESSAGE},
-			{index: web.SPIDE, value: "服务"},
-			{index: web.SPACE, value: "空间"},
+			{index: web.SPIDE, value: can.user.trans(can, "spide", "服务")},
+			{index: web.SPACE, value: can.user.trans(can, "space", "空间")},
 			{index: cli.RUNTIME},
 			{index: code.XTERM, args: [cli.SH]},
 		], function(value) { value.type = html.BUTTON, value.name = value.index
