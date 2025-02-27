@@ -941,6 +941,7 @@ fieldset.iframe.float>legend { background-color:var(--panel-bg-color); color:var
 fieldset.iframe.float.portal { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 fieldset.iframe.float.portal>legend { background-color:var(--notice-bg-color); color:var(--notice-fg-color); margin-right:10px; }
 fieldset.iframe.float.portal>div.action>div.item.full { display:none; }
+fieldset.iframe.float.portal>form.option>div.item.icon.goback { display:none; }
 fieldset.desktop { border:0; }
 fieldset.desktop>legend:not(:hover) { background-color:transparent; color:white; }
 fieldset.desktop>form.option>div.item:not(.delete) { display:none; }
