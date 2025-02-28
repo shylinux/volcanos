@@ -179,6 +179,7 @@ var tcp = {
 	SERVICE: "service", HOSTNAME: "hostname",
 	WIFI: "wifi", SSID: "ssid",
 	LOCALHOST: "localhost",
+	DIAL: "dial",
 	DIRECT: "direct", SEND: "send", RECV: "recv",
 }
 var nfs = {
@@ -284,6 +285,7 @@ var chat = {
 	MATRIX: "matrix",
 	TUTOR: "tutor",
 	FLOWS: "flows",
+	ADMIN: "admin",
 	
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),

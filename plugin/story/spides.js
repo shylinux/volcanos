@@ -74,8 +74,8 @@ Volcanos(chat.ONDETAIL, {
 	},
 	oncontextmenu: function(event, can, tree) {
 		can.user.carte(event, can, {}, [
-			wiki.PORTAL, chat.DESKTOP, web.DREAM, web.STORE, web.ADMIN,
-			wiki.WORD, code.VIMER, code.STATUS, code.COMPILE, cli.RUNTIME, code.XTERM,
+			wiki.PORTAL, chat.DESKTOP, chat.ADMIN, wiki.WORD, web.DREAM, web.STORE,
+			code.VIMER, code.STATUS, code.COMPILE, cli.RUNTIME, code.XTERM,
 		], function(event, button) {
 			if (button == web.ADMIN) {
 				can.onappend.plugin(can, {index: web.CHAT_IFRAME, args: [
