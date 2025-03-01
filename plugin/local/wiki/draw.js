@@ -9,7 +9,7 @@ Volcanos(chat.ONIMPORT, {
 		can._temp = []
 		if (can.ConfIndex() == web.WIKI_DRAW) { can.ui = can.onappend.layout(can), can.onexport.title(can, can.OptionPath())
 			if (can.isCmdMode() && !can.user.isMobile) { can.onmotion.toggle(can, can.ui.profile, true) } else { can.onmotion.hidden(can, can._action), can.onmotion.hidden(can, can.ui.project) }
-		} else { can.ui = {content: can._output} } can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can))
+		} else { can.ui.content || (can.ui = {content: can._output}) } can.page.Modify(can, can.ui.content, msg.Results()||can.onexport.content(can))
 		can.page.Select(can, can.ui.content, html.SVG, function(target) { can.ui.svg = can.ui.group = can.onimport._block(can, target), can.onimport._project(can, target), can.ui.profile && can.core.ItemCB(can.onaction, target, can)
 			can.page.Select(can, target, "", function(target) { can.onimport._block(can, target), can.page.tagis(target, svg.G) && target.Value(html.CLASS) && can.onimport._project(can, target) })
 		}), can.ondetail._select(can, can.db.hash[1]||can.OptionPid()||can.ui.svg.Value(svg.PID)), can.ui.points = []

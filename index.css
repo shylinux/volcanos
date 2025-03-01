@@ -1012,7 +1012,7 @@ fieldset.plan>div.output>div.layout>div.layout { align-items:flex-start; }
 fieldset.plan>div.output>div.layout { height:100%; }
 fieldset.draw>form.option>div.item.pid>input { width:var(--button-width) !important; }
 fieldset.draw>div.output>div.layout>div.layout>div.profile table { width:100%; }
-fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); }
+fieldset.draw>div.output>div.layout>div.layout>div.profile { width:var(--project-width); flex:0 0 var(--project-width); flex-grow:1; }
 fieldset.draw>div.output>svg { margin-bottom:-5px; }
 fieldset.draw>div.output>svg { min-height:100%; }
 body.dark fieldset.float:not(.iframe) { background-color:#000c; }
