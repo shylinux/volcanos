@@ -651,6 +651,15 @@ Volcanos(chat.ONAPPEND, {
 			}
 		}
 		var option = can.core.Item(can.Option())
+		if (can.core.List(option).length == 1) {
+			if (msg.IsDetail()) {
+				var key = can.core.List(option)[0], i = msg.key.indexOf(key)
+				if (i > 0) { var k = msg.key[i], v = msg.value[i]; for (i; i > 0; i--) { msg.key[i] = msg.key[i-1], msg.value[i] = msg.value[i-1] } msg.key[0] = k, msg.value[0] = v }
+			} else {
+				var key = can.core.List(option)[0], i = msg.append.indexOf(key)
+				if (i > 0) { var v = msg.append[i]; for (i; i > 0; i--) { msg.append[i] = msg.append[i-1] } msg.append[0] = v }
+			}
+		}
 		var table = can.page.AppendTable(can, msg, target||can.ui.content||can._output, msg.append, cb||function(value, key, index, data, list) { var _value = value
 			if (msg.IsDetail()) { if (key == mdb.VALUE) { key = data.key } data = {}
 				can.core.List(list, function(item) { data[item.key] = item.value })
@@ -667,7 +676,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "auth_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
-			if (key == mdb.HASH && can.ConfIndex() == web.TOKEN) { _value = value.slice(0, 4)+"****" }
+			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
@@ -715,7 +724,10 @@ Volcanos(chat.ONAPPEND, {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
-				if (option.indexOf(key) > -1) { can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode) }
+				if (option.indexOf(key) > -1) {
+					can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode)
+					if (msg.IsDetail()) { can.onappend.style(can, html.OPTION, target.parentNode) }
+				}
 				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }
@@ -737,6 +749,7 @@ Volcanos(chat.ONAPPEND, {
 		})
 		keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] }))
 		can.onappend.style(can, chat.CONTENT, table), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
+		if (can.core.List(option).length == 1) { can.onappend.style(can, html.OPTION, table) }
 		if (msg.IsDetail()) { can.onappend.style(can, mdb.DETAIL, table), can.onappend.style(can, msg.Append(mdb.TYPE), table), can.onappend.style(can, msg.Append(mdb.STATUS), table) }
 		can.onappend.style(can, html.FULL, table)
 		return table
