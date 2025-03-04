@@ -676,7 +676,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == "auth_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
-			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
+			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), "share", "web.share", web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
