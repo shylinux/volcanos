@@ -246,6 +246,7 @@ var cli = {
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
+	XTERM: "xterm",
 	SH: "sh",
 }
 var log = {
