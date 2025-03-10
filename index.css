@@ -928,6 +928,7 @@ fieldset.desktop>div.status { display:none; }
 fieldset.qrcode>div.output div.code { padding:0; }
 fieldset.xterm>div.output>div.project { font-family:var(--code-font-family); }
 fieldset.xterm>div.output>div.project div.item.offline { color:var(--disable-fg-color); }
+fieldset.xterm.output { background-color:var(--output-bg-color); }
 fieldset.xterm.float>div.status { display:none; }
 fieldset.xterm.float>form.option>div.item.text { display:none; }
 fieldset.full { position:fixed; bottom:unset; }
@@ -947,7 +948,7 @@ fieldset.plug.dream.zone>div.output>div.item { display:flex; padding:var(--input
 fieldset.plug.dream.zone>div.output>div.item>img { margin-right:var(--input-margin); }
 fieldset.plug.dream.zone>div.output>div.item>span { line-height:var(--action-height); }
 fieldset.plug.dream.zone>div.output>div.item.origin.select { border-right:var(--box-danger3); }
-fieldset.web.stats>div.output { align-items: normal; }
+fieldset.web.stats>div.output { align-items:normal; }
 fieldset.web.code.git>div.output>fieldset.web.code.inner>div.output { overflow:auto; }
 fieldset.web.code.git.total.draw div.output { text-align:center; }
 fieldset.web.code.git.trend>div.output rect { cursor:pointer; }

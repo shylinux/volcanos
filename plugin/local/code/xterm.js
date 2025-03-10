@@ -46,6 +46,7 @@ Volcanos(chat.ONIMPORT, {
 		if (arg[1] == "~~~end~~~") { arg[0] == "current"? can.sup.onmotion._close({}, can.sup): can.sup.onimport._back(can.sup) } else { term.write(arg[1]) }
 	},
 	layout: function(can) {
+		can.page.style(can, can._output, html.HEIGHT, can.ConfHeight())
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function() {
 			can.core.Item(can.db, function(hash, term) { term._fit && term._fit.fit() })
 			can.db.value && can.db.value._term && can.onexport.term(can, can.db.value._term)
