@@ -444,7 +444,7 @@ Volcanos(chat.ONAPPEND, {
 		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT))
 		type == html.PLUG || (type == html.STORY && item.style != html.FLOAT) ||
 		// can.base.isIn(can.ConfIndex(), web.DESKTOP, web.MESSAGE, web.VIMER) ||
-		(name = can.core.Keys(item.space||item._space, name))
+		(name = can.core.Keys(can.base.trimPrefix(item.space||item._space, can.ConfSpace()), name))
 		item.index && (item.help = item.help||can.user.trans(can, item.index.split(".").pop(), ""))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
