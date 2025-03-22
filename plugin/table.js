@@ -138,13 +138,13 @@ Volcanos(chat.ONIMPORT, {
 		return {view: [[html.ITEM, item.type, item.role, item.status]], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item),
 		].concat(can.onimport._nick(can, item), item._label||[], [
-			item.action && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
+			(item.action||cbs) && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
 		]), _init: function(target) { target._item = item, item._item = target, can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) {
+			if (cb(event)) { return }
 			can.db.value = item, can.onexport.hash(can, item._hash)
 			item.__title? can.user.title(item.__title): can.onexport.title(can, item._title)
-			cb(event)
 		}, oncontextmenu: function(event) {
 			can.onimport._menu(event, can, item, cbs)
 		}}
@@ -153,7 +153,8 @@ Volcanos(chat.ONIMPORT, {
 		return can.page.Append(can, _target||can.ui.project||can._output, [can.onimport._item(can, item, function(event) { var target = event.currentTarget
 			can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
 			can.onengine.signal(can, "onproject", can.request(event, {type: "item", query: can.page.getquery(can, can._fields)+","+item.path}))
-			var show = target._list && can.onmotion.toggle(can, target._list); if (show === false) { return } cb(event, item, show, target)
+			var show = target._list && can.onmotion.toggle(can, target._list); if (show === false) { return true }
+			return cb(event, item, show, target)
 		}, cbs)])._target
 	},
 	_itemselect: function(can, target) {
@@ -165,8 +166,9 @@ Volcanos(chat.ONIMPORT, {
 		if (!target._list) { target._list = can.page.insertBefore(can, [html.LIST], target.nextSibling, target.parentNode) }
 		return can.page.Append(can, target._list, can.core.List(list, function(item) {
 			return can.onimport._item(can, item, function(event) { var target = event.currentTarget
-				if (target._list && target._list.childElementCount > 0 && target._list && can.onmotion.toggle(can, target._list) == false) { return }
-				can.onimport._itemselect(can, target), cb && cb(event, item, target._list && true, target)
+				if (target._list && target._list.childElementCount > 0 && target._list && can.onmotion.toggle(can, target._list) == false) { return true }
+				if (cb && cb(event, item, target._list && true, target)) { return }
+				can.onimport._itemselect(can, target)
 			}, cbs)
 		})), target._list
 	},

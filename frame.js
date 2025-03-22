@@ -899,8 +899,8 @@ Volcanos(chat.ONAPPEND, {
 				can.onexport.session(can, "profile.show", can.page.isDisplay(can.ui.profile))
 				if (can.isCmdMode()) { var _width = can.ConfWidth()
 					can.page.SelectChild(can, can._fields, "legend,form.option,div.header", function(target) { _width -= target.offsetWidth })
-					can.page.SelectChild(can, can._fields, "div.action", function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-1)
-						can.page.Select(can, target, "span.name", function(target, index, list) { can.page.style(can, target, html.MAX_WIDTH, (_width-50)/list.length-40) })
+					can.page.SelectChild(can, can._fields, html.DIV_ACTION, function(target) { can.page.style(can, target, html.MAX_WIDTH, _width-21)
+						// can.page.Select(can, target, "span.name", function(target, index, list) { can.page.style(can, target, html.MAX_WIDTH, (_width-50)/list.length-40) })
 					})
 				}
 				if (can.page.isDisplay(can.ui.display)) {
@@ -1120,12 +1120,16 @@ Volcanos(chat.ONMOTION, {
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
 	scrollIntoView: function(can, target, margin, parent) { if (!target) { return }
-		margin = margin||0, parent = parent||target.parentNode
-		if (!parent) { return }
-		if (parent._scroll) { return } parent._scroll = true
-		var offset = (target.offsetTop-margin) - parent.scrollTop, step = offset < 0? -20: 20
-		if (Math.abs(offset) > 3000) { return parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) }
-		can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollTop += step }, function() { parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) })
+		margin = margin||0, parent = parent||target.parentNode; if (!parent) { return } if (parent._scroll) { return } parent._scroll = true
+		if (target.offsetHeight == parent.offsetHeight) { margin = margin||10
+			var offset = (target.offsetLeft-margin) - parent.scrollLeft, step = offset < 0? -20: 20
+			if (Math.abs(offset) > 3000) { return parent.scrollLeft = (target.offsetLeft-margin), delete(parent._scroll) }
+			can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollLeft += step }, function() { parent.scrollLeft = (target.offsetLeft-margin), delete(parent._scroll) })
+		} else {
+			var offset = (target.offsetTop-margin) - parent.scrollTop, step = offset < 0? -20: 20
+			if (Math.abs(offset) > 3000) { return parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) }
+			can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollTop += step }, function() { parent.scrollTop = (target.offsetTop-margin), delete(parent._scroll) })
+		}
 	},
 	clearFloat: function(can) {
 		var list = ["fieldset.input.float", "div.input.float", "div.carte.float", "div.toast.float"]; for (var i = 0; i < list.length; i++) {
