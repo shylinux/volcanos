@@ -191,6 +191,20 @@ Volcanos(chat.ONIMPORT, {
 				if (node[name].childElementCount == 2) { can.onmotion.delay(can, function() { node[name].firstChild.click() }) }
 			}, oncontextmenu: function(event) {
 				can.onimport._menu(event, can, item, cbs)
+			}, ondragenter: function(event) {
+				can.onkeymap.prevent(event)
+			}, ondragover: function(event) {
+				can.onkeymap.prevent(event)
+			}, ondrop: function(event) {
+				var msg = can.request(event, can.Option(), item, {_handle: ice.TRUE})
+				can.core.List(event.dataTransfer.files, function(file) {
+					debugger
+					msg._upload = file
+					can.runAction(event, html.UPLOAD, [], function(msg) {
+					})
+				})
+				// msg._upload = event.dataTransfer.files[0]
+				can.onkeymap.prevent(event)
 			}, _init: item._init}, {view: [[html.LIST, html.HIDE]]}]); node[name] = ui.list, item.expand && ui.item.click()
 		}) }); return node
 	},
@@ -294,7 +308,7 @@ Volcanos(chat.ONIMPORT, {
 				plugin.sub.onexport.hash(plugin.sub, can.Option(PLACE_UID), can.ConfIndex(), can.Option(UID))
 			}
 		}
-		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
+		can.user.isMobile || sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
 			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
 			// ||can.user.info.titles
 		)
@@ -338,7 +352,8 @@ Volcanos(chat.ONIMPORT, {
 		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
 		value.index.split(".").pop() == "credit" && (ACTION_HEIGHT = 0)
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
-		can.onappend.plugin(can, value, function(sub) { can._stacks_current.push(sub)
+		can.onappend.plugin(can, value, function(sub) {
+			can._stacks_current.push(sub)
 			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
 				var value = sub.Conf(key); value && can.core.Item(can.Conf(key), function(k, v) { value[k] = value[k]||v })
 			})
@@ -355,9 +370,11 @@ Volcanos(chat.ONIMPORT, {
 				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				sub.sub.onaction._goback = goback
 			}
-			sub.onimport._field = function(msg) { var sup = sub; can.onmotion.clear(can, sub._output)
+			sub.onimport._field = function(msg) { var sup = sub
+				can.onmotion.clear(can, sub._output)
 				msg.Table(function(value) { value.style = html.OUTPUT
 					can.onappend.plugin(can, value, function(sub) { can.onimport.myField(can, sub)
+						can._stacks_current.push(sub)
 						sub.onexport.output = function(_sub, msg) { can.onimport.myOption(sub)
 							can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 						}
@@ -371,14 +388,16 @@ Volcanos(chat.ONIMPORT, {
 					}, sub._output)
 				})
 			}
-			function goback(event, cb) { if (can._stacks_current.length == 1) { return cb && cb()}
+			function goback(event, cb) {
+				if (can._stacks_current.length == 1) { return cb && cb()}
 				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub), cb && cb() }
 				var _last = can._stacks_current.pop()
 				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]; last._select()
 					can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 					last.request(event, {_toast: "reload"})
 					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
-					can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
+					// can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
+					last._output.innerHTML == "" && last.Update(event)
 					cb && cb()
 				})
 			}

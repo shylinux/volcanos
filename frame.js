@@ -343,13 +343,13 @@ Volcanos(chat.ONAPPEND, {
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash: [""], value: {}}, ui: {layout: function() {}},
-		}, [display, msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined, chat.PLUGIN_TABLE_JS], function(sub) { sub.Conf(can.Conf())
+		}, display.split(",").concat([msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined, chat.PLUGIN_TABLE_JS]), function(sub) { sub.Conf(can.Conf())
 			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
 				msg.RunAction(event, sub, cmds) || can.Update(event, cmds||can.Input(cmds, !silent), cb, silent)
 			}, can._outputs = can._outputs||[], can._outputs.push(sub), sub.sup = can, can.sub = sub
-			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display))
+			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display.split(",")[0]))
 			sub._trans = can.base.Copy(can.base.Copy(sub._trans||{}, can._trans), can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })

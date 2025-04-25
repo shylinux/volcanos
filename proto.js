@@ -145,6 +145,9 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = _cb, item.onload = _cb, document.body.appendChild(item)
 		}
 	}
+	document.ondrop = function(event) {
+		debugger
+	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	meta._init = function(can) { var last = can.page.width() < can.page.height()
 		window.onresize = function(event) { can.misc.Event(event, can, function(msg) {

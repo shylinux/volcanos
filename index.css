@@ -436,9 +436,12 @@ body div.input.float input[name=cancel] { border:var(--box-danger); background-c
 body.mobile div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
-body div.input.float div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move; }
-body div.input.float div.action>div.item { margin-left:var(--button-margin); float:right; }
-body div.input.float div.action>div.item>input[type=button] { min-width:112px; }
+body div.input.float div.action {
+	padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move;
+	display:flex;
+}
+body div.input.float div.action>div.item { margin-left:var(--button-margin); float:right; flex-grow:1; }
+body div.input.float div.action>div.item>input[type=button] { min-width:112px; width:100%; }
 body>div.input.login { flex-direction:column; }
 body>div.input.login>div.action { border-bottom:var(--box-border); padding:0; flex-direction:row; }
 body>div.input.login>div.action>div.tabs { padding:var(--button-padding); }
