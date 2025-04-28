@@ -360,8 +360,7 @@ Volcanos(chat.ONEXPORT, {
 	},
 	hash: function(can, hash) {
 		if (can.user.isMobile) { return }
-		can.misc.SearchHash(can, hash), can.onexport.storage(can, "hash", hash)
-		return hash
+		can.misc.SearchHash(can, hash), can.onexport.storage(can, "hash", hash); return hash
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }

@@ -438,6 +438,8 @@ body div.input.float input[name=submit]:hover { background-color:var(--notice-bg
 body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 body div.input.float div.action {
 	padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move;
+}
+body.mobile {
 	display:flex;
 }
 body div.input.float div.action>div.item { margin-left:var(--button-margin); float:right; flex-grow:1; }

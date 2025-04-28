@@ -308,7 +308,7 @@ Volcanos(chat.ONIMPORT, {
 				plugin.sub.onexport.hash(plugin.sub, can.Option(PLACE_UID), can.ConfIndex(), can.Option(UID))
 			}
 		}
-		can.user.isMobile || sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
+		sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
 			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
 			// ||can.user.info.titles
 		)
@@ -318,8 +318,10 @@ Volcanos(chat.ONIMPORT, {
 		)
 	},
 	myField: function(can, sub) {
-		sub.onexport._output = function(_sub) {
-			_sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
+		can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
+			var value = sub.Conf(key); value && can.core.Item(can.Conf(key), function(k, v) { value[k] = value[k]||v })
+		})
+		sub.onexport._output = function(_sub) { _sub._stacks_current = can._stacks_current, _sub._stacks_root = can._stacks_root
 			can.core.Item(can.onimport, function(key, value) { _sub.onimport[key] = _sub.onimport[key]||value })
 			can.core.Item(can.onaction, function(key, value) { _sub.onaction[key] = _sub.onaction[key]||value })
 			can.core.Item(can.onexport, function(key, value) { _sub.onexport[key] = _sub.onexport[key]||value })
@@ -349,14 +351,10 @@ Volcanos(chat.ONIMPORT, {
 			can._stacks_current = sup._stacks[key] = [can.sup]
 			sup._select = function() { can.onimport.myPluginSelect(can, sup, sup._target.parentNode) }
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
-		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
 		value.index.split(".").pop() == "credit" && (ACTION_HEIGHT = 0)
+		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
-		can.onappend.plugin(can, value, function(sub) {
-			can._stacks_current.push(sub)
-			can.core.List(["_trans", "_style", "_icons", "_trans.input", "_trans.value"], function(key) {
-				var value = sub.Conf(key); value && can.core.Item(can.Conf(key), function(k, v) { value[k] = value[k]||v })
-			})
+		can.onappend.plugin(can._stacks_root, value, function(sub) { can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
 				run(sub.request(event, {
@@ -364,29 +362,6 @@ Volcanos(chat.ONIMPORT, {
 					dashboard_uid: current["dashboard_uid"], storage_uid: current["storage_uid"],
 					command_uid: sub.Conf("command_uid"), portal_name: can.ConfHelp(),
 				}, can.base.Obj(sub.Conf("field.option"))), cmds, cb)
-			}
-			can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
-			sub.onexport.output = function(_sub, msg) {
-				sub._select(), msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
-				sub.sub.onaction._goback = goback
-			}
-			sub.onimport._field = function(msg) { var sup = sub
-				can.onmotion.clear(can, sub._output)
-				msg.Table(function(value) { value.style = html.OUTPUT
-					can.onappend.plugin(can, value, function(sub) { can.onimport.myField(can, sub)
-						can._stacks_current.push(sub)
-						sub.onexport.output = function(_sub, msg) { can.onimport.myOption(sub)
-							can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
-						}
-						var run = sub.run; sub.run = function(event, cmds, cb) {
-							run(sub.request(event, {
-								city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
-								dashboard_uid: current["dashboard_uid"], storage_uid: current["storage_uid"],
-								command_uid: sub.Conf("command_uid"), portal_name: can.ConfHelp(),
-							}, can.base.Obj(sub.Conf("field.option")), sup.Option()), cmds, cb)
-						}
-					}, sub._output)
-				})
 			}
 			function goback(event, cb) {
 				if (can._stacks_current.length == 1) { return cb && cb()}
@@ -397,19 +372,21 @@ Volcanos(chat.ONIMPORT, {
 					last.request(event, {_toast: "reload"})
 					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
 					// can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
-					last._output.innerHTML == "" && last.Update(event)
-					cb && cb()
+					last._output.innerHTML == "" && last.Update(event), cb && cb()
 				})
 			}
-			function reload(event) {
-				sub.Update(sub.request(event, {_toast: "reload"}))
+			function reload(event) { sub.Update(sub.request(event, {_toast: "reload"})) }
+			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
+			sub.onexport.output = function(_sub, msg) { sub.sub.onaction._goback = goback, sub._select()
+				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
 				var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
 				can.page.Appends(can, _action, list), can.page.style(can, _action, html.DISPLAY, html.BLOCK)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
-			}, sub._select()
+			}
+			can._stacks_current.push(sub), sub._select()
 		}, _output)
 	},
 	myTabs: function(can, key, list, target) { var last = can.misc.Cookie(can, key)
@@ -466,6 +443,9 @@ Volcanos(chat.ONIMPORT, {
 		], onclick: function(event) { cb && cb(event, value)
 			can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
 		}}
+	},
+	moneyView: function(can, value, key) {
+		return {text: ["¥ "+(value[key]||value.price||value.amount)+" 元", "", "price"]}
 	},
 	textView: function(can, value, key, type) {
 		key || can.core.Item(value, function(k, v) { if (k == "status" || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
@@ -589,7 +569,7 @@ Volcanos(chat.ONINPUTS, {
 	_nameicon: function(event, can, msg, target, name, title) { name = name||mdb.NAME
 		can.page.Appends(can, can._output, msg.Table(function(value) {
 			var _title = can.user.trans(can.sup, value[title]||value[name]||value[mdb.NAME], null, "value."+name)
-			var icons = can.sup.Conf("_trans.value."+name+".icons."+value[name])||can.sup.Conf("_trans.value."+name+".icons."+value[title])||value.icons||"usr/icons/icebergs.png"
+			var icons = can.misc.ResourceIcons(can, can.sup.Conf("_trans.value."+name+".icons."+value[name])||can.sup.Conf("_trans.value."+name+".icons."+value[title])||value.icons)
 			return {view: html.ITEM, list: [{img: can.misc.Resource(can, icons), },
 				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
 					can.onappend.label(can, value, kit.Dict("version", icon.version, "time", icon.compile, name, icon.data)),
