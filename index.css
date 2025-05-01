@@ -495,7 +495,8 @@ fieldset.vimer>div.output div.project fieldset.plug div.output.card>div.item { m
 div.float { position:fixed; }
 div.output { position:relative; }
 div.output>div.code { position:sticky; left:0; }
-div.output>div.code>img { margin:5px; max-width:100%; }
+// div.output>div.code>img { margin:5px; max-width:100%; }
+div.output>div.code>img { max-width:100%; }
 div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
 div.layout.flex>* { float:left; clear:none; }
 div.flex:not(.hide) { display:flex; align-items:center; justify-content:center; }

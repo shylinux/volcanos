@@ -353,7 +353,10 @@ Volcanos(chat.ONIMPORT, {
 		} var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
 		value.index.split(".").pop() == "credit" && (ACTION_HEIGHT = 0)
 		value.index == "web.team.renzhengshouquan.profile" && (ACTION_HEIGHT = 0)
-		value.type = html.STORY, value.style = html.OUTPUT, value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
+		value.type = html.STORY, value.style = html.OUTPUT
+		value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
+		value.height = can._stacks_root.ConfHeight()-ACTION_HEIGHT
+		// (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		can.onappend.plugin(can._stacks_root, value, function(sub) { can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -367,10 +370,18 @@ Volcanos(chat.ONIMPORT, {
 				if (can._stacks_current.length == 1) { return cb && cb()}
 				if (sub._history.length > 1) { sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub), cb && cb() }
 				var _last = can._stacks_current.pop()
-				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]; last._select()
+				can.onmotion.slideOut(_last, function() { var last = can._stacks_current[can._stacks_current.length-1]
+					if (_last._index == "web.team.renzhengshouquan.profile") {
+						if (last._index == "web.team.production.credit") {
+							can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
+						}
+					}
+					last._select()
 					can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 					last.request(event, {_toast: "reload"})
-					if (last.ConfIndex().split(".").pop() == "message") { last.Update(event) }
+					if (last.ConfIndex().split(".").pop() == "message") {
+						last._history.pop(), last.Option("uid", ""), last.Update(event)
+					}
 					// can._stacks_current.length == 1 && last._output.innerHTML == "" && last.Update(event)
 					last._output.innerHTML == "" && last.Update(event), cb && cb()
 				})
@@ -399,6 +410,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	myView: function(can, msg, cb, cbs, target) {
 		can.onimport.itemcards(can, msg, cb, cbs, target||can.ui.list)
+		msg.Option("otherList") && can.onimport.otherList && can.onimport.otherList(can, msg, can.core.Split(msg.Option("otherList")))
 	},
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
 		if (msg.IsDetail()) { var value = msg.TableDetail(); msg.Show(can)
