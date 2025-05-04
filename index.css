@@ -99,6 +99,9 @@ body.width1 { /* 320-640 手机竖屏 */
 	--river-margin:0; --plugin-margin:0; --legend-margin:5px; --button-margin:5px;
 	--table-button:2; --card-button:3;
 }
+body>fieldset.story {
+	display:none;
+}
 body.en { --card-button:3; }
 body.mobile { --project-width:240px; --footer-height:60px; --svg-font-size:13px; --qrcode-width:320px; }
 body.mobile.dark { --body-bg-color:var(--output-bg-color); --action-output-bg-color:var(--output-bg-color); }
