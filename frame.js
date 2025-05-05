@@ -540,6 +540,9 @@ Volcanos(chat.ONAPPEND, {
 		can.page.insertBefore(can, can.onappend.filter(can, can._action, can.ui.content||can._output).parentNode, (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
 	},
 	filter: function(can, target, output) { output = output||can.ui.content||target
+		if (can.page.SelectOne(can, target, "div.item.filter")) {
+			return {}
+		}
 		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
 			var value = (event.currentTarget? event.currentTarget.value: "").trim()
 			if (can.sub && can.sub.onaction && can.sub.onaction.filter && can.sub.onaction.filter(event, can.sub, value)) {
@@ -959,7 +962,7 @@ Volcanos(chat.ONAPPEND, {
 		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function(msg) {
 			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({msg: msg, type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
 		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
-			msg.Table(function(value) { value._prefix = msg["_prefix"], can.onappend._plugin(can, value, meta, _cb, target, field) })
+			msg.Table(function(value) { value._prefix = msg["_prefix"]||meta._prefix, can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
 	},
 	_plugin: function(can, value, meta, cb, target, field) { can.base.Copy(meta, value, true)
