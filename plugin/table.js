@@ -396,6 +396,7 @@ Volcanos(chat.ONIMPORT, {
 			function reload(event) { sub.Update(sub.request(event, {_toast: "reload"})) }
 			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
 			sub.onexport.output = function(_sub, msg) { sub.sub.onaction._goback = goback, sub._select()
+				msg.IsDetail() || can.onappend.filter(can, _action, sub._output)
 				if (can.base.endWith(sub.ConfIndex(), ".portal")) { return }
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				if (!msg.IsDetail()) {
@@ -406,7 +407,6 @@ Volcanos(chat.ONIMPORT, {
 				var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
 				// var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) })]
 				can.page.Appends(can, _action, list)
-				can.onappend.filter(can, _action, sub._output)
 				can.page.style(can, _action, html.DISPLAY, html.FLEX)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 			}
@@ -423,18 +423,24 @@ Volcanos(chat.ONIMPORT, {
 	},
 	myPlaceInfo: function(can, msg, action) { if (!can.user.isMobile) { return }
 		can.core.List(can._stacks_current.concat([]).reverse(), function(sub) {
-			if (sub._output == can._target) {
-				can.onappend.style(can, "market_uid", can._fields)
+			if (sub._output == can._target) { can.onappend.style(can, "market_uid", can._fields)
 				can.page.Append(can, can._output, [{view: "place_info", _init: function(target) {
 					can.run({}, [ctx.ACTION, action], function(msg) {
 						can.onimport.itemcards(can, msg, function(value) { return [
-							{view: html.TITLE, list: [value.user_name]},
+							{view: html.TITLE, list: [value.user_name, can.onimport.titleAction(can, value)]},
 							{view: html.STATUS, list: [value.city_name, value.street_name, value.place_name, value.service_name]},
 						] }, function(event, value) {
 							can.onimport.myStory(can, {
 								index: can.ConfIndex().split(".").slice(0, 3).concat("portal").join("."), args: [value.place_uid],
 							})
 						}, target)
+						can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
+							target.onclick = function(event) {
+								can.onimport.myStory(can, {
+									index: can.ConfIndex().split(".").slice(0, 3).concat("portal").join("."), args: [msg.Append("place_uid")],
+								})
+							}
+						})
 					})
 				}}])
 			}
@@ -521,6 +527,9 @@ Volcanos(chat.ONIMPORT, {
 	},
 	unitView: function(can, value, key, unit) { if (!value[key] || value[key] == "0") { return }
 		return {text: [[can.user.trans(can, key, null, html.INPUT)+":", value[key]].concat(unit? [unit]: []).join(" "), "", key]}
+	},
+	beginTime: function(can, value) {
+		return (value.process_time||value.begin_time).split(" ")[0]+" ~ "+(value.finish_time||value.end_time).split(" ")[0]
 	},
 	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },

@@ -368,7 +368,9 @@ Volcanos(chat.ONAPPEND, {
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, [{view: "_space"}].concat(list), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					// if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
-					if (msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) { can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300) }
+					if (!msg.IsDetail() && msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) {
+						can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300)
+					}
 				}
 				
 				if (can.onimport.size) {
@@ -540,9 +542,7 @@ Volcanos(chat.ONAPPEND, {
 		can.page.insertBefore(can, can.onappend.filter(can, can._action, can.ui.content||can._output).parentNode, (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
 	},
 	filter: function(can, target, output) { output = output||can.ui.content||target
-		if (can.page.SelectOne(can, target, "div.item.filter")) {
-			return {}
-		}
+		if (can.page.SelectOne(can, target, "div.item.filter")) { return {} }
 		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
 			var value = (event.currentTarget? event.currentTarget.value: "").trim()
 			if (can.sub && can.sub.onaction && can.sub.onaction.filter && can.sub.onaction.filter(event, can.sub, value)) {
