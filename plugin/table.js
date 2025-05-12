@@ -300,8 +300,7 @@ Volcanos(chat.ONIMPORT, {
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
 	
-	myOption: function(can) { var sub = can.sub; if (!sub) { return }
-		if (!sub._stacks_current) { return }
+	myOption: function(can) { var sub = can.sub; if (!sub) { return } if (!sub._stacks_current) { return }
 		var plugin = sub._stacks_current[0]; current = plugin.current||{}
 		can.core.List(sub._stacks_current, function(p) { current = p.current||current })
 		if (plugin == sub._stacks_root) { var PLACE_UID = can.core.Item(can.Option())[0]
@@ -316,10 +315,12 @@ Volcanos(chat.ONIMPORT, {
 			// ||can.user.info.titles
 		)
 		var args = can.core.Item(can.Option(), function(key, value) { return value })
-		var link = can.misc.MergePodCmd(can, {pod: plugin.ConfSpace(), cmd: plugin.ConfIndex()})+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
+		var cmd = can.ConfIndex().split(".").slice(0, 3).concat("portal").join(".")
+		var link = can.misc.MergePodCmd(can, {pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd})+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
+		if (cmd == can.ConfIndex()) { link = can.misc.MergePodCmd(can, can.base.Copy({pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}, can.Option()))+"#"+args[0] }
 		can.user.agent.init(can,
 			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can._msg.Option("_share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.Conf(mdb.ICONS)): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
+			can._msg.Option("_share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 			link,
 		)
 	},
@@ -361,6 +362,7 @@ Volcanos(chat.ONIMPORT, {
 		// value.height = (can.user.isMobile? window.innerHeight: can.ConfHeight())-ACTION_HEIGHT
 		var portal = can._stacks_root
 		can.core.List(can._stacks_current, function(sub) { if (can.base.endWith(sub.ConfIndex(), ".portal")) { portal = sub } })
+		if (value.space && can.base.endWith(value.index, ".portal")) { portal = can._root.Action }
 		can.onappend.plugin(portal, value, function(sub) { can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -448,6 +450,35 @@ Volcanos(chat.ONIMPORT, {
 		if (can._stacks_current && can._stacks_current[2] && can._stacks_current[2]._output == can._target) {
 		}
 	},
+	myViewTabs: function(can, status, msg, cb, cbs, target) {
+		var stat = {}; msg.Table(function(value) { stat[value[status]] =  (stat[value[status]]||0)+1 })
+		var trans = can.Conf("feature._trans.value."+status)
+		var list = can.core.Item(trans, function(key, value) { if (key == "style") { return }
+			if (stat[key]) { return {name: key, value: value+"("+stat[key]+")", style: can.core.Value(trans, "style."+key) } }
+		})
+		if (list.length == 0) {
+			var _list = [], stat = {}
+			msg.Table(function(value) {
+				can.base.AddUniq(_list, value[status]), stat[value[status]] = (stat[value[status]]||0)+1
+			})
+			can.core.List(_list, function(status) {
+				list.push({name: status, value: status+"("+stat[status]+")"})
+			})
+		}
+		msg.IsDetail() || msg.Length() > 3 && list.length > 1 && can.page.Append(can, can._output, [{view: "tabs", list: can.core.List([
+			{name: "all", value: "全部"+"("+msg.Length()+")", style: "select"},
+		].concat(list), function(value) {
+			return {view: [[html.ITEM].concat([value.style]), "", can.user.trans(can, value.name, value.value)], onclick: function(event) { var target = event.currentTarget
+				can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
+				can.page.Select(can, can._output, "div.item.card", function(target) {
+					can.onmotion.hidden(can, target, value.name == "all" || can.page.ClassList.has(can, target, value.name))
+				})
+			}}
+		})}])
+		can.onimport.myView(can, msg, function(value) {
+			return value._style = value[status], cb(value)
+		}, cbs, target)
+	},
 	myView: function(can, msg, cb, cbs, target) {
 		if (msg.Option("market_uid")) { can.onimport.myPlaceInfo(can, msg, "marketPlaceInfo") }
 		if (msg.Option("message_uid")) { can.onimport.myPlaceInfo(can, msg, "messagePlaceInfo") }
@@ -501,7 +532,8 @@ Volcanos(chat.ONIMPORT, {
 			}},
 			{view: html.OUTPUT, list: [
 				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||
-					value.auth_avatar||value.command_icon||value.service_icon||value.user_avatar||can.Conf(mdb.ICONS), value.nodename,
+					value.auth_avatar||value.command_icon||value.service_icon||value.user_avatar||can.ConfIcons(),
+					value.nodename||can.ConfSpace(),
 				), onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
@@ -568,7 +600,8 @@ Volcanos(chat.ONEXPORT, {
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	tabs: function(can) {},
 	tool: function(can) { can.misc.sessionStorage(can, [can.ConfIndex(), "tool"], JSON.stringify(can.page.Select(can, can._status, html.LEGEND, function(target) { return target._meta }))) },
-	hash: function(can, hash) { hash = typeof hash == code.STRING? hash.split(":").concat(can.core.List(arguments).slice(2)||[]): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
+	hash: function(can, hash) {
+		hash = typeof hash == code.STRING? hash.split(":").concat(can.core.List(arguments).slice(2)||[]): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
 		return can.sup.onexport.hash(can.sup, hash)
 	},
 	session: function(can, key, value) { return can.sup.onexport.session(can.sup, key, value) },
