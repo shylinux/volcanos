@@ -401,8 +401,6 @@ Volcanos(chat.ONIMPORT, {
 				msg.IsDetail() || can.onappend.filter(can, _action, sub._output)
 				if (can.base.endWith(sub.ConfIndex(), ".portal")) { return }
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
-				if (!msg.IsDetail()) {
-				}
 			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
@@ -486,20 +484,13 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("otherList") && can.onimport.otherList && can.onimport.otherList(can, msg, can.core.Split(msg.Option("otherList")))
 	},
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
-		if (msg.IsDetail()) {
-			var value = msg.TableDetail(), _msg = can.request(); _msg.Push(value)
+		if (msg.IsDetail()) { var value = msg.TableDetail(), _msg = can.request(); _msg.Push(value)
 			if (!msg.Option("market_uid") && !msg.Option("message_uid")) {
-				can.user.isMobile && value.user_avatar && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
+				value.user_avatar && can.user.isMobile && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
 					can.onimport.itemcards(can, _msg, function(value) { return [
-						{view: html.TITLE, list: [value.user_name,
-							can.onimport.authView(can, value),
-							// can.onimport.textView(can, value, USER_PLACE_ROLE),
-							value.member_status != "normal" && can.onimport.textView(can, value, "member_status"),
-						]},
+						{view: html.TITLE, list: [value.user_name, can.onimport.authView(can, value)]},
 						{view: html.STATUS, list: [value.uid.slice(0, 6), can.onimport.timeView(can, value)]},
-					] }, function(event, value) {
-						return
-					}, target)
+					] }, null, target)
 				}}])
 			} msg.Show(can)
 			can.page.Select(can, target, html.TR, function(target) {
