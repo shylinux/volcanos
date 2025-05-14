@@ -314,13 +314,15 @@ Volcanos(chat.ONIMPORT, {
 			can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
 			// ||can.user.info.titles
 		)
-		var args = can.core.Item(can.Option(), function(key, value) { return value })
 		var cmd = can.ConfIndex().split(".").slice(0, 3).concat("portal").join(".")
-		var link = can.misc.MergePodCmd(can, {pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd})+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
-		if (cmd == can.ConfIndex()) { link = can.misc.MergePodCmd(can, can.base.Copy({pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}, can.Option()))+"#"+args[0] }
+		var keys = can.core.Item(can.Option(), function(key, value) { return key })
+		var args = can.core.Item(can.Option(), function(key, value) { return value })
+		var opts = {pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}; opts[keys[0]] = args[0]
+		var link = can.misc.MergePodCmd(can, opts)+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
+		// if (cmd == can.ConfIndex()) { link = can.misc.MergePodCmd(can, can.base.Copy({pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}, can.Option()))+"#"+args[0] }
 		can.user.agent.init(can,
 			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can._msg.Option("_share_icons")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
+			can._msg.Option("_share_icons")||(can._msg.IsDetail()? can._msg.Append("user_avatar"): "")||(can.Conf(mdb.ICONS)? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 			link,
 		)
 	},
@@ -454,19 +456,14 @@ Volcanos(chat.ONIMPORT, {
 		var list = can.core.Item(trans, function(key, value) { if (key == "style") { return }
 			if (stat[key]) { return {name: key, value: value+"("+stat[key]+")", style: can.core.Value(trans, "style."+key) } }
 		})
-		if (list.length == 0) {
-			var _list = [], stat = {}
-			msg.Table(function(value) {
-				can.base.AddUniq(_list, value[status]), stat[value[status]] = (stat[value[status]]||0)+1
-			})
-			can.core.List(_list, function(status) {
-				list.push({name: status, value: status+"("+stat[status]+")"})
-			})
+		if (list.length == 0) { var _list = [], stat = {}
+			msg.Table(function(value) { can.base.AddUniq(_list, value[status]), stat[value[status]] = (stat[value[status]]||0)+1 })
+			can.core.List(_list, function(status) { list.push({name: status, value: status+"("+stat[status]+")"}) })
 		}
 		msg.IsDetail() || msg.Length() > 3 && list.length > 1 && can.page.Append(can, can._output, [{view: "tabs", list: can.core.List([
 			{name: "all", value: "全部"+"("+msg.Length()+")", style: "select"},
 		].concat(list), function(value) {
-			return {view: [[html.ITEM].concat([value.style]), "", can.user.trans(can, value.name, value.value)], onclick: function(event) { var target = event.currentTarget
+			return {view: [[html.ITEM].concat([value.name, value.style]), "", can.user.trans(can, value.name, value.value)], onclick: function(event) { var target = event.currentTarget
 				can.onmotion.select(can, target.parentNode, html.DIV_ITEM, target)
 				can.page.Select(can, can._output, "div.item.card", function(target) {
 					can.onmotion.hidden(can, target, value.name == "all" || can.page.ClassList.has(can, target, value.name))
@@ -611,25 +608,23 @@ Volcanos(chat.ONACTION, {
 	onslidemove: function(event, can, data, direction) {
 		// can.user.toast(can, [direction, data.spanX, data.spanY].join(","))
 	},
-	onslideright: function(event, can, data, direction) {
-		can.onaction._goback && can.onaction._goback(event)
-	},
 	onslideleft: function(event, can, data, direction) {
 		return
 		var button = can.base.Obj(can._msg.Option("_action"), [])[0]; if (!button) { return }
 		can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
 	},
+	onslideright: function(event, can, data, direction) {
+		can.onaction._goback && can.onaction._goback(event)
+	},
 	onslidedown: function(event, can, data, direction) {
-		return
 		var target = can.ui.list||can.ui.output||can._output
-		if (target.scrollTop == 0) {
+		if (target.scrollTop < -50) {
 			can.Update(can.request(event, {_toast: "reload"}))
 		}
 	},
 	onslideup: function(event, can, data, direction) {
-		return
-		var target = can.ui.list||can._output
-		if (target.offsetHeight+target.scrollTop == target.scrollHeight) {
+		var target = can.ui.list||can.ui.output||can._output
+		if (target.offsetHeight+target.scrollTop > target.scrollHeight+50) {
 			can.Update(can.request(event, {_toast: "reload"}))
 		}
 	},
