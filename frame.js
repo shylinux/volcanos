@@ -154,6 +154,7 @@ Volcanos(chat.ONAPPEND, {
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
+		if (meta.index == "web.chat.wx.agent") { can.onmotion.hidden(can, field) }
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
 		can.isCmdMode() && meta.style != "float" && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)

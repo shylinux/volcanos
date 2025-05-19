@@ -878,7 +878,7 @@ body.mobile fieldset.Search>div.action>div.item.filter { width:100%; position:re
 body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:11; }
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:var(--project-width); }
 html:not(.login) body.mobile:not(.cmd) fieldset.Action { margin-top:var(--header-height); }
-body.mobile fieldset.Action.cmd { margin-top:0; }
+body.mobile fieldset.Action.cmd { margin-top:0; width:100%; }
 body.mobile fieldset.Action { overflow:hidden; }
 body.mobile fieldset.Action>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output { overflow-x:hidden; }

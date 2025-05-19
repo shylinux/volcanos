@@ -405,10 +405,19 @@ Volcanos(chat.ONIMPORT, {
 				msg.IsDetail() || can.onappend.filter(can, _action, sub._output)
 				if (can.base.endWith(sub.ConfIndex(), ".portal")) { return }
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
+				can.user.isMobile || can.page.Append(can, _action, [{view: html.ITM, list: [
+					{text: can._msg.Option("user_name")},
+				]}])
 			}
 			sub._select = function() { can.onimport.myOption(sub)
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
-				var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) }), can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) })]
+				var list = [
+					can.user.isMobile || can._msg.IsTech() && can.page.button(can, can.user.trans(can, sub.ConfIndex(), sub.ConfHelp()), function(event) {
+						sub._legend.onclick(event)
+					}),
+					can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) }),
+					can.page.button(can, can.user.trans(can, "reload", "刷新"), function(event) { reload(event) }),
+				]
 				// var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) })]
 				can.page.Appends(can, _action, list)
 				can.page.style(can, _action, html.DISPLAY, html.FLEX)
