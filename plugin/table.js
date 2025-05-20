@@ -301,9 +301,9 @@ Volcanos(chat.ONIMPORT, {
 	},
 	
 	myOption: function(can) { var sub = can.sub; if (!sub) { return }
-		var current = can.current||{}
+		var current = can.current||{}, msg = can._msg
 		if (sub._stacks_current) { var plugin = sub._stacks_current[0], current = plugin.current||{}
-			can.core.List(sub._stacks_current, function(p) { current = p.current||current })
+			can.core.List(sub._stacks_current, function(p) { current = p.current||current, p.current && (plugin = p) })
 			if (plugin == sub._stacks_root) { var PLACE_UID = can.core.Item(can.Option())[0]
 				if (sub._stacks_current.length == 1) {
 					plugin.sub.onexport.hash(plugin.sub, can.Option(PLACE_UID))
@@ -312,8 +312,7 @@ Volcanos(chat.ONIMPORT, {
 				}
 			}
 			sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(),
-				can._msg.Option("_share_title")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.TITLE)||can._msg.Append(mdb.NAME)||(can._msg.Append(UID)||"").slice(0, 6): "")
-				// ||can.user.info.titles
+				msg.Option("_share_title")||(msg.IsDetail()? msg.Append(html.TITLE)||msg.Append(mdb.NAME)||(msg.Append(UID)||"").slice(0, 6): "")
 			)
 		}
 		var cmd = can.ConfIndex().split(".").slice(0, 3).concat("portal").join(".")
@@ -321,10 +320,9 @@ Volcanos(chat.ONIMPORT, {
 		var args = can.core.Item(can.Option(), function(key, value) { return value })
 		var opts = {pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}; opts[keys[0]] = args[0]
 		var link = can.misc.MergePodCmd(can, opts)+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
-		// if (cmd == can.ConfIndex()) { link = can.misc.MergePodCmd(can, can.base.Copy({pod: can.ConfSpace()||plugin.ConfSpace(), cmd: cmd}, can.Option()))+"#"+args[0] }
 		can.user.agent.init(can,
-			can._msg.Option("_share_content")||(can._msg && can._msg.IsDetail()? can._msg.Append(html.CONTENT)||can._msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			can._msg.Option("_share_icons")||(can._msg.IsDetail()? can._msg.Append("user_avatar"): "")||(can.ConfIcons()? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
+			msg.Option("_share_content")||(msg.IsDetail()? msg.Append(html.CONTENT)||msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
+			msg.Option("_share_icons")||(msg.IsDetail()? msg.Append("user_avatar"): "")||(can.ConfIcons()? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 			link,
 		)
 	},
