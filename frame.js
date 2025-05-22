@@ -638,6 +638,7 @@ Volcanos(chat.ONAPPEND, {
 		}, function(name, icon) { var text = value[name]
 			if (name == nfs.VERSION && text) { text = text.split("-").slice(0, 2).join("-") }
 			if (name == mdb.TIME && text) { text = can.base.TimeTrim(text) }
+			if (name == "uid" || can.base.endWith(name, "_uid")) { text = text.slice(0, 6) }
 			return text && {view: [[html.ITEM, name]], list: [{icon: icon}, {text: text}]}
 		})}
 	},

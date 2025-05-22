@@ -14,9 +14,11 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
 			var img = can.misc.ResourceIcons(can, value.icon = value.icons||value.icon||value.image)
 			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
-				{view: [wiki.TITLE, html.DIV], list: [
+				{view: ["title", html.DIV], list: [
 					img && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
-					{view: wiki.TITLE, list: [{text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}, can.onappend.label(can, value)]},
+					{view: wiki.TITLE, list: [{text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}]},
+					value.help && {view: wiki.TITLE, list: [{text: value.help}]},
+					can.onappend.label(can, value),
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
 				{view: html.ACTION, inner: value.action, _init: function(target) { can.onappend.mores(can, target, value, html.CARD_BUTTON)
 					can.page.Select(can, target, html.INPUT, function(target) { can.onappend.style(can, target.name, target) })
