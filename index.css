@@ -190,7 +190,7 @@ div.item.card:not(.hide) { position:relative; display:flex; align-items:center; 
 div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; }
-div.item.card div.title span { margin-right:5px; white-space:pre; }
+div.item.card div.title span { margin-right:5px; white-space:pre; line-height:22px; }
 div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.status { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
@@ -203,7 +203,7 @@ body:not(.width1) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
 body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
-body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
+// body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; }
@@ -623,7 +623,8 @@ body>div.toast.float { z-index:12; }
 fieldset.Action>div.toast { z-index:12; }
 fieldset.desktop.cmd>div.output>fieldset.macos.dock { z-index:10; }
 /* box-shadow */
-div.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border); }
+div.float { box-shadow:var(--float-box-shadow); }
+// div.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border); }
 div.float:hover { box-shadow:var(--notice-box-shadow); }
 fieldset.plugin { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
 fieldset.story { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
