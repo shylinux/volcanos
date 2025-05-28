@@ -1137,7 +1137,7 @@ Volcanos(chat.ONMOTION, {
 		}
 	},
 	clearFloat: function(can) {
-		var list = ["fieldset.input.float", "div.input.float", "div.carte.float", "div.toast.float"]; for (var i = 0; i < list.length; i++) {
+		var list = ["fieldset.input.float", "div.input.float", "div.upload.float", "div.carte.float", "div.toast.float"]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
 		}
 	},
