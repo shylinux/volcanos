@@ -831,6 +831,10 @@ fieldset.story.float:not(.plug)>form.option>div.text.filter>span.value { display
 fieldset.story.float:not(.plug)>form.option>div.text>span.icon { display:none; }
 fieldset.story.float:not(.plug)>form.option>div.text>span.value { display:unset; }
 /* svg */
+div.output>svg {
+	display:block;
+	clear:both;
+}
 svg text { font-size:var(--svg-font-size); font-family:var(--svg-font-family); stroke:var(--body-fg-color); fill:var(--body-fg-color); cursor:pointer; }
 svg g[font-size] text { font-size:unset; }
 svg[font-size] text { font-size:unset; }
