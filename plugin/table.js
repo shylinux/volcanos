@@ -324,7 +324,7 @@ Volcanos(chat.ONIMPORT, {
 		var link = can.misc.MergePodCmd(can, opts)+"#"+args[0]+":"+can.ConfIndex()+":"+(args[1]||"")
 		can.user.agent.init(can,
 			msg.Option("_share_content")||(msg.IsDetail()? msg.Append(html.CONTENT)||msg.Append(mdb.INFO)||"": "")||current.city_name+" "+current._street,
-			msg.Option("_share_icons")||(msg.IsDetail()? msg.Append("user_avatar"): "")||(can.ConfIcons()? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
+			msg.Option("_share_icons")||msg.Option("auth_avatar")||(msg.IsDetail()? msg.Append("user_avatar"): "")||(can.ConfIcons()? can.misc.Resource(can, can.ConfIcons(), can.ConfSpace()): can.user.info.nodetype == web.WORKER? can.misc.Resource(can, can.user.info.favicon, can.user.info.nodename): ""),
 			link,
 		)
 	},
@@ -402,7 +402,7 @@ Volcanos(chat.ONIMPORT, {
 			function reload(event) { sub.Update(sub.request(event, {_toast: "reload"})) }
 			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
 			sub.onexport.output = function(_sub, msg) { sub.sub.onaction._goback = goback, sub._select()
-				msg.IsDetail() || can.onappend.filter(can, _action, sub._output)
+				msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
 				if (can.base.endWith(sub.ConfIndex(), ".portal")) { return }
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				can.user.isMobile || can.page.Append(can, _action, [{view: html.ITM, list: [
@@ -420,6 +420,7 @@ Volcanos(chat.ONIMPORT, {
 				]
 				// var list = [can.page.button(can, can.user.trans(can, "goback", "返回"), function(event) { goback(event) })]
 				can.page.Appends(can, _action, list)
+				sub._msg && sub._msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
 				can.page.style(can, _action, html.DISPLAY, html.FLEX)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 			}
