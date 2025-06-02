@@ -361,7 +361,7 @@ Volcanos(chat.ONAPPEND, {
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
 			} can.page.ClassList.add(can, can._output, "_prepare")
-			can.onexport._output(sub, msg)
+			can.onexport._output && can.onexport._output(sub, msg)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output), sub.onmotion.touchAction(sub)
 				if (action !== false) { can.onkeymap._build(sub)
@@ -674,12 +674,10 @@ Volcanos(chat.ONAPPEND, {
 			function request(event) { delete(data.action); return can.request(event, data, can.Option()) }
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
-			if (key == mdb.ICON && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg")? img(can.misc.Resource(can, data[key], data.pod||data.space||data.nodename)): "<i class='"+value+"'></i>" }
-			if (key == mdb.ICONS && value) { _value = img(can.misc.Resource(can, data[key])) }
-			if (key == aaa.AVATAR && value) { _value = img(can.misc.Resource(can, data[key])) }
-			if (key == aaa.BACKGROUND && value) { _value = img(can.misc.Resource(can, data[key])) }
-			if (key == "user_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
-			if (key == "auth_avatar" && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if ((key == mdb.ICON || can.base.endWith(key, "_icon")) && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg", "jpeg")? img(can.misc.Resource(can, data[key], data.pod||data.space||data.nodename)): "<i class='"+value+"'></i>" }
+			if ((key == mdb.ICONS || can.base.endWith(key, "_icons")) && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if ((key == aaa.AVATAR || can.base.endWith(key, "_avatar")) && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if ((key == aaa.BACKGROUND || can.base.endWith(key, "_background")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), "share", "web.share", web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
@@ -1003,7 +1001,7 @@ Volcanos(chat.ONAPPEND, {
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
 				}
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, mod: can.onfigure[input],last: last, cbs: function(cb) {
-					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: can.core.Keys(can.ConfIndex(), meta.name), mode: chat.FLOAT}, [path, meta.display], function(sub) { sub.Conf(meta)
+					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: can.core.Keys(can.ConfIndex(), meta.name), mode: chat.FLOAT}, ["/plugin/table.js", path, meta.display], function(sub) { sub.Conf(meta)
 						can.page.Append(can, sub._target, [{text: [can.page.unicode.remove, "", "close"], onclick: function() { sub.close() }}])
 						sub.run = function(event, cmds, cb) { var msg = sub.request(event)
 							if (meta.range) { for (var i = meta.range[0]; i < meta.range[1]; i += meta.range[2]||1) { msg.Push(mdb.VALUE, i) } cb(msg); return }

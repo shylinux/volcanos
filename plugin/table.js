@@ -498,22 +498,25 @@ Volcanos(chat.ONIMPORT, {
 				value.user_avatar && can.user.isMobile && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
 					_msg.action = [], _msg.PushButton("userInfo")
 					if (can.base.endWith(can.ConfIndex(), ".member") && !_msg.Append("auth_name")) { _msg.action = [] }
-					can.onimport.itemcards(can, _msg, function(value) { return [
+					can.onimport.itemcards(can, _msg, function(value) { value.icons = value.auth_avatar||value.user_avatar; return [
 						{view: html.TITLE, list: [value.user_name, can.onimport.authView(can, value), can.onimport.titleAction(can, value)]},
 						{view: html.STATUS, list: [value.uid.slice(0, 6), can.onimport.timeView(can, value)]},
 					] }, function(event, value) {
 						can.run(can.request(event, {uid: value.user_uid}), [ctx.ACTION, "userInfo"])
 					}, target)
 				}}])
-			} msg.Show(can)
+			}
+			can.onappend.table(can, msg)
 			can.page.Select(can, target, html.TR, function(target) {
 				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
 			})
 		} else {
+			can.onappend.style(can, msg.Option(ctx.STYLE))
 			can.page.Append(can, target, msg.Table(function(value) {
 				return can.onimport.itemcard(can, value, cb(value), cbs)
-			})), msg.Result() && can.onappend.board(can, msg), can.onappend.style(can, msg.Option(ctx.STYLE))
+			}))
 		}
+		msg.Result() && can.onappend.board(can, msg), can.onmotion.story.auto(can)
 		can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			var style = can.Conf("_style."+target.name); style && can.page.ClassList.add(can, target, style)
 		})
@@ -525,7 +528,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 		cb = cb|| function(event) { var done = false
 			if (can.onaction.carddetail && can.onaction.carddetail(event, can, value)) { return }
-			if (value.uid) { return can.Option(UID, value.uid), can.Update() }
+			if (value.uid) { return can.Option(UID, value.uid), can.Update(can.request(event, value)) }
 			can.core.Item(can.Option(), function(k, v) {
 				if (!done && !v) { done = true, can.Option(k, value[k]), can.Update() }
 			})
@@ -549,33 +552,38 @@ Volcanos(chat.ONIMPORT, {
 			can.onmotion.select(can, event.currentTarget.parentNode, html.DIV_ITEM, event.currentTarget)
 		}}
 	},
-	moneyView: function(can, value, key) {
-		return {text: ["¥ "+(value[key]||value.price||value.amount)+" 元", "", "price"]}
+	uidView: function(can, value) { return value.uid.slice(0, 6) },
+	metaView: function(can, value) {
+		return {view: html.STATUS, list: [can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.user_name]}
+	},
+	shipView: function(can, value) {
+		return {view: html.STATUS, list: [value.city_name, value.city_name? "|": "", value.street_name, value.street_name? "|": "", value.service_name.replace(" ", " | ")]}
+	},
+	spaceView: function(can, value) {
+		return {view: "space"}
+	},
+	timeView: function(can, value, key) {
+		if (key) { return {text: [can.user.trans(can, key, null, html.INPUT)+": "+can.base.TimeTrim(value[key]), "", mdb.TIME]} }
+		return {text: [can.base.TimeTrim(value[key]||value.browse_time||value.updated_at||value.created_at||value.time), "", mdb.TIME]}
+	},
+	unitView: function(can, value, key, unit) { if (!value[key] || value[key] == "0") { return }
+		return {text: [[can.user.trans(can, key, null, html.INPUT)+":", value[key]].concat(unit? [unit]: []).join(" "), "", key]}
 	},
 	textView: function(can, value, key, type) {
 		key || can.core.Item(value, function(k, v) { if (k == "status" || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
 		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
-	timeView: function(can, value, key) {
-		if (key) { return {text: [can.user.trans(can, key, null, html.INPUT)+": "+can.base.TimeTrim(value[key]), "", mdb.TIME]} }
-		return {text: [can.base.TimeTrim(value[key]||value.browse_time||value.updated_at||value.created_at||value.time), "", mdb.TIME]}
-	},
-	uidView: function(can, value) {
-		return value.uid.slice(0, 6)
-	},
-	unitView: function(can, value, key, unit) { if (!value[key] || value[key] == "0") { return }
-		return {text: [[can.user.trans(can, key, null, html.INPUT)+":", value[key]].concat(unit? [unit]: []).join(" "), "", key]}
-	},
+	moneyView: function(can, value, key) { return {text: ["¥ "+(value[key]||value.price||value.amount)+" 元", "", "price"]} },
 	beginTime: function(can, value) {
 		return (value.process_time||value.begin_time).split(" ")[0]+" ~ "+(value.finish_time||value.end_time).split(" ")[0]
 	},
 	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
-	shareTitle: function(can, msg, title, content, icons) { if (msg.IsDetail()) { var value = msg.TableDetail()
-		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid).slice(0, 6))
-		msg.Option("_share_content", msg.Option("_share_content")||value[content]||value.content||value.info)
+	shareTitle: function(can, msg, icons, title, content) { if (msg.IsDetail()) { var value = msg.TableDetail()
 		msg.Option("_share_icons", msg.Option("_share_icons")||value[icons]||value.icons||value.avatar)
+		msg.Option("_share_title", msg.Option("_share_title")||(value[title]||value.title||value.name||value.uid.slice(0, 6)))
+		msg.Option("_share_content", msg.Option("_share_content")||value[content]||value.content||value.info)
 	} },
 	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
 		return {view: html.ACTION, _init: function(target) {
@@ -611,7 +619,7 @@ Volcanos(chat.ONEXPORT, {
 		hash = typeof hash == code.STRING? hash.split(":").concat(can.core.List(arguments).slice(2)||[]): hash || can.core.Item(can.Option(), function(key, value) { return value||"" })
 		return can.sup.onexport.hash(can.sup, hash)
 	},
-	session: function(can, key, value) { return can.sup.onexport.session(can.sup, key, value) },
+	session: function(can, key, value) { return can.sup && can.sup.onexport.session(can.sup, key, value) },
 	storage: function(can, key, value) { return can.sup.onexport.storage(can.sup, key, value) },
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
 		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) })
@@ -679,7 +687,11 @@ Volcanos(chat.ONINPUTS, {
 	_nameicon: function(event, can, msg, target, name, title) { name = name||mdb.NAME
 		can.page.Appends(can, can._output, msg.Table(function(value) {
 			var _title = can.user.trans(can.sup, value[title]||value[name]||value[mdb.NAME], null, "value."+name)
-			var icons = can.misc.ResourceIcons(can, can.sup.Conf("_trans.value."+name+".icons."+value[name])||can.sup.Conf("_trans.value."+name+".icons."+value[title])||value.icons||value.user_avatar)
+			var icons = can.misc.ResourceIcons(can,
+				value.icons||value.icon||value.user_avatar||
+				can.sup.Conf("_trans.value."+name+".icons."+value[name])||
+				can.sup.Conf("_trans.value."+name+".icons."+value[title])
+			)
 			return {view: html.ITEM, list: [{img: can.misc.Resource(can, icons), },
 				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
 					can.onappend.label(can, value, kit.Dict(
