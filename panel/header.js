@@ -212,8 +212,14 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.sessionStorage(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.sessionStorage(can, arg[1], msg.Option(mdb.VALUE)), can.misc.sessionStorage(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [web.FILTER, ice.LIST, mdb.CREATE, mdb.PRUNES], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
-		can.core.Item(can.misc.sessionStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
+	}, [web.FILTER, ice.LIST, mdb.CREATE, mdb.PRUNES], function(can, msg, arg) {
+		// msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+		can.core.Item(can.misc.sessionStorage(can), function(name, value) {
+			if (name == "can.daemon") { return }
+			can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+			msg.PushButton(mdb.REMOVE)
+		})
+		msg.Sort(mdb.NAME)
 	}),
 	localStorage: shy("本地存储", {
 		create: shy([mdb.NAME, mdb.VALUE], function(can, name, value) { can.misc.localStorage(can, name, value) }),
@@ -221,8 +227,13 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.localStorage(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.localStorage(can, arg[1], msg.Option(mdb.VALUE)), can.misc.localStorage(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
-		can.core.Item(can.misc.localStorage(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
+	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) {
+		// msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+		can.core.Item(can.misc.localStorage(can), function(name, value) {
+			can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+			can.base.beginWith(name, "sessid_")? msg.PushButton(): msg.PushButton(mdb.REMOVE)
+		})
+		msg.Sort(mdb.NAME)
 	}),
 	cookie: shy("会话参数", {
 		create: shy([mdb.NAME, mdb.VALUE], function(can, name, value) { can.misc.Cookie(can, name, value) }),
@@ -230,8 +241,14 @@ Volcanos(chat.ONPLUGIN, {
 		modify: shy(function(can, msg, arg) { if (arg[0] == mdb.VALUE) { can.misc.Cookie(can, msg.Option(mdb.NAME), arg[1]) } else {
 			can.misc.Cookie(can, arg[1], msg.Option(mdb.VALUE)), can.misc.Cookie(can, msg.Option(mdb.NAME), "")
 		} }),
-	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) { msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
-		can.core.Item(can.misc.Cookie(can), function(name, value) { can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value) })
+	}, [web.FILTER, ice.LIST, mdb.CREATE], function(can, msg, arg) {
+		// msg.Defer(function() { msg.PushAction(mdb.REMOVE).StatusTimeCount() })
+		can.core.Item(can.misc.Cookie(can), function(name, value) {
+			if (can.base.beginWith(name, "sessid_")) { return }
+			can.base.contains(name, arg[0]) && msg.Push(mdb.NAME, name).Push(mdb.VALUE, value)
+			can.base.beginWith(name, "sessid_")? msg.PushButton(): msg.PushButton(mdb.REMOVE)
+		})
+		msg.Sort(mdb.NAME)
 	}),
 	language: shy("语言地区", {_init: function(can) { can.Option(aaa.LANGUAGE, can.user.info.language||ice.AUTO) }}, ["language:select=auto,zh,en", ctx.RUN], function(can, msg, arg) { can.onimport.language(can, arg[0]) }),
 	avatar: shy("用户头像", function(can, sub, cb) { can.page.Append(can, sub._output, [{img: can.user.info.avatar, style: kit.Dict(html.MAX_HEIGHT, sub.ConfHeight(), html.MAX_WIDTH, sub.ConfWidth())}]) }),

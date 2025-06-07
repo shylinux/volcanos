@@ -172,6 +172,7 @@ Volcanos(chat.ONAPPEND, {
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
 				sub.request(event, sub.Option())
+				sub.request(event, sub.Conf("option"))
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
 				} can.onengine.signal(can, "onevent", can.request(event))
@@ -345,7 +346,8 @@ Volcanos(chat.ONAPPEND, {
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash: [""], value: {}}, ui: {layout: function() {}},
 		}, display.split(",").concat([msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined, chat.PLUGIN_TABLE_JS]), function(sub) { sub.Conf(can.Conf())
-			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
+			// sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
+			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [])||[]
 			var last = can.sub; last && can.core.CallFunc([last, "onaction.hidden"], {can: last})
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
 				msg.RunAction(event, sub, cmds) || can.Update(event, cmds||can.Input(cmds, !silent), cb, silent)
@@ -675,7 +677,9 @@ Volcanos(chat.ONAPPEND, {
 			function run(event, cmd, arg) { can.misc.Event(event, can, function(msg) { can.run(request(event), [ctx.ACTION, cmd].concat(arg)) }) }
 			function img(p) { return !msg.IsDetail()? can.page.Format(html.IMG, p, 48, 48): can.user.isMobile? can.page.Format(html.IMG, p, null, 320): can.page.Format(html.IMG, p, 320, null) }
 			if ((key == mdb.ICON || can.base.endWith(key, "_icon")) && value) { _value = can.base.contains(value, ".ico", ".png", ".jpg", "jpeg")? img(can.misc.Resource(can, data[key], data.pod||data.space||data.nodename)): "<i class='"+value+"'></i>" }
-			if ((key == mdb.ICONS || can.base.endWith(key, "_icons")) && value) { _value = img(can.misc.Resource(can, data[key])) }
+			if ((key == mdb.ICONS || can.base.endWith(key, "_icons")) && value) {
+				_value = can.base.contains(value, "bi ")? "<i class='"+value+"'></i>": img(can.misc.Resource(can, data[key]))
+			}
 			if ((key == aaa.AVATAR || can.base.endWith(key, "_avatar")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if ((key == aaa.BACKGROUND || can.base.endWith(key, "_background")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
@@ -1327,7 +1331,8 @@ Volcanos(chat.ONMOTION, {
 			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 		})
 	},
-	slideOut: function(can, cb) { var margin = 100
+	slideOut: function(can, cb, skip) { var margin = 100
+		if (skip) { return cb() }
 		var target = can._target
 		if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
 		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
@@ -1395,6 +1400,9 @@ Volcanos(chat.ONMOTION, {
 		target.ontouchmove = function(event) { var msg = can.request(event)
 			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
 			spanY = event.touches[0].clientY-beginY, spanX = event.touches[0].clientX-beginX
+			if (can.page.tagis(event.target, "table.content")) { return }
+			if (can.page.tagis(event.target, "th")) { return }
+			if (can.page.tagis(event.target, "td")) { return }
 			if (Math.abs(spanX) > Math.abs(spanY)) { can.onkeymap.prevent(event) }
 			can.onaction.onslidemove(event, can, data = {beginX: beginX, beginY: beginY, spanX: spanX, spanY: spanY}, direction())
 		}
