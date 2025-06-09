@@ -197,16 +197,13 @@ Volcanos(chat.ONIMPORT, {
 				can.onkeymap.prevent(event)
 			}, ondragover: function(event) {
 				can.onkeymap.prevent(event)
-			}, ondrop: function(event) {
+			}, ondrop: function(event) { can.onkeymap.prevent(event)
 				var msg = can.request(event, can.Option(), item, {_handle: ice.TRUE})
-				can.core.List(event.dataTransfer.files, function(file) {
-					debugger
-					msg._upload = file
+				can.core.List(event.dataTransfer.files, function(file) { msg._upload = file
 					can.runAction(event, html.UPLOAD, [], function(msg) {
+						can.user.toastSuccess(can, "上传成功")
 					})
 				})
-				// msg._upload = event.dataTransfer.files[0]
-				can.onkeymap.prevent(event)
 			}, _init: item._init}, {view: [[html.LIST, html.HIDE]]}]); node[name] = ui.list, item.expand && ui.item.click()
 		}) }); return node
 	},
@@ -370,6 +367,11 @@ Volcanos(chat.ONIMPORT, {
 		can.onappend.plugin(portal, value, function(sub) { can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
+				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.REMOVE) {
+					if (sub._msg.IsDetail()) {
+						var cbs = cb; cb = function() { goback(event) }
+					}
+				}
 				run(sub.request(event, {
 					city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
 					dashboard_uid: current["dashboard_uid"], storage_uid: current["storage_uid"],
@@ -377,6 +379,7 @@ Volcanos(chat.ONIMPORT, {
 				}, can.base.Obj(sub.Conf("field.option"))), cmds, cb)
 			}
 			function goback(event, cb) { if (can._stacks_current.length == 1) { return cb && cb() }
+				if (cb) { return cb() }
 				if (sub._history.length > 1 && sub.ConfIndex().split(".").pop() != "market") {
 					sub.request(event, {_toast: "reload"}); return sub.onimport.back(event, sub), cb && cb()
 				}

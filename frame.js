@@ -1403,6 +1403,7 @@ Volcanos(chat.ONMOTION, {
 			if (can.page.tagis(event.target, "table.content")) { return }
 			if (can.page.tagis(event.target, "th")) { return }
 			if (can.page.tagis(event.target, "td")) { return }
+			if (can.page.tagis(event.target.parentNode, "div.tabs")) { return }
 			if (Math.abs(spanX) > Math.abs(spanY)) { can.onkeymap.prevent(event) }
 			can.onaction.onslidemove(event, can, data = {beginX: beginX, beginY: beginY, spanX: spanX, spanY: spanY}, direction())
 		}
