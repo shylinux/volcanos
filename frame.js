@@ -752,6 +752,9 @@ Volcanos(chat.ONAPPEND, {
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				}), can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
+				if (key == ctx.ACTION && msg.IsDetail() && value == "") {
+					can.onmotion.delay(can, function() { can.page.Remove(can, target.parentNode) })
+				}
 			}}
 		})
 		keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] }))

@@ -474,7 +474,7 @@ Volcanos(chat.ONIMPORT, {
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
 		if (msg.IsDetail()) { var value = msg.TableDetail(); value.uid = value.user_uid; var _msg = can.request(); _msg.Push(value)
 			if (!msg.Option("market_uid") && !msg.Option("message_uid")) {
-				value.user_avatar && can.user.isMobile && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
+				value.user_avatar && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
 					_msg.action = [], _msg.PushButton("userInfo")
 					if (can.base.endWith(can.ConfIndex(), ".member") && !_msg.Append("auth_name")) { _msg.action = [] }
 					can.onimport.itemcards(can, _msg, function(value) { value.icons = value.auth_avatar||value.user_avatar; return [

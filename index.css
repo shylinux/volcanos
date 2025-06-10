@@ -338,8 +338,10 @@ fieldset.input.key>div.output>div.item img { border-radius:5px; padding:5px; hei
 fieldset.input.key>div.output>div.item img[src*=".jpg"] { padding:5px; }
 fieldset.input.key>div.output>div.item div.title { padding:var(--input-padding) 0; }
 fieldset.input.key>div.output>div.item div.status div.item { color:var(--disable-fg-color); font-size:var(--status-font-size); line-height:18px; float:left; }
+fieldset.input.key>div.output div.item.card>div.output img { height:48px; width:48px; }
 fieldset.input.key>div.output>div.item div.status div.item span { padding:0 var(--input-padding); }
-fieldset.input.key div.status:not(.hide) { background-color:var(--input-bg-color); display:block; position:sticky; bottom:0; }
+fieldset.input.key div.status:not(.hide) { display:block; position:sticky; bottom:0; }
+// fieldset.input.key div.status:not(.hide) { background-color:var(--input-bg-color); display:block; position:sticky; bottom:0; }
 fieldset.input.key.simple th { display:none; }
 fieldset.input.key.simple td { min-width:var(--button-width); }
 fieldset.input.icon img { height:var(--desktop-icon-size); width:var(--desktop-icon-size); cursor:pointer; }

@@ -156,6 +156,8 @@ Volcanos(chat.ONKEYMAP, {
 	_normal: function(can) { can.onkeymap._model(can, mdb.NORMAL), can.onkeymap.scrollHold(can) },
 	_insert: function(event, can, count, begin) { can.onkeymap._model(can, mdb.INSERT), can.onkeymap.scrollHold(can, count, begin), can.onkeymap.prevent(event) },
 	_complete: function(event, can, target) { if (event == undefined || event.type == "click") { return } target = target||can.ui.complete
+		var parse = can.onexport.parse(can)
+		if (parse == "go") { return }
 		var pre = can.ui.current.value.slice(0, can.ui.current.selectionStart), key = can.core.Split(pre, "\t .[]", lex.SP).pop()||"", end = can.ui.current.value.slice(can.ui.current.selectionStart)
 		function show() { can.current.line.appendChild(target), key && can.onmotion.toggle(can, target, true)
 			can.page.style(can, target, html.LEFT, can.ui.current.offsetLeft, html.MARGIN_TOP, can.user.isChrome? can.current.line.offsetHeight: 5)
