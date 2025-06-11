@@ -9,6 +9,7 @@ Volcanos(chat.ONIMPORT, {
 		} else {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		} cb && cb(msg)
+		can.onappend.style(can, msg.Option("display.style"), can._fields)
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
@@ -478,7 +479,7 @@ Volcanos(chat.ONIMPORT, {
 					_msg.action = [], _msg.PushButton("userInfo")
 					if (can.base.endWith(can.ConfIndex(), ".member") && !_msg.Append("auth_name")) { _msg.action = [] }
 					can.onimport.itemcards(can, _msg, function(value) { value.icons = value.auth_avatar||value.user_avatar; return [
-						{view: html.TITLE, list: [value.user_name, can.onimport.authView(can, value), can.onimport.titleAction(can, value)]},
+						{view: html.TITLE, list: [value.user_name, can.onimport.authView(can, value), !value.to_user_avatar && can.onimport.titleAction(can, value)]},
 						{view: html.STATUS, list: [value.uid.slice(0, 6), can.onimport.timeView(can, value)]},
 					] }, function(event, value) {
 						can.run(can.request(event, {uid: value.user_uid}), [ctx.ACTION, "userInfo"])
@@ -513,7 +514,8 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
-			{view: html.ACTION, _init: function(target) { can.page.appendAction(can, value, target)
+			!value.to_user_avatar && {view: html.ACTION, _init: function(target) {
+				can.page.appendAction(can, value, target)
 				can.user.isMobile && can.page.Select(can, target, "input.notice", function(target) { can.page.Remove(can, target) })
 			}},
 			{view: html.OUTPUT, list: [
@@ -524,6 +526,7 @@ Volcanos(chat.ONIMPORT, {
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
+				value.to_user_avatar && {img: can.misc.ResourceIcons(can, value.to_user_avatar)},
 			], _init: function(target) {
 				value.action && can.onmotion.slideAction(can, target)
 			}},
@@ -593,7 +596,9 @@ Volcanos(chat.ONIMPORT, {
 	},
 	uidView: function(can, value) { return value.uid.slice(0, 6) },
 	metaView: function(can, value) {
-		return {view: html.STATUS, list: [can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.user_name]}
+		return {view: html.STATUS, list: [
+			can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.user_name,
+		]}
 	},
 	shipView: function(can, value) {
 		return {view: html.STATUS, list: [value.city_name, value.city_name? "|": "",
