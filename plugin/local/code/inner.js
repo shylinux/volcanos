@@ -210,6 +210,7 @@ Volcanos(chat.ONIMPORT, {
 				item.display_css = msg.Option(ice.MSG_DISPLAY_CSS)
 				if (can.base.isIn(item.index, web.WIKI_WORD)) { item.style = html.OUTPUT }
 				can.onimport.plug(can, item, function(sub) {
+					sub._load_display_always = true
 					sub.onaction.close = function() { can.onmotion.hidden(can, target), can.onimport.layout(can) }
 					sub.onexport.output = function(_sub, _msg) { can.base.isFunc(cb) && cb(_sub.sup, _msg) }
 				}, target)
