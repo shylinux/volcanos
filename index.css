@@ -446,9 +446,6 @@ body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg
 body div.input.float div.action {
 	padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move;
 }
-body.mobile {
-	display:flex;
-}
 fieldset.input.key>div.action {
 	display:none !important;
 }

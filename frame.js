@@ -1064,7 +1064,7 @@ Volcanos(chat.ONLAYOUT, {
 			can.page.styleHeight(can, target, height), can.page.styleWidth(can, target, width)
 		}); return height+margin
 	},
-	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": 'url("'+url+'")') },
+	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": url) },
 	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
