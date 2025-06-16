@@ -305,7 +305,8 @@ Volcanos(chat.ONIMPORT, {
 		if (sub._stacks_current) { var plugin = sub._stacks_current[0], current = plugin.current||{}
 			can.core.List(sub._stacks_current, function(p) { current = p.current||current, p.current && (plugin = p) })
 			if (plugin == sub._stacks_root) { var PLACE_UID = can.core.Item(can.Option())[0]
-				var place_uid = can.Option(PLACE_UID) == can.misc.Search(can, PLACE_UID)? "": can.Option(PLACE_UID)
+				// var place_uid = can.Option(PLACE_UID) == can.misc.Search(can, PLACE_UID)? "": can.Option(PLACE_UID)
+				var place_uid = can.Option(PLACE_UID)
 				if (sub._stacks_current.length == 1) {
 					plugin.sub.onexport.hash(plugin.sub, place_uid)
 				} else {
@@ -473,7 +474,7 @@ Volcanos(chat.ONIMPORT, {
 		msg.Option("otherList") && can.onimport.otherList && can.onimport.otherList(can, msg, can.core.Split(msg.Option("otherList")))
 	},
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
-		if (msg.IsDetail()) { var value = msg.TableDetail(); value.uid = value.user_uid; var _msg = can.request(); _msg.Push(value)
+		if (msg.IsDetail()) { var value = msg.TableDetail(); var _msg = can.request(); _msg.Push(value)
 			if (!msg.Option("market_uid") && !msg.Option("message_uid")) {
 				value.user_avatar && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
 					_msg.action = [], _msg.PushButton("userInfo")
@@ -486,8 +487,7 @@ Volcanos(chat.ONIMPORT, {
 					}, target)
 				}}])
 			}
-			can.onappend.table(can, msg)
-			can.page.Select(can, target, html.TR, function(target) {
+			can.onappend.table(can, msg), can.page.Select(can, target, html.TR, function(target) {
 				target.className.indexOf("_uid") > -1 && can.page.ClassList.add(can, target, "hide")
 			})
 		} else {
@@ -625,7 +625,7 @@ Volcanos(chat.ONIMPORT, {
 		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [can.user.transValue(can, value, key), "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
 	beginTime: function(can, value) {
-		return (value.process_time||value.begin_time).split(" ")[0]+" ~ "+(value.finish_time||value.end_time).split(" ")[0]
+		return (value.process_time||value.begin_time||"").split(" ")[0]+" ~ "+(value.finish_time||value.end_time||"").split(" ")[0]
 	},
 	moneyView: function(can, value, key) { return {text: ["¥ "+(value[key]||value.price||value.amount)+" 元", "", "price"]} },
 })

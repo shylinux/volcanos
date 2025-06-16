@@ -342,7 +342,9 @@ Volcanos(chat.ONAPPEND, {
 		if (msg.IsErr()) { return can.onappend.style(can, "warn", can.user.toastFailure(can, msg.Result())._target) }
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/") && delete(Volcanos.meta.cache[display])
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/") && delete(Volcanos.meta.cache[display.split(".")[0]])
-		var list = display.split(",").concat([msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined, chat.PLUGIN_TABLE_JS])
+		var list = []; can.core.List(display.split(","), function(item) { list = can.base.AddUniq(list, item) })
+		list = can.base.AddUniq(list, chat.PLUGIN_TABLE_JS)
+		list = can.base.AddUniq(list, msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined)
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			sup: can,

@@ -127,7 +127,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			} return can.base.isUndefined(res) && key.indexOf(ctx.FEATURE+nfs.PT) == -1? can.Conf(can.core.Keys(ctx.FEATURE, key)): res
 		}, _conf: {},
 	}, meta)); if (_can_name) { meta.cache[_can_name] = meta.cache[_can_name]||[], meta.cache[_can_name].push(can) } else { list.push(can) }
-	setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.frame): libs, cb) }, 1)
+	libs && setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.frame): libs, cb) }, 1)
 	return can
 })
 try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
