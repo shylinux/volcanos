@@ -376,7 +376,7 @@ Volcanos(chat.ONAPPEND, {
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
 					// if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
 					if (!msg.IsDetail() && msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) {
-						can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300)
+						can.base.endWith(sub.ConfIndex(), ".portal") || can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300)
 					}
 				}
 				

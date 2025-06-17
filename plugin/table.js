@@ -368,6 +368,7 @@ Volcanos(chat.ONIMPORT, {
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = can._stacks_root.ConfHeight()-ACTION_HEIGHT
 		can.onappend.plugin(portal, value, function(sub) { can.onimport.myField(can, sub), can.onmotion.slideIn(sub)
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
+			var USER_PLACE_ROLE = plugin.sub.Conf("_user_place_role")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
 				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.REMOVE) {
 					if (sub._msg.IsDetail()) {
@@ -411,6 +412,17 @@ Volcanos(chat.ONIMPORT, {
 				msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
 				if (can.base.endWith(sub.ConfIndex(), ".portal")) { return }
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
+				if (msg.IsDetail() && msg.Append("user_uid") != msg.Option("user.uid")) { can.page.Append(can, _action, [{view: [[html.ITEM, html.SPACE]]}])
+					// var value = msg.TableDetail()
+					var value = {user_uid: msg.Option("user.uid"), user_name: msg.Option(ice.MSG_USERNICK), user_avatar: can.misc.Resource(can, msg.Option("user.avatar"))}
+					// value[USER_PLACE_ROLE] = "creator"
+					// msg.Option("user_role")
+					can.page.Append(can, _action, [{view: [[html.ITEM, "user_info"]], list: [
+						{view: html.NAME, list: [{text: value.user_name}, can.onimport.timeView(can, value)]}, can.onimport.textView(can, value, USER_PLACE_ROLE), {img: value.user_avatar},
+					], onclick: function(event) {
+						_sub.run(_sub.request(event, {uid: value.user_uid}), [ctx.ACTION, "userInfo"])
+					}}])
+				}
 			}
 			sub._select = function() { can.onimport.myOption(sub), can.user.trans(can, {goback: "返回"})
 				can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
@@ -425,6 +437,7 @@ Volcanos(chat.ONIMPORT, {
 				sub._msg && sub._msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
 				can.page.style(can, _action, html.DISPLAY, html.FLEX)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
+				// var msg = sub._msg
 			}
 			can._stacks_current.push(sub), sub._select()
 		}, _output)
