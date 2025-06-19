@@ -23,7 +23,7 @@ Volcanos(chat.ONENGINE, {
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
-		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() {
+		var toast, _toast = msg.Option(chat._TOAST); if (_toast && !can.user.isMobile) { can.onmotion.delay(can, function() {
 			if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, can.user.trans(sub, _toast))
 		}, 0) }
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) {
@@ -35,7 +35,7 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
+			msg.IsErr() || can.user.isMobile || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
 			// delete(sub._toast), delete(sub.__toast)
 			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg

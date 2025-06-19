@@ -83,7 +83,8 @@ body {
 body.light { --panel-bg-color:black; --panel-fg-color:silver; }
 body.width6 { /* 1920-2240 大显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px;
-	--qrcode-width:420px; --card-height:160px;
+	// --qrcode-width:420px;
+	--card-height:160px;
 	--float-width:1200px;
 }
 body.width5 { /* 1600-1920 */
@@ -191,7 +192,7 @@ div.item.card:not(.hide) { position:relative; display:flex; align-items:center; 
 div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; }
-div.item.card div.title span { margin-right:5px; white-space:pre; line-height:22px; }
+div.item.card div.title span:not(:last-child) { margin-right:5px; white-space:pre; line-height:22px; }
 div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.status { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
