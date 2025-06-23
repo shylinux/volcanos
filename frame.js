@@ -815,6 +815,7 @@ Volcanos(chat.ONAPPEND, {
 			onmousemove: function(event) { if (!hbegin) { return } target.scrollLeft = hbegin.left+(event.x-hbegin.x)/target.offsetWidth*target.scrollWidth, can.onkeymap.prevent(event) },
 			onmouseup: function(event) { hbegin = null, delete(window._mousemove) },
 		}])._target
+		can.ui.vbar = vbar, can.ui.hbar = hbar
 		target.addEventListener("scroll", function(event) {
 			var height = can.base.Min(target.offsetHeight*target.offsetHeight/target.scrollHeight, target.offsetHeight/4)
 			vbar.innerHTML = `${(target.scrollTop*100/(target.scrollHeight-target.offsetHeight)).toFixed(2)}%`
@@ -1407,10 +1408,10 @@ Volcanos(chat.ONMOTION, {
 		target.ontouchmove = function(event) { var msg = can.request(event)
 			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
 			spanY = event.touches[0].clientY-beginY, spanX = event.touches[0].clientX-beginX
-			if (can.page.tagis(event.target, "table.content")) { return }
-			if (can.page.tagis(event.target, "th")) { return }
-			if (can.page.tagis(event.target, "td")) { return }
 			if (can.page.tagis(event.target.parentNode, "div.tabs")) { return }
+			if (can.page.tagis(event.target, "table.content.scroll")) { return }
+			// if (can.page.tagis(event.target, "th")) { return }
+			// if (can.page.tagis(event.target, "td")) { return }
 			if (Math.abs(spanX) > Math.abs(spanY)) { can.onkeymap.prevent(event) }
 			can.onaction.onslidemove(event, can, data = {beginX: beginX, beginY: beginY, spanX: spanX, spanY: spanY}, direction())
 		}

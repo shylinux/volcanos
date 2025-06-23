@@ -280,9 +280,10 @@ Volcanos(chat.ONSYNTAX, {
 			"not": code.DATATYPE, "first-child": code.DATATYPE, "last-child": code.DATATYPE, "nth-child": code.DATATYPE,
 			"placeholder": code.DATATYPE, "hover": code.DATATYPE, "focus": code.DATATYPE,
 			
-			"$body": code.KEYWORD, "$fieldset": code.KEYWORD,
+			"$body": code.KEYWORD, "$fieldset": code.KEYWORD, "$input": code.KEYWORD,
 			"$option": code.KEYWORD, "$action": code.KEYWORD, "$output": code.KEYWORD, "$status": code.KEYWORD,
 			"$content": code.KEYWORD, "$profile": code.KEYWORD, "$display": code.KEYWORD, "$project": code.KEYWORD,
+			
 			
 			"output": code.KEYWORD,
 			"background-color": code.FUNCTION, "color": code.FUNCTION,

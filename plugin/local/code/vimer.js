@@ -1,5 +1,7 @@
 Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, cb) { can.onappend.style(can, code.VIMER); if (can.user.mod.isPod) { delete(can.onfigure.space) }
+		can.misc.Search(can, html.TITLE) && can.Conf("help", can.misc.Search(can, html.TITLE))
+		can.misc.Search(can, html.TITLE) && can.sup.Conf("help", can.misc.Search(can, html.TITLE))
 		can.require(["/plugin/local/code/inner.js"], function(can) { can.onimport._last_init(can, msg, function() {
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)
 		}) })

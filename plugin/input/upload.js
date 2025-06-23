@@ -13,4 +13,7 @@ Volcanos(chat.ONFIGURE, {upload: {
 			target.value = msg.Result()
 		})
 	},
+	onfocus: function(event, can, meta, target, cbs, mod) {
+		can.onmotion.delay(can, function() { target.blur() })
+	},
 }})

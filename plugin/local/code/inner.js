@@ -226,7 +226,8 @@ Volcanos(chat.ONIMPORT, {
 				item.file && can.onimport.tabview(can, item.path, item.file||can.Option(nfs.FILE), item.line)
 			}} }, target), can.onappend.board(can, msg, target), msg.Option(ice.MSG_STATUS) && can.onappend._status(can, msg.Option(ice.MSG_STATUS), can.page.Append(can, target, [html.STATUS])._target)
 		} else {
-			return can.onmotion.toggle(can, target, false), can.onimport.layout(can), can.user.toastFailure(can, "nothing to display")
+			return can.onmotion.toggle(can, target, false), can.onimport.layout(can)
+			// can.user.toastFailure(can, "nothing to display")
 		} return can.onmotion.toggle(can, target, true), can.onimport.layout(can)
 	},
 	toolkit: function(can, meta, cb) { can.base.isString(meta) && (meta = {index: meta})
@@ -267,8 +268,16 @@ Volcanos(chat.ONIMPORT, {
 		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(can.page.height())) }
 		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
-		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) {
-			var sub = can._msg._profile_plugin; sub && can.page.isDisplay(can.ui.profile) && sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, can.ui.profile.offsetWidth-1, false)
+		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { var _width = width
+			var sub = can._msg._profile_plugin; if (sub && can.page.isDisplay(can.ui.profile)) { _width = (can.ConfWidth()-can.ui.project.offsetWidth)/2
+				can.page.style(can, can.ui.profile, html.WIDTH, _width, html.MAX_WIDTH, _width, html.FLEX, "0 0 "+_width+"px")
+				sub.onimport && sub.onimport.size(sub, can.ui.profile.offsetHeight, _width-1, false)
+				can.page.style(can, can.ui.vbar, html.RIGHT, _width)
+			} else {
+				can.page.style(can, can.ui.vbar, html.RIGHT, "0")
+			}
+			can.page.style(can, can.ui.content, html.FLEX, "0 0 "+_width+"px")
+			can.page.style(can, can.ui.hbar, html.BOTTOM, "0")
 			var sub = can.ui.content._plugin; if (!sub) { return } if (height == sub.ConfHeight()+sub.onexport.actionHeight(sub)+sub.onexport.statusHeight(sub) && width == sub.ConfWidth()) { return }
 			sub.onimport.size(sub, height, width, false), can.page.style(can, sub._target, html.HEIGHT, height)
 		})
@@ -347,7 +356,8 @@ Volcanos(chat.ONSYNTAX, {
 				})
 			} p && include(p.include), p && p.prepare && can.core.ItemForm(p.prepare, function(value, index, key) { p.keyword = p.keyword||{}, p.keyword[value] = key })
 			if (can.db.history.length > 1) { can.ui.content = can.page.insertBefore(can, [{view: html.CONTENT, style: {width: can.ui.content.offsetWidth}}], can.ui._content), can.ui.content._cache_key = key }
-			can.ui.content._max = 0, can.ui.content._msg = msg, can.page.Appends(can, can.ui.content, [{view: ["tips", "", msg.Option(nfs.FILE).split(nfs.PS).slice(-2).join(nfs.PS)]}])
+			can.ui.content._max = 0, can.ui.content._msg = msg
+			// can.page.Appends(can, can.ui.content, [{view: ["tips", "", msg.Option(nfs.FILE).split(nfs.PS).slice(-2).join(nfs.PS)]}])
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")
 				can.page.Select(can, can.ui.content, "tr.line.delete>td.line", function(target) { target.innerHTML = "" })
 			} else {
