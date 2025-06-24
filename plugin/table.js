@@ -370,10 +370,8 @@ Volcanos(chat.ONIMPORT, {
 			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
 			var USER_PLACE_ROLE = plugin.sub.Conf("_user_place_role")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
-				if (cmds[0] == ctx.ACTION && cmds[1] == mdb.REMOVE) {
-					if (sub._msg.IsDetail()) {
-						var cbs = cb; cb = function() { goback(event) }
-					}
+				if (cmds[0] == ctx.ACTION && can.base.isIn(cmds[1], mdb.REMOVE, nfs.TRASH)) {
+					if (sub._msg.IsDetail()) { var cbs = cb; cb = function() { goback(event) } }
 				}
 				run(sub.request(event, {
 					city_name: current[CITY_NAME], street_name: current[STREET_NAME], place_name: current[PLACE_NAME],
