@@ -426,7 +426,7 @@ Volcanos(chat.ONIMPORT, {
 				if (!can.user.isMobile || msg.IsDetail() && msg.Append("user_uid") && msg.Append("user_uid") != msg.Option("user.uid")) { can.page.Append(can, _action, [{view: [[html.ITEM, html.SPACE]]}])
 					var value = {user_uid: msg.Option("user.uid"), user_name: msg.Option(ice.MSG_USERNICK), user_avatar: can.misc.Resource(can, msg.Option("user.avatar"))}
 					can.page.Append(can, _action, [{view: [[html.ITEM, "user_info"]], list: [
-						{view: html.NAME, list: [{text: value.user_name.split("@")[0]}, can.onimport.timeView(can, value)]}, can.onimport.textView(can, value, USER_PLACE_ROLE), {img: value.user_avatar},
+						{view: html.NAME, list: [{text: can.user.isMobile? value.user_name.split("@")[0]: value.user_name}, can.onimport.timeView(can, value)]}, can.onimport.textView(can, value, USER_PLACE_ROLE), {img: value.user_avatar},
 					], onclick: function(event) {
 						sub.sub.run(sub.sub.request(event, {uid: value.user_uid}), [ctx.ACTION, "userInfo"])
 					}}])

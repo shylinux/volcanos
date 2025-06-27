@@ -1105,6 +1105,7 @@ Volcanos(chat.ONMOTION, {
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			if (can.page.tagis(event.target, html.A) && can.user.isWebview) { return event.shiftKey? window.outopen(event.target.href): can.user.open(event.target.href) }
 			if (can.page.tagis(event.target, html.IMG) && can.base.beginWith(event.target.title, web.HTTP)) { return can.user.open(event.target.title) }
+			if (can.page.tagis(event.target, "img.qrcode")) { return can.user.open(event.target.title) }
 			can.onmotion.clearCarte(can)
 		}
 	},

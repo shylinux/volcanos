@@ -164,9 +164,10 @@ div.output div.code.qrcode>img.qrcode:hover {
 div.output div.code.qrcode>img.qrcode {
 	box-shadow:var(--box-shadow); border-radius:10px;
 	margin:10px 10px; height:220px; width:220px;
+	cursor:pointer;
 }
-div.output div.code>img.avatar {
-	box-shadow:var(--box-shadow); border-radius:10px; border:solid 2px white; object-fit:cover; --qrcode-icon-height:32px;
+// div.output div.code>img.avatar { box-shadow:var(--box-shadow); border:solid 2px white; }
+div.output div.code>img.avatar { --qrcode-icon-height:32px; object-fit:cover; border-radius:10px;
 	height:var(--qrcode-icon-height) !important; width:var(--qrcode-icon-height) !important;
 	position:absolute; top:calc(50% - var(--qrcode-icon-height) / 2 - 12px); left:calc(50% - var(--qrcode-icon-height) / 2);
 }
