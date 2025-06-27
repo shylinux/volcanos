@@ -316,7 +316,13 @@ Volcanos(chat.ONACTION, {
 	}) },
 	openLocation: function(event, can) { can.user.agent.openLocation(can, can.request(event)) },
 	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
-	scanQRCode: function(event, can, button) { can.user.agent.scanQRCode(can, function(data) { can.runAction(event, button, can.base.Simple(data), function() { can.Update() }) }) },
+	scanQRCode: function(event, can, button) {
+		can.user.agent.scanQRCode(can, function(data) { can.sub.runAction(event, button, can.base.Simple(data)) })
+		return
+		can.user.agent.scanQRCode(can, function(data) { can.runAction(event, button, can.base.Simple(data), function() {
+			can.Update()
+		}) })
+	},
 	record0: function(event, can, name, cb) { can.user.input(event, can, [{name: nfs.FILE, value: name}], function(list) {
 		navigator.mediaDevices.getDisplayMedia({video: {height: window.innerHeight}}).then(function(stream) { var toast
 			can.core.Next([3, 2, 1], function(item, next) { toast = can.user.toast(can, item + "s 后开始截图"), can.onmotion.delay(can, next, 1000) }, function() { toast.close()

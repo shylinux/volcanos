@@ -157,13 +157,13 @@ table.content.detail tr.action i.bi-trash { color:var(--danger-bg-color); }
 
 body.width1 div.output div.video.width.bilibili iframe { height:200px; }
 div.output div.code.qrcode { position:relative; }
-div.output div.code.qrcode { text-align:center; display:inline-block; }
+div.output div.code.qrcode { text-align:center; display:inline-block; margin:10px 10px; }
 div.output div.code.qrcode>img.qrcode:hover {
 	box-shadow:var(--notice-box-shadow);
 }
 div.output div.code.qrcode>img.qrcode {
 	box-shadow:var(--box-shadow); border-radius:10px;
-	margin:10px 10px; height:200px; width:200px;
+	margin:10px 10px; height:220px; width:220px;
 }
 div.output div.code>img.avatar {
 	box-shadow:var(--box-shadow); border-radius:10px; border:solid 2px white; object-fit:cover; --qrcode-icon-height:32px;
