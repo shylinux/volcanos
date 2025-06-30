@@ -263,7 +263,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 	}) },
 	layout: function(can) {
-		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, (can.Conf("__width")||can.ConfWidth())-(can.user.isMobile? 5: 2)) }
+		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.base.ParseSize((can.Conf("__width")||can.ConfWidth()+""))-(can.user.isMobile? 5: 5)) }
 		if (can.isSimpleMode() && !can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
 		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
 		if (can.isCmdMode()) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(can.page.height())) }

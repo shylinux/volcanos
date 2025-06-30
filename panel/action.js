@@ -4,13 +4,12 @@ Volcanos(chat.ONIMPORT, {
 		var _select; can.onmotion.clear(can), can.onaction.layout(can, list[3])
 		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
 			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
-			can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
+			// can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
 			if (list.length == 0) {
 				can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
 				can.user.info.nodetype == web.WORKER && item._command == web.VIMER && (list = [river, storm, item._command])
 			}
-			can.onappend.plugin(can, item, function(sub, meta, skip) {
-				can.user.isMobile || sub.Conf(ice.AUTO, cli.DELAY)
+			can.onappend.plugin(can, item, function(sub, meta, skip) { can.user.isMobile || sub.Conf(ice.AUTO, cli.DELAY)
 				if (msg.detail && can.base.isIn(meta.index, "can._notfound")) { sub.Conf(ctx.INDEX, msg.detail[index+3]) }
 				sub.run = function(event, cmds, cb) { return can.run(can.request(event, {pod: meta.pod||meta.space}), (can.base.beginWith(meta.index, "can.")? [meta.index]: [river, storm, meta.id||meta.index]).concat(cmds), cb) }
 				sub.onexport.output = function() { msg.Length() > 1 && can.onexport.isauto(can) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, ""), can.onaction.layout(can, list[3]) }
@@ -27,7 +26,7 @@ Volcanos(chat.ONIMPORT, {
 			can.user.mod.isPod && can.user.title(["后台", sub.ConfHelp(), can.user.info.titles].join(" "))
 			// can.onmotion.delay(can, function() { sub._header_tabs.scrollIntoViewIfNeeded() })
 			var layout = can.onexport.layout(can); layout == FREE || (can._output.scrollTop = sub._target.offsetTop-10)
-			can.isCmdMode() || can.misc.SearchHash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
+			can.isCmdMode() || can.onexport.hash(can, can.Conf(chat.RIVER), can.Conf(chat.STORM), sub.ConfIndex(), layout)
 			sub.Conf(ice.AUTO) == cli.DELAY && sub._output.innerHTML == "" && sub.Update(event)
 			sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 			can.onengine.signal(can, "onindex", can.request(_init? {target: event.target, type: "click", isTrusted: true}: event, {index: sub.ConfIndex()})), _init = false
@@ -73,7 +72,7 @@ Volcanos(chat.ONACTION, {
 			if (msg.Length() == 1) { can.onaction._onaction_cmd(can) } can.onimport._init(can, msg)
 		})
 	},
-	onstorm_select: function(can, msg, river, storm) { can.misc.SearchHash(can, river, storm)
+	onstorm_select: function(can, msg, river, storm) { can.onexport.hash(can, river, storm)
 		if (can.onmotion.cache(can, function(save, load) { save({plugins: can._plugins, current: can._current}), can._plugins = []
 			return load(can.core.Keys(can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm)), function(bak) { can._plugins = bak.plugins, can._current = bak.current })
 		}, can._output, can._action, can._header_tabs)) {
@@ -107,7 +106,7 @@ Volcanos(chat.ONACTION, {
 	portal: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.PORTAL})) },
 	desktop: function(can) { can.user.opens(can.misc.MergePodCmd(can, {cmd: web.DESKTOP})) },
 	layout: function(can, button, skip) { var before = can._layout||can.onlayout._storage(can); button = button||before||(can.user.isMobile? ALL: TABVIEW)
-		var list = can.misc.SearchHash(can); list.length > 2 && (list[3] = button); can.isCmdMode() || can.misc.SearchHash(can, list[0], list[1], list[2], list[3])
+		var list = can.onexport.hash(can); list.length > 2 && (list[3] = button); can.isCmdMode() || can.onexport.hash(can, list[0], list[1], list[2], list[3])
 		can.page.ClassList.del(can, can._target, before), can._header_tabs && can.onmotion.hidden(can, can._header_tabs)
 		button = (can.onlayout._storage(can, can._layout = button))||can.misc.SearchOrConf(can, html.LAYOUT), can.page.ClassList.add(can, can._target, button)
 		can.onengine.signal(can, chat.ONLAYOUT, can.request({}, {layout: button, before: before}))
@@ -136,12 +135,30 @@ Volcanos(chat.ONLAYOUT, {
 		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) {
 			return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y)-([ALL, TABS].indexOf(can.onexport.layout(can)) > -1? html.ACTION_HEIGHT: 0)), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}
-		sub.onimport.size(sub, can.ConfHeight()-can.Conf(html.MARGIN_Y)-(can._plugins.length == 1 || button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN),
+		sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y))-(can._plugins.length == 1 || button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN),
 		can.ConfWidth()-can.Conf(html.MARGIN_X), can._plugins.length > 1 && can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.user.isMobile? "all": (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0] },
 })
 Volcanos(chat.ONEXPORT, {
+	hash: function(can) {
+		var hash = can.core.List(arguments).slice(1).join(":")
+		if (can.user.isMobile) {
+			if (arguments.length == 1) {
+				hash = can.misc.sessionStorage(can, "action:hash")
+				if (hash) {
+					return hash[0].split(":")
+				} else {
+					return []
+				}
+			}
+			var link = can.base.trimSuffix(location.href, location.hash)
+			can.user.agent.init(can, "", "", link+"#"+hash)
+			return can.misc.sessionStorage(can, "action:hash", hash)
+		}
+		if (arguments.length == 1) { return can.misc.SearchHash(can) }
+		return can.misc.SearchHash(can, hash.split(":"))
+	},
 	size: function(can, msg) {
 		msg.Option(html.LEFT, can._output.offsetLeft), msg.Option(html.TOP, can._output.offsetTop)
 		msg.Option(html.HEIGHT, can._output.offsetHeight||window.innerHeight), msg.Option(html.WIDTH, can._output.offsetWidth||window.innerWidth)

@@ -74,6 +74,7 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH],
 		})
 	},
 	action: function(event, can, river, storm) {
+		can.user.title([can.user.info.titles, can.ui.river_list[river].title, can.ui.storm_list[river+"."+storm].title].join(" "))
 		can._scrollTop = can._output.scrollTop
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.toggle(can, can.ui.sublist[river], true)
@@ -126,6 +127,24 @@ Volcanos(chat.ONDETAIL, {
 	], function(args) { can.run({}, [river, chat.STORM, ctx.ACTION, mdb.CREATE].concat(args), function(msg) { can.misc.Search(can, {river: river, storm: msg.Result()}) }) }) },
 })
 Volcanos(chat.ONEXPORT, {
+	hash: function(can) {
+		var hash = can.core.List(arguments).slice(1).join(":")
+		if (can.user.isMobile) {
+			if (arguments.length == 1) {
+				hash = can.misc.sessionStorage(can, "action:hash")
+				if (hash) {
+					return hash[0].split(":")
+				} else {
+					return []
+				}
+			}
+			var link = can.base.trimSuffix(location.href, location.hash)
+			can.user.agent.init(can, "", "", link+"#"+hash)
+			return can.misc.sessionStorage(can, "action:hash", hash)
+		}
+		if (arguments.length == 1) { return can.misc.SearchHash(can) }
+		return can.misc.SearchHash(can, hash)
+	},
 	width: function(can) { return can._target.offsetWidth },
 	storm: function(can, msg, arg) { can.core.Item(can._root.river, function(river, value) { can.core.Item(value.storm, function(storm, item) { if (arg[1] != "" && storm.indexOf(arg[1]) == -1 && item.name.indexOf(arg[1]) == -1) { return }
 		msg.Push({ctx: ice.CAN, cmd: can._name, type: river, name: storm, text: shy("跳转", function(event) { can.onaction.action(event, can, river, storm) })})

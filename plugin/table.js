@@ -2,7 +2,8 @@ Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg, target, cb) {
 		if (can.Mode() == html.ZONE) { return can.onimport._vimer_zone(can, msg, target), cb && cb(msg) }
 		if (msg.index && msg.meta && msg.list) { return cb && cb(msg), can.sup.onimport._field(can.sup, msg) }
-		can.page.ClassList.del(can, can._fields, html.FORM), can.page.ClassList.del(can, can._fields, html.OUTPUT)
+		// can.page.ClassList.del(can, can._fields, html.FORM), can.page.ClassList.del(can, can._fields, html.OUTPUT)
+		can.page.ClassList.del(can, can._fields, html.FORM)
 		if (can.isCmdMode() && can.Conf(ctx.STYLE) == html.FORM) { can.page.ClassList.add(can, can._fields, html.FORM), can.onappend.style(can, html.OUTPUT) }
 		var cbs = can.onimport[can.Conf(ctx.STYLE)||msg.Option(ctx.STYLE)]; if (can.base.isFunc(cbs)) {
 			can.onappend.style(can, can._args[ctx.STYLE], target), can.core.CallFunc(cbs, {can: can, msg: msg, target: target})
@@ -32,7 +33,10 @@ Volcanos(chat.ONIMPORT, {
 	},
 	icon: function(can, msg, target, cb) { msg.Table(function(value) {
 		var icon = can.misc.Resource(can, value.icons||value.icon||can.page.drawText(can, value.name, 80), value.space||msg.Option(ice.MSG_USERPOD), msg.Option(ice.MSG_USERWEB))
-		return can.page.Append(can, target, [{view: [[html.ITEM, value.status]], list: [{view: html.ICON, list: [{img: icon}]}, {view: [mdb.NAME, "", value.name]}], _init: function(target) {
+		return can.page.Append(can, target, [{view: [[html.ITEM, value.status, value.name]], list: [
+			{view: html.ICON, list: [{img: icon}]},
+			{view: [mdb.NAME, "", can.user.trans(can, value.name, can.base.trimPrefix(value.text||"", "ContextOS "))]},
+		], _init: function(target) {
 			cb && cb(target, value)
 		}, onclick: function(event) { can.sup.onexport.record(can.sup, value.name, mdb.NAME, value) }}])._target
 	}) },
@@ -273,7 +277,7 @@ Volcanos(chat.ONIMPORT, {
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {
 					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
 				}}]), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
-				status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+				sub.Conf("_role") == "ok" && status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, "legend.select", function(target) {
 					can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
@@ -308,11 +312,7 @@ Volcanos(chat.ONIMPORT, {
 			if (plugin == sub._stacks_root) { var place_uid = can.Option(PLACE_UID)
 				// var place_uid = can.Option(PLACE_UID) == can.misc.Search(can, PLACE_UID)? "": can.Option(PLACE_UID)
 				if (sub._stacks_current.length == 1) {
-					if (can.misc.Search(can, PLACE_UID) == place_uid) {
-						can.misc.SearchHash(can, "")
-					} else {
-						plugin.sub.onexport.hash(plugin.sub, place_uid)
-					}
+					plugin.sub.onexport.hash(plugin.sub, place_uid)
 				} else {
 					plugin.sub.onexport.hash(plugin.sub, place_uid, can.ConfIndex(), can.Option(UID))
 				}
@@ -322,11 +322,7 @@ Volcanos(chat.ONIMPORT, {
 			)
 		} else {
 			if (can.isCmdMode() && can.current) { var place_uid = can.current._uid
-				if (can.misc.Search(can, PLACE_UID) == place_uid) {
-					can.misc.SearchHash(can, "")
-				} else {
-					can.onexport.hash(can, place_uid)
-				}
+				can.onexport.hash(can, place_uid)
 			}
 		}
 		var icons = ""; can.core.List([current.icons, can.ConfIcons(), plugin.ConfIcons()], function(p) {

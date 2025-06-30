@@ -309,12 +309,21 @@ Volcanos(chat.ONACTION, {
 		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
 		can.user.input(event, can, [{type: html.TEXTAREA, name: mdb.TEXT}], function(list) { add(list[0]) })
 	},
-	getLocation: function(event, can, button) { can.user.agent.getLocation(can, function(data) {
-		can.user.input(can.request(event, data), can, [mdb.TYPE, mdb.NAME, mdb.TEXT, aaa.LATITUDE, aaa.LONGITUDE], function(args) {
-			can.runAction(event, button, args, function() { can.Update() })
+	getLocation: function(event, can, button) { can.user.agent.getLocation(can, function(res) {
+		can.user.input(can.request(event, res), can, [mdb.NAME, mdb.TEXT], function(data, args) {
+			can.runAction(can.request(event, data, res), button, args, function(msg) {
+				can.user.agent.openLocation(can, msg), can.Update()
+			})
 		})
 	}) },
 	openLocation: function(event, can) { can.user.agent.openLocation(can, can.request(event)) },
+	openAddress: function(event, can, button) { can.user.agent.openAddress(can, function(res) {
+		can.runAction(can.request(event, res), button, [], function(msg) {
+		})
+	}) },
+	copyText: function(event, can, button) { var msg = can.request(event)
+		can.user.copy(event, can, msg.Option("text"))
+	},
 	scanQRCode0: function(event, can, button) { can.user.agent.scanQRCode(can) },
 	scanQRCode: function(event, can, button) {
 		can.user.agent.scanQRCode(can, function(data) { can.sub.runAction(event, button, can.base.Simple(data)) })
