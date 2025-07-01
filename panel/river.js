@@ -74,7 +74,8 @@ Volcanos(chat.ONACTION, {list: [mdb.CREATE, web.SHARE, web.REFRESH],
 		})
 	},
 	action: function(event, can, river, storm) {
-		can.user.title([can.user.info.titles, can.ui.river_list[river].title, can.ui.storm_list[river+"."+storm].title].join(" "))
+		// can.user.title([can.user.info.titles, can.user.isMobile? "": can.ui.river_list[river].title, can.ui.storm_list[river+"."+storm].title].join(" "))
+		can.user.title([can.user.info.titles, can.ui.storm_list[river+"."+storm].title].join(" "))
 		can._scrollTop = can._output.scrollTop
 		can.page.Select(can, can._output, [html.DIV_LIST, html.DIV_ITEM], function(target) { can.page.ClassList.del(can, target, html.SELECT) })
 		can.onmotion.toggle(can, can.ui.sublist[river], true)
