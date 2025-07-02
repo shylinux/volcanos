@@ -103,6 +103,7 @@ body.width1 { /* 320-640 手机竖屏 */
 	--table-button:2;
 	// --card-button:3;
 	--desktop-icon-size:60px;
+	--legend-padding:10px;
 }
 body.en { --card-button:3; }
 body.mobile { --project-width:240px; --footer-height:64px; --svg-font-size:13px; --qrcode-width:240px; }

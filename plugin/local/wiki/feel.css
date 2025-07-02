@@ -40,5 +40,6 @@ fieldset.feel>div.output>div.layout>div.layout>div.content>div.progress { backgr
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle { font-size:32px; padding:5px; padding-top:32px; height:100px; top:40%; z-index:5; }
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.next { right:0; }
 fieldset.feel>div.output>div.layout>div.layout>div.content>div.toggle.prev { left:0; }
+body.mobile fieldset.feel>form.option>div.item.text { display:none; }
 div.toggle { -webkit-user-select:none; }
 img { -webkit-user-select:none; }
