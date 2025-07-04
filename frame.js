@@ -390,9 +390,11 @@ Volcanos(chat.ONAPPEND, {
 				
 				// can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
-				can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
-				can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
-				can.page.Remove(can, output_old)
+				can.onmotion.delay(can, function() {
+					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
+					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
+					can.page.Remove(can, output_old)
+				})
 			}, target: output}), msg.Defer()
 		})
 	},

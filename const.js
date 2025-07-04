@@ -436,6 +436,7 @@ var html = {
 	DESKTOP: "desktop", DIV_DESKTOP: "div.desktop", DIV_EXPAND: "div.expand",
 	ITEM_CARD: "item.card",
 	DIV_ITEM_TEXT: "div.item.text",
+	DIV_ITEM_CARD: "div.item.card",
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",
 	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
