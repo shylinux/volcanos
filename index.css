@@ -719,7 +719,7 @@ body div.path { font-family:var(--code-font-family); }
 body div.carte { font-family:var(--code-font-family); }
 body { font-size:var(--body-font-size); }
 legend { font-size:var(--legend-font-size); line-height:30px; height:var(--action-height); }
-legend>img { margin-right:var(--input-margin); height:28px; display:block; float:left; }
+legend>img { border-radius:5px; margin-right:var(--input-margin); height:28px; display:block; float:left; }
 legend>span.icon:first-child { margin-right:var(--input-margin); }
 legend>i:first-child { margin-right:var(--input-margin); }
 select, input { font-size:var(--body-font-size); height:var(--action-height); } input::placeholder, textarea::placeholder { font-style:italic; color:var(--label-fg-color); }

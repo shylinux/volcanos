@@ -148,16 +148,16 @@ Volcanos(chat.ONAPPEND, {
 	_init: function(can, meta, list, cb, target, field) {
 		meta.index && (meta.name = meta.index), meta.name = can.core.Split(meta.name||"", "\t .\n").pop()||can.Conf(mdb.NAME)
 		field = field||can.onappend.field(can, meta.type, meta, target)._target
-		meta.style == html.OUTPUT && can.onappend.style(can, html.OUTPUT, field)
+		// if (meta.index == "web.chat.wx.agent") { can.onmotion.hidden(can, field) }
+		meta.index && can.onmotion.hidden(can, field), meta.style == html.OUTPUT && can.onappend.style(can, html.OUTPUT, field)
+		can.isCmdMode() && meta.style != "float" && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
+		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
+		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
 		var output = can.page.SelectOne(can, field, html.DIV_OUTPUT)
 		var status = can.page.SelectOne(can, field, html.DIV_STATUS)
-		if (meta.index == "web.chat.wx.agent") { can.onmotion.hidden(can, field) }
-		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
-		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
-		can.isCmdMode() && meta.style != "float" && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		var sub = Volcanos(meta.name, {_root: can._root||can, _follow: can.core.Keys(can._follow, meta.name), _target: field,
 			_legend: legend, _option: option, _action: action, _output: output, _status: status, _history: [], db: {hash: [""]}, ui: {},
 			Status: function(key, value) { if (can.base.isObject(key)) { return can.core.Item(key, sub.Status), key } try {
@@ -190,6 +190,7 @@ Volcanos(chat.ONAPPEND, {
 			can.onappend.style(sub, sub.Conf("_style"))
 			can.onappend.style(sub, sub.Mode())
 			sub.isCmdMode() && can.onappend.style(sub, can.misc.Search(can, ctx.STYLE)), sub.isCmdMode() && sub.Conf(can.misc.Search(can))
+			meta.index && can.onmotion.toggle(can, field, true)
 			sub._trans = can.base.Copy(sub._trans||{}, can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			can.core.Item(meta.feature, function(key, cb) { cb.help && sub.user.trans(sub, kit.Dict(key, cb.help)) })
 			meta.msg && can.onmotion.delay(can, function() { var msg = sub.request(); msg.Copy(can.base.Obj(meta.msg)), msg._xhr = meta.msg._xhr
@@ -367,7 +368,10 @@ Volcanos(chat.ONAPPEND, {
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
 			} can.page.ClassList.add(can, can._output, "_prepare")
+			// output_old.innerHTML && can.page.style(can, can._output, "visibility", "hidden", "position", "absolute")
+			output_old.innerHTML && can.page.style(can, can._output, "visibility", "hidden")
 			can.onexport._output && can.onexport._output(sub, msg)
+			// output_old.innerHTML == "" && can.onmotion.hidden(can, output_old)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output), sub.onmotion.touchAction(sub)
 				if (action !== false) { can.onkeymap._build(sub)
@@ -379,7 +383,6 @@ Volcanos(chat.ONAPPEND, {
 						can.base.endWith(sub.ConfIndex(), ".portal") || can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300)
 					}
 				}
-				
 				if (can.onimport.size) {
 					can.page.ClassList.has(can, can._target, html.FLOAT) && !can.page.ClassList.has(can, can._target, html.PLUG)?
 					can.onimport.size(can, can.ConfHeight(), can.base.Min(can.ConfWidth(), can._target.offsetWidth), can.Conf("_auto"), can.Mode()):
@@ -391,10 +394,10 @@ Volcanos(chat.ONAPPEND, {
 				// can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.onmotion.delay(can, function() {
-					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "")
+					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "", "position", "")
 					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
-				})
+				}, output_old.innerHTML? 300: 30)
 			}, target: output}), msg.Defer()
 		})
 	},

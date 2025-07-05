@@ -39,6 +39,7 @@ var ice = {
 	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_BG: "sess.bg", MSG_FG: "sess.fg", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
 	MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
+	MSG_USERUID: "user.uid",
 	
 	MSG_COST: "sess.cost", MSG_MODE: "sess.mode",
 	MSG_NODETYPE: "node.type", MSG_NODENAME: "node.name",
@@ -420,6 +421,7 @@ var html = {
 	FULL: "full",
 	ICON: "icon",
 	VALUE: "value",
+	STICKY: "sticky",
 	PROCESS: "process",
 	TOIMAGE: "toimage", NOT_HIDE: ":not(.hide)",
 	CONTAINER: "container", FLEX: "flex", FLOW: "flow",
