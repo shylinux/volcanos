@@ -100,8 +100,9 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.background = msg.Option(aaa.BACKGROUND)
 			can.user.info.favicon = msg.Option("favicon")
 			can.user.info.titles = msg.Option("titles")||document.title
-			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), can.onengine.signal(can, chat.ONLOGIN) })
+			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), _login || can.onengine.signal(can, chat.ONLOGIN) })
 		}
+		var _login
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
@@ -120,6 +121,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 				|| can.misc.Search(can, web.SHARE) || tool && can.base.isIn(can.user.info._cmd = tool[0]._command, "web.chat.oauth.client", web.PORTAL, aaa.OFFER, aaa.APPLY)) { return show(msg) }
 				can.onlayout._init(can), can.user.login(can, function() { can.onengine.signal(can, chat.ONMAIN, msg) }, msg)
 			})
+			// msg.Option(ice.MSG_USERNAME) && (_login = true) && can.onengine.signal(can, chat.ONLOGIN)
 		})
 	},
 	onstorm_select: function(can, river, storm) { can.Conf(chat.RIVER, river), can.Conf(chat.STORM, storm) },

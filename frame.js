@@ -23,7 +23,7 @@ Volcanos(chat.ONENGINE, {
 		if (panel.onengine._plugin(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._engine(event, can, msg, panel, cmds, cb)) { return }
 		if (panel.onengine._static(event, can, msg, panel, cmds, cb)) { return }
-		var toast, _toast = msg.Option(chat._TOAST); if (_toast && !can.user.isMobile) { can.onmotion.delay(can, function() {
+		var toast, _toast = msg.Option(chat._TOAST); if (_toast) { can.onmotion.delay(can, function() {
 			if (sub.__toast || sub._toast) { return } toast = toast||can.user.toastProcess(sub, can.user.trans(sub, _toast))
 		}, 0) }
 		if (can.base.isUndefined(msg[ice.MSG_DAEMON])) {
@@ -35,7 +35,7 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			msg.IsErr() || can.user.isMobile || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
+			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
 			// delete(sub._toast), delete(sub.__toast)
 			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
@@ -368,8 +368,9 @@ Volcanos(chat.ONAPPEND, {
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
 			} can.page.ClassList.add(can, can._output, "_prepare")
-			// output_old.innerHTML && can.page.style(can, can._output, "visibility", "hidden", "position", "absolute")
-			output_old.innerHTML && can.page.style(can, can._output, "visibility", "hidden")
+			// output_old.innerHTML
+			// can.page.style(can, can._output, "visibility", "hidden")
+			output_old.offsetHeight && can.page.style(can, can._output, "visibility", "hidden", "position", "absolute")
 			can.onexport._output && can.onexport._output(sub, msg)
 			// output_old.innerHTML == "" && can.onmotion.hidden(can, output_old)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
@@ -397,7 +398,7 @@ Volcanos(chat.ONAPPEND, {
 					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "", "position", "")
 					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
-				}, output_old.innerHTML? 300: 30)
+				}, output_old.innerHTML? 360: 120)
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -1016,6 +1017,9 @@ Volcanos(chat.ONAPPEND, {
 				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb)
 					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
+					if (meta.action == "date" || sub._target.offsetTop > 200 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
+						can.user.isMobile && can.page.style(can, sub._target, html.LEFT, "0", html.BOTTOM, "0", html.RIGHT, "0", html.TOP, "", html.MAX_WIDTH, "")
+					}
 				}
 				can.core.CallFunc(on, {event: event, can: can, meta: meta, cb: _cb, target: target, sub: target._can, mod: can.onfigure[input],last: last, cbs: function(cb) {
 					target._can? show(target._can, cb): can.onappend._init(can, {type: html.INPUT, name: input, style: can.core.Keys(can.ConfIndex(), meta.name), mode: chat.FLOAT}, ["/plugin/table.js", path, meta.display], function(sub) { sub.Conf(meta)
@@ -1033,6 +1037,9 @@ Volcanos(chat.ONAPPEND, {
 								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight-sub._action.offsetHeight)
 								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
 							})
+							if (meta.action == "date" || sub._target.offsetTop > 200 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
+								can.user.isMobile && can.page.style(can, sub._target, html.LEFT, "0", html.BOTTOM, "0", html.RIGHT, "0", html.TOP, "", html.MAX_WIDTH, "")
+							}
 						}
 						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style)
 						// can.base.isFunc(meta._init) && meta._init(sub, sub._target)
@@ -1098,7 +1105,7 @@ Volcanos(chat.ONLAYOUT, {
 				}
 			}
 			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
-			can.page.style(can, target, html.MAX_WIDTH, left+width-layout.left)
+			can.page.style(can, target, html.MAX_WIDTH, can.base.Max(left+width-layout.left, can.user.isMobile && target.offsetWidth > 300? target.offsetWidth: 1000))
 			cb && cb(top+height-layout.top, left+width-layout.left)
 		}); can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
 		return layout

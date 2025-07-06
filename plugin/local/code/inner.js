@@ -360,7 +360,7 @@ Volcanos(chat.ONSYNTAX, {
 			// can.page.Appends(can, can.ui.content, [{view: ["tips", "", msg.Option(nfs.FILE).split(nfs.PS).slice(-2).join(nfs.PS)]}])
 			if (msg.Length() > 0) { can.onsyntax._change(can, msg), can.onaction.rerankLine(can, "tr.line:not(.delete)>td.line")
 				can.page.Select(can, can.ui.content, "tr.line.delete>td.line", function(target) { target.innerHTML = "" })
-			} else {
+			} else { can.ui.content.innerHTML = ""
 				can.core.List(msg.Result().split(lex.NL), function(item) { can.onaction.appendLine(can, item) })
 			}
 			can.onengine.signal(can, VIEW_CREATE, msg), can.base.isFunc(cb) && cb(msg._content = can.ui.content)
