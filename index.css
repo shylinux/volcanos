@@ -217,6 +217,7 @@ div.item.card div.title span:not(:last-child) { margin-right:5px; white-space:pr
 div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.status { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
+div.item.card div.title div.space { display:inline-block; }
 div.item.card div.status { font-size:12px; color:gray; }
 div.item.card div.status span { margin-right:5px; }
 div.item.card div.action { max-width:100%; display:flex; align-items:center; }
@@ -362,7 +363,7 @@ fieldset.input.key>div.output>div.item img { border-radius:5px; padding:5px; hei
 fieldset.input.key>div.output>div.item img[src*=".jpg"] { padding:5px; }
 fieldset.input.key>div.output>div.item div.title { padding:var(--input-padding) 0; }
 fieldset.input.key>div.output>div.item div.status div.item { color:var(--disable-fg-color); font-size:var(--status-font-size); line-height:18px; float:left; }
-fieldset.input.key>div.output div.item.card>div.output img { height:48px; width:48px; }
+fieldset.input.key>div.output div.item.card>div.output img { border-radius:20px; height:40px; width:40px; }
 fieldset.input.key>div.output>div.item div.status div.item span { padding:0 var(--input-padding); }
 fieldset.input.key div.status:not(.hide) { display:block; position:sticky; bottom:0; }
 // fieldset.input.key div.status:not(.hide) { background-color:var(--input-bg-color); display:block; position:sticky; bottom:0; }
@@ -486,6 +487,7 @@ body>div.input.login>div.action { border-bottom:var(--box-border); padding:0; fl
 body>div.input.login>div.action>div.tabs { padding:var(--button-padding); }
 body>div.input.login>div.action>div.tabs.select { color:unset; }
 body:not(.mobile)>div.input.login>div.output { text-align:center; min-height:var(--qrcode-height); min-width:var(--iframe-height); overflow:hidden; clear:both; }
+body>div.input.login>div.output { text-align:center; }
 body>div.input.login>div.output>fieldset { box-shadow:unset; }
 body>div.input.login>div.output>fieldset>div.output { background-color:transparent; }
 body>div.input.login>div.display { padding-top:var(--button-padding); width:100%; flex-direction:column; }
@@ -607,7 +609,7 @@ body.mobile div.action div.tabs:not(.select) { display:none; }
 div.zone>div.item { background-color:var(--th-bg-color); }
 div.zone>div.list>div.zone>div.item { background-color:var(--th-bg-color); }
 div.tabs div { background-color:var(--plugin-bg-color); }
-body:not(.mobile) div.tabs div:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
+body:not(.mobile) div.tabs div.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.tabs div.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 div.plug>legend { background-color:var(--output-bg-color); }
 div.plug>legend:hover { background-color:var(--hover-bg-color); }

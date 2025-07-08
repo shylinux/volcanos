@@ -398,7 +398,7 @@ Volcanos(chat.ONAPPEND, {
 					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "", "position", "")
 					can.page.ClassList.del(can, can._output, "_prepare"), can.page.style(can, can._output, html.LEFT, 0)
 					can.page.Remove(can, output_old)
-				}, output_old.innerHTML? 360: 120)
+				}, output_old.innerHTML? 120: 30)
 			}, target: output}), msg.Defer()
 		})
 	},
@@ -669,11 +669,9 @@ Volcanos(chat.ONAPPEND, {
 		}
 		var option = can.core.Item(can.Option())
 		if (can.core.List(option).length == 1) {
-			if (msg.IsDetail()) {
-				var key = can.core.List(option)[0], i = msg.key.indexOf(key)
+			if (msg.IsDetail()) { var key = can.core.List(option)[0], i = msg.key.indexOf(key)
 				if (i > 0) { var k = msg.key[i], v = msg.value[i]; for (i; i > 0; i--) { msg.key[i] = msg.key[i-1], msg.value[i] = msg.value[i-1] } msg.key[0] = k, msg.value[0] = v }
-			} else {
-				var key = can.core.List(option)[0], i = msg.append.indexOf(key)
+			} else { var key = can.core.List(option)[0], i = msg.append.indexOf(key)
 				if (i > 0) { var v = msg.append[i]; for (i; i > 0; i--) { msg.append[i] = msg.append[i-1] } msg.append[0] = v }
 			}
 		}
@@ -722,7 +720,8 @@ Volcanos(chat.ONAPPEND, {
 			}
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
-				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT): can.user.trans(can, _value, null, "value."+key), html.TD,
+				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT):
+				can.base.replaceAll(can.user.trans(can, _value, null, "value."+key), "⚝", can.user.isMobile? "": "⚝"), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event, {_toast: can.user.trans(can, target.name)}), target.name)
@@ -1343,8 +1342,16 @@ Volcanos(chat.ONMOTION, {
 			can.page.style(can, target, html.HEIGHT, begin += height/list.length)
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
-	slideIn: function(can) { var margin = 100
-		var target = can._target
+	slideIn: function(can) { var target = can._target
+		can.page.style(can, target, html.LEFT, "300", html.OPACITY, "1", "transition-property", "all", "transition-duration", ".5s")
+		can.onmotion.delay(can, function() { can.page.style(can, target, "left", "0", html.OPACITY, "1") })
+		return
+		can.onmotion.delay(can, function() {
+			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
+			// can.page.style(can, target, "transition-property", "", "transition-duration", "")
+		}, 500)
+		return
+		var margin = 100
 		can.page.style(can, target, html.LEFT, margin)
 		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.LEFT, margin-(index+1)*(margin/list.length))
@@ -1352,10 +1359,15 @@ Volcanos(chat.ONMOTION, {
 			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
 		})
 	},
-	slideOut: function(can, cb, skip) { var margin = 100
-		if (skip) { return cb() }
-		var target = can._target
-		if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
+	slideOut: function(can, cb, skip) { if (skip) { return cb() }
+		var target = can._target; if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
+		can.page.style(can, target, html.LEFT, "0", "transition-property", "all", "transition-duration", "0.5s")
+		can.onmotion.delay(can, function() { can.page.style(can, target, html.LEFT, "300", html.OPACITY, "0.5") })
+		can.onmotion.delay(can, function() { can.page.Remove(can, target), cb && cb()
+			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
+		}, 500)
+		return
+		var margin = 100
 		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
 			can.page.style(can, target, html.LEFT, (index+1)*(margin/list.length))
 		}, function() {

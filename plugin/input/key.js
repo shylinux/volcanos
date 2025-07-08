@@ -43,6 +43,7 @@ Volcanos(chat.ONFIGURE, {key: {
 			can.run = function(event, cmds, cb) { var list = msg["_input_args"]||msg.append, _msg = can.request(event)
 				can.showIcons(_msg.Option(list[0]), _msg.Option(list[2]||mdb.ICONS)||_msg.Option(mdb.ICONS)||_msg.Option(mdb.ICON)||_msg.Option("user_avatar"), _msg.Option(list[1]))
 			}
+			can.Conf("feature", can.sup.Conf("feature"))
 			can.onappend._output(can, msg, msg.Option("_display")+",/plugin/table.js", function(msg) { can.layout(msg) })
 			return
 		}
