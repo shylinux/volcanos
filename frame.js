@@ -1343,37 +1343,14 @@ Volcanos(chat.ONMOTION, {
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
 	slideIn: function(can) { var target = can._target
-		can.page.style(can, target, html.LEFT, "300", html.OPACITY, "1", "transition-property", "all", "transition-duration", ".5s")
+		can.page.style(can, target, html.LEFT, target.offsetWidth, html.OPACITY, "0", "transition-property", "all", "transition-duration", "0.5s")
 		can.onmotion.delay(can, function() { can.page.style(can, target, "left", "0", html.OPACITY, "1") })
-		return
-		can.onmotion.delay(can, function() {
-			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
-			// can.page.style(can, target, "transition-property", "", "transition-duration", "")
-		}, 500)
-		return
-		var margin = 100
-		can.page.style(can, target, html.LEFT, margin)
-		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
-			can.page.style(can, target, html.LEFT, margin-(index+1)*(margin/list.length))
-		}, function() {
-			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
-		})
 	},
 	slideOut: function(can, cb, skip) { if (skip) { return cb() }
 		var target = can._target; if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
 		can.page.style(can, target, html.LEFT, "0", "transition-property", "all", "transition-duration", "0.5s")
-		can.onmotion.delay(can, function() { can.page.style(can, target, html.LEFT, "300", html.OPACITY, "0.5") })
-		can.onmotion.delay(can, function() { can.page.Remove(can, target), cb && cb()
-			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
-		}, 500)
-		return
-		var margin = 100
-		can.core.Timer({interval: 10, length: 30}, function(timer, interval, index, list) {
-			can.page.style(can, target, html.LEFT, (index+1)*(margin/list.length))
-		}, function() {
-			can.page.Remove(can, target), cb && cb()
-			can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
-		})
+		can.onmotion.delay(can, function() { can.page.style(can, target, html.LEFT, target.offsetWidth, html.OPACITY, "1") })
+		can.onmotion.delay(can, function() { can.page.Remove(can, target), cb && cb() }, 500)
 	},
 	slideAction: function(can, target) {
 		var action = can.page.Select(can, target.parentNode, html.DIV_ACTION)[0]

@@ -393,22 +393,17 @@ Volcanos(chat.ONIMPORT, {
 			}
 			function goback(event, cb) { if (can._stacks_current.length == 1) { return cb && cb() } if (cb) { return cb() }
 				if (sub._history.length > 1 && sub.ConfIndex().split(".").pop() != "market") {
-					// sub.request(event, {_toast: "reload"})
 					return sub.onimport.back(event, sub), cb && cb()
 				} var _last = can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
 				if (_last._index == "web.team.renzhengshouquan.profile" && last._index.split(".").pop() == "credit") { can.page.Remove(can, last._target),
 					can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
-					// can._stacks_current.length == 1 && can.page.style(can, _action, html.TOP, "-48px", html.OPACITY, "0")
 				}
-				last._select()
-				can.onmotion.slideOut(_last, function() {
-					// last.request(event, {_toast: "reload"})
-					can.onmotion.delay(can, function() { can._root.Action.onlayout._init(can) })
-					if (last.ConfIndex().split(".").pop() == "market" && last.Option("uid")) { last.Option("uid", "") }
-					if (last.ConfIndex().split(".").pop() == "message") { last._history.pop(), last.Option("uid", ""), last.Update(event) }
+				last._select(), can.onmotion.slideOut(_last, function() {
+					if (last.ConfIndex().split(".").pop() == "market" && last.Option(UID)) { last.Option(UID, "") }
+					if (last.ConfIndex().split(".").pop() == "message") { last._history.pop(), last.Option(UID, ""), last.Update(event) }
 					if (can._stacks_current.length == 1) { var hash = can.misc.SearchHash(can)||[]
 						if (hash.length > 1) { last._goback = true
-							last.Option(can.core.Item(last.Option())[0], hash[0]), last.Option("index", ""), last.Option("uid", "")
+							last.Option(can.core.Item(last.Option())[0], hash[0]), last.Option(ctx.INDEX, ""), last.Option(UID, "")
 						}
 					}
 					last._output.innerHTML == "" && last.Update(event), cb && cb()
@@ -418,8 +413,8 @@ Volcanos(chat.ONIMPORT, {
 			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
 			sub.onexport.output = function(_sub, msg) { sub.sub.onaction._goback = goback, sub._select() }
 			function header(msg) {
-				if (!can.user.isMobile || msg.IsDetail() && msg.Append("user_uid") && msg.Append("user_uid") != msg.Option("user.uid")) { can.page.Append(can, _action, [{view: [[html.ITEM, html.SPACE]]}])
-					var value = {user_uid: msg.Option("user.uid"), user_name: msg.Option(ice.MSG_USERNICK), user_avatar: can.misc.Resource(can, msg.Option("user.avatar"))}
+				if (!can.user.isMobile || msg.IsDetail() && msg.Append(USER_UID) && msg.Append(USER_UID) != msg.Option(ice.MSG_USERUID)) { can.page.Append(can, _action, [{view: [[html.ITEM, html.SPACE]]}])
+					var value = {user_uid: msg.Option(ice.MSG_USERUID), user_name: msg.Option(ice.MSG_USERNICK), user_avatar: can.misc.Resource(can, msg.Option("user.avatar"))}
 					can.page.Append(can, _action, [{view: [[html.ITEM, "user_info"]], list: [
 						{view: html.NAME, list: [{text: can.user.isMobile? value.user_name.split("@")[0]: value.user_name}, can.onimport.timeView(can, value)]}, can.onimport.textView(can, value, USER_PLACE_ROLE), {img: value.user_avatar},
 					], onclick: function(event) {
@@ -428,16 +423,15 @@ Volcanos(chat.ONIMPORT, {
 				}
 			}
 			sub._select = function() { can.onimport.myOption(sub), can.user.trans(can, {goback: "返回"})
-				// can.page.SelectChild(can, _output, "*", function(target) { can.onmotion.toggle(can, target, target == sub._target) })
 				var list = [
 					can.page.button(can, {name: can.user.isMobile? "主页": plugin.current._name, className: "place"}, function(event) {
-						var last = can._stacks_current[can._stacks_current.length-1]; can.onmotion.slideOut(last, function() {
-							while (!last.current || last != plugin) { last = can._stacks_current.pop()
-								if (!last.current || last != plugin) { can.page.Remove(can, last._target) }
+						function pop() { var last = can._stacks_current[can._stacks_current.length-1]
+							if (last.current && last == plugin) { last._select()
+								if (can.page.SelectChild(can, last._output, "div.header").length == 0) { last.Update(event) }
+							} else {
+								can.onmotion.slideOut(can._stacks_current.pop(), function() { pop() })
 							}
-							can._stacks_current.push(last), last._select()
-							if (can.page.SelectChild(can, last._output, "div.header").length == 0) { last.Update(event) }
-						})
+						} pop()
 					}),
 					can.user.isMobile || can.page.button(can, {name: can.user.trans(can, sub.ConfIndex().split(".").pop(), sub.ConfHelp()), className: "index"}, function(event) {
 						can._msg.IsTech() && sub._legend.onclick(event)
@@ -451,8 +445,7 @@ Volcanos(chat.ONIMPORT, {
 				msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
 				msg.Option(ice.MSG_ACTION) && can.onappend._action(sub, msg.Option(ice.MSG_ACTION), _action, null, true)
 				header(msg)
-			}
-			can._stacks_current.push(sub), sub._select(), can.onmotion.slideIn(sub)
+			}, can._stacks_current.push(sub), sub._select(), can.onmotion.slideIn(sub)
 		}, _output)
 	},
 	myTabs: function(can, key, list, target) { var last = can.sup.Conf("option."+key)||""
@@ -491,14 +484,16 @@ Volcanos(chat.ONIMPORT, {
 		if (!msg.IsDetail() && msg.Length() > 3) {
 			can.ui.tabs = can.page.Append(can, can._output, [{view: [[html.TABS, "multi"]]}])._target
 			var _height = 0; can.core.List(status, function(status) { _height = can.base.Min(can.onimport._myTabs(can, status, msg, can.ui.tabs)*html.ACTION_HEIGHT, _height) })
-			can.page.Append(can, status.length > 1? can.ui.tabs: can.ui.tabs.lastChild, [{view: [[html.ITEM, "wrap"], "", can.user.trans(can, "expand", "展开")], onclick: function(event) {
+			_height = can.base.Max(_height, 320)
+			can.ui.wrap = can.page.Append(can, status.length > 1? can.ui.tabs: can.ui.tabs.lastChild, [{view: [[html.ITEM, "wrap"], "", can.user.trans(can, "expand", "展开")], onclick: function(event) {
 				var wrap = can.page.ClassList.neg(can, can.ui.tabs, "wrap")
 				event.target.innerHTML = wrap? can.user.trans(can, "collapse", "折叠"): can.user.trans(can, "expand", "展开")
+				can.sup.Conf("_tabs.wrap", wrap)
 				can.page.style(can, can.ui.tabs, html.HEIGHT, wrap? _height: html.ACTION_HEIGHT)
 				can.page.style(can, can.ui.list, html.HEIGHT, can.ConfHeight()-(wrap? _height: html.ACTION_HEIGHT))
 				// can.onimport.layout && can.onimport.layout(can),
 				can.ui.list.scrollTop = 0
-			}}])
+			}}])._target
 			if (_height == 0) { can.page.Remove(can, can.ui.tabs), delete(can.ui.tabs) }
 			can.ui.list = can.page.Append(can, can._output, [{view: "list"}])._target; target = can.ui.list
 			var list = can.base.Obj(msg.Option(ice.MSG_ACTION))||[]
@@ -506,6 +501,7 @@ Volcanos(chat.ONIMPORT, {
 				can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
 				can.user.isMobile && can.onappend._action(can, can.base.Obj(msg.Option(ice.MSG_ACTION))||[], can.ui.todo)
 			}
+			if (can.sup.Conf("_tabs.wrap")) { can.ui.wrap.click() }
 		} else if (msg.Option(ice.MSG_ACTION)) {
 			var list = can.base.Obj(msg.Option(ice.MSG_ACTION))||[]
 			if (can.user.isMobile && list.length > 0) {
