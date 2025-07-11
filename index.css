@@ -230,7 +230,7 @@ div.item.card div.action input[type=button].danger { color:var(--danger-bg-color
 // body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
-div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; }
+div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }
 div.item.card.select div.title { font-weight:bold; }
@@ -353,9 +353,10 @@ fieldset.input>legend { display:none; }
 fieldset.input.icons table { width:100%; text-align:center; }
 fieldset.input.key div.action { display:none; }
 fieldset.input.key div.action div.item.state { display:none; }
+fieldset.input.key div.output { margin:auto; }
 fieldset.input.key div.output table.content { font-family:var(--code-font-family); width:100%; }
 fieldset.input.key div.output { padding:0 !important; }
-fieldset.input.key div.output table.content td:first-child { padding-left:24px; cursor:pointer; }
+body:not(.mobile) fieldset.input.key div.output table.content td:first-child { padding-left:24px; cursor:pointer; }
 fieldset.input.key div.output table.content.checkbox td:nth-child(2) { cursor:pointer; }
 fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }

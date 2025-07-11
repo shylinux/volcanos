@@ -318,7 +318,9 @@ Volcanos(chat.ONIMPORT, {
 				}
 			}
 			title = msg.Option("_share_title")||(msg.IsDetail()? msg.Append(html.TITLE)||msg.Append(mdb.NAME)||(msg.Append(UID)||"").slice(0, 6): "")
-			msg.IsDetail() && msg.Append(SCORE) && msg.Append(SCORE) != "0" && (title += " "+can.user.trans(can, msg.Append(SCORE), "", "value.score"))
+			msg.IsDetail() && msg.Append(SCORE) && msg.Append(SCORE) != "0" && (title += " "+
+				can.base.replaceAll(can.user.trans(can, msg.Append(SCORE), "", "value.score"), "⚝", can.user.isMobile? "": "⚝")
+			)
 			sub._stacks_root.onexport.title(sub._stacks_root, current._name, can.ConfHelp(), title)
 		} else {
 			if (can.isCmdMode() && can.current) { var place_uid = can.current._uid; can.onexport.hash(can, place_uid) }
@@ -379,8 +381,7 @@ Volcanos(chat.ONIMPORT, {
 		if (value.space && can.base.endWith(value.index, ".portal")) { portal = can._root.Action }
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = portal.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0)
 		can.onappend.plugin(portal, value, function(sub) { can.onimport.myField(can, sub)
-			var STREET_NAME = plugin.sub.Conf("_street_name"), PLACE_NAME = plugin.sub.Conf("_place_name")
-			var USER_PLACE_ROLE = plugin.sub.Conf("_user_place_role")
+			var USER_PLACE_ROLE = plugin.sub.Conf("_user_place_role"), PLACE_NAME = plugin.sub.Conf("_place_name"), STREET_NAME = plugin.sub.Conf("_street_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
 				if (cmds[0] == ctx.ACTION && can.base.isIn(cmds[1], mdb.REMOVE, nfs.TRASH)) {
 					if (sub._msg.IsDetail()) { var cbs = cb; cb = function() { goback(event) } }
@@ -392,22 +393,18 @@ Volcanos(chat.ONIMPORT, {
 				}, can.base.Obj(sub.Conf("field.option"))), cmds, cb)
 			}
 			function goback(event, cb) { if (can._stacks_current.length == 1) { return cb && cb() } if (cb) { return cb() }
-				if (sub._history.length > 1 && sub.ConfIndex().split(".").pop() != "market") {
-					return sub.onimport.back(event, sub), cb && cb()
-				} var _last = can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
+				// if (sub._history.length > 1) { return sub.onimport.back(event, sub), cb && cb() }
+				var _last = can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
 				if (_last._index == "web.team.renzhengshouquan.profile" && last._index.split(".").pop() == "credit") { can.page.Remove(can, last._target),
 					can._stacks_current.pop(), last = can._stacks_current[can._stacks_current.length-1]
 				}
-				last._select(), can.onmotion.slideOut(_last, function() {
-					if (last.ConfIndex().split(".").pop() == "market" && last.Option(UID)) { last.Option(UID, "") }
-					if (last.ConfIndex().split(".").pop() == "message") { last._history.pop(), last.Option(UID, ""), last.Update(event) }
-					if (can._stacks_current.length == 1) { var hash = can.misc.SearchHash(can)||[]
-						if (hash.length > 1) { last._goback = true
-							last.Option(can.core.Item(last.Option())[0], hash[0]), last.Option(ctx.INDEX, ""), last.Option(UID, "")
-						}
+				last._select(), can.onmotion.slideOut(_last, function() { cb && cb() })
+				if (can._stacks_current.length == 1) { var hash = can.misc.SearchHash(can)||[]
+					if (hash.length > 1) { last._goback = true
+						last.Option(can.core.Item(last.Option())[0], hash[0]), last.Option(ctx.INDEX, ""), last.Option(UID, "")
 					}
-					last._output.innerHTML == "" && last.Update(event), cb && cb()
-				})
+				}
+				if (last.current && can.page.SelectChild(can, last._output, "div.header").length == 0) { last.Update(event) }
 			}
 			function reload(event) { sub.Update(sub.request(event, {_toast: "reload"})) }
 			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
@@ -530,11 +527,11 @@ Volcanos(chat.ONIMPORT, {
 	itemcards: function(can, msg, cb, cbs, target) { target = target||can.ui.list||can._output
 		if (msg.IsDetail()) { var value = msg.TableDetail(); var _msg = can.request(); _msg.Push(value)
 			if (!msg.Option("market_uid") && !msg.Option("message_uid")) {
-				value.user_avatar && can.page.Append(can, target, [{view: "place_info", _init: function(target) {
+				!value.user_avatar && !value.auth_avatar || can.page.Append(can, target, [{view: "place_info", _init: function(target) {
 					_msg.action = [], _msg.PushButton("userInfo")
 					if (can.base.endWith(can.ConfIndex(), ".member") && !_msg.Append("auth_name")) { _msg.action = [] }
 					can.onimport.itemcards(can, _msg, function(value) { value.icons = value.auth_avatar||value.user_avatar; return [
-						{view: html.TITLE, list: [value.user_name, can.onimport.authView(can, value), !value.to_user_avatar && can.onimport.titleAction(can, value)]},
+						{view: html.TITLE, list: [value.auth_name||value.user_name, can.onimport.authView(can, value), !value.to_user_avatar && can.onimport.titleAction(can, value)]},
 						{view: html.STATUS, list: [can.onimport.uidView(can, value), can.onimport.timeView(can, value)]},
 					] }, function(event, value) {
 						can.run(can.request(event, value), [ctx.ACTION, "userInfo"])
@@ -667,7 +664,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	metaView: function(can, value) {
 		return {view: html.STATUS, list: [
-			can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.user_name,
+			can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.auth_name||value.user_name,
 		]}
 	},
 	userView: function(can, value) {
@@ -794,7 +791,7 @@ Volcanos(chat.ONINPUTS, {
 		can.page.Appends(can, can._output, msg.Table(function(value) {
 			var _title = can.user.trans(can.sup, value[title]||value[name]||value[mdb.NAME], null, "value."+name)
 			var icons = can.misc.ResourceIcons(can,
-				value.icons||value.icon||value.user_avatar||
+				value.icons||value.icon||value.avatar||value.user_avatar||
 				can.sup.Conf("_trans.value."+name+".icons."+value[name])||
 				can.sup.Conf("_trans.value."+name+".icons."+value[title])
 			)

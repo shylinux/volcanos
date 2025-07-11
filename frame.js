@@ -721,7 +721,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
 			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT):
-				can.base.replaceAll(can.user.trans(can, _value, null, "value."+key), "⚝", can.user.isMobile? "": "⚝"), html.TD,
+				can.base.replaceAll(can.user.trans(can, _value, null, "value."+can.base.trimPrefix(key, "from_", "to_")), "⚝", can.user.isMobile? "": "⚝"), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
 				if (key == cli.QRCODE && can.page.tagis(event.target, html.IMG)) { can.user.opens(event.target.title) }
 				if (can.page.tagis(target, html.INPUT) && target.type == html.BUTTON) { can.requestAction(request(event, {_toast: can.user.trans(can, target.name)}), target.name)
@@ -1011,12 +1011,13 @@ Volcanos(chat.ONAPPEND, {
 	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
 		var input = meta.action||(can.base.isIn(meta.name, mdb.ICON, mdb.ICONS)? meta.name: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
-			target.onkeydown = function() { if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
+			target.onkeydown = function() {
+			if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
 				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb)
 					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
 					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
-					if (meta.action == "date" || sub._target.offsetTop > 200 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
+					if (meta.action == "date" || sub._target.offsetTop > 300 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
 						can.user.isMobile && can.page.style(can, sub._target, html.LEFT, "0", html.BOTTOM, "0", html.RIGHT, "0", html.TOP, "", html.MAX_WIDTH, "")
 					}
 				}
@@ -1036,7 +1037,7 @@ Volcanos(chat.ONAPPEND, {
 								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight-sub._action.offsetHeight)
 								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
 							})
-							if (meta.action == "date" || sub._target.offsetTop > 200 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
+							if (meta.action == "date" || sub._target.offsetTop > 300 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
 								can.user.isMobile && can.page.style(can, sub._target, html.LEFT, "0", html.BOTTOM, "0", html.RIGHT, "0", html.TOP, "", html.MAX_WIDTH, "")
 							}
 						}
@@ -1538,6 +1539,7 @@ Volcanos(chat.ONKEYMAP, {
 		var total = can.page.Select(can, can._output, [html.TBODY, html.TR], function(tr) { if (!can.page.ClassList.has(can, tr, html.HIDDEN)) { return tr } }).length
 		can.Status(kit.Dict(mdb.TOTAL, total, mdb.INDEX, target._index))
 		total == 0 && can.base.isFunc(cb) && cb()
+		return total
 	},
 	selectOutput: function(event, can) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		event.key == "0"? can.onimport.back(event, can): can.page.Select(can, can._output, html.TR, function(tr, index) { if (index == event.key) {

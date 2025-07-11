@@ -1,13 +1,13 @@
 Volcanos(chat.ONFIGURE, {key: {
 	_load: function(event, can, cb, target, name, value) {
-		if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
-		can.onmotion.focus(can, target), can.onmotion.hidden(can, can._target)
+		// if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
+		// can.onmotion.focus(can, target)
+		can.onmotion.hidden(can, can._target)
 		can.runAction(event, mdb.INPUTS, [name, value||""], function(msg) {
 			if (can.sup.ConfIndex() != "web.team.production.case") {
 				name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 			}
 			can._show(can, msg, cb, target, name)
-			
 		})
 	},
 	_show: function(can, msg, cb, target, name) {
@@ -85,8 +85,13 @@ Volcanos(chat.ONFIGURE, {key: {
 	},
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
-		if (!sub) { return } can.onmotion.toggle(can, sub._target, true)
-		sub.hidden() || can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) { return meta.select && (sub.close(), meta.select(target.value = td.innerText)), cb(sub, td.innerText, target.value), td })
-		|| can.onmotion.delayOnce(can, function() { can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) }, target.value.length < 3? 500: 150)
+		if (!sub) { return }
+		// can.onmotion.toggle(can, sub._target, true)
+		// sub.hidden() ||
+		can.onkeymap.selectCtrlN(event, can, sub._output, "tr:not(.hidden)>td:first-child", function(td) {
+			return meta.select && (sub.close(), meta.select(target.value = td.innerText)), cb(sub, td.innerText, target.value), td
+		}) || can.onmotion.delayOnce(can, function() {
+			can.onkeymap.selectInputs(event, sub, function() { sub._load(event, sub, cb, target, meta.name) }, target) > 0 && can.onmotion.toggle(can, sub._target, true)
+		}, target.value.length < 3? 300: 30)
 	},
 }})
