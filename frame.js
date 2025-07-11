@@ -171,8 +171,7 @@ Volcanos(chat.ONAPPEND, {
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
-				sub.request(event, sub.Option())
-				sub.request(event, sub.Conf("option"))
+				sub.request(event, sub.Option(), sub.Conf("opts"), sub.Conf("option"))
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
 				} can.onengine.signal(can, "onevent", can.request(event))

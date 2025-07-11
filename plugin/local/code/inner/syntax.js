@@ -299,6 +299,7 @@ Volcanos(chat.ONSYNTAX, {
 			"flex": code.FUNCTION, "align-items": code.FUNCTION, "justify-content": code.FUNCTION, "flex-direction": code.FUNCTION,
 			"flex-grow": code.FUNCTION, "flex-shrink": code.FUNCTION, "flex-wrap": code.FUNCTION,
 			"position": code.FUNCTION, "z-index": code.FUNCTION, "cursor": code.FUNCTION, "transition": code.FUNCTION,
+			"@keyframes": code.KEYWORD, "animation": code.FUNCTION, "infinite": code.CONSTANT,
 			"transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
 			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
 			

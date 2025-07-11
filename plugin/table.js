@@ -290,7 +290,12 @@ Volcanos(chat.ONIMPORT, {
 				}, can.onmotion.hidden(can, sub._target)
 				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
 				sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can) }
-				sub.onaction.close = function() { sub.select() }, can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
+				sub.onaction.close = function() {
+					if (sub.Conf("display") == "/plugin/local/code/inner/search.js") {
+						return can.page.Remove(can, sub._target)
+					}
+					sub.select()
+				}, can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
 				next()
 			}, target)
 		})
@@ -421,7 +426,7 @@ Volcanos(chat.ONIMPORT, {
 			}
 			sub._select = function() { can.onimport.myOption(sub), can.user.trans(can, {goback: "返回"})
 				var list = [
-					can.page.button(can, {name: can.user.isMobile? "主页": plugin.current._name, className: "place"}, function(event) {
+					can.page.button(can, {name: can.user.isMobile || can.page.tagis(can._stacks_root._target, html.FIELDSET_FLOAT)? can.user.trans(can, "portal", "主页"): plugin.current._name, className: "place"}, function(event) {
 						function pop() { var last = can._stacks_current[can._stacks_current.length-1]
 							if (last.current && last == plugin) { last._select()
 								if (can.page.SelectChild(can, last._output, "div.header").length == 0) { last.Update(event) }
@@ -436,7 +441,7 @@ Volcanos(chat.ONIMPORT, {
 					can.page.button(can, "goback", function(event) { goback(event) }),
 					can.page.button(can, "reload", function(event) { reload(event) }),
 				]
-				can.page.style(can, _action, html.TOP, "0", html.OPACITY, "1"), can.page.Appends(can, _action, list)
+				can.page.style(can, _action, html.TOP, can.page.tagis(can._stacks_root._target, html.FIELDSET_FLOAT)? "52px": "0", html.OPACITY, "1"), can.page.Appends(can, _action, list)
 				can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 				var msg = sub._msg; if (!msg) { return }
 				msg.IsDetail() === false && can.onappend.filter(can, _action, sub._output)
@@ -573,15 +578,16 @@ Volcanos(chat.ONIMPORT, {
 				if (!done && !v) { done = true, can.Option(k, value[k]), can.Update() }
 			})
 		}
+		var icon = can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.auth_avatar||value.user_avatar||
+			value.command_icon||value.service_icon||(can.base.beginWith(can.ConfIcons(), "bi ")? "": can.ConfIcons()), value.nodename||value.space||can.ConfSpace(),
+		)
 		return {view: [[html.ITEM_CARD, value._uid? "uid-"+value._uid: ""].concat(value._style||[])], list: [
 			!value.to_user_avatar && {view: html.ACTION, _init: function(target) {
 				can.page.appendAction(can, value, target)
 				can.user.isMobile && can.page.Select(can, target, "input.notice", function(target) { can.page.Remove(can, target) })
 			}},
 			{view: html.OUTPUT, list: [
-				{img: can.misc.ResourceIcons(can, value.icons||value.icon||value.avatar||value.auth_avatar||value.user_avatar||
-					value.command_icon||value.service_icon||can.ConfIcons(), value.nodename||value.space||can.ConfSpace(),
-				), onclick: function(event) { can.onkeymap.prevent(event)
+				{img: icon, onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
@@ -679,6 +685,14 @@ Volcanos(chat.ONIMPORT, {
 	spaceView: function(can, value) { return {view: "space"} },
 	imageView: function(can, value) {
 		return can.base.contains(value.icons, "bi ")? {view: [value.icons, "i"]}: {img: can.misc.ResourceIcons(can, value.icons)}
+	},
+	contentView: function(can, value) {
+		return value.content && {view: html.OUTPUT, list: [value.content]}
+	},
+	imagesView: function(can, value) {
+		return value.image && {view: html.OUTPUT, list: can.core.List(value.image.split(","), function(p, index, list) { return {img: p,
+			style: kit.Dict(html.MAX_WIDTH, can.base.isIn(list.length, 1, 2, 4)? "156px": "103px"),
+		} })}
 	},
 	timeView: function(can, value, key) {
 		if (key) { return {text: [can.user.trans(can, key, null, html.INPUT)+": "+can.base.TimeTrim(value[key]), "", mdb.TIME]} }
