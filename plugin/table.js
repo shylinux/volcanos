@@ -669,9 +669,7 @@ Volcanos(chat.ONIMPORT, {
 		}}
 	},
 	metaView: function(can, value) {
-		return {view: html.STATUS, list: [
-			can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.auth_name||value.user_name,
-		]}
+		return {view: html.STATUS, list: [can.onimport.uidView(can, value), can.onimport.timeView(can, value), value.auth_name||value.user_name]}
 	},
 	userView: function(can, value) {
 		return {text: ["", "", "user"], list: [{img: value.user_avatar}, {text: value.user_name.split("@")[0]}]}
@@ -685,9 +683,6 @@ Volcanos(chat.ONIMPORT, {
 	spaceView: function(can, value) { return {view: "space"} },
 	imageView: function(can, value) {
 		return can.base.contains(value.icons, "bi ")? {view: [value.icons, "i"]}: {img: can.misc.ResourceIcons(can, value.icons)}
-	},
-	contentView: function(can, value) {
-		return value.content && {view: html.OUTPUT, list: [value.content]}
 	},
 	imagesView: function(can, value) {
 		return value.image && {view: html.OUTPUT, list: can.core.List(value.image.split(","), function(p, index, list) { return {img: p,
@@ -709,7 +704,7 @@ Volcanos(chat.ONIMPORT, {
 		var _value = can.user.transValue(can, value, key); can.user.isMobile && (key == SCORE && (_value = can.base.replaceAll(_value, "⚝", "")))
 		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [_value, "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
-	contentView: function(can, value) {
+	contentView: function(can, value) { if (!value.content) { return }
 		return value.content.indexOf("<iframe") > -1? {view: html.OUTPUT, inner: value.content}: {view: html.OUTPUT, list: [value.content]}
 	},
 	beginTime: function(can, value) {

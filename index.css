@@ -672,8 +672,8 @@ body.mobile fieldset.plugin:only-child { border-radius:0; }
 // fieldset.story { box-shadow:var(--plugin-box-shadow); border-radius:var(--plugin-radius); }
 fieldset.float { box-shadow:var(--float-box-shadow); border:var(--plugin-border); border-radius:var(--plugin-radius); }
 fieldset.plugin:hover { box-shadow:var(--notice-box-shadow); }
-fieldset.plugin:hover { animation:box-shadow-breathing 3s infinite; } @keyframes box-shadow-breathing { 0% { box-shadow:var(--notice-bg-color) 0px 0px 0; }
-50% { box-shadow:var(--notice-bg-color) 0px 0px 50px; } 100% { box-shadow:var(--notice-bg-color) 0px 0px 0; } }
+body.dark fieldset.plugin:hover { animation:box-shadow-breathing 3s infinite; }
+@keyframes box-shadow-breathing { 0% { box-shadow:var(--notice-bg-color) 0px 0px 0; } 50% { box-shadow:var(--notice-bg-color) 0px 0px 50px; } 100% { box-shadow:var(--notice-bg-color) 0px 0px 0; } }
 
 body.light fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
 body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
@@ -690,7 +690,7 @@ fieldset>div.action>div.tabs:not(.state).select { box-shadow:var(--legend-box-sh
 fieldset>div.action>div.tabs:not(.state) span.exists { color:var(--notice-bg-color); }
 fieldset>div.action>div.cmds:not(.state) { box-shadow:var(--legend-box-shadow); }
 div.output.card>div.item { border:var(--plugin-border); border-radius:var(--plugin-radius); }
-div.output.card>div.item:hover { animation:box-shadow-breathing 3s infinite; }
+body.dark div.output.card>div.item:hover { animation:box-shadow-breathing 3s infinite; }
 // div.output.card>div.item:hover { box-shadow:var(--notice-box-shadow); }
 fieldset>div.output.card>div.item>div.title { border-bottom:var(--box-border); }
 fieldset>div.output.card>div.item>div.action>input { box-shadow:var(--input-box-shadow); }
