@@ -1429,7 +1429,11 @@ Volcanos(chat.ONKEYMAP, {
 			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
 			can.onengine.signal(can, "on"+event.type, can.request(event))
-		}, target.onkeyup = function(event) { target.onkeydown(event) }
+		}, target.onkeyup = function(event) {
+			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
+			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			can.onengine.signal(can, "on"+event.type, can.request(event))
+		}
 	},
 	_build: function(can) { can.core.Item(can.onkeymap._mode, function(mode, value) { var engine = {list: {}}
 		can.core.Item(value, function(key, cb) { var map = engine; for (var i = 0; i < key.length; i++) {

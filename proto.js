@@ -130,11 +130,11 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 	libs && setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.frame): libs, cb) }, 1)
 	return can
 })
-try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
+try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta; meta.version = window._version||""
 	try { var debug = location.search.indexOf("debug=true") > -1
-		meta.version = window._version||"", window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
+		debug && window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
 	} catch (e) {
-		meta.version = window._version, window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
+		window.outerWidth-window.innerWidth > 100 && (meta.version = "", debug = false)
 	}
 	meta._load = function(url, cb) {
 		if (meta.version && url.indexOf("/p/usr/icons/") == -1) { url += (url.indexOf(web.QS) == -1? web.QS: "&")+meta.version.slice(1) }
@@ -144,9 +144,6 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta
 			case nfs.CSS: var item = document.createElement(web.LINK); item.href = url, item.rel = "stylesheet", item.onload = _cb, document.head.appendChild(item); break
 			default: var item = document.createElement(nfs.SCRIPT); item.src = url, item.onerror = _cb, item.onload = _cb, document.body.appendChild(item)
 		}
-	}
-	document.ondrop = function(event) {
-		debugger
 	}
 	meta.target = document.body, meta._height = window.innerHeight, meta._width = window.innerWidth
 	meta._init = function(can) { var last = can.page.width() < can.page.height()

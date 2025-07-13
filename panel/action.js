@@ -92,6 +92,11 @@ Volcanos(chat.ONACTION, {
 		// if (can._current && !event.metaKey) { var sub = can._current.sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: event, can: sub}); return }
 		can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) || can.onkeymap._parse(event, can, mode)
 	},
+	onkeyup: function(event, can, mode) {
+		if (can.isCmdMode() && !event.metaKey) { var sub = can._plugins[0].sub; sub && can.core.CallFunc([sub, "onaction.onkeyup"], {event: event, can: sub}); return }
+		// if (can._current && !event.metaKey) { var sub = can._current.sub; sub && can.core.CallFunc([sub, "onaction.onkeydown"], {event: event, can: sub}); return }
+		// can.onkeymap.selectCtrlN(event, can, can._action, html.DIV_TABS) || can.onkeymap._parse(event, can, mode)
+	},
 	
 	ontouchstart: function(event, can) { can.touch = can.touch || {}, can.touch.isStart = true, can.touch.startX = event.touches[0].clientX },
 	ontouchmove: function(event, can) { can.touch.isMove = true, can.touch.distanceX = event.touches[0].clientX - can.touch.startX },
