@@ -686,7 +686,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 	imagesView: function(can, value) {
 		return value.image && {view: html.OUTPUT, list: can.core.List(value.image.split(","), function(p, index, list) { return {img: p,
-			style: kit.Dict(html.MAX_WIDTH, can.base.isIn(list.length, 1, 2, 4)? "156px": "103px"),
+			style: can.user.isMobile && kit.Dict(html.MAX_WIDTH, can.base.isIn(list.length, 1, 2, 4)? "156px": "103px"),
 		} })}
 	},
 	timeView: function(can, value, key) {
