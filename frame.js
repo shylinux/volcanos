@@ -975,9 +975,16 @@ Volcanos(chat.ONAPPEND, {
 				value.meta && value.meta._init && value.meta._init(sub, meta), _cb(sub, meta, skip)
 			}, target, field); return true }
 		} if (_plugin(meta)) { return res }
+		can._root._command_list = can._root._command_list||{}
+		var msg = can._root._command_list[meta.space+","+meta.index]
+		if (msg) {
+			msg.Table(function(value) { value._prefix = msg["_prefix"]||meta._prefix, can.onappend._plugin(can, value, meta, _cb, target, field) })
+			return res
+		}
 		can.runAction(can.request({}, meta._commands, {_method: http.GET, pod: meta.space, _failure: function(msg) {
 			return can.misc.isDebug(can) && can.misc.Warn("not found", meta.index), _plugin({msg: msg, type: meta.type, index: "can._notfound", args: [meta.index, meta.space]})
 		}})._caller(), ctx.COMMAND, [meta.index], function(msg) { if (msg.Length() == 0) { return msg._failure() }
+			can._root._command_list[meta.space+","+meta.index] = msg
 			msg.Table(function(value) { value._prefix = msg["_prefix"]||meta._prefix, can.onappend._plugin(can, value, meta, _cb, target, field) })
 		}); return res
 	},

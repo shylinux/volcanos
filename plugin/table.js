@@ -384,7 +384,7 @@ Volcanos(chat.ONIMPORT, {
 		var plugin = can._stacks_current[0], _action = plugin._action, _output = plugin._output; current = plugin.current||{}
 		can.core.List(can._stacks_current, function(p) { current = p.current||current, p.current && (plugin = p, portal = p) })
 		if (value.space && can.base.endWith(value.index, ".portal")) { portal = can._root.Action }
-		value.type = html.STORY, value.style = html.OUTPUT, value.height = portal.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0)
+		value.type = html.STORY, value.style = html.OUTPUT, value.height = can._stacks_root.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0)
 		can.onappend.plugin(portal, value, function(sub) { can.onimport.myField(can, sub)
 			var USER_PLACE_ROLE = plugin.sub.Conf("_user_place_role"), PLACE_NAME = plugin.sub.Conf("_place_name"), STREET_NAME = plugin.sub.Conf("_street_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -702,7 +702,8 @@ Volcanos(chat.ONIMPORT, {
 	textView: function(can, value, key, type) { if (key == SCORE && value.score == "0") { return }
 		key || can.core.Item(value, function(k, v) { if (k == STATUS || can.base.endWith(k, "_status")) { key = k } }); if (!type) { type = key.split("_").pop() }
 		var _value = can.user.transValue(can, value, key); can.user.isMobile && (key == SCORE && (_value = can.base.replaceAll(_value, "⚝", "")))
-		return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [_value, "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
+		// return value[key] && !can.base.isIn(value[key], "finish", "done") && {text: [_value, "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
+		return value[key] && {text: [_value, "", [type, value[key], can.Conf("_trans.value."+key+".style."+value[key])||""]]}
 	},
 	contentView: function(can, value) { if (!value.content) { return }
 		return value.content.indexOf("<iframe") > -1? {view: html.OUTPUT, inner: value.content}: {view: html.OUTPUT, list: [value.content]}
