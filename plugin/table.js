@@ -387,6 +387,7 @@ Volcanos(chat.ONIMPORT, {
 		can.core.List(can._stacks_current, function(p) { current = p.current||current, p.current && (plugin = p) })
 		if (value.space && can.base.endWith(value.index, ".portal")) { plugin = can._root.Action }
 		value.type = html.STORY, value.style = html.OUTPUT, value.height = portal.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0)
+		can.page.ClassList.del(can, can._fields, "_process")
 		can.onappend.plugin(plugin, value, function(sub) { can.onimport.myField(can, sub)
 			var USER_PLACE_ROLE = (plugin.sub||portal.sub).Conf("_user_place_role"), PLACE_NAME = (plugin.sub||portal.sub).Conf("_place_name"), STREET_NAME = (plugin.sub||portal.sub).Conf("_street_name")
 			var run = sub.run; sub.run = function(event, cmds, cb) {
@@ -523,7 +524,7 @@ Volcanos(chat.ONIMPORT, {
 					event.target.innerHTML = wrap? can.user.trans(can, "collapse", "折叠"): can.user.trans(can, "expand", "展开")
 					can.sup.Conf("_tabs.wrap", wrap)
 					can.page.style(can, can.ui.tabs, html.HEIGHT, wrap? _height: html.ACTION_HEIGHT)
-					can.page.style(can, can.ui.list, html.HEIGHT, can.ConfHeight()-(wrap? _height: html.ACTION_HEIGHT)-can.ui.todo.offsetHeight)
+					can.page.style(can, can.ui.list, html.HEIGHT, can.ConfHeight()-(wrap? _height: html.ACTION_HEIGHT)-(can.ui.todo? can.ui.todo.offsetHeight: 0))
 					// can.onimport.layout && can.onimport.layout(can),
 					can.ui.list.scrollTop = 0
 				}}])._target
@@ -533,8 +534,8 @@ Volcanos(chat.ONIMPORT, {
 			}
 			can.ui.list = can.page.Append(can, can._output, [{view: "list"}])._target; target = can.ui.list
 			var list = can.base.Obj(msg.Option(ice.MSG_ACTION))||[]
-			can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
 			if (can.user.isMobile && list.length > 0) {
+				// can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
 				// can.user.isMobile && can.onappend._action(can, can.base.Obj(msg.Option(ice.MSG_ACTION))||[], can.ui.todo)
 			}
 			if (can.sup.Conf("_tabs.wrap")) { can.ui.wrap.click() }
@@ -542,8 +543,8 @@ Volcanos(chat.ONIMPORT, {
 			var list = can.base.Obj(msg.Option(ice.MSG_ACTION))||[]
 			if (can.user.isMobile && list.length > 0) {
 				can.ui.list = can.page.Append(can, can._output, [{view: "list"}])._target; target = can.ui.list
-				can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
-				can.onappend._action(can, list, can.ui.todo)
+				// can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
+				// can.onappend._action(can, list, can.ui.todo)
 			}
 		}
 		can.onimport.myView(can, msg, function(value) { value._style = can.core.List(status, function(status) { return value[status] }); return cb(value) }, cbs, target)
@@ -594,7 +595,15 @@ Volcanos(chat.ONIMPORT, {
 	},
 	itemcard: function(can, value, list, cb) { if (!list) { return }
 		can.core.List(list, function(item) { if (!item || !item.list) { return }
-			for (var i = 0; i < item.list.length; i++) { if (item.list[i] && typeof item.list[i] == code.STRING) { item.list[i] = {text: item.list[i]} } }
+			for (var i = 0; i < item.list.length; i++) {
+				if (typeof item.list[i] == code.STRING) {
+					if (item.list[i]) {
+						item.list[i] = {text: item.list[i]}
+					} else {
+						// item.list[i] = can.onimport.spaceView(can, value)
+					}
+				}
+			}
 		})
 		cb = cb|| function(event) { var done = false
 			if (can.onaction.carddetail && can.onaction.carddetail(event, can, value)) { return }
@@ -698,7 +707,7 @@ Volcanos(chat.ONIMPORT, {
 			})
 		}}
 	},
-	uidView: function(can, value) {
+	uidView: function(can, value) { if (!value.uid) { return }
 		return {text: [value.uid.slice(0, 6), "", UID], onclick: function(event) { if (can.user.isMobile) { return }
 			can.user.copy(event, can, value.uid), can.onkeymap.prevent(event)
 		}}

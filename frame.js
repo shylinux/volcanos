@@ -779,7 +779,9 @@ Volcanos(chat.ONAPPEND, {
 			data.index && can.onappend.plugin(can, {index: data.index, args: can.base.Split(data.args)}, function(sub) {
 				can.page.Modify(can, sub._legend, data.index.split(nfs.PT).pop())
 			}, can._output, target)
-		}) } else if (text.indexOf("<iframe") == 0) { can.page.Select(can, code, html.IFRAME, function(target) { var data = target.dataset
+		}) } else if (text.indexOf("<iframe") == 0) { can.page.Select(can, code, html.IFRAME, function(target) {
+			var data = target.dataset
+			can.page.style(can, code, html.PADDING, 0)
 			var height = can.base.Max(720, can.ConfHeight()); can.page.style(can, target, html.HEIGHT, height, html.WIDTH, can.ConfWidth())
 		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
 			can.page.style(can, target, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
@@ -800,7 +802,8 @@ Volcanos(chat.ONAPPEND, {
 			can.page.Select(can, code, html.A, function(target) {
 				target.target = "_blank"
 			})
-		} return code.scrollBy && code.scrollBy(0, 10000), code
+		}
+		return code.scrollBy && code.scrollBy(0, 10000), code
 	},
 	tools: function(can, msg, cb, target) { can.onimport.tool(can, can.base.Obj(msg.Option(ice.MSG_TOOLKIT))||[], cb, target) },
 	style: function(can, style, target) { if (!style) { return }

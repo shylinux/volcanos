@@ -294,6 +294,7 @@ var chat = {
 	panel_list: [{name: "Header", style: "head"}, {name: "River",  style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
 	plugin_list: ["state.js", "input.js", "table.js",
 		"input/key.js",
+		"input/img.js",
 		"input/date.js",
 	].concat(navigator.userAgent.indexOf("Mobile") > -1? []: [
 		"story/json.js",

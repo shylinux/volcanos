@@ -445,11 +445,11 @@ body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
 // body div.input.float tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
-body div.input.float tr.img td:last-child>div.item>div { background-color:var(--input-bg-color); position:relative; color:gray; font-size:40px; }
+body div.input.float tr.img td:last-child>div.item>div { border:var(--box-border); background-color:var(--input-bg-color); position:relative; color:gray; font-size:40px; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; }
 // margin:var(--input-margin); }
 body div.input.float tr.img td:last-child>div.item>div>i { font-size:20px; position:absolute; top:0; right:0; }
-body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; position:relative;  }
+body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:20px; position:relative;  }
 body div.input.float tr.img td:last-child>div.item>div>i:hover { background-color:var(--hover-bg-color); }
 body div.input.float tr.img td:last-child>div>span { font-size:var(--action-height); }
 body div.input.float tr.img td:last-child>div>span.icon { display:none; }
