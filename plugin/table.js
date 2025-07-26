@@ -133,7 +133,7 @@ Volcanos(chat.ONIMPORT, {
 		can.user.carteItem(event, can, item)
 	},
 	_item: function(can, item, cb, cbs) {
-		item._hash = item._hash||item.sess||item.hash||item.zone||item.path||item.name
+		item._hash = item._hash||item.uid||item.sess||item.hash||item.zone||item.path||item.name
 		item._hash && item._hash.replaceAll && (item._hash = item._hash.replaceAll(":", "_"))
 		item._title = item._title||item.name||item.path||item.zone||item.hash
 		item._select == undefined && can.db.hash[0] && (item._select = can.db.hash[0] == item._hash)
@@ -148,8 +148,7 @@ Volcanos(chat.ONIMPORT, {
 			(item.action||cbs) && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
 		]), _init: function(target) { target._item = item, item._item = target, can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
-		}, onclick: function(event) {
-			if (cb(event)) { return }
+		}, onclick: function(event) { if (cb(event)) { return }
 			can.db.value = item, can.onexport.hash(can, item._hash)
 			item.__title? can.user.title(item.__title): can.onexport.title(can, item._title)
 		}, oncontextmenu: function(event) {

@@ -283,8 +283,8 @@ div.project div.item.select { border-right:var(--item-notice); }
 div.project>div.item.select { position:sticky; top:32px; bottom:0; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
-div.project>div.item:not(:hover) input:not([type=button]) { border-right:0; }
-div.project>div.item:not(:hover) input:not([type=button]) { border-left:0; }
+div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-right:0; }
+div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-left:0; }
 div.project>div.zone>div.action div.item:not(:hover) input:not([type=button]) { border-left:0; }
 div.project div.item.filter { background-color:var(--plugin-bg-color); padding:0; width:100%; position:sticky; top:0; z-index:1; }
 div.project div.item.filter>input { padding:0 25px; width:100% !important; }
@@ -329,7 +329,7 @@ div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
 div.layout>div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
-fieldset.story div.project:not(.toggle) { width:230px; flex:0 0 230px; }
+fieldset.story div.project:not(.toggle) { width:230px; height:100%; flex:0 0 230px; }
 div.layout>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.layout>div.toggle.display { left:20%; bottom:-52px; transform:rotate(90deg); border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.layout:not(:hover)>div.toggle { display:none; }
