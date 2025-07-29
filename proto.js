@@ -130,7 +130,11 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 	libs && setTimeout(function() { can.require(can._follow? libs.concat(meta.libs, meta.frame): libs, cb) }, 1)
 	return can
 })
+window.iscomposition = false
 try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta; meta.version = window._version||""
+	document.compositionstart = function(event) { window.iscomposition = true }
+	document.compositionupdate = function(event) { window.iscomposition = true }
+	document.compositionend = function(event) { window.iscomposition = false }
 	try { var debug = location.search.indexOf("debug=true") > -1
 		debug && window.parent.outerWidth-window.parent.innerWidth > 100 && (meta.version = "", debug = false)
 	} catch (e) {

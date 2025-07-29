@@ -17,7 +17,10 @@ Volcanos(chat.ONFIGURE, {icon: {
 		meta.msg && meta.msg.Length() > 0? sub._show(sub, meta.msg, cb, target, meta.name): sub._load(event, sub, cb, target, meta.name, target.value)
 	}) },
 	onblur: function(event, can, sub, cb) { sub && can.onmotion.delay(can, sub.close, 300) },
-	onkeyup: function(event, can, sub, cb) { if (!sub) { return }
+	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
+		if (!sub) { return }
+		if (event.key == code.ENTER && meta._enter) { return meta._enter(event, target.value) }
+		if (event.key == code.ESCAPE && meta._escape) { return meta._escape() }
 		can.page.Select(can, sub._output, html.TD, function(target) {
 			can.onmotion.hidden(can, target, target.title.indexOf(event.target.value) > -1)
 		})

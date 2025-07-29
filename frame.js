@@ -322,7 +322,7 @@ Volcanos(chat.ONAPPEND, {
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
 		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }
-		if (msg.RunAction(event, can, cmds)) { return } if (can.misc.Inputs(can, msg, cmds, cb, meta)) { return }
+		if (msg.RunAction(event, can, cmds)) { return } if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && can.misc.Inputs(can, msg, cmds, cb, meta)) { return }
 		var p = can._history[can._history.length-1]; p && p._opts && can.request(event, p._opts)
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) { var _can = can._fields? can.sup: can
 			if (can.base.isFunc(cb) && !cb(msg)) { return } if (silent) { return }
@@ -556,11 +556,15 @@ Volcanos(chat.ONAPPEND, {
 	filter: function(can, target, output) { output = output||can.ui.content||target
 		if (can.page.SelectOne(can, target, "div.item.filter")) { return {} }
 		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
+			if (window.iscomposition) {
+				debugger
+			}
 			var value = (event.currentTarget? event.currentTarget.value: "").trim()
 			if (can.sub && can.sub.onaction && can.sub.onaction.filter && can.sub.onaction.filter(event, can.sub, value)) {
 				return
 			}
 			if (event.key == code.ENTER) {
+				can.onkeymap.prevent(event)
 				can.page.Select(can, output, html.DIV_ITEM+":not(.hide)", function(target) { target.click() })
 			} else if (event.key == code.ESCAPE) { event.currentTarget.value = "", event.currentTarget.blur()
 				can.page.Select(can, output, html.DIV_ITEM, function(target) { can.onmotion.toggle(can, target, true) })
@@ -572,6 +576,7 @@ Volcanos(chat.ONAPPEND, {
 					if (!can.page.ClassList.set(can, tr, html.HIDE, index > 0 && tr.innerText.indexOf(value) == -1)) { return tr }
 				}).length
 			}
+			can.onaction.afterFilter && can.onaction.afterFilter(can, value)
 		}}, "", target)
 	},
 	select: function(can, select, item) { // can.user.trans(can, item.value||item.values[0])
@@ -739,6 +744,7 @@ Volcanos(chat.ONAPPEND, {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
+				if (msg.IsDetail() && key != "key" && value == "") { can.onappend.style(can, "_void", target.parentNode) }
 				if (option.indexOf(key) > -1) {
 					can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode)
 					if (msg.IsDetail()) { can.onappend.style(can, html.OPTION, target.parentNode) }
@@ -1021,7 +1027,7 @@ Volcanos(chat.ONAPPEND, {
 		var input = meta.action||(can.base.isIn(meta.name, mdb.ICON, mdb.ICONS)? meta.name: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() {
-			if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
+			if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur(), meta._escape && meta._escape() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
 				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb)
 					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
@@ -1156,9 +1162,10 @@ Volcanos(chat.ONMOTION, {
 		},
 	},
 	scrollHold: function(can, cb, target) { target = target || can._output; var left = target.scrollLeft; cb(), target.scrollLeft = left },
-	scrollIntoView: function(can, target, margin, parent) { if (!target) { return }
+	scrollIntoView: function(can, target, margin, parent, horizon) {
+		if (!target) { return }
 		margin = margin||0, parent = parent||target.parentNode; if (!parent) { return } if (parent._scroll) { return } parent._scroll = true
-		if (target.offsetHeight == parent.offsetHeight) { margin = margin||10
+		if (horizon || target.offsetHeight == parent.offsetHeight) { margin = margin||10
 			var offset = (target.offsetLeft-margin) - parent.scrollLeft, step = offset < 0? -20: 20
 			if (Math.abs(offset) > 3000) { return parent.scrollLeft = (target.offsetLeft-margin), delete(parent._scroll) }
 			can.core.Timer({interval: 10, length: offset/step}, function() { parent.scrollLeft += step }, function() { parent.scrollLeft = (target.offsetLeft-margin), delete(parent._scroll) })

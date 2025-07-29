@@ -85,6 +85,7 @@ Volcanos(chat.ONFIGURE, {key: {
 	},
 	onkeyup: function(event, can, meta, cb, target, sub, last) { if (event.key == code.TAB) { return }
 		if (event.key == code.ENTER) { return meta._enter && (!can.page.tagis(event.target, html.TEXTAREA) || event.ctrlKey) && meta._enter(event, target.value)? sub && sub.close(): last(event) }
+		if (event.key == code.ESCAPE && meta._escape) { return meta._escape() }
 		if (!sub) { return }
 		// can.onmotion.toggle(can, sub._target, true)
 		// sub.hidden() ||

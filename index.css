@@ -230,7 +230,8 @@ div.item.card div.action input[type=button].danger { color:var(--danger-bg-color
 // body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
-div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; }
+div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; white-space:pre; }
+div.item.card div.output>div.container>div.output { max-height:128px; overflow:hidden; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }
 div.item.card.select div.title { font-weight:bold; }
@@ -275,14 +276,14 @@ div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
-div.project div.list { margin-left:var(--button-margin); clear:both; }
-div.project div.list { border-left:var(--disable-fg-color) dashed 1px; }
+div.project div.list:not(.item) { margin-left:var(--button-margin); clear:both; }
+div.project div.list:not(.item) { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
 div.project div.item.select { border-right:var(--item-notice); }
 div.project>div.item.select { position:sticky; top:32px; bottom:0; }
 div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
-div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); }
+div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); width:20px; text-align:center; flex-shrink:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-right:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-left:0; }
 div.project>div.zone>div.action div.item:not(:hover) input:not([type=button]) { border-left:0; }
@@ -291,14 +292,14 @@ div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
-div.project div.item img { margin:0; flex-shrink:0; }
+div.project div.item img { margin:0; flex-shrink:0; height:20px; width:20px; margin-right:5px; }
 div.project div.item>div.name { padding:0 var(--input-padding); }
 div.project div.item>div.icon { position:absolute; right:var(--input-padding); }
 div.project div.item>div.icon:hover { background-color:var(--hover-bg-color); }
 div.project div.item:not(:hover)>div.icon { display:none; }
 div.project div.item:not(.button)>i:last-child { position:absolute; right:var(--input-padding); }
 div.project div.item:not(.button)>i:hover { background-color:var(--hover-bg-color); }
-div.project div.item:not(.button):not(.select)>i:last-child { display:none; }
+div.project div.item:not(.button):not(.select):not(:hover)>i:last-child { display:none; }
 body.mobile div.project div.item>i:last-child { display:none; }
 div.project div.zone>div.item { text-align:center; padding:var(--input-padding); display:flex; align-items:center; }
 div.project div.zone>div.item span:hover { background-color:var(--hover-bg-color); }
@@ -445,8 +446,11 @@ body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
 // body div.input.float tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
-body div.input.float tr.img td:last-child>div.item>div { border:var(--box-border); background-color:var(--input-bg-color); position:relative; color:gray; font-size:40px; }
+body div.input.float tr.img td:last-child>div.item>div {
+	display:flex; align-items:center; justify-content:center;
+border:var(--box-border); background-color:var(--input-bg-color); position:relative; color:gray; font-size:40px; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; }
+body div.input.float tr.img td:last-child>div.item>div img { max-width:100%; max-height:100%; }
 // margin:var(--input-margin); }
 body div.input.float tr.img td:last-child>div.item>div>i { font-size:20px; position:absolute; top:0; right:0; }
 body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:20px; position:relative;  }
@@ -547,6 +551,7 @@ div.output>div.code { position:sticky; left:0; }
 div.output>div.code>img { max-width:100%; }
 div.output.flex { overflow:hidden; align-items:flex-start; justify-content: flex-start; }
 div.layout.flex>* { float:left; clear:none; }
+div.flex:not(.hide) { display:flex; }
 div.flex:not(.hide) { display:flex; align-items:center; justify-content:center; }
 div.output.flex:not(.hide) { display:flex; align-items:flex-start; justify-content:flex-start; }
 fieldset>div.status>legend { float:right; clear:none; }

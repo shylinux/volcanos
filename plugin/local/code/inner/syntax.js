@@ -283,7 +283,7 @@ Volcanos(chat.ONSYNTAX, {
 			"$body": code.KEYWORD, "$fieldset": code.KEYWORD, "$input": code.KEYWORD,
 			"$option": code.KEYWORD, "$action": code.KEYWORD, "$output": code.KEYWORD, "$status": code.KEYWORD,
 			"$content": code.KEYWORD, "$profile": code.KEYWORD, "$display": code.KEYWORD, "$project": code.KEYWORD,
-			
+			"$story": code.KEYWORD,
 			
 			"output": code.KEYWORD,
 			"background-color": code.FUNCTION, "color": code.FUNCTION,

@@ -142,7 +142,7 @@ Volcanos(chat.ONIMPORT, {
 				if (item._hash[i] != can.db.hash[i]) { item._select = false; break }
 			}
 		}
-		return {view: [[html.ITEM, item.type, item.role, item.status]], title: item.title||item.nick, list: [
+		return {view: [[html.ITEM, item.type, item.role, item.status].concat(item._style)], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item),
 		].concat(can.onimport._nick(can, item), item._label||[], [
 			(item.action||cbs) && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
@@ -265,13 +265,38 @@ Volcanos(chat.ONIMPORT, {
 			}) } else { can.onappend.table(can, msg), can.onappend.board(can, msg) }
 		}, function() { delete(value._tabs), can.onmotion.cacheClear(can, value._hash, can.ui.content, can.ui.profile, can.ui.display) })
 	},
+	pluginVimer: function(can, key, value, file, target) {
+		can.onappend.plugin(can, {index: "vimer", args: ["src/", file, "1"], height: can.ConfHeight()-106, width: target? target.offsetWidth: can.ConfWidth()}, function(sub) {
+			sub.run = function(event, cmds, cb) { var _msg =can.request(event)
+				if (cmds[0] != ctx.ACTION) {
+					_msg.Echo(value), _msg.Display("/plugin/local/code/vimer.js"), cb(_msg)
+				} else if (cmds[0] == ctx.ACTION && cmds[1] == nfs.SAVE) {
+					typeof key == "function"? key(_msg.Option("content")): can.runAction(event, mdb.MODIFY, [key, _msg.Option("content")], function(msg) {
+						can.user.toastSuccess(can)
+					})
+				} else {
+					cb(_msg)
+				}
+			}
+		}, target)
+	},
 	tool: function(can, list, cb, target, status) { target = target||can._status, status = status||can._status
 		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-3*html.ACTION_HEIGHT, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
+			meta.opts = can.Option()
+			meta.opts.uid = ""
 			can.onimport.plug(can, meta, function(sub) {
+				sub.onexport._output = function(_sub, msg) {
+					can.onaction.beforesuboutput && can.onaction.beforesuboutput(can, msg, _sub)
+				}
 				sub.onexport.output = function() {
 					can.page.style(can, sub._output, html.MAX_HEIGHT, "", html.HEIGHT, "", html.WIDTH, "", html.MAX_WIDTH, "")
 					sub.onimport.size(sub, height, width, false), can.onmotion.delay(can, function() { sub.onimport.size(sub, height, width, false) })
+					sub.sub.onaction.carddetail = function(event, _sub, value) {
+						if (can.onaction.subcarddetail) {
+							return can.onaction.subcarddetail(event, can, value, _sub)
+						}
+					}
 				}, sub.onimport.size(sub, height, width, false)
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {
 					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
@@ -426,11 +451,13 @@ Volcanos(chat.ONIMPORT, {
 				}
 			}
 			sub._select = function() { can.onimport.myOption(sub), can.user.trans(can, {goback: "返回"})
+				var height = portal.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0)-sub._status.offsetHeight
+				// sub.onexport.statusHeight(sub)
 				if (can.onmotion.toggle(can, portal.sub.ui.footer, !!sub.Conf("opts.market_uid"))) {
 					can.page.Appends(can, portal.sub.ui.footer, can.onimport._thumb(can, sub.Conf("_thumb_value")))
-					sub.onimport.size(sub, portal.ConfHeight()-portal.sub.ui.footer.offsetHeight-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0), portal.ConfWidth(), false)
+					sub.onimport.size(sub, height-portal.sub.ui.footer.offsetHeight, portal.ConfWidth(), false)
 				} else {
-					sub.onimport.size(sub, portal.ConfHeight()-ACTION_HEIGHT-(can.page.tagis(portal._target, html.FIELDSET_FLOAT)? ACTION_HEIGHT+4: 0), portal.ConfWidth(), false)
+					sub.onimport.size(sub, height, portal.ConfWidth(), false)
 				}
 				var list = [
 					can.page.button(can, {name: can.user.isMobile || can.page.tagis(portal._target, html.FIELDSET_FLOAT)? can.user.trans(can, "portal", "主页"): (plugin.current||portal.current)._name||can.user.trans(can, "portal", "主页"), className: "place"}, function(event) {
