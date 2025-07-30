@@ -698,7 +698,7 @@ Volcanos(chat.ONIMPORT, {
 	otherList: function(can, msg, action) { if (!msg.IsDetail()) { return } typeof action == "string" && (action = [action])
 		can.core.Next(action, function(action, next) {
 			can.run(can.request({}, {uid: msg.Append(UID)}, msg.TableDetail()), action, function(msg) { if (msg.Length() == 0) { return next() }
-				var _sub, title = can.page.Append(can, can._output, [{view: [[html.ITEM, html.TITLE, action]], list:[{text: can.user.trans(can, action)}], onclick: function(event) {
+				var _sub, title = can.page.Append(can, can._output, [{view: [[html.ITEM, html.TITLE, "otherList", action]], list:[{text: can.user.trans(can, action)}], onclick: function(event) {
 					can.onmotion.toggle(can, _sub._target)
 				}}])._target
 				can.onappend.plugin(can, {index: can.ConfIndex(), style: "output otherList"}, function(sub) { _sub = sub, can.onimport.myField(can, sub)
