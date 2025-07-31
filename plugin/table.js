@@ -568,7 +568,7 @@ Volcanos(chat.ONIMPORT, {
 		} else if (msg.Option(ice.MSG_ACTION)) {
 			var list = can.base.Obj(msg.Option(ice.MSG_ACTION))||[]
 			if (can.user.isMobile && list.length > 0) {
-				can.ui.list = can.page.Append(can, can._output, [{view: "list"}])._target; target = can.ui.list
+				// can.ui.list = can.page.Append(can, can._output, [{view: "list"}])._target; target = can.ui.list
 				// can.ui.todo = can.page.Append(can, can._output, [{view: "todo"}])._target
 				// can.onappend._action(can, list, can.ui.todo)
 			}
