@@ -101,14 +101,15 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			can.user.info.favicon = msg.Option("favicon")
 			can.user.info.titles = msg.Option("titles")||document.title
 			lang(msg, function() { can.onmotion.clear(can), can.onimport._init(can, can.request(), can._output), _login || can.onengine.signal(can, chat.ONLOGIN) })
+			can.user.isTechOrRoot(can) && (can.misc.isDebug(can)? can.onaction._menus.push("release"): can.onaction._menus.push("debug"))
 		}
 		var _login
 		can.run(can.request({}, {_method: http.GET}), [], function(msg) { lang(msg)
 			can.ui.diy = can.base.Obj(msg.Option("diy"))||{}, can.__theme = can.onimport._theme(can, can.page.theme(function(theme) {
 				can.onengine.signal(can, chat.ONTHEMECHANGE, can.request(event, {theme: can.__theme = can.onimport._theme(can, theme)})), can.onimport.theme(can)
 			})), can.onimport.theme(can, can.misc.Search(can, "theme")||"")
-			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.user.isMobile && (msg["theme.list"] = ["dark.css", "light.css"])
+			can.onaction._menus[3] = [aaa.LANGUAGE, ice.AUTO].concat(can.core.List(msg["language.list"], function(item) { return can.base.trimSuffix(item, nfs._JS) }))
 			can.onaction._menus[2] = [chat.THEME, ice.AUTO].concat(can.core.List(msg["theme.list"], function(item) { return can.base.trimSuffix(item, nfs._CSS) }))
 			can.require(can.core.List(msg["theme.list"], function(item) { return nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/theme/"+item }), function() {
 				can.user.info.titles = msg.Option("titles")||document.title
@@ -167,6 +168,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	logout: function(event, can) { can.user.logout(can) },
 	share: function(event, can, args) { can.user.share(can, can.request(event), [ctx.ACTION, chat.SHARE].concat(args||[])) },
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
+	debug: function(event, can) { location.href = can.misc.MergeURL(can, {debug: "true"}) },
+	release: function(event, can) { location.href = can.misc.MergeURL(can, {debug: "false"}) },
 	
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: [
@@ -179,6 +182,8 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		chat.THEME, "界面主题", aaa.LANGUAGE, "语言地区",
 		nfs.SAVE, "保存网页", aaa.EMAIL, "发送邮件", web.TOIMAGE, "生成图片", code.WEBPACK, "打包页面",
 		aaa.USER, "用户信息", "setnick", "设置昵称", "setavatar", "设置头像", "setbackground", "设置背景", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
+		"debug", "调试模式",
+		"release", "发布模式",
 		
 		"change language to zh-cn", "切换语言为中文",
 		"change language to en-us", "切换语言为英文",

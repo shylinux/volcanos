@@ -5,7 +5,7 @@ fieldset.word>div.output h2.story[data-type=spark][data-name=title] { text-align
 fieldset.word>div.output code { font-style: italic; }
 fieldset.word>div.output ul { margin:20px; font-family:var(--code-font-family); word-break:break-all; }
 fieldset.word>div.output ul>li:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
-fieldset.word>div.output img { display:block; margin:auto; max-height:100%; max-width:100%; }
+fieldset.word>div.output img:not(.avatar) { display:block; margin:auto; max-height:100%; max-width:100%; }
 fieldset.word>div.output div.project img { margin:unset; }
 fieldset.word>div.output table.content img { margin:unset; max-width:unset; }
 fieldset.word>div.output table { width:100%; }

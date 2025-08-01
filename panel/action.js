@@ -16,7 +16,7 @@ Volcanos(chat.ONIMPORT, {
 				can.onaction.layout(can, list[3]), can.onimport._tabs(can, sub, meta), can._plugins = (can._plugins||[]).concat([sub])
 				can.onexport.layout(can) && list[0] == river && list[1] == storm? (can.base.isIn(list[2], sub.ConfIndex()) && (_select = sub)): (index == 0 && (_select = sub)), _select = _select||sub, skip || next()
 			})
-		}, function() { can.onaction.layout(can, list[3]), _select._tabs.click() })
+		}, function() { can.onaction.layout(can, list[3]), _select && _select._tabs.click() })
 	},
 	_tabs: function(can, sub, meta) { var _init = true
 		var tabs = [{view: [[html.TABS, meta.name], "", can.user.trans(can, meta.name, meta.help)], title: meta.help, onclick: function(event) { can._current = sub

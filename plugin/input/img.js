@@ -10,7 +10,10 @@ Volcanos(chat.ONFIGURE, {img: {
 			if (can.page.SelectChild(can, target.parentNode, html.DIV, function(target) { return target._hash }).length >= count) { return }
 			can.page.Append(can, target.parentNode, [{view: html.FLEX, style: {height: width, width: count == 1? target.parentNode.offsetWidth: width}, _init: function(target) {
 				target.onclick = function(event) { can.misc.Event(event, can, function(msg) {
-					can.user.upload(event, can, function(msg) { add(target, msg.Result()), set(), p || push(), p = msg.Result() }, true)
+					can.user.upload(event, can, function(msg) {
+						var link = can.misc.Resource(can, msg.Result(), msg.Option(ice.MSG_USERPOD))
+						add(target, link), set(), p || push(), p = link
+					}, true)
 				})}, p? add(target, p): can.page.Append(can, target, [{icon: "bi bi-plus-square-dotted"}])
 			} }])
 		} can.core.List(images, function(p) { push(p) }), push()

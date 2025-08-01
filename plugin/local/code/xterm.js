@@ -25,6 +25,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onmotion.clear(can, target), term.open(target), term.focus(), can.onmotion.delay(can, function() { term.focus() })
 		can.onengine.listen(can, chat.ONTHEMECHANGE, function() { term.selectAll(), can.onimport._connect(can, item, target, can.base.trimSuffix(term.getSelection(), lex.NL)) })
 		can.page.style(can, target, html.BACKGROUND_COLOR, term._publicOptions.theme.background||cli.BLACK)
+		can.onmotion.delay(can, function() { term.focus() }, 300)
 		return can.db[item.hash] = term
 	},
 	_theme: function(can, item) { return can.base.Obj(item.theme)||(

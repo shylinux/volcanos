@@ -11,6 +11,7 @@ Volcanos(chat.ONIMPORT, {
 			can.onappend.table(can, msg, null, target), can.onappend.board(can, msg, target), can.onmotion.story.auto(can, target)
 		} cb && cb(msg)
 		can.onappend.style(can, msg.Option("display.style"), can._fields)
+		can.sup.onexport.title(can)
 	},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
@@ -438,7 +439,10 @@ Volcanos(chat.ONIMPORT, {
 				if (last.current && can.page.SelectChild(can, last._output, "div.header").length == 0) { last.Update(event) }
 			}
 			function reload(event) { sub.Update(sub.request(event, {_toast: "reload"})) }
-			sub.onimport._field = function(msg) { msg.Table(function(value) { can.onimport.myStory(can, value) }) }
+			sub.onimport._field = function(msg) {
+				if (msg.Option("action") == "create") { sub.Update() }
+				msg.Table(function(value) { can.onimport.myStory(can, value) })
+			}
 			sub.onexport.output = function(_sub, msg) { sub.sub.onaction._goback = goback, sub._select() }
 			function header(msg) {
 				if (!can.user.isMobile || msg.IsDetail() && msg.Append(USER_UID) && msg.Append(USER_UID) != msg.Option(ice.MSG_USERUID)) { can.page.Append(can, _action, [{view: [[html.ITEM, html.SPACE]]}])
@@ -656,7 +660,7 @@ Volcanos(chat.ONIMPORT, {
 				can.user.isMobile && can.page.Select(can, target, "input.notice", function(target) { can.page.Remove(can, target) })
 			}},
 			{view: html.OUTPUT, list: [
-				{img: icon, onclick: function(event) { can.onkeymap.prevent(event)
+				{img: icon, className: "avatar", onclick: function(event) { can.onkeymap.prevent(event)
 					can.onaction.updateAvatar && can.onaction.updateAvatar(event, can)
 				}},
 				{view: html.CONTAINER, list: list},
@@ -750,7 +754,10 @@ Volcanos(chat.ONIMPORT, {
 			value.place_name, value.place_name? "|": "",
 		value.service_name.replace(" ", " | ")]}
 	},
-	spaceView: function(can, value) { return {view: "space"} },
+	spaceView: function(can, value) {
+		return {view: ["_space", "span"]}
+		// return {view: ["space"]}
+	},
 	imageView: function(can, value) {
 		return can.base.contains(value.icons, "bi ")? {view: [value.icons, "i"]}: {img: can.misc.ResourceIcons(can, value.icons)}
 	},

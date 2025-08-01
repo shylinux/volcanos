@@ -384,13 +384,13 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || can.user.isMobile || push(can.user.info.titles)
+		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || push(can.user.info.titles)
 		// can.user.isMobile || push(can.user.info.titles)
 		if (!can.user.isMobile) {
-			if (arguments.length == 2 && !can.base.isIn(can.ConfIndex(), code.VIMER, wiki.FEEL)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }
+			if ((arguments.length == 1 || arguments.length == 2) && !can.base.isIn(can.ConfIndex(), code.VIMER, wiki.FEEL, wiki.WORD)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }
 		}
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) })
-		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || can.user.isMobile || push(can.user.mod.isPod? can.user.info.titles||can.ConfSpace()||can.misc.Search(can, ice.POD): location.host)
+		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") && push(can.user.info.titles)
 		can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },
