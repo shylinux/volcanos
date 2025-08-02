@@ -137,7 +137,7 @@ Volcanos(chat.ONIMPORT, {
 		item._hash = item._hash||item.uid||item.sess||item.hash||item.zone||item.path||item.name
 		item._hash && item._hash.replaceAll && (item._hash = item._hash.replaceAll(":", "_"))
 		item._title = item._title||item.name||item.path||item.zone||item.hash
-		item._select == undefined && can.db.hash[0] && (item._select = can.db.hash[0] == item._hash)
+		item._select == undefined && (item._select = can.base.isIn(item._hash, can.sup.Conf("item.current")||can.db.hash[0]))
 		if (typeof item._hash == code.OBJECT) { item._select = true
 			for (var i = 0; i < item._hash.length; i++) {
 				if (item._hash[i] != can.db.hash[i]) { item._select = false; break }
@@ -150,6 +150,7 @@ Volcanos(chat.ONIMPORT, {
 		]), _init: function(target) { target._item = item, item._item = target, can.ui[item.path] = target
 			item._select && can.onmotion.delay(can, function() { target.click() })
 		}, onclick: function(event) { if (cb(event)) { return }
+			can.sup.Conf("item.current", item._hash)
 			can.db.value = item, can.onexport.hash(can, item._hash)
 			item.__title? can.user.title(item.__title): can.onexport.title(can, item._title)
 		}, oncontextmenu: function(event) {
@@ -479,6 +480,7 @@ Volcanos(chat.ONIMPORT, {
 					can.page.button(can, "goback", function(event) { goback(event) }),
 					can.page.button(can, "reload", function(event) { reload(event) }),
 				]
+				can.onmotion.toggle(can, _action, true)
 				can.page.style(can, _action, html.TOP, can.page.tagis(portal._target, html.FIELDSET_FLOAT)? "52px": "0", html.OPACITY, "1"), can.page.Appends(can, _action, list)
 				// can.user.isMobile && sub.onimport.size(sub, window.innerHeight-ACTION_HEIGHT, window.innerWidth, false)
 				var msg = sub._msg; if (!msg) { return }

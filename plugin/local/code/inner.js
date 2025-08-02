@@ -163,14 +163,24 @@ Volcanos(chat.ONIMPORT, {
 	history: function(can, record) { can.base.Eq(record, can.db.history[can.db.history.length-1], mdb.TEXT) || can.db.history.push(record)
 		return can.Status(ice.BACK, can.db.history.length), record
 	},
-	project: function(can) { can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) { if (can.base.isFunc(cb)) {
-		return {name: name, _toggle: function(zone) { var target = can.page.isDisplay(zone._target)? zone._target: can.ui.zone.source._target
-			can.core.Item(can.ui.zone, function(key, zone) { key.indexOf(nfs.PS) > 0 || zone.toggle(zone._target == target) }), can.onimport.layout(can)
-		}, _init: function(target, zone) { var onclick = zone._legend.onclick
-			zone._legend.onclick = function(event) { if (can.page.isDisplay(zone._target)) { return } onclick(event) }
-			return cb(can, target, zone, can.db.hash)
-		}}
-	} }), can.ui.project) },
+	project: function(can) {
+		if (can.isCmdMode()) {
+			can.ui.title = can.page.Append(can, can.ui.project, [
+				{view: [[html.ITEM, html.TITLE]], list: [
+					{icon: can.misc.Resource(can, can.user.info.favicon)},
+					{text: can.user.info.titles||can.user.info.nodename},
+				], onclick: function(event) { can.Update(event) }},
+			])._target
+		}
+		can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) { if (can.base.isFunc(cb)) {
+			return {name: name, _toggle: function(zone) { var target = can.page.isDisplay(zone._target)? zone._target: can.ui.zone.source._target
+				can.core.Item(can.ui.zone, function(key, zone) { key.indexOf(nfs.PS) > 0 || zone.toggle(zone._target == target) }), can.onimport.layout(can)
+			}, _init: function(target, zone) { var onclick = zone._legend.onclick
+				zone._legend.onclick = function(event) { if (can.page.isDisplay(zone._target)) { return } onclick(event) }
+				return cb(can, target, zone, can.db.hash)
+			}}
+		} }), can.ui.project)
+	},
 	profile: function(can, msg) { var _msg = can.db.tabview[can.onexport.keys(can)]; _msg.Option(html.WIDTH, msg.Option(html.WIDTH)), border = 1
 		var height = can.ui.content.offsetHeight, width = can.onexport.size(can, _msg.Option(html.WIDTH)||0.5, can.ConfWidth()-can.ui.project.offsetWidth)+border
 		if (msg.Result().indexOf("<iframe src=") > -1) { if (_msg._profile != can.ui._profile) { can.page.Remove(can, _msg._profile) }
@@ -283,6 +293,7 @@ Volcanos(chat.ONIMPORT, {
 		})
 		can.page.SelectChild(can, can.ui.project, html.DIV_ZONE, function(target, index, list) {
 			can.page.SelectChild(can, target, html.DIV_ITEM, function(target) { var height = can.ui.project.offsetHeight - list.length*target.offsetHeight
+				can.isCmdMode() && can.ui.title && (height -= can.ui.title.offsetHeight)
 				if (can.page.tagis(target.nextSibling, html.DIV_ACTION)) { height -= target.nextSibling.offsetHeight }
 				can.page.SelectChild(can, target.parentNode, html.DIV_LIST, function(target) { can.page.style(can, target, html.HEIGHT, height) })
 			})

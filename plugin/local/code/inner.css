@@ -8,7 +8,9 @@ fieldset.inner>div.output div.content td.text span.string { color:var(--code-str
 fieldset.inner>div.output div.content td.text span.package { color:var(--code-package); }
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
-fieldset.inner>div.output>div.project { font-family:var(--code-font-family); }
+fieldset.inner>div.output>div.project { font-family:var(--code-font-family); height:100%; }
+fieldset.inner>div.output>div.project>div.item.title { height:43px; }
+fieldset.inner>div.output>div.project>div.item.title img { height:32px; width:32px; }
 fieldset.inner>div.output>div.project div.list { border-left:none; }
 fieldset.inner>div.output>div.project div.item.select:not(:hover) { background-color:unset; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { border-top:var(--box-border3); border-top-color:transparent; }

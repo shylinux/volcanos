@@ -64,41 +64,39 @@ body {
 	--code-font-size:14px; --code-line-height:20px; --code-tabs-height:43px;
 	--icon-font-size:var(--legend-font-size); --svg-font-size:24px; --svg-stroke-width:1;
 }
-@media (prefers-color-scheme: light) {
-	body { --plugin-bg-color:white; --plugin-fg-color:black; }
-	body {
-		--code-keyword:darkblue; --code-comment:green;
-		--code-function:darkcyan; --code-constant:gray; --code-string:brown;
-		--code-package:blue; --code-datatype:cornflowerblue; --code-object:purple;
-		
-	}
-	body {
-		--plugin-bg-color:ghostwhite; --plugin-fg-color:black; --output-bg-color:white;
-		--panel-bg-color:black; --panel-fg-color:silver; --action-output-bg-color:ghostwhite;
-		--panel-input-bg-color:transparent; --panel-input-fg-color:white;
-		--panel-hover-bg-color:royalblue; --panel-hover-fg-color:white;
-		--box-shadow:gray 2px 2px 8px; --input-box-shadow:none;
-		--box-border:lightgray solid 1px;
-		--hover-bg-color:#5066b91c; --hover-fg-color:unset;
-	}
-	body fieldset.macos.desktop>div.output>div.desktop>div.item>div.name { color:white; }
-}
 @media (prefers-color-scheme: dark) {
-	body { --plugin-bg-color:black; --plugin-fg-color:silver; }
-	body {
-		--code-keyword:royalblue; --code-comment:green;
-		--code-function:lightgreen; --code-constant:gray; --code-string:orange;
-		--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
-	}
-	body {
-		--disable-fg-color:#30363d; --plugin-fg-color:silver;
-		--notice-bg-color:dodgerblue; --danger-bg-color:crimson;
-		--plugin-bg-color:#0d1117; --output-bg-color:#171a22;
-		--plugin-box-shadow:none; --legend-box-shadow:none; --input-box-shadow:none;
-		--th-box-shadow:none; --keyword-box-shadow:none;
-	}
 }
-body.light { --panel-bg-color:black; --panel-fg-color:silver; }
+body { --plugin-bg-color:black; --plugin-fg-color:silver; }
+body.dark {
+	--code-keyword:royalblue; --code-comment:green;
+	--code-function:lightgreen; --code-constant:gray; --code-string:orange;
+	--code-package:lightskyblue; --code-datatype:lavender; --code-object:silver;
+}
+body.dark {
+	--disable-fg-color:#30363d; --plugin-fg-color:silver;
+	--notice-bg-color:dodgerblue; --danger-bg-color:crimson;
+	--plugin-bg-color:#0d1117; --output-bg-color:#171a22;
+	--plugin-box-shadow:none; --legend-box-shadow:none; --input-box-shadow:none;
+	--th-box-shadow:none; --keyword-box-shadow:none;
+}
+@media (prefers-color-scheme: light) {
+}
+body.light { --plugin-bg-color:white; --plugin-fg-color:black; }
+body.light {
+	--code-keyword:darkblue; --code-comment:green;
+	--code-function:darkcyan; --code-constant:gray; --code-string:brown;
+	--code-package:blue; --code-datatype:cornflowerblue; --code-object:purple;
+}
+body.light {
+	--panel-bg-color:black; --panel-fg-color:silver;
+	--plugin-bg-color:ghostwhite; --plugin-fg-color:black; --output-bg-color:white;
+	--panel-input-bg-color:transparent; --panel-input-fg-color:white;
+	--panel-hover-bg-color:royalblue; --panel-hover-fg-color:white;
+	--box-shadow:gray 2px 2px 8px; --input-box-shadow:none;
+	--box-border:lightgray solid 1px;
+	--hover-bg-color:#5066b91c; --hover-fg-color:unset;
+}
+body.light fieldset.macos.desktop>div.output>div.desktop>div.item>div.name { color:white; }
 body.width6 { /* 1920-2240 大显示器 */
 	--project-width:280px; --river-width:280px; --input-width:180px; --url-input-width:1000px;
 	// --qrcode-width:420px;
@@ -248,7 +246,7 @@ div.item.card div.action input[type=button].danger { color:var(--danger-bg-color
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; white-space:pre; }
-div.item.card>div.output>img { height:40px; width:40px; }
+div.item.card>div.output>img { height:40px; width:40px; margin-right:5px; }
 div.item.card div.output>div.container>div.output { max-height:128px; overflow:hidden; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }
@@ -843,7 +841,7 @@ body:not(.width2):not(.mobile) fieldset.plugin.vimer>form.option>div.item.text.f
 body:not(.width2):not(.mobile) fieldset.plugin>form.option>div.item.text.path>input { width:var(--project-width); }
 body:not(.width2):not(.mobile) fieldset.plugin.feel>form.option>div.item.text.file>input { width:var(--project-width); }
 body:not(.width2) fieldset>div.action>div.item.text.filter>input { width:var(--input-width); height:30px; transition:all 1.2s; }
-body:not(.width2) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
+body:not(.width2):not(.width1) fieldset>div.action>div.item.text.filter>input:focus { width:var(--project-width); transition:all 0.5s; }
 div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--label-fg-color); line-height:22px; padding:var(--input-padding); position:absolute; left:0; }
 body:mobile(.mobile) div.item.text:hover>i:first-child { color:unset; }
@@ -969,7 +967,9 @@ body.mobile fieldset.River { position:fixed; top:var(--header-height); z-index:1
 body.mobile fieldset.River>div.output { font-size:1.4rem; min-width:var(--project-width); }
 html:not(.login) body.mobile:not(.cmd) fieldset.Action { margin-top:var(--header-height); }
 body.mobile fieldset.Action.cmd { margin-top:0; width:100%; }
-body.mobile fieldset.Action { overflow:hidden; }
+body.mobile fieldset.Action { overflow:hidden; margin-top:48px; }
+body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(:only-child)>div.output { height:unset !important; }
+body.mobile fieldset.Action>div.output>fieldset.plugin>form.option>div.item.text { display:none; }
 body.mobile fieldset.Action>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output { overflow-x:hidden; }
 body.mobile fieldset.word>div.output div.story.flex { display:block; }
@@ -1162,7 +1162,7 @@ body.mobile fieldset.word:not(.cmd)>form.option>div.item>input[name=path] { widt
 body.mobile fieldset.word fieldset.inner>form.option input[type=text] { display:none; }
 body.mobile fieldset.vimer>form.option div.item.path input { width:var(--input-width); }
 body.mobile fieldset.vimer>form.option div.item.line { display:none; }
-body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd):not(:first-child) { margin:20px 0; }
+body.mobile fieldset.Action>div.output>fieldset.plugin:not(.output):not(.float):not(.full):not(.cmd) { margin:10px 0; }
 body.mobile table.content.detail { word-break:break-all; white-space:unset; overflow-y:hidden; }
 body.windows fieldset.inner>div.output { overflow:hidden; }
 body.windows fieldset.inner>div.output>div.layout>div.layout>div.profile { overflow:hidden; }
