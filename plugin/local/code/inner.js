@@ -168,8 +168,10 @@ Volcanos(chat.ONIMPORT, {
 			can.ui.title = can.page.Append(can, can.ui.project, [
 				{view: [[html.ITEM, html.TITLE]], list: [
 					{icon: can.misc.Resource(can, can.user.info.favicon)},
-					{text: can.user.info.titles||can.user.info.nodename},
-				], onclick: function(event) { can.Update(event) }},
+					{text: can.user.info.titles+" "+can.user.info.nodename},
+				], onclick: function(event) {
+					can.Update(event), can.user.toastSuccess(can, "refresh")
+				}},
 			])._target
 		}
 		can.onimport.zone(can, can.core.Item(can.onfigure, function(name, cb) { if (can.base.isFunc(cb)) {
@@ -331,6 +333,7 @@ Volcanos(chat.ONFIGURE, {
 })
 Volcanos(chat.ONSYNTAX, {
 	_init: function(can, msg, cb) { var key = can.onexport.keys(can)
+		can.ui.current && can.onmotion.toggle(can, can.ui.current, true)
 		can.onmotion.cache(can, function() { return key }, can.ui.profile, can.ui.display), can.onmotion.hidden(can, can.ui.profile), can.onmotion.hidden(can, can.ui.display)
 		if (msg._content) { return cb(can.ui.content = msg._content) }
 		if (msg.Option(ctx.INDEX)) { return can.onsyntax._index(can, msg, function(target) { cb(can.ui.content = msg._content = target) }, can.ui._content.parentNode) }
@@ -339,9 +342,11 @@ Volcanos(chat.ONSYNTAX, {
 	_space: function(can, msg, cb, parent) { if (can.Option(nfs.LINE) == web.SPACE) {
 		// can.ui.zone.space && can.onmotion.delay(can, function() { can.ui.zone.space.refresh() }, 3000)
 		var target = can.page.Append(can, parent, [{view: [html.CONTENT, html.IFRAME], src: can.misc.MergePodCmd(can, {pod: can.Option(nfs.FILE)}), height: can.ui.content.offsetHeight, width: can.ui.content.offsetWidth}])._target
+		can.ui.current && can.onmotion.hidden(can, can.ui.current)
 		return can.base.isFunc(cb) && cb(target), true
 	} },
 	_index: function(can, msg, cb, parent) { if (can.onsyntax._space(can, msg, cb, parent)) { return }
+		can.ui.current && can.onmotion.hidden(can, can.ui.current)
 		var index = can.core.Split(msg.Option(ctx.INDEX)), item = {type: chat.STORY, index: index[0], args: index.slice(1)}
 		if (item.index == web.CODE_XTERM && item.args.length > 0) { item.style = html.OUTPUT }
 		if (item.index == web.CHAT_MACOS_DESKTOP) { item.style = html.OUTPUT }
@@ -452,7 +457,7 @@ Volcanos(chat.ONACTION, {
 	rerankLine: function(can, which, target) { can.ui.content._max = can.page.Select(can, target||can.ui.content, which||"tr.line:not(.delete)>td.line", function(td, index) { return td.innerText = index+1 }).length },
 	modifyLine: function(can, line, value) { can.page.Select(can, can.onaction._getLine(can, line), "td.text", function(td) { td.innerHTML = can.onsyntax._parse(can, value) }) },
 	selectLine: function(can, line, scroll) { var content = can.ui.content; if (!line) { return can.onexport.line(can, can.page.SelectOne(can, content, "tr.select")) }
-		can.page.Select(can, content, "tr.line>td.line", function(target) { var n = parseInt(target.innerText); target = target.parentNode
+		can.page.Select(can, content, "tr.line>td.line", function(target) { var n = parseInt(target.innerHTML); target = target.parentNode
 			if (!can.page.ClassList.set(can, target, html.SELECT, n == line || target == line)) { return }
 			line = target, can.Status(nfs.LINE, can.onexport.position(can, can.Option(nfs.LINE, n)))
 		}); if (!can.base.isObject(line)) { return 0 }

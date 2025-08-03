@@ -912,7 +912,15 @@ Volcanos(chat.ONAPPEND, {
 		}) }
 		
 		ui.project && can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
-		ui.project && (can.user.isMobile && can.onmotion.hidden(can, ui.project), ui.filter = can.onappend.filter(can, ui.project))
+		if (ui.project) { can.user.isMobile && can.onmotion.hidden(can, ui.project)
+			var _action = can.page.Append(can, ui.project, [{view: html.ACTION}])._target; ui.filter = can.onappend.filter(can, _action)
+			// can.onappend._action(can, can._msg.Option(ice.MSG_ACTION), _action, null, true)
+			/*
+			can.page.Append(can, _action, [{view: [[html.ITEM, html.BUTTON]], list: [{icon: "create"}], onclick: function(event) {
+				can.run(event, [ctx.ACTION, "create"])
+			}}])
+			*/
+		}
 		ui.display && can.onmotion.hidden(can, ui.display), ui.profile && can.onmotion.hidden(can, ui.profile)
 		can.onexport.session && can.onexport.session(can, "project.hide") == ice.TRUE && ui.project && can.onmotion.hidden(can, ui.project)
 		can.onexport.session && can.onexport.session(can, "display.show") == ice.TRUE && can.onmotion.toggle(can, ui.display, true)

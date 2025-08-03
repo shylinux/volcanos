@@ -9,8 +9,9 @@ fieldset.inner>div.output div.content td.text span.package { color:var(--code-pa
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { font-family:var(--code-font-family); height:100%; }
-fieldset.inner>div.output>div.project>div.item.title { height:43px; }
-fieldset.inner>div.output>div.project>div.item.title img { height:32px; width:32px; }
+fieldset.inner>div.output>div.project>div.item.title { height:43px; top:0; }
+fieldset.inner>div.output>div.project>div.item.title img { border-radius:5px; padding:0; height:28px; width:28px; }
+// fieldset.inner>div.output>div.project div.list div.item.text input:not(:focus):not(:hover) { border-left:var(--box-border); }
 fieldset.inner>div.output>div.project div.list { border-left:none; }
 fieldset.inner>div.output>div.project div.item.select:not(:hover) { background-color:unset; }
 fieldset.inner>div.output>div.layout>div.tabs>div.tabs>div.tabs { border-top:var(--box-border3); border-top-color:transparent; }
@@ -34,6 +35,8 @@ fieldset.inner>div.output>div.layout>div.display div.status>div { padding:var(--
 fieldset.inner>div.output>div.layout>div.layout { justify-content:flex-start; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h1 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile h2 { border-bottom:var(--box-border); margin:var(--title-margin) 0; }
+fieldset.inner.float>div.output>div.layout>div.layout>div.profile fieldset.web.team.portal>div.action>div.item.place { display:none; }
+fieldset.inner.float>div.output>div.layout>div.layout>div.profile fieldset.web.team.portal>div.action>div.item.index { display:none; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile pre>code { padding-left:var(--table-padding); border-left:var(--box-notice3); display:block; }
 fieldset.inner>div.output>div.layout>div.layout>div.profile>div.code { white-space:unset; padding:var(--table-padding); }
 fieldset.inner>div.output>div.layout>div.layout>div.profile>div.status { background-color:var(--output-bg-color); height:var(--action-height); overflow:auto; position:sticky; bottom:0; }
