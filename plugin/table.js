@@ -712,7 +712,15 @@ Volcanos(chat.ONIMPORT, {
 					sub.onexport.output = function(_sub, msg) {
 						// can.page.Append(can, title, [{text: " (共"+msg.Length()+"条数据)"}])
 						_sub.onaction.carddetail = function(event, _sub, value) {
-							can.onimport.myStory(can, {index: msg.Option("_other_cmd"), args: [value.place_uid||msg.Option("place_uid"), value.uid]})
+							if (msg.Option("_other_cmd").split(".").slice(0,3).join(".") == can.ConfIndex().split(".").slice(0, 3).join(".")) {
+								can.onimport.myStory(can, {index: msg.Option("_other_cmd"), args: [
+									can.Option(can.core.Item(can.Option())[0]), value.uid,
+								]})
+							} else {
+								can.onimport.myStory(can, {index: msg.Option("_other_cmd"), args: [
+									value.place_uid||can.Option(can.core.Item(can.Option())[0])||msg.Option("place_uid"), value.uid,
+								]})
+							}
 							return true
 						}
 					}
@@ -887,7 +895,7 @@ Volcanos(chat.ONINPUTS, {
 				can.sup.Conf("_trans.value."+name+".icons."+value[name])||
 				can.sup.Conf("_trans.value."+name+".icons."+value[title])
 			)
-			return {view: html.ITEM, list: [{img: can.misc.Resource(can, icons), },
+			return {view: html.ITEM, list: [{icon: icons},
 				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
 					can.onappend.label(can, value, kit.Dict(
 						"version", icon.version, "time", icon.compile, name, icon.data,

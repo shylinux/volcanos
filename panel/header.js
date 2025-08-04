@@ -82,7 +82,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			return can.misc.Search(can, ice.MSG_SESSID, "")
 		} can.user.info.sessid = can.misc.Search(can, ice.MSG_SESSID)
 		function lang(msg, cb) {
-			can.user.info.language = msg.SearchOrOption(aaa.LANGUAGE)||msg.Option(ice.MSG_LANGUAGE)
+			can.user.info.language = msg.Option(ice.MSG_LANGUAGE)||msg.SearchOrOption(aaa.LANGUAGE)
 			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 			can.onmotion.delay(can, function() { can.onimport._language(can) })
 		}

@@ -61,6 +61,8 @@ Volcanos(chat.ONFIGURE, {key: {
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
 		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
 		if (display.title && !msg[display.title]) { display.title = msg.append[1] }
+		var args = msg._input_args||[]
+		display.title = args[1]||display.title
 		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {event: event, can: can, msg: msg, target: target, name: display.name||name, title: display.title})
 		can.layout(msg)
 	},

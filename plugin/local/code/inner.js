@@ -167,7 +167,7 @@ Volcanos(chat.ONIMPORT, {
 		if (can.isCmdMode()) {
 			can.ui.title = can.page.Append(can, can.ui.project, [
 				{view: [[html.ITEM, html.TITLE]], list: [
-					{icon: can.misc.Resource(can, can.user.info.favicon)},
+					{icon: can.misc.Resource(can, can.user.info.favicon, can.ConfSpace())},
 					{text: can.user.info.titles+" "+can.user.info.nodename},
 				], onclick: function(event) {
 					can.Update(event), can.user.toastSuccess(can, "refresh")
