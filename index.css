@@ -194,7 +194,9 @@ table.content input { border:none; padding:var(--input-padding); }
 table.content input:not(:last-child) { margin-right:var(--input-margin); }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td i { display:none; }
 body:not(.mobile) fieldset.Action:not(.tabview):not(.horizon):not(.grid) fieldset.plugin:not(.float):not(.full):not(.cmd)>div.output>table.content td input.icons { display:unset; }
-h1 { text-align:center; margin:var(--title-margin) 0; } h2 { margin:var(--title-margin) 0; } h3 { margin:var(--title-margin) 0; }
+h1 { text-align:center; margin:var(--title-margin) 0; } h2 { margin:var(--title-margin) 0; }
+h3 { margin:var(--title-margin) 0; }
+h4 { margin:var(--title-margin) 0; }
 ol, ul { margin-left:var(--title-margin); }
 p { margin:var(--title-margin) 0; }
 kbd { padding:0 var(--input-padding); }
@@ -369,6 +371,7 @@ fieldset.input.key div.output { padding:0 !important; }
 body:not(.mobile) fieldset.input.key div.output table.content td:first-child { padding-left:24px; cursor:pointer; }
 fieldset.input.key div.output table.content.checkbox td:nth-child(2) { cursor:pointer; }
 fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
+fieldset.input.key>div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
 fieldset.input.key>div.output>div.item>img { border-radius:5px; padding:5px; margin-right:5px; height:var(--header-height); width:var(--header-height); }
 fieldset.input.key>div.output>div.item>i { font-size:32px; padding:5px; margin-right:5px; }
@@ -932,7 +935,7 @@ svg g[stroke] path { stroke:unset; }
 svg g[fill] text { fill:unset; }
 svg g[fill] rect { fill:unset; }
 /* cursor */
-legend, select, input[type=button], th, h1, h2, h3, i, img[title^=http], div.item, div.tabs, div.menu, div.toggle { cursor:pointer; }
+legend, select, input[type=button], th, h1, h2, h3, h4, i, img[title^=http], div.item, div.tabs, div.menu, div.toggle { cursor:pointer; }
 div.story[data-type=spark] { cursor:copy; }
 /* mobile */
 body.mobile table.content { width:100%; }

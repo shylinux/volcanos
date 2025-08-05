@@ -378,7 +378,7 @@ Volcanos(chat.ONSYNTAX, {
 		"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
 		"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION,
 		
-		"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD,
+		"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD, "h4": code.KEYWORD,
 		"p": code.KEYWORD, "em": code.KEYWORD, "strong": code.KEYWORD, "sub": code.KEYWORD, "sup": code.KEYWORD, "i": code.KEYWORD, "b": code.KEYWORD, "u": code.KEYWORD,
 		"pre": code.KEYWORD, "code": code.KEYWORD, "var": code.KEYWORD, "kbd": code.KEYWORD, "samp": code.KEYWORD,
 		

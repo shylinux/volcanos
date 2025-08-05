@@ -343,7 +343,11 @@ Volcanos(chat.ONIMPORT, {
 			// if (plugin == sub._stacks_root) {
 				// var place_uid = can.Option(PLACE_UID) == can.misc.Search(can, PLACE_UID)? "": can.Option(PLACE_UID)
 				if (sub._stacks_current.length == 1) {
-					sub._stacks_root.sub.onexport.hash(plugin.sub, place_uid)
+					if (place_uid == can.misc.Search(can, can.core.Item(can.Option())[0])) {
+						sub._stacks_root.sub.onexport.hash(plugin.sub, "")
+					} else {
+						sub._stacks_root.sub.onexport.hash(plugin.sub, place_uid)
+					}
 				} else {
 					sub._stacks_root.sub.onexport.hash(sub._stacks_root.sub, place_uid, can.ConfIndex(), can.Option(UID))
 				}
@@ -356,7 +360,14 @@ Volcanos(chat.ONIMPORT, {
 			if (plugin.sub.ui.footer && can.onmotion.toggle(can, plugin.sub.ui.footer, !!can.Conf("opts.market_uid"))) {
 			}
 		} else {
-			if (can.isCmdMode() && can.current) { var place_uid = can.current._uid; can.onexport.hash(can, place_uid) }
+			if (can.isCmdMode() && can.current) {
+				var place_uid = can.current._uid
+				if (place_uid == can.misc.Search(can, can.core.Item(can.Option())[0])) {
+					can.onexport.hash(can, "")
+				} else {
+					can.onexport.hash(can, place_uid)
+				}
+			}
 		}
 		var icons = ""; can.core.List([current.icons, can.ConfIcons(), plugin.ConfIcons()], function(p) {
 			if (p && p.indexOf("bi ") == -1) { icons = icons||can.misc.Resource(can, p, plugin.ConfSpace()) }
@@ -709,16 +720,19 @@ Volcanos(chat.ONIMPORT, {
 				}}])._target
 				can.onappend.plugin(can, {index: can.ConfIndex(), style: "output otherList"}, function(sub) { _sub = sub, can.onimport.myField(can, sub)
 					sub.run = function(event, cmds, cb) { if (!cmds || cmds.length == 0) { cb(msg) } else { can.run(event, cmds, cb) } }, next()
-					sub.onexport.output = function(_sub, msg) {
+					sub.onexport.output = function(_sub, _msg) {
+						if (can._msg.key.indexOf(_msg.Option("_other_cmd").split(".").pop()+"_uid") > -1) {
+							can.onappend.style(can, html.DANGER, title)
+						}
 						// can.page.Append(can, title, [{text: " (共"+msg.Length()+"条数据)"}])
 						_sub.onaction.carddetail = function(event, _sub, value) {
-							if (msg.Option("_other_cmd").split(".").slice(0,3).join(".") == can.ConfIndex().split(".").slice(0, 3).join(".")) {
-								can.onimport.myStory(can, {index: msg.Option("_other_cmd"), args: [
+							if (_msg.Option("_other_cmd").split(".").slice(0,3).join(".") == can.ConfIndex().split(".").slice(0, 3).join(".")) {
+								can.onimport.myStory(can, {index: _msg.Option("_other_cmd"), args: [
 									can.Option(can.core.Item(can.Option())[0]), value.uid,
 								]})
 							} else {
-								can.onimport.myStory(can, {index: msg.Option("_other_cmd"), args: [
-									value.place_uid||can.Option(can.core.Item(can.Option())[0])||msg.Option("place_uid"), value.uid,
+								can.onimport.myStory(can, {index: _msg.Option("_other_cmd"), args: [
+									value.place_uid||can.Option(can.core.Item(can.Option())[0])||_msg.Option("place_uid"), value.uid,
 								]})
 							}
 							return true
@@ -759,10 +773,12 @@ Volcanos(chat.ONIMPORT, {
 		return {text: ["", "", "user"], list: [{img: value.user_avatar}, {text: value.user_name.split("@")[0]}]}
 	},
 	shipView: function(can, value) {
-		return {view: html.STATUS, list: [value.city_name, value.city_name? "|": "",
+		return {view: html.STATUS, list: [
+			value.city_name, value.city_name? "|": "",
 			value.street_name, value.street_name? "|": "",
 			value.place_name, value.place_name? "|": "",
-		value.service_name.replace(" ", " | ")]}
+			(value.service_name||"").replace(" ", " | "),
+		]}
 	},
 	spaceView: function(can, value) {
 		return {view: ["_space", "span"]}

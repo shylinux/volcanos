@@ -335,7 +335,7 @@ Volcanos(chat.ONAPPEND, {
 				return can._toast || can.user.isMobile || can.user.toastSuccess(can, can.user.trans(can, cmds[1]), ice.SUCCESS), can.Update()
 				return can.Update()
 			} }
-			can.onappend._output(can, msg, meta.display||msg.Option(ice.MSG_DISPLAY)||meta.feature.display)
+			can.onappend._output(can, msg, meta.display||(msg[ice.MSG_DISPLAY]||[]).join(",")||meta.feature.display)
 		})
 	},
 	_output: function(can, msg, display, cb, output, status, action) { display = display||chat.PLUGIN_TABLE_JS, output = output||can._output
@@ -344,11 +344,12 @@ Volcanos(chat.ONAPPEND, {
 		can.misc.Search(can, log.DEBUG) == ice.TRUE && can.base.beginWith(display, "/p/") && delete(Volcanos.meta.cache[display.split(".")[0]])
 		var list = []; can.core.List(display.split(","), function(item) { list = can.base.AddUniq(list, item) })
 		list = can.base.AddUniq(list, chat.PLUGIN_TABLE_JS)
-		list = can.base.AddUniq(list, msg.Option(ice.MSG_DISPLAY_CSS)||can.Conf("display_css")||undefined)
+		can.core.List(msg[ice.MSG_DISPLAY_CSS], function(p) { list = can.base.AddUniq(list, p) })
+		list = can.base.AddUniq(list, can.Conf("display_css"))
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
-			sup: can,
-			Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status, db: {hash: [""], value: {}}, ui: {layout: function() {}},
+			sup: can, Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
+			db: {hash: [""], value: {}}, ui: {layout: function() {}},
 		}, list, function(sub) { sub.Conf(can.Conf())
 			// sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [], can.onexport.storage(can, "hash"))||[]
 			sub.db.hash = can.base.getValid(can.isCmdMode()? can.misc.SearchHash(can): [])||[]

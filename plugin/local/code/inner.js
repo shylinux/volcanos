@@ -247,7 +247,8 @@ Volcanos(chat.ONIMPORT, {
 		can.onimport.tool(can, [meta], function(sub) { can.db.toolkit[key] = sub
 			sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420), can.base.Max(can.ConfWidth()/2, can.ui.content.offsetWidth, html.PLUG_WIDTH), false)
 			sub.onexport.output = function() {
-				sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420), can.base.Max(can.ConfWidth()/2, can.ui.content.offsetWidth, html.PLUG_WIDTH), false)
+				sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420),
+				can.base.Max(can.ConfWidth()/2, can.ConfWidth()-can.ui.project.offsetWidth, html.PLUG_WIDTH), false)
 			}
 			sub.onaction._close = function() { delete(can.db.toolkit[key]), can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend) }
 			sub.onexport.record = function(sub, value, key, data) { if (!data.file) { return }
