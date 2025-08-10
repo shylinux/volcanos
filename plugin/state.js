@@ -115,6 +115,9 @@ Volcanos(chat.ONIMPORT, {
 		})) { can.onappend.board(can, arg) }
 	},
 	_open: function(can, msg, arg) {
+		if (arg.indexOf("/action/download/") > -1) {
+			return can.user.download(can, arg)
+		}
 		can.user.open(arg); msg._arg.length > 1 && can.Update()
 	},
 	_close: function(can, msg) { can.user.close() || history.back() },

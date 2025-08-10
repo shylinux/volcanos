@@ -9,6 +9,7 @@ fieldset.inner>div.output div.content td.text span.package { color:var(--code-pa
 fieldset.inner>div.output div.content td.text span.datatype { color:var(--code-datatype); }
 fieldset.inner>div.output div.content td.text span.object { color:var(--code-object); }
 fieldset.inner>div.output>div.project { font-family:var(--code-font-family); height:100%; }
+fieldset.inner>div.output>div.project>div.item.card:first-child { height:70px; top:0; padding:10px; }
 fieldset.inner>div.output>div.project>div.item.title { height:43px; top:0; }
 fieldset.inner>div.output>div.project>div.item.title img { border-radius:5px; padding:0; height:28px; width:28px; }
 // fieldset.inner>div.output>div.project div.list div.item.text input:not(:focus):not(:hover) { border-left:var(--box-border); }

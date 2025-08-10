@@ -293,6 +293,7 @@ Volcanos(chat.ONAPPEND, {
 					if (can.onexport && can.onexport.session) { var value = can.onexport.session(can, "action:"+item[0]); value && can.Action(item[0], value) }
 				}}: /* 4.其它 */(item.type == html.BUTTON && (item.value = item.value||can.user.trans(can, item.name, meta._trans), item.onclick = item.onclick||function(event) {
 					run(event, item.name||item.value)
+					can.onkeymap.prevent(event)
 				}, item._init = item._init||function(target) { item.action && can.onappend.figure(sub, item, target, function(_sub, value) { can.Update() })
 					if (item.type == html.BUTTON && can.page.isIconInput(can, item.name)) { can.onappend.icons(can, target, item.name) }
 				}), item),
@@ -1031,7 +1032,7 @@ Volcanos(chat.ONAPPEND, {
 			sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
 		}, can._root._target)
 	},
-	figure: function(can, meta, target, cb) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
+	figure: function(can, meta, target, cb, parent) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
 		var input = meta.action||(can.base.isIn(meta.name, mdb.ICON, mdb.ICONS)? meta.name: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() {
@@ -1067,7 +1068,7 @@ Volcanos(chat.ONAPPEND, {
 						meta.mode && can.onappend.style(sub, meta.mode), can.page.style(sub, sub._target, meta.style)
 						// can.base.isFunc(meta._init) && meta._init(sub, sub._target)
 						show(sub, cb)
-					}, can._root._target)
+					}, parent||can._root._target)
 				}})
 			}) } }), can.onfigure[input]._init && can.onfigure[input]._init(can, meta, target, _cb)
 		})

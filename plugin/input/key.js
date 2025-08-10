@@ -60,10 +60,12 @@ Volcanos(chat.ONFIGURE, {key: {
 		}, can._output)
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
 		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
+		var args = msg._input_args||[]; display.name = args[0]||display.name, display.title = args[1]||display.title, display.icons = args[2]||display.icons
 		if (display.title && !msg[display.title]) { display.title = msg.append[1] }
-		var args = msg._input_args||[]
-		display.title = args[1]||display.title
-		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {event: event, can: can, msg: msg, target: target, name: display.name||name, title: display.title})
+		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {
+			event: event, can: can, msg: msg, target: target,
+			name: display.name||name, title: display.title, icons: display.icons
+		})
 		can.layout(msg)
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {
