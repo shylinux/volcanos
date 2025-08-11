@@ -27,7 +27,11 @@ Volcanos(chat.ONFIGURE, {key: {
 		}
 		if (msg.Length() == 0 || msg.Length() == 1 && msg.Append(name) == target.value && target.value != "") { return can.onmotion.hidden(can) }
 		if (can.base.isIn(msg.append[msg.append.length-1], ctx.ACTION, "cb")) { msg.append = msg.append.slice(0, -1) } var list = {}
-		can.showIcons = function(value, icons, title) { can.ui = can.ui||{}
+		can.showIcons = function(value, icons, title) {
+			target._show_icons_title(value, icons, title)
+			can.onmotion.hidden(can, can._target)
+			return
+			can.ui = can.ui||{}
 			if (!can.ui.img) {
 				can.ui.img = can.page.insertBefore(can, [{type: html.IMG}], target)
 				can.ui.span = can.page.insertBefore(can, [{type: html.SPAN}], target)

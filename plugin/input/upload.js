@@ -10,7 +10,9 @@ Volcanos(chat.ONFIGURE, {upload: {
 	},
 	onclick: function(event, can, meta, target, cbs) {
 		can.user.upload(event, can, function(msg) {
-			target.value = msg.Result()
+			target._show_icons_title(msg.Result(), msg._upload[3].split("/")[0] == "image"? msg.Result(): "/p/usr/icons/dir.png",
+			msg._upload[1]+" "+can.base.Size(msg._upload[2]))
+			// target.value = msg.Result()
 		})
 	},
 	onfocus: function(event, can, meta, target, cbs, mod) {

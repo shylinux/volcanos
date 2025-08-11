@@ -167,7 +167,10 @@ Volcanos(chat.ONIMPORT, {
 	},
 	_itemselect: function(can, target) {
 		can.page.Select(can, can.ui.project, html.DIV_ITEM, function(target) { can.page.ClassList.del(can, target, html.SELECT) })
-		for (var p = target; p; p = p.parentNode.previousElementSibling) { can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true) }
+		for (var p = target; p; p = p.parentNode.previousElementSibling) {
+			if (can.page.tagis(p, "div.zone")) { break }
+			can.page.ClassList.add(can, p, html.SELECT), can.onmotion.toggle(can, p.nextSibling, true)
+		}
 	},
 	itemlist: function(can, list, cb, cbs, target) { if (!list || list.length == 0) { return }
 		if (!target) { return can.core.List(list, function(value) { can.onimport.item(can, value, cb, cbs) }) }

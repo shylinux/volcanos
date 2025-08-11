@@ -60,7 +60,9 @@ body {
 	--legend-font-family:var(--body-font-family); --status-font-family:var(--body-font-family);
 	--input-font-family:var(--code-font-family); --table-font-family:var(--code-font-family);
 	--svg-font-family:var(--code-font-family);
-	--body-font-size:14px; --legend-font-size:18px; --status-font-size:12px;
+	--body-font-size:14px; --legend-font-size:18px;
+	--title-font-size:16px;
+	--status-font-size:12px; --status-fg-color:gray;
 	--code-font-size:14px; --code-line-height:20px; --code-tabs-height:43px;
 	--icon-font-size:var(--legend-font-size); --svg-font-size:24px; --svg-stroke-width:1;
 }
@@ -480,6 +482,11 @@ body div.input.float tr.img td:last-child>div { width:var(--form-width) !importa
 body.width1 div.input.float tr.img td:last-child>div { width:100% !important; justify-content:flex-start; }
 body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
+body div.input.float tr td:last-child div.item.text img:first-child { height:28px; width:28px; position:absolute; left:2px; top:2px; }
+body div.input.float tr td:last-child div.item.text span:not(.icon) {
+	font-family:var(--code-font-family); position:absolute; left:33px; line-height:var(--action-height);
+	width:280px; overflow:hidden;
+}
 body div.input.float tr.icon td:last-child input { padding-left:var(--action-height); }
 body div.input.float tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
 body div.input.float tr.icons td:last-child span:not(.icon) { font-family:var(--code-font-family); position:absolute; left:33px; line-height:var(--action-height); }
@@ -495,6 +502,9 @@ body div.input.float input.select[type=button] { width:var(--form-width) !import
 body div.input.float input:not([type=button]) { width:var(--form-width) !important; padding:0 24px; }
 body div.input.float input[type=text] { width:var(--form-width) !important; padding:0 24px; }
 body div.input.float div.prompt { font-size:12px; color:gray; }
+div.upload.float {
+	// z-index:10;
+}
 body:not(.mobile) div.input.float tr td:first-child {
 	line-height:32px;
 	vertical-align:top;
@@ -529,7 +539,7 @@ body>div.input.login>div.display div.sso div.item:hover { background-color:var(-
 body>div.input.login>div.display div.sso div.item>img { height:var(--action-height); width:var(--action-height); }
 body>div.input.login>div.display div.sso div.item>span { line-height:var(--action-height); padding:var(--input-padding); }
 body>div.input.simple td:first-child { display:none; }
-body>div.upload div.action input[type=file] { width:var(--form-width); }
+body>div.upload div.action input[type=file] { width:calc(var(--form-width) - 43px); }
 body>div.upload div.action div.item.close input { display:none; }
 body>div.upload div.output { border:var(--box-notice); }
 body>div.upload div.output div.progress { background-color:var(--progress-bg-color); height:10px; width:0; }
@@ -746,7 +756,7 @@ body { font-family:var(--body-font-family); }
 legend { font-family:var(--legend-font-family); font-style:italic; }
 input { font-family:var(--input-font-family); }
 kbd { font-family:var(--code-font-family); line-height:var(--code-line-height); }
-table.content { font-family:var(--table-font-family); }
+table.content { font-family:var(--table-font-family); background-color:var(--output-bg-color); }
 table.content th { font-family:var(--input-font-family); font-style:italic; }
 body div.output>div.code { font-family:var(--table-font-family); padding:var(--table-padding); }
 body div.content>div.code { font-family:var(--table-font-family); padding:var(--table-padding); }

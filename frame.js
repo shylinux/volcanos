@@ -525,7 +525,18 @@ Volcanos(chat.ONAPPEND, {
 				item._init && item._init(target)
 			}
 			item.style && can.onappend.style(can, item.style, target)
-		}}])[item.name]; return _input
+		}}])[item.name]
+		_input._show_icons_title = function(value, icons, title) { var target = _input
+			if (!_input._show_img) {
+				_input._show_img = can.page.insertBefore(can, [{type: html.IMG}], target)
+				_input._show_span = can.page.insertBefore(can, [{type: html.SPAN, onclick: function(event) { target.click() }}], target)
+				target._clear = function() { _input._show_img.src = can.misc.Resource(can, "usr/icons/icebergs.png"), _input._show_span.innerHTML = "" }
+				can.page.style(can, target, html.COLOR, html.TRANSPARENT)
+				// can.onappend.style(can, mdb.ICONS, target.parentNode)
+			} _input._show_img.src = can.misc.Resource(can, icons), _input._show_span.innerText = title||value
+			target.value = value
+		}
+		return _input
 	},
 	icons: function(can, target, name, cb) {
 		var _icon = can.Conf("feature._icons."+name) || can.core.Value(can.onaction, ["_trans.icons", name]) || icon[name] || name

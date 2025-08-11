@@ -3,7 +3,7 @@ Volcanos(chat.ONIMPORT, {
 	_init: function(can, msg) { var river = can.Conf(chat.RIVER), storm = can.Conf(chat.STORM), list = can.db.list
 		var _select; can.onmotion.clear(can), can.onaction.layout(can, list[3])
 		can.core.Next(msg.Table(), function(item, next, index) { item.type = chat.PLUGIN, item.mode = can.Mode(); if (item.deleted == ice.TRUE) { return next() }
-			if (msg.Length() == 1) { item.height = can.ConfHeight()-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
+			if (msg.Length() == 1) { item.height = can.ConfHeight()-2-can.Conf(html.MARGIN_Y), can.base.isIn(item.index, web.CHAT_MACOS_DESKTOP, web.CHAT_MESSAGE, web.WIKI_PORTAL) && (item.style = html.OUTPUT) }
 			// can.base.isIn(item.index, ssh.CLOUD_PROFILE) && (item.style = html.OUTPUT)
 			if (list.length == 0) {
 				can.user.info.nodetype == web.SERVER && item._command == web.DREAM && (list = [river, storm, item._command])
@@ -140,8 +140,9 @@ Volcanos(chat.ONLAYOUT, {
 		if (can.page.ClassList.has(can, sub._target, html.OUTPUT)) {
 			return sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y)-([ALL, TABS].indexOf(can.onexport.layout(can)) > -1? html.ACTION_HEIGHT: 0)), can.ConfWidth()-can.Conf(html.MARGIN_X), can.onexport.isauto(can))
 		}
-		sub.onimport.size(sub, can.ConfHeight()-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y))-(can._plugins.length == 1 || button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN),
-		can.ConfWidth()-can.Conf(html.MARGIN_X), can._plugins.length > 1 && can.onexport.isauto(can)) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
+		sub.onimport.size(sub, can.ConfHeight()-2-(can.user.isMobile? 2*html.PLUGIN_PADDING: can.Conf(html.MARGIN_Y))-(can._plugins.length == 1 || button && button != ALL || sub.isCmdMode()? 0: html.ACTION_MARGIN),
+			can.ConfWidth()-2-can.Conf(html.MARGIN_X), can._plugins.length > 1 && can.onexport.isauto(can),
+		) && can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, "")
 	}) },
 	_storage: function(can, value) { return can.user.isMobile? "all": (can.misc.sessionStorage(can, can.core.Keys(CAN_LAYOUT, location.pathname), value)||[])[0] },
 })
