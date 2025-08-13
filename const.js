@@ -555,6 +555,9 @@ var icon = {
 	thumb: "bi bi-heart",
 	share: "bi bi-box-arrow-up",
 	comment: "bi bi-chat-square",
+	email: "bi bi-envelope",
+	phone: "bi bi-phone",
+	gender: "bi bi-person-bounding-box",
 	
 	"link": "bi bi-link-45deg",
 	"Close": "bi bi-x-lg",
