@@ -482,7 +482,7 @@ body div.input.float tr.img td:last-child>div { width:var(--form-width) !importa
 body.width1 div.input.float tr.img td:last-child>div { width:100% !important; justify-content:flex-start; }
 body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
-body div.input.float tr td:last-child div.item.text img:first-child { height:28px; width:28px; position:absolute; left:2px; top:2px; }
+body div.input.float tr td:last-child div.item.text img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
 body div.input.float tr td:last-child div.item.text span:not(.icon) {
 	font-family:var(--code-font-family); position:absolute; left:33px; line-height:var(--action-height);
 	width:280px; overflow:hidden;

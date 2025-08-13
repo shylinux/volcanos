@@ -556,6 +556,7 @@ var icon = {
 	share: "bi bi-box-arrow-up",
 	comment: "bi bi-chat-square",
 	
+	"link": "bi bi-link-45deg",
 	"Close": "bi bi-x-lg",
 	"Close Other": "bi bi-x-lg",
 	"Rename Tabs": "bi bi-pencil-square",
