@@ -380,7 +380,8 @@ Volcanos(chat.ONEXPORT, {
 	},
 	hash: function(can, hash) {
 		// if (can.user.isWeiXin) { return }
-		if (can.user.isMobile) { return }
+		if (can.user.isMobile && can.user.isWeiXin) { return }
+		// if (can.user.isMobile) { return }
 		can.misc.SearchHash(can, hash)
 		// can.onexport.storage(can, "hash", hash)
 		return hash
