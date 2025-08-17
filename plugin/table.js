@@ -304,9 +304,11 @@ Volcanos(chat.ONIMPORT, {
 					}
 				}, sub.onimport.size(sub, height, width, false)
 				can.page.Append(can, sub._legend,[{text: [can.page.unicode.remove, "", mdb.REMOVE], onclick: function(event) {
-					can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
+					sub.onaction._close()
+					// can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can), can.onkeymap.prevent(event)
 				}}]), sub._legend._target = sub._target, sub._legend._meta = {index: meta.index}
-				sub.Conf("_role") == "ok" && status.appendChild(sub._legend), sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
+				if (can.base.beginWith(sub.ConfIndex(), "can.") || sub.Conf("_role") == "ok") { status.appendChild(sub._legend) }
+				sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, "legend.select", function(target) {
 					can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
@@ -319,12 +321,7 @@ Volcanos(chat.ONIMPORT, {
 				}, can.onmotion.hidden(can, sub._target)
 				sub.hidden = function() { can.onmotion.hidden(can, sub._target), can.page.ClassList.del(can, sub._legend, html.SELECT) }
 				sub.onaction._close = function() { can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend), can.onexport.tool(can) }
-				sub.onaction.close = function() {
-					if (sub.Conf("display") == "/plugin/local/code/inner/search.js") {
-						return can.page.Remove(can, sub._target)
-					}
-					sub.select()
-				}, can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
+				sub.onaction.close = function() { sub.select() }, can.base.isFunc(cb) && cb(sub), can.onexport.tool(can)
 				next()
 			}, target)
 		})

@@ -106,9 +106,12 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 	module: function(event, can, button) { can.onaction._runs(can.request(event, {title: can.user.trans(can, button, "创建模块")}), can, button) },
 	compile: function(event, can, button) { var msg = can.request(event, {_toast: button})
 		can.runAction(event, button, [], function(msg) { can.ui.search && can.ui.search.hidden()
-			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js", function(sub) { can.ui.search = sub, sub.select()
+			if (msg.Length() > 0 || msg.Result()) { return can.onimport.exts(can, "inner/search.js?action=compile", function(sub) {
+				can.ui.search = sub
+				// , sub.select()
+				can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select())
 				can.onmotion.delay(can, function() { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
-			}) } var toast = can.user.toastProcess(can, cli.RESTART); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can, cli.RESTART) }, 3000)
+			}, "compile(编译)", "bi bi-tools") } var toast = can.user.toastProcess(can, cli.RESTART); can.onmotion.delay(can, function() { toast.close(), can.user.toastSuccess(can, cli.RESTART) }, 3000)
 		})
 	},
 	"命令": function(event, can) { can.user.input(event, can, [{name: ctx.INDEX, need: "must"}, ctx.ARGS], function(data) {

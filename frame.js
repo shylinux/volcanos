@@ -35,7 +35,9 @@ Volcanos(chat.ONENGINE, {
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
-			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast), toast && toast.close && toast.close(), toast = true
+			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast)
+			// toast && toast.close && toast.close()
+			toast = true
 			// delete(sub._toast), delete(sub.__toast)
 			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
@@ -1006,7 +1008,7 @@ Volcanos(chat.ONAPPEND, {
 		} if (_plugin(meta)) { return res }
 		can._root._command_list = can._root._command_list||{}
 		var msg = can._root._command_list[meta.space+","+meta.index]
-		if (msg) {
+		if (msg && can.user.mod.cmd != web.CODE_VIMER) {
 			msg.Table(function(value) { value._prefix = msg["_prefix"]||meta._prefix, can.onappend._plugin(can, value, meta, _cb, target, field) })
 			return res
 		}

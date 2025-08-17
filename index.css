@@ -376,6 +376,7 @@ fieldset.input.key div.output table.content.checkbox td:nth-child(2) { cursor:po
 fieldset.input.key div.output table.content:not(.checkbox) td:not(:first-child) { background-color:unset !important; color:var(--disable-fg-color); cursor:default; }
 fieldset.input.key>div.output>div.item:hover { background-color:var(--hover-bg-color); }
 fieldset.input.key>div.output>div.item:not(.hide) { display:flex; align-items:center; }
+fieldset.input.key>div.output>div.item.card { margin:10px; }
 fieldset.input.key>div.output>div.item>img { border-radius:5px; padding:5px; margin-right:5px; height:var(--header-height); width:var(--header-height); }
 fieldset.input.key>div.output>div.item>i { font-size:32px; padding:5px; margin-right:5px; }
 fieldset.input.key>div.output>div.item img[src*=".jpg"] { padding:5px; }

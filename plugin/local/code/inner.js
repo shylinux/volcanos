@@ -246,7 +246,7 @@ Volcanos(chat.ONIMPORT, {
 		} return can.onmotion.toggle(can, target, true), can.onimport.layout(can)
 	},
 	toolkit: function(can, meta, cb) { can.base.isString(meta) && (meta = {index: meta})
-		var key = [meta.index].concat(meta.args).join(","), sub = can.db.toolkit[key]; if (sub) { sub.select(); return }
+		var key = [meta.index].concat(meta.args).join(","), sub = can.db.toolkit[key]; if (sub) { sub.select(); return cb && cb(sub) }
 		can.onimport.tool(can, [meta], function(sub) { can.db.toolkit[key] = sub
 			sub.onimport.size(sub, can.base.Max(can.ConfHeight()/2, can.ConfHeight(), 420), can.base.Max(can.ConfWidth()/2, can.ui.content.offsetWidth, html.PLUG_WIDTH), false)
 			sub.onexport.output = function() {
@@ -254,22 +254,32 @@ Volcanos(chat.ONIMPORT, {
 				can.base.Max(can.ConfWidth()/2, can.ConfWidth()-can.ui.project.offsetWidth, html.PLUG_WIDTH), false)
 			}
 			sub.onaction._close = function() { delete(can.db.toolkit[key]), can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend) }
+			sub.onaction.close = function() {
+				if (sub.Conf("display") == "/plugin/local/code/inner/search.js") {
+					// return delete(can.db.toolkit[key]), can.page.Remove(can, sub._target), can.page.Remove(can, sub._legend)
+				}
+				sub.select()
+			}
 			sub.onexport.record = function(sub, value, key, data) { if (!data.file) { return }
 				can.onimport.tabview(can, data.path, can.base.trimPrefix(data.file, nfs.PWD), parseInt(data.line)); return true
 			}, meta.index != ice.CAN_PLUGIN && (sub._legend._list = {index: meta.index, args: meta.args}), cb && cb(sub)
 		}, can.ui.plug.parentNode, can.ui.plug)
 	},
-	exts: function(can, url, cb) { var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
+	exts: function(can, url, cb, title, icon) {
+		// var sub = can.db.toolkit[url.split(web.QS)[0]]; if (sub) { return can.base.isFunc(cb)? cb(sub): sub.select() }
 		can.onimport.toolkit(can, {
-			icon: "bi bi-search",
-			index: ice.CAN_PLUGIN, style: url.split(nfs.PS).pop().split(nfs.PT)[0],
+			icon: icon||"bi bi-search", title: title||can.base.trimPrefix(url, "inner/"),
+			index: ice.CAN_PLUGIN, args: [url],
 			display: (url[0] == nfs.PS || url.indexOf(web.HTTP) == 0? "": can.base.Dir(can._path))+url,
-		}, function(sub) { can.db.toolkit[url.split(web.QS)[0]] = sub
+			style: url.split(nfs.PS).pop().split(nfs.PT)[0],
+		}, function(sub) {
+			// can.db.toolkit[url.split(web.QS)[0]] = sub
 			sub.run = function(event, cmds, cb) {
 				if (cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.run(can.request(event, can.Option()), cmds, cb||function(msg) { can.onappend._output(sub, msg, sub.Conf(ctx.DISPLAY)) })
 				} else { can.onappend._output(sub, can.request(event), sub.Conf(ctx.DISPLAY)) }
-			}, can.base.isFunc(cb)? cb(sub): sub.select(), can.page.Modify(can, sub._legend, can.base.trimPrefix(url, "inner/"))
+			}, can.base.isFunc(cb)? cb(sub): sub.select()
+			// , can.page.Modify(can, sub._legend, can.base.trimPrefix(url, "inner/"))
 		})
 	},
 	grow: function(can, msg, arg) { can.onimport.exts(can, "inner/output.js", function(sub) { sub.Conf(ctx.INDEX, can.ConfIndex())
@@ -545,18 +555,16 @@ Volcanos(chat.ONACTION, {
 				}
 			}), cb(msg) }}, target)
 		}
-		function grep(value, file, path) { var arg = can.core.List(arguments); can.onimport.exts(can, "inner/search.js", function(sub) {
+		function grep(value, file, path) { var arg = can.core.List(arguments); can.onimport.exts(can, "inner/search.js?action=grep", function(sub) {
 			can.page.isDisplay(sub._target) || (sub._delay_init = false, sub.select()), sub.runAction(can.request({}, {value: value}), nfs.GREP, arg)
-		}) }
+		}, "grep(查找)") }
 		var from, to; var meta = can.onappend._action(can, [
 			{type: html.TEXT, name: nfs.FROM, _init: function(target) { from = target, complete(target, nfs.FIND), can.onmotion.delay(can, function() { target.focus() }) }},
 			{type: html.BUTTON, name: nfs.FIND}, {type: html.BUTTON, name: nfs.GREP}, {type: html.HR},
 			{type: html.TEXT, name: nfs.TO, _init: function(target) { to = target, complete(target, nfs.REPLACE) }},
 			{type: html.BUTTON, name: nfs.REPLACE}, {type: html.BUTTON, name: cli.CLOSE},
 		], ui.action, {_trans: {find: "查找", grep: "搜索", replace: "替换"},
-			find: function() {
-				grep(from.value, can.Option(nfs.PATH)+can.Option(nfs.FILE))
-			find(last+1, from.value) },
+			find: function() { grep(from.value, can.Option(nfs.PATH)+can.Option(nfs.FILE)), find(last+1, from.value) },
 			grep: function() {
 				grep(from.value, can.Option(nfs.PATH), "src/", "usr/release/", "usr/icebergs/", "usr/toolkits/", "usr/volcanos/")
 			},
