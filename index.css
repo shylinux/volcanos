@@ -382,7 +382,7 @@ fieldset.input.key>div.output>div.item>i { font-size:32px; padding:5px; margin-r
 fieldset.input.key>div.output>div.item img[src*=".jpg"] { padding:5px; }
 // fieldset.input.key>div.output>div.item div.title { padding:var(--input-padding) 0; }
 fieldset.input.key>div.output>div.item div.status div.item { color:var(--disable-fg-color); font-size:var(--status-font-size); line-height:18px; float:left; }
-fieldset.input.key>div.output div.item.card>div.output img { border-radius:20px; height:40px; width:40px; }
+fieldset.input.key>div.output div.item.card>div.output img.avatar { border-radius:20px; height:40px; width:40px; }
 fieldset.input.key>div.output>div.item div.status div.item span { padding:0 var(--input-padding); }
 fieldset.input.key div.status:not(.hide) { display:block; position:sticky; bottom:0; }
 // fieldset.input.key div.status:not(.hide) { background-color:var(--input-bg-color); display:block; position:sticky; bottom:0; }
@@ -463,9 +463,7 @@ body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
 // body div.input.float tr.img td:last-child>div.item { width:var(--river-width); flex-wrap:wrap; }
-body.width1 div.input.float tr.img td:last-child>div.item>div { display:flex; align-items:center; justify-content:center;
-	width:100% !important;
-}
+body.width1 div.input.float tr.img td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; width:100% !important; }
 body div.input.float tr.img td:last-child>div.item>div { display:flex; align-items:center; justify-content:center;
 border:var(--box-border); background-color:var(--input-bg-color); position:relative; color:gray; font-size:40px; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; }
@@ -483,7 +481,7 @@ body div.input.float tr.img td:last-child>div { width:var(--form-width) !importa
 body.width1 div.input.float tr.img td:last-child>div { width:100% !important; justify-content:flex-start; }
 body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
-body div.input.float tr td:last-child div.item.text img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
+body div.input.float tr td:last-child div.item.text:not(.image) img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
 body div.input.float tr td:last-child div.item.text span:not(.icon) {
 	font-family:var(--code-font-family); position:absolute; left:33px; line-height:var(--action-height);
 	width:280px; overflow:hidden;
