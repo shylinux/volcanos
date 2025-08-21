@@ -279,7 +279,7 @@ fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 div.output>div.layout>div.layout { position:relative; }
 /* project */
-div.project { background-color:var(--plugin-bg-color); }
+div.project:not(.item) { background-color:var(--plugin-bg-color); }
 div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
 // div.project div.action div.item input { border-right:var(--box-border); }
 div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; border-left:none; }
@@ -741,8 +741,8 @@ fieldset.input.key table.content.checkbox td:first-child { box-shadow:none; }
 // table.content.checkbox td:first-child { box-shadow:var(--th-box-shadow); }
 // table.content.action td:last-child { box-shadow:var(--th-box-shadow); }
 // table.content.detail tr.action td { box-shadow:var(--th-box-shadow); position:sticky; bottom:2px; }
-div.project:not(.toggle) { border-left:var(--box-border); border-right:var(--box-border); overflow-x:hidden; }
-fieldset.float div.project:not(.toggle) { border-left:none; }
+div.project:not(.toggle):not(.item) { border-left:var(--box-border); border-right:var(--box-border); overflow-x:hidden; }
+fieldset.float div.project:not(.toggle):not(.item) { border-left:none; }
 div.layout>div.profile:not(.toggle) { border-left:var(--box-border); }
 div.layout>div.display:not(.toggle) { border-top:var(--box-border); }
 body.mobile fieldset>legend { box-shadow:none; }
@@ -952,8 +952,8 @@ body.mobile table.content { width:100%; }
 body.mobile fieldset.plugin>legend { box-shadow:none; }
 body.mobile:not(.landscape) fieldset.plugin.cmd:not(.output)>div.header { display:none !important; }
 body.mobile div.output.card { overflow-x:hidden; }
-body.mobile div.output>div.project { position:absolute; left:0; top:0; z-index:2; }
-body.mobile div.output>div.project { background-color:var(--plugin-bg-color); }
+body.mobile div.output>div.project:not(.item) { position:absolute; left:0; top:0; z-index:2; }
+body.mobile div.output>div.project:not(.item) { background-color:var(--plugin-bg-color); }
 body.mobile fieldset>div.output>div.code>img { max-width:390px; }
 body.mobile fieldset>div.output>div.code>div.form input[type=button] { width:100%; }
 body.mobile fieldset>div.status { overflow:hidden; }
