@@ -155,7 +155,7 @@ table.content.action td:last-child input.danger:hover { background-color:var(--h
 table.content.detail td:first-child { word-break:keep-all; white-space:pre; }
 table.content.detail td:first-child { text-align:center; }
 table.content.detail td:first-child { position:sticky; left:0; }
-table.content.option td.option { position:sticky; left:2px; z-index:1; background-color:var(--th-bg-color); }
+table.content.option td.option { position:sticky; left:2px; z-index:1; }
 table.content.option th.option { position:sticky; left:2px; z-index:2; }
 table.content.option.checkbox td.option { left:50px; }
 table.content.option.checkbox th.option { left:50px; }
@@ -279,14 +279,14 @@ fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 div.output>div.layout>div.layout { position:relative; }
 /* project */
-div.project:not(.item) { background-color:var(--plugin-bg-color); }
-div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
+div.output>div.project:not(.item) { background-color:var(--plugin-bg-color); }
+div.output>div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
 // div.project div.action div.item input { border-right:var(--box-border); }
-div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; border-left:none; }
+div.output>div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; border-left:none; }
 // div.project div.action div.item input:hover { border-right:var(--box-notice); }
 // div.project div.action div.item input:focus { border-right:var(--box-notice); }
 // div.project div.action div.item input:hover { border-right:none; }
-div.project div.action div.item.icons input { display:none; }
+div.output>div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
@@ -296,7 +296,7 @@ div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
 div.project div.item.select { border-right:var(--item-notice); }
 div.project>div.item.select { position:sticky; top:32px; bottom:0; }
-div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
+div.output>div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); width:20px; text-align:center; flex-shrink:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-right:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-left:0; }
@@ -342,7 +342,7 @@ div.output>div.layout { flex-grow:1; }
 div.output>div.layout>div.layout>div.content { flex-grow:1; }
 div.content>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.content>div.toggle.display { left:20%; bottom:-52px; rotate:90deg; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
-div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
+div.output>div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
 div.layout>div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
 fieldset.story div.project:not(.toggle) { width:230px; height:100%; flex:0 0 230px; }
 div.layout>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
@@ -610,11 +610,12 @@ table.content tr.disable { color:var(--disable-fg-color); }
 table.content tr.offline { color:var(--disable-fg-color); }
 table.content tr.invalid { color:var(--disable-fg-color); }
 table.content tr.expired { color:var(--disable-fg-color); }
-table.content th { background-color:var(--th-bg-color); color:var(--th-fg-color); }
-body:not(.mobile) table.content tr:not(.action) td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
+table.content th:not(:hover) { background-color:var(--th-bg-color); color:var(--th-fg-color); }
+table.content tr:not(:hover) td.option { background-color:var(--th-bg-color); }
+table.content tr:not(:hover) td.action { background-color:var(--th-bg-color); color:var(--th-fg-color); }
+table.content tr:not(.action) td:hover { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td.select { background-color:var(--td-hover-bg-color); color:var(--hover-fg-color); }
 table.content td i:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
-table.content td.action { background-color:var(--th-bg-color); color:var(--th-fg-color); }
 table.content.checkbox td:first-child { background-color:var(--th-bg-color); }
 body:not(.mobile) table.content:not(.option):hover td.option:not(:hover) { background-color:var(--tr-hover-bg-color); color:var(--hover-fg-color); }
 hr, td.hr { border-bottom:var(--box-border); margin:var(--input-margin); }
@@ -1134,7 +1135,7 @@ fieldset>div.output.form>div.item>div.item>input { font-size:20px; height:38px; 
 fieldset>div.output.form>div.item>div.item>input[type=button] { font-size:20px; height:48px; border:var(--box-notice); }
 fieldset.studio>div.action>div.item:not(.icons) { font-style:italic; }
 fieldset.studio>div.output>fieldset.story { margin:var(--plugin-margin); }
-fieldset.studio>div.output>fieldset.story:not(.select) { display:none; }
+fieldset.studio>div.output>fieldset.story:not(.select):not(.otherList) { display:none; }
 fieldset.studio>div.output>fieldset.story>form.option div.icon.delete { display:none; }
 fieldset.cmd>div.item.state { line-height:22px; padding:var(--input-padding) var(--button-padding); float:right; }
 fieldset.cmd>div.item.avatar { padding:0; height:var(--action-height); }

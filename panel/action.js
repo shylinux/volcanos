@@ -39,7 +39,7 @@ Volcanos(chat.ONIMPORT, {
 	},
 })
 Volcanos(chat.ONACTION, {
-	_init: function(can, target) { can.db.list = can.misc.SearchHash(can)
+	_init: function(can, target) { can.db.list = can.misc.SearchHash(can), can._plugins = []
 		can.db.list.length == 0 && can.misc.Search(can, chat.RIVER) && can.misc.Search(can, chat.STORM) && (can.db.list = [can.misc.Search(can, chat.RIVER), can.misc.Search(can, chat.STORM)])
 		can.Conf(html.MARGIN_X, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN), can.Conf(html.MARGIN_Y, 2*html.PLUGIN_PADDING+2*html.PLUGIN_MARGIN+html.ACTION_HEIGHT)
 		can.core.List(["ontouchstart", "ontouchmove", "ontouchend"], function(item) {
