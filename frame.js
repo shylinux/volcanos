@@ -349,6 +349,7 @@ Volcanos(chat.ONAPPEND, {
 		list = can.base.AddUniq(list, chat.PLUGIN_TABLE_JS)
 		can.core.List(msg[ice.MSG_DISPLAY_CSS], function(p) { list = can.base.AddUniq(list, p) })
 		list = can.base.AddUniq(list, can.Conf("display_css"))
+		list = list.concat(can.Conf("_display")||[])
 		Volcanos(display, {_root: can._root, _follow: can.core.Keys(can._follow, display), _fields: can._target, _target: output, _path: display||chat.PLUGIN_TABLE_JS,
 			_legend: can._legend, _option: can._option, _action: action||can._action, _output: output, _status: status||can._status,
 			sup: can, Update: can.Update, Option: can.Option, Action: can.Action, Status: can.Status,
@@ -552,7 +553,7 @@ Volcanos(chat.ONAPPEND, {
 			can.user.trans(can, kit.Dict(target.name, target.value))
 			return {type: html.BUTTON, name: target.name, value: target.value, style: _style}
 		})
-		function run(event, button) { button && can.run(can.request(event, value, can.Option(), {_toast: can.user.trans(can, button)})._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
+		function run(event, button) { button && can.run(can.request(event, value, can.Option(), {_toast: can.user.trans(can, button), action: button})._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
 		if (list.length <= limit) {
 			target.onclick = function(event) { run(event, event.target.name) }
 		} else {

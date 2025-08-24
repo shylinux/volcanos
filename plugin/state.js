@@ -388,7 +388,7 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
-		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || push(can.user.info.titles)
+		can.ConfIndex() == "web.team.guanlixitong.view" || can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || push(can.user.info.titles)
 		// can.user.isMobile || push(can.user.info.titles)
 		if (!can.user.isMobile) {
 			if ((arguments.length == 1 || arguments.length == 2) && !can.base.isIn(can.ConfIndex(), code.VIMER, wiki.FEEL, wiki.WORD)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }

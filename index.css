@@ -220,11 +220,12 @@ div.output.card>div.item>div.title>div.title>span { padding:0 var(--input-paddin
 div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg-color); }
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { border-radius:10px; padding:var(--input-padding); }
-div.item.card:not(.hide) { position:relative; display:flex; align-items:center; padding:0; }
+div.item.card:not(.hide) { position:relative; display:flex; align-items:center; padding:0; width:100%; }
+div.item.card:not(.hide) div.container { width:100%; }
 // div.item.card img { height:60px; width:60px; margin:5px; }
 div.item.card img.avatar { border-radius:5px; padding:0; }
 div.item.card div.info { width:100%; }
-div.item.card div.title { font-size:16px; }
+div.item.card div.title { font-size:16px; line-height:24px; }
 div.item.card div.title span:not(:last-child) { margin-right:5px; white-space:pre; line-height:22px; }
 div.item.card div.title span.type { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
 div.item.card div.title span.role { border:var(--box-notice); color:var(--notice-bg-color); font-size:12px; padding:0 5px; }
@@ -236,14 +237,14 @@ div.item.card div.action { max-width:100%; display:flex; align-items:center; }
 div.item.card div.action { position:absolute; right:0; }
 div.item.card div.title div.action { top:0; }
 body:not(.width1) div.item.card div.action { z-index:1; }
-div.item.card div.action input[type=button] { background-color:transparent; border:none; color:var(--notice-bg-color); margin-left:5px; }
+div.item.card div.action input[type=button] { border:none; background-color:transparent; color:var(--notice-bg-color); }
 body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
 // body:not(.mobile) div.item.card div.action input[type=button].notice:hover { border:var(--box-notice); }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-div.item.card div.action input[type=button]:last-child { margin-right:5px; }
+// div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; white-space:pre; }
-div.item.card>div.output>img { height:40px; width:40px; margin-right:5px; }
+div.item.card>div.output>img { border-radius:5px; padding:0; margin:0; margin-right:5px; height:40px; width:40px; }
 // div.item.card div.output>div.container>div.output { max-height:128px; overflow:hidden; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }
@@ -290,13 +291,13 @@ div.output>div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform: translate(1px, -1px) rotate(0deg); transition:all .5s; }
 div.project div.expand.open { transform: translate(4px, -1px) rotate(90deg); transition:all .3s; }
-div.project div.list div.list:not(.item) { margin-left:var(--button-margin); clear:both; }
+div.project div.list:not(.item) { margin-left:var(--button-margin); clear:both; }
 div.project div.list div.list:not(.item) { border-left:var(--disable-fg-color) dashed 1px; }
 div.project div.list fieldset { position:static; }
 div.project div.item { position:relative; }
 div.project div.item.select { border-right:var(--item-notice); }
-div.project>div.item.select { position:sticky; top:32px; bottom:0; }
-div.output>div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; padding:0 var(--input-padding); display:flex; align-items:center; }
+// div.project>div.item.select { position:sticky; top:32px; bottom:0; }
+div.output>div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; display:flex; align-items:center; }
 div.project div.item:not(.hide)>i:first-child { margin-right:var(--input-margin); width:20px; text-align:center; flex-shrink:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-right:0; }
 div.project>div.item input:not([type=button]):not(:hover):not(:focus) { border-left:0; }
@@ -306,7 +307,8 @@ div.project div.item.filter>input { padding:0 25px; width:100% !important; }
 div.project div.item.search { padding:0; width:100%; }
 div.project div.item.search>input { padding:0 25px; width:100%; }
 div.project div.item img { height:var(--action-height); width:var(--action-height); }
-div.project div.item img { margin:0; flex-shrink:0; height:20px; width:20px; margin-right:5px; }
+div.project div.item img { border-radius:5px; padding:0; margin:5px; flex-shrink:0; margin-right:5px; }
+// div.project div.item img { margin:0; flex-shrink:0; height:20px; width:20px; margin-right:5px; }
 div.project div.item>div.name { padding:0 var(--input-padding); }
 div.project div.item>div.icon { position:absolute; right:var(--input-padding); }
 div.project div.item>div.icon:hover { background-color:var(--hover-bg-color); }
