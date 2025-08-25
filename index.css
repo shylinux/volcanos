@@ -42,8 +42,8 @@ body {
 	--legend-padding:20px; --legend-margin:20px; --title-margin:var(--legend-padding);
 	--button-padding:var(--plugin-padding); --button-margin:var(--button-padding);
 	--input-padding:5px; --input-margin:var(--input-padding);
-	--table-padding:var(--button-padding);
 	--item-padding:10px; --item-margin:10px;
+	--table-padding:var(--button-padding);
 	
 	--header-height:48px; --footer-height:var(--action-height);
 	--action-height:32px; --status-height:32px; --textarea-height:96px;
@@ -179,8 +179,7 @@ div.output div.code.qrcode>img.qrcode {
 	margin:10px 10px; height:220px; width:220px;
 	cursor:pointer;
 }
-// div.output div.code>img.avatar { box-shadow:var(--box-shadow); border:solid 2px white; }
-div.output div.code>img.avatar { --qrcode-icon-height:32px; object-fit:cover; border-radius:10px;
+div.code>img.avatar { --qrcode-icon-height:32px; object-fit:cover; border-radius:10px;
 	height:var(--qrcode-icon-height) !important; width:var(--qrcode-icon-height) !important;
 	position:absolute; top:calc(50% - var(--qrcode-icon-height) / 2 - 12px); left:calc(50% - var(--qrcode-icon-height) / 2);
 }
