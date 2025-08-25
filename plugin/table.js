@@ -385,6 +385,10 @@ Volcanos(chat.ONACTION, {
 		if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs||can._action, html.DIV_TABS)) { return }
 		can.onkeymap._parse(event, can)
 	},
+	onkeyup: function(event, can) {
+		// if (can.onkeymap.selectCtrlN(event, can, can.ui.tabs||can._action, html.DIV_TABS)) { return }
+		// can.onkeymap._parse(event, can)
+	},
 	onslidemove: function(event, can, data, direction) {
 		// can.user.toast(can, [direction, data.spanX, data.spanY].join(","))
 	},

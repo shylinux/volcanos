@@ -243,7 +243,7 @@ div.item.card div.action input[type=button].danger { color:var(--danger-bg-color
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 // div.item.card div.action input[type=button]:last-child { margin-right:5px; }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; white-space:pre; }
-div.item.card>div.output>img { border-radius:5px; padding:0; margin:0; margin-right:5px; height:40px; width:40px; }
+div.item.card>div.output>img { border-radius:5px; padding:0; margin:0; margin-right:5px; height:40px; width:40px; min-width:40px; }
 // div.item.card div.output>div.container>div.output { max-height:128px; overflow:hidden; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }

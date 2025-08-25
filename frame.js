@@ -941,7 +941,6 @@ Volcanos(chat.ONAPPEND, {
 		can.onexport.session && can.onexport.session(can, "project.hide") == ice.TRUE && ui.project && can.onmotion.hidden(can, ui.project)
 		can.onexport.session && can.onexport.session(can, "display.show") == ice.TRUE && can.onmotion.toggle(can, ui.display, true)
 		can.onexport.session && can.onexport.session(can, "profile.show") == ice.TRUE && can.onmotion.toggle(can, ui.profile, true)
-		
 		ui.layout = function(height, width, delay, cb) { can.onmotion.delay(can, function() {
 			defer = [], layout(type, ui.list, height, width), defer.forEach(function(cb) { cb() })
 			if (can.db.value) {
@@ -999,7 +998,8 @@ Volcanos(chat.ONAPPEND, {
 	},
 	
 	plugin: function(can, meta, cb, target, field) {
-		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._output", meta._space = meta._space||can.ConfSpace()
+		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._output"
+		// meta._space = meta._space||can.ConfSpace()
 		var res = {}; function _cb(sub, meta, skip) { kit.proto(res, sub), cb && cb(sub, meta, skip) }
 		if (meta.inputs && meta.inputs.length > 0 || meta.meta) { can.onappend._plugin(can, {meta: meta.meta, list: meta.list}, meta, _cb, target, field); return res }
 		function _plugin(_meta) { var value = can.onengine.plugin(can, _meta.index)
@@ -1486,7 +1486,7 @@ Volcanos(chat.ONKEYMAP, {
 		if (event.metaKey && !can.user.isWebview) { return list } if ([code.SHIFT, code.CONTROL, code.META, code.ALT].indexOf(event.key) > -1) { return list }
 		list.push(event.key); for (var pre = 0; pre < list.length; pre++) { if ("0" <= list[pre] && list[pre] <= "9") { continue } break }
 		var count = parseInt(list.slice(0, pre).join(""))||1, map = can.onkeymap._mode[mode]
-		function clear() { return target._key_list = [] }
+		function clear() { return target._key_list = [] } if (event.ctrlKey) { clear() }
 		function repeat(cb, count) { list = []; for (var i = 1; i <= count; i++) { if (can.core.CallFunc(cb, {event: event, can: can, target: target, count: count})) { break } } }
 		var cb = map && map[event.key.toLowerCase()]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return clear() }
 		var cb = map && map[event.key]; if (can.base.isFunc(cb) && event.key.length > 1) { repeat(cb, count); return clear() }
