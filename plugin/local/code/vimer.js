@@ -76,9 +76,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 	},
 	save: function(event, can, button) {
 		can.request(event, {file: can.Option(nfs.FILE), content: can.onexport.content(can), _toast: button})
-		can.onaction._run(event, can, button, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) {
-			can.onaction.reload(can, msg)
-		})
+		can.onaction._run(event, can, button, [can.onexport.parse(can), can.Option(nfs.FILE), can.Option(nfs.PATH)], function(msg) { can.onaction.reload(can, msg) })
 	},
 	reload: function(can, msg) {
 		function imports(str) { var block = "", count = 0; can.core.List(str.split(lex.NL), function(text) {
@@ -92,7 +90,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 			can.core.List(msg.Result().split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
 			can.onaction.selectLine(can, line+imports(msg.Result())-imports(msg.Option(nfs.CONTENT)))
 		}
-		if (can.base.isIn(can.onexport.parse(can), nfs.JS, nfs.JSON)) {
+		if (can.base.isIn(can.onexport.parse(can), nfs.JS, nfs.CSS, nfs.JSON)) {
 			var line = can.onaction.selectLine(can); can.onmotion.clear(can, can.ui.content), can.ui.content._max = 0
 			can.core.List(msg.Option("content").split(lex.NL), function(text) { can.onaction.appendLine(can, text) })
 			can.onaction.selectLine(can, line)
