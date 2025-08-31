@@ -173,6 +173,7 @@ Volcanos(chat.ONAPPEND, {
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
+				sub._msg && sub._msg.IsDetail() && sub.request(event, sub._msg.TableDetail())
 				sub.request(event, sub.Option(), sub.Conf("opts"), sub.Conf("option"))
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
@@ -259,7 +260,7 @@ Volcanos(chat.ONAPPEND, {
 			can.isCmdMode() || can.page.style(can, can._target, "visibility", "")
 			if (can.Conf("feature.mode") == "result") { return }
 			if (can.Conf("_ismain") && !can.Conf("_role") && can.misc.Search(can, log.DEBUG) != ice.TRUE) {
-				
+
 			} else if (p && can.isCmdMode()) {
 				skip || can.Conf(ice.AUTO) == cli.DELAY || can.Update(can.request({}, {_method: http.GET}), [ctx.ACTION, p])
 			} else {
@@ -395,7 +396,7 @@ Volcanos(chat.ONAPPEND, {
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
-				
+
 				// can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.onmotion.delay(can, function() {
@@ -454,7 +455,7 @@ Volcanos(chat.ONAPPEND, {
 			}}])
 		})
 	},
-	
+
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
 			"cluster", "launchTemplate",
@@ -805,7 +806,7 @@ Volcanos(chat.ONAPPEND, {
 			var data = target.dataset
 			can.page.style(can, code, html.PADDING, 0)
 			var height = can.base.Max(720, can.ConfHeight()); can.page.style(can, target, html.HEIGHT, height, html.WIDTH, can.ConfWidth())
-		}) }  else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
+		}) } else if (text.indexOf("<svg") > 0) { can.page.Select(can, code, html.SVG, function(target) {
 			can.page.style(can, target, html.MIN_HEIGHT, can.ConfHeight(), html.MIN_WIDTH, can.ConfWidth())
 		}) } else {
 			can.page.Select(can, code, html.INPUT_BUTTON, function(target) {
@@ -901,7 +902,7 @@ Volcanos(chat.ONAPPEND, {
 				} else { can.page.Append(can, target, [item]) }
 			}
 		}); return list } ui.list = append(target, type, list)
-		
+
 		function calc(item, size, total) { return ui.size[item]? ui.size[item] < 1? total*ui.size[item]: ui.size[item]: can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			var meta = {}
@@ -926,7 +927,7 @@ Volcanos(chat.ONAPPEND, {
 		}), can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { layout(type == FLEX? FLOW: FLEX, item, height, width) }
 		}) }
-		
+
 		ui.project && can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
 		if (ui.project) { can.user.isMobile && can.onmotion.hidden(can, ui.project)
 			var _action = can.page.Append(can, ui.project, [{view: html.ACTION}])._target; ui.filter = can.onappend.filter(can, _action)
@@ -996,7 +997,7 @@ Volcanos(chat.ONAPPEND, {
 			}, _init: function(target) { index == 0 && can.onmotion.delay(can, function() { target.click() }) }}])._target
 		}); return ui._target = target, ui
 	},
-	
+
 	plugin: function(can, meta, cb, target, field) {
 		meta = meta||{}, meta.index = meta.index||can.core.Keys(meta.ctx, meta.cmd)||"can._output"
 		// meta._space = meta._space||can.ConfSpace()
@@ -1122,14 +1123,20 @@ Volcanos(chat.ONLAYOUT, {
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		can.page.tagis(target, "div.input") && can.user.isMobile && (layout.top = 40)
+		can.page.style(can, target, html.MAX_HEIGHT, "")
+		can.page.style(can, target, html.TOP, "0")
 		can.getActionSize(function(left, top, width, height) {
-			left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)-html.ACTION_HEIGHT-(can.isCmdMode()? 0: 20)
+			// left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)-html.ACTION_HEIGHT-(can.isCmdMode()? 0: 20)
+			left = left||0, top = top||0
+			// , height = can.base.Max(height, can.page.height()-top)-(can.isCmdMode()? 0: 20)
 			if (layout.top+target.offsetHeight > top+height) {
 				if (!min || top+height-layout.top < min) {
 					if (right) {
 						layout.top = top+can.base.Min(height-target.offsetHeight, 0)
 					} else if (rect.top-top-rect.height > top+height-rect.top) {
 						layout.top = can.base.Min(rect.top-target.offsetHeight, top)
+					} else {
+						layout.top = top+can.base.Min(height-target.offsetHeight, 0)
 					}
 				}
 			}
@@ -1199,7 +1206,13 @@ Volcanos(chat.ONMOTION, {
 		}
 	},
 	clearFloat: function(can) {
-		var list = ["fieldset.input.float", "div.input.float", "div.upload.float", "div.carte.float", "div.toast.float"]; for (var i = 0; i < list.length; i++) {
+		var list = [
+			"fieldset.input.float",
+			// "div.input.float",
+			"div.upload.float",
+			"div.carte.float",
+			"div.toast.float",
+		]; for (var i = 0; i < list.length; i++) {
 			if (can.page.Select(can, document.body, list[i], function(target) { return target._close? target._close(): can.page.Remove(can, target) }).length > 0) { return true }
 		}
 	},
@@ -1411,7 +1424,7 @@ Volcanos(chat.ONMOTION, {
 			var msg = can.request(event)
 			if (event.currentTarget.offsetLeft < 0) {
 				if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
-				
+
 			}
 			if (left < -max/2) {
 				can.page.style(can, event.currentTarget, {left: -max})
@@ -1537,7 +1550,7 @@ Volcanos(chat.ONKEYMAP, {
 		target.value = target.value.substring(0, start)+target.value.substring(end, target.value.length)
 		return target.setSelectionRange(start, start), cut
 	},
-	
+
 	selectCtrlN: function(event, can, target, key, cb) { if (!event.ctrlKey || event.key < "0" || event.key > "9") { return }
 		return can.page.Select(can, target, key, function(target, index) { if (index+1 == event.key) { return cb? cb(target): target.click() } })[0]
 	},

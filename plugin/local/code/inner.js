@@ -614,10 +614,10 @@ Volcanos(chat.ONEXPORT, {
 			}
 			if (can.base.isIn(parse, nfs.JS)) { var ls = [], last = " "
 				for (var i = 0; i < text.length; i++) { if (last == " " && text[i] == " ") { continue } ls.push(last = text[i]) } text = ls.join("")
-				text = can.base.replaceAll(text, " :", ":", ":", ": ", ":  ", ": ")
-				text = can.base.replaceAll(text, " ,", ",", ",", ", ", ",  ", ", ")
-				text = can.base.replaceAll(text, "[ ", "[", " ]", "]")
-			text = can.base.replaceAll(text, "){", ") {")
+				// text = can.base.replaceAll(text, " :", ":", ":", ": ", ":  ", ": ")
+				// text = can.base.replaceAll(text, " ,", ",", ",", ", ", ",  ", ", ")
+				// text = can.base.replaceAll(text, "[ ", "[", " ]", "]")
+			// text = can.base.replaceAll(text, "){", ") {")
 				text = can.base.replaceAll(text, "function (", "function(") // ))
 				text = can.base.replaceAll(text, "if(", "if (") // ))
 			}

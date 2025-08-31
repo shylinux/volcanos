@@ -334,7 +334,7 @@ Volcanos(chat.ONIMPORT, {
 	_float: function(can, index, args) { args = args||[]
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
-	
+
 	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
 	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
@@ -392,12 +392,14 @@ Volcanos(chat.ONACTION, {
 	onslidemove: function(event, can, data, direction) {
 		// can.user.toast(can, [direction, data.spanX, data.spanY].join(","))
 	},
-	onslideleft: function(event, can, data, direction) {
+	onslideleft: function(event, can, data, direction, target) {
+		if (target.onslideleft) { return target.onslideleft(event) }
 		return
 		var button = can.base.Obj(can._msg.Option("_action"), [])[0]; if (!button) { return }
 		can.run({}, [ctx.ACTION, button].concat(can.base.trim(can.core.Item(can.Option(), function(key, value) { return value }))))
 	},
-	onslideright: function(event, can, data, direction) {
+	onslideright: function(event, can, data, direction, target) {
+		if (target.onslideright) { return target.onslideright(event) }
 		can.onaction._goback && can.onaction._goback(event)
 	},
 	onslidedown: function(event, can, data, direction) {

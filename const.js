@@ -12,7 +12,7 @@ var kit = {proto: function(sub, sup) { return sub.__proto__ = sup, sub },
 var ice = {
 	TB: "\t", SP: " ", DF: ":", EQ: "=", AT: "@", QS: "?", PS: "/", PT: ".", FS: ",", NL: "\n", LT: "<", GT: ">",
 	OK: "ok", TRUE: "true", FALSE: "false", SUCCESS: "success", PROCESS: "process", FAILURE: "failure",
-	
+
 	CONTEXTS: "contexts",
 	HTTP: "http", HOME: "home",
 	HELP: "help", COPY: "copy",
@@ -20,31 +20,31 @@ var ice = {
 	LIST: "list", BACK: "back",
 	MODE: "mode", EXEC: "exec",
 	INFO: "info",
-	
+
 	APP: "app", CAN: "can", CAN_PLUGIN: "can._plugin",
 	OPS: "ops", DEV: "dev", POD: "pod", CTX: "ctx", CMD: "cmd", ARG: "arg",
 	NFS: "nfs", USR: "usr",
-	
+
 	MSG_FIELDS: "fields", MSG_SESSID: "sessid", MSG_METHOD: "method", MSG_DEBUG: "debug",
 	MSG_DETAIL: "detail", MSG_OPTION: "option", MSG_APPEND: "append", MSG_RESULT: "result",
-	
+
 	MSG_HANDLE: "_handle", MSG_UPLOAD: "_upload",
 	MSG_SOURCE: "_source", MSG_TARGET: "_target",
 	MSG_ACTION: "_action", MSG_STATUS: "_status",
 	MSG_PROCESS: "_process", MSG_DISPLAY: "_display", MSG_TOOLKIT: "_toolkit",
 	MSG_DISPLAY_CSS: "_display_css",
-	
+
 	MSG_USERWEB: "user.web", MSG_USERPOD: "user.pod",
 	MSG_USERROLE: "user.role", MSG_USERNAME: "user.name", MSG_USERNICK: "user.nick", MSG_LANGUAGE: "user.lang",
 	MSG_TITLE: "sess.title", MSG_THEME: "sess.theme", MSG_BG: "sess.bg", MSG_FG: "sess.fg", MSG_DAEMON: "sess.daemon",
 	LOG_DISABLE: "log.disable", LOG_TRACEID: "log.id",
 	MSG_RIVER: "sess.river", MSG_STORM: "sess.storm",
 	MSG_USERUID: "user.uid",
-	
+
 	MSG_COST: "sess.cost", MSG_MODE: "sess.mode",
 	MSG_NODETYPE: "node.type", MSG_NODENAME: "node.name",
 	TABLE_CHECKBOX: "table.checkbox", FROM_DAEMON: "from.daemon",
-	
+
 	PROCESS_REWRITE: "_rewrite",
 	PROCESS_FIELD: "_field",
 	PROCESS_AGAIN: "_again",
@@ -52,7 +52,7 @@ var ice = {
 	FIELD_PREFIX: "_prefix",
 	MSG_PREFIX: "_prefix",
 	MSG_INDEX: "_index",
-	
+
 	ErrWarn: "warn: ",
 	ErrNotLogin: "not login: ",
 	ErrNotRight: "not right: ",
@@ -97,20 +97,20 @@ var web = {
 	SHARE: "share", TOKEN: "token", STATS: "stats", COUNT: "count",
 	SPIDE: "spide", STORE: "store", ADMIN: "admin", MATRIX: "matrix",
 	GRANT: "grant", CHAT_GRANT: "web.chat.grant",
-	
+
 	WORKER: "worker", SERVER: "server", ORIGIN: "origin", VENDOR: "vendor",
 	GATEWAY: "gateway", ONLINE: "online", OFFLINE: "offline",
-	
+
 	SHOW: "show",
 	FULL: "full", OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
 	DRAW: "draw", PLAY: "play", CLEAR: "clear", RESIZE: "resize", FILTER: "filter",
 	CANCEL: "cancel", SUBMIT: "submit", CONFIRM: "confirm", REFRESH: "refresh",
 	UPLOAD: "upload", DOWNLOAD: "download", PREVIEW: "preview", TOIMAGE: "toimage",
-	
+
 	CLIENT_NAME: "client.name",
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/", BASIC_LOGIN: "/basic/login",
 	CHAT_SSO: "/chat/sso/", CHAT_POD: "/chat/pod/", CHAT_CMD: "/chat/cmd/",
-	
+
 	CHAT: "chat",
 	PORTAL: "portal", DESKTOP: "desktop",
 	STUDIO: "studio", SERVICE: "service",
@@ -119,7 +119,7 @@ var web = {
 	VIMER: "vimer",
 	WORD: "word",
 	PLAN: "plan",
-	
+
 	CODE_GIT_SEARCH: "web.code.git.search",
 	CODE_GIT_STATUS: "web.code.git.status",
 	CODE_GIT_REPOS: "web.code.git.repos",
@@ -140,21 +140,21 @@ var web = {
 	CHAT_FLOWS: "web.chat.flows",
 	TEAM_PLAN: "web.team.plan",
 	MALL_GOODS: "web.mall.goods",
-	
+
 	AT: ice.AT, QS: ice.QS,
 }
 var aaa = {
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
 	EMAIL: "email", OFFER: "offer", APPLY: "apply",
 	LOGIN: "login", LOGOUT: "logout",
-	
+
 	BACKGROUND: "background", AVATAR: "avatar", MOBILE: "mobile", SECRET: "secret",
 	LANGUAGE: "language", ENGLISH: "english", CHINESE: "chinese",
 	PROVINCE: "province", COUNTRY: "country", CITY: "city",
 	LONGITUDE: "longitude", LATITUDE: "latitude",
 	IP: "ip", UA: "ua",
 	LOCATION: "location",
-	
+
 	USERNICK: "usernick", USERNAME: "username", PASSWORD: "password", USERROLE: "userrole", USERZONE: "userzone",
 	VOID: "void", TECH: "tech", ROOT: "root",
 	PUBLIC: "public", PRIVATE: "private",
@@ -187,28 +187,28 @@ var nfs = {
 	DIR: "dir", CAT: "cat", DEFS: "defs", PACK: "pack", TRASH: "trash", DIR_ROOT: "dir_root",
 	COPY: "copy", EDIT: "edit", SAVE: "save", LOAD: "load", FIND: "find", GREP: "grep", TAGS: "tags",
 	PATH: "path", FILE: "file", LINE: "line", SIZE: "size",
-	
+
 	MODULE: "module",
 	SOURCE: "source",
 	TARGET: "target",
 	BINARY: "binary",
 	SCRIPT: "script",
-	
+
 	CLONE: "clone",
 	REPOS: "repos",
 	BRANCH: "branch",
 	VERSION: "version",
-	
+
 	TEMPLATE: "template", SUBJECT: "subject", CONTENT: "content",
 	REPLACE: "replace", FROM: "from", TO: "to",
 	RECENT: "recent", PUSH: "push", PULL: "pull",
 	IMAGE: "image",
-	
+
 	_JS: ".js", _CSS: ".css",
 	JS: "js", SVG: "svg", CSS: "css", HTML: "html",
 	GO: "go", SH: "sh", SHY: "shy", CSV: "csv", JSON: "json",
 	TXT: "txt", PNG: "png", WEBM: "webm",
-	
+
 	PWD: "./", SRC: "src/", SRC_MAIN_ICO: "src/main.ico",
 	SRC_TEMPLATE: "src/template/",
 	SRC_DOCUMENT: "src/document/",
@@ -220,7 +220,7 @@ var nfs = {
 	USR_NODE_MODULES: "usr/node_modules/",
 	USR_ICONS_ICEBERGS: "usr/icons/icebergs.jpg",
 	USR_ICONS_VOLCANOS: "usr/icons/volcanos.jpg",
-	
+
 	V: "/v/",
 	M: "/m/",
 	P: "/p/",
@@ -231,7 +231,7 @@ var nfs = {
 	SHARE_CACHE: "/share/cache/", SHARE_LOCAL: "/share/local/",
 	WIKI_PORTAL: "/wiki/portal/",
 	CHAT_RIVER: "/chat/river/", CHAT_ACTION: "/chat/action/",
-	
+
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	BACKGROUND_JPG: "usr/icons/background.jpg",
 	AVATAR_JPG: "usr/icons/avatar.jpg",
@@ -240,10 +240,10 @@ var cli = {
 	RUNTIME: "runtime", SYSTEM: "system", DAEMON: "daemon",
 	BEGIN: "begin", END: "end", START: "start", RESTART: "restart", STOP: "stop", OPEN: "open", CLOSE: "close",
 	PID: "pid",
-	
+
 	OPENS: "opens", BUILD: "build", ORDER: "order", DELAY: "delay", REBOOT: "reboot",
 	PLAY: "play", STEP: "step", DONE: "done", COST: "cost", FROM: "from", PWD: "pwd",
-	
+
 	QRCODE: "qrcode", COLOR: "color", BLACK: "black", WHITE: "white", BLUE: "blue", RED: "red", GRAY: "gray", CYAN: "cyan", GREEN: "green", PURPLE: "purple", YELLOW: "yellow",
 	MAGENTA: "magenta", SILVER: "silver", ALICEBLUE: "aliceblue", TRANSPARENT: "transparent",
 	LINUX: "linux", DARWIN: "darwin", WINDOWS: "windows",
@@ -288,10 +288,10 @@ var chat = {
 	TUTOR: "tutor",
 	FLOWS: "flows",
 	ADMIN: "admin",
-	
+
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),
-	panel_list: [{name: "Header", style: "head"}, {name: "River",  style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
+	panel_list: [{name: "Header", style: "head"}, {name: "River", style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
 	plugin_list: ["state.js", "input.js", "table.js",
 		"input/key.js",
 		"input/img.js",
@@ -314,21 +314,21 @@ var chat = {
 	PLUGIN_LOCAL: "/plugin/local/", PLUGIN_STORY: "/plugin/story/", PLUGIN_INPUT: "/plugin/input/",
 	PLUGIN_INPUT_JS: "/plugin/input.js", PLUGIN_TABLE_JS: "/plugin/table.js", PLUGIN_STATE_JS: "/plugin/state.js",
 	FRAME_JS: "/v/frame.js",
-	
+
 	ONENGINE: "onengine", ONDAEMON: "ondaemon", ONAPPEND: "onappend", ONLAYOUT: "onlayout", ONMOTION: "onmotion", ONKEYMAP: "onkeymap",
 	ONIMPORT: "onimport", ONACTION: "onaction", ONDETAIL: "ondetail", ONEXPORT: "onexport",
 	ONSYNTAX: "onsyntax", ONFIGURE: "onfigure", ONPLUGIN: "onplugin", ONINPUTS: "oninputs",
-	
+
 	ONSIZE: "onsize", ONMAIN: "onmain", ONLOGIN: "onlogin", ONREMOTE: "onremote", ONSEARCH: "onsearch",
 	ONRESIZE: "onresize", ONKEYUP: "onkeyup", ONKEYDOWN: "onkeydown", ONMOUSEENTER: "onmouseenter", ORIENTATIONCHANGE: "orientationchange",
 	ONSTORM_SELECT: "onstorm_select", ONACTION_NOSTORM: "onaction_nostorm", ONACTION_NOTOOL: "onaction_notool", ONACTION_TOUCH: "onaction_touch", ONACTION_CMD: "onaction_cmd", ONACTION_REMOVE: "onaction_remove",
 	ONOPENSEARCH: "onopensearch", ONSEARCH_FOCUS: "onsearch_focus", ONCOMMAND_FOCUS: "oncommand_focus",
 	ONTHEMECHANGE: "onthemechange", ONLAYOUT: "onlayout", ONUNLOAD: "onunload", ONWEBPACK: "onwebpack",
 	ONTOAST: "ontoast", ONSHARE: "onshare", ONPRINT: "onprint", ONDEBUGS: "ondebugs",
-	
+
 	_INIT: "_init", _DELAY_INIT: "_delay_init",
 	_TRANS: "_trans", _STYLE: "_style", _ENGINE: "_engine", _SEARCH: "_search", _NAMES: "_names", _TOAST: "_toast",
-	
+
 	PAGES_HOME: "/pages/action/home",
 	PAGES_DREAM: "/pages/action/dream",
 	PAGES_DESKTOP: "/pages/action/desktop",
@@ -338,7 +338,7 @@ var chat = {
 	PAGES_INSERT: "/pages/insert/insert",
 	PAGES_RIVER: "/pages/river/river",
 	PAGES_GRANT: "/pages/web-chat/grant",
-	
+
 	WX_LOGIN_SESS: "/chat/wx/login/action/sess",
 	WX_LOGIN_USER: "/chat/wx/login/action/user",
 	WX_LOGIN_SCAN: "/chat/wx/login/action/scan",
@@ -366,7 +366,7 @@ var html = {
 		PROJECT_WIDTH: 230, RIVER_WIDTH: 230,
 		FLOAT_HEIGHT: 480, FLOAT_WIDTH: 1200,
 		PLUGIN_PADDING: 0, PLUGIN_MARGIN: 0,
-		
+
 		IFRAME_HEIGHT: 420,
 		HEADER_HEIGHT: 48, ACTION_HEIGHT: 32, STATUS_HEIGHT: 32,
 		QRCODE_HEIGHT: 363, QRCODE_WIDTH: 360,
@@ -375,7 +375,7 @@ var html = {
 		PLUG_HEIGHT: 480, PLUG_WIDTH: 800,
 		DESKTOP_HEIGHT: 684, DESKTOP_WIDTH: 1200,
 		DESKTOP_MENU_HEIGHT: 25,
-		
+
 		ACTION_BUTTON: 3, TABLE_BUTTON: 5, CARD_BUTTON: 5,
 		RIVER_MARGIN: 80, ACTION_MARGIN: 200,
 		ORDER_SHOW_LIMIT: 30, ORDER_SHOW_DELAY: 150,
@@ -389,7 +389,7 @@ var html = {
 	FIELDSET_PANEL: "fieldset.panel", FIELDSET_PLUGIN: "fieldset.plugin", FIELDSET_STORY: "fieldset.story", FIELDSET_PLUG: "fieldset.plug",
 	FIELDSET_FLOAT: "fieldset.float", FIELDSET_INPUT: "fieldset.input",
 	FIELDSET_OUTPUT: "fieldset.output",
-	
+
 	H1: "h1", H2: "h2", H3: "h3", H4: "h4", UL: "ul", OL: "ol", LI: "li", BR: "br", HR: "hr",
 	A: "a", SPAN: "span", CODE: "code", DIV: "div",
 	SVG: "svg", IMG: "img", IMAGE: "image", VIDEO: "video", AUDIO: "audio", CANVAS: "canvas", IFRAME: "iframe",
@@ -403,7 +403,7 @@ var html = {
 	NEED: "need", MUST: "must",
 	TAIL: "tail",
 	FAVICON: "favicon",
-	
+
 	BACKGROUND_COLOR: "background-color", COLOR: "color",
 	PADDING: "padding", BORDER: "border", MARGIN: "margin", MARGIN_TOP: "margin-top", MARGIN_X: "margin-x", MARGIN_Y: "margin-y",
 	HEIGHT: "height", WIDTH: "width", MIN_HEIGHT: "min-height", MAX_HEIGHT: "max-height", MIN_WIDTH: "min-width", MAX_WIDTH: "max-width",
@@ -413,11 +413,11 @@ var html = {
 	VISIBILITY: "visibility", TRANSPARENT: "transparent",
 	NOTICE: "notice", DANGER: "danger", PICKER: "picker",
 	CURSOR: "cursor", POINTER: "pointer", CROSSHAIR: "crosshair", MOVE: "move", RESIZE: "resize",
-	
+
 	SIZE: "size", OPACITY: "opacity", VISIBLE: "visible",
 	CLASS: "class", DARK: "dark", LIGHT: "light", WHITE: "white", BLACK: "black",
 	FILTER: "filter", TOGGLE: "toggle", EXPAND: "expand", SPEED: "speed", HOVER: "hover", HOVER_SELECT: "hover,select",
-	
+
 	ICONS: "icons",
 	FULL: "full",
 	ICON: "icon",
@@ -443,7 +443,7 @@ var html = {
 	DIV_ITEM_SELECT: "div.item.select",
 	DIV_TABS_SELECT: "div.tabs.select",
 	DIV_PROFILE: "div.profile", DIV_DISPLAY: "div.display",
-	
+
 	IMAGE_PNG: "image/png", VIDEO_WEBM: "video/webm",
 	BACKGROUND_JPG: "usr/icons/background.jpg",
 	BACKGROUND_PNG: "usr/icons/background.png",
@@ -451,7 +451,7 @@ var html = {
 }
 var icon = {
 	CHEVRON_DOWN: "bi bi-chevron-down", SEARCH: "bi bi-search", TERMINAL: "bi bi-terminal", SUN: "bi bi-sun", MOON: "bi bi-moon-stars",
-	
+
 	portal: "bi bi-globe", desktop: "bi bi-window-desktop", admin: "bi bi-window-sidebar",
 	dream: "bi bi-box", space: "bi bi-box", store: "bi bi-shop",
 	word: "bi bi-book", repos: "bi bi-git", vimer: "bi bi-bug", build: "bi bi-tools", xterm: "bi bi-terminal", shell: "bi bi-terminal",
@@ -460,7 +460,7 @@ var icon = {
 	feel: "bi bi-images",
 	plan: "bi bi-calendar4-week",
 	status: "bi bi-git",
-	
+
 	access: "bi bi-file-earmark-lock",
 	sso: "bi bi-shield-check", login: "bi bi-person-check", token: "bi bi-key",
 	username: "bi bi-person-gear", nodename: "bi bi-globe",
@@ -476,7 +476,7 @@ var icon = {
 	search: "bi bi-search", favor: "bi bi-star",
 	plugs: "bi bi-tools",
 	tools: "bi bi-grid",
-	
+
 	key: "bi bi-hash", hash: "bi bi-hash", zone: "bi bi-diagram-3", id: "bi bi-sort-numeric-down",
 	modify: "bi bi-pencil-square",
 	rename: "bi bi-pencil-square",
@@ -484,7 +484,7 @@ var icon = {
 	detail: "bi bi-file-earmark-text",
 	enable: "bi bi-toggle-off", disable: "bi bi-toggle-on",
 	expire: "bi bi-clock-history",
-	
+
 	name: "bi bi-sort-alpha-down",
 	time: "bi bi-clock-history",
 	size: "bi bi-calculator",
@@ -498,7 +498,7 @@ var icon = {
 	upload: "bi bi-box-arrow-in-up", download: "bi bi-box-arrow-down",
 	"import": "bi bi-folder-plus", "export": "bi bi-floppy",
 	"begin_time": "bi bi-clock-history", "end_time": "bi bi-clock-history",
-	
+
 	// scale: "bi bi-arrows-fullscreen",
 	pie: "bi bi-pie-chart",
 	tags: "bi bi-tags",
@@ -522,13 +522,13 @@ var icon = {
 	branch: "bi bi-diagram-3", commit: "bi bi-hash",
 	message: "bi bi-wechat",
 	address: "bi bi-pin-map",
-	
+
 	plugin: "bi bi-window-stack",
 	preview: "bi bi-window-stack", show: "bi bi-window-stack",
 	display: "bi bi-window-desktop", exec: "bi bi-window-desktop",
 	chat: "bi bi-chat-dots", help: "bi bi-question-square", doc: "bi bi-question-square",
 	record: "bi bi-record-circle", record1: "bi bi-images", record2: "bi bi-record-circle",
-	
+
 	"client.name": "bi bi-globe",
 	machine: "bi bi-pc-display",
 	host: "bi bi-pc-display",
@@ -551,6 +551,7 @@ var icon = {
 	to_user_uid: "bi bi-people",
 	from_auth_uid: "bi bi-people",
 	to_auth_uid: "bi bi-people",
+	auth_uid: "bi bi-patch-check-fill",
 	domain_uid: "bi bi-ui-checks-grid",
 	thumb: "bi bi-heart",
 	share: "bi bi-box-arrow-up",
@@ -558,7 +559,7 @@ var icon = {
 	email: "bi bi-envelope",
 	phone: "bi bi-phone",
 	gender: "bi bi-person-bounding-box",
-	
+
 	"link": "bi bi-link-45deg",
 	"Close": "bi bi-x-lg",
 	"Close Other": "bi bi-x-lg",
