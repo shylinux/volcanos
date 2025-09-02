@@ -347,7 +347,7 @@ Volcanos(chat.ONIMPORT, {
 				if (filter.length > 0) {
 					filter.indexOf(target.name) == -1 && can.page.Remove(can, target)
 				} else {
-					can.page.tagis(target, "input.notice") || can.page.Remove(can, target)
+					can.page.tagis(target, "input.guiding") || can.page.tagis(target, "input.notice") || can.page.Remove(can, target)
 				}
 			})
 		}}

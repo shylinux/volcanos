@@ -1122,12 +1122,10 @@ Volcanos(chat.ONLAYOUT, {
 	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
 		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
-		can.page.tagis(target, "div.input") && can.user.isMobile && (layout.top = 40)
-		can.page.style(can, target, html.MAX_HEIGHT, "")
-		can.page.style(can, target, html.TOP, "0")
-		can.getActionSize(function(left, top, width, height) {
+		// can.page.tagis(target, "div.input") && can.user.isMobile && (layout.top = 40)
+		// can.page.style(can, target, html.TOP, "0", html.MAX_HEIGHT, "")
+		can.getActionSize(function(left, top, width, height) { left = left||0, top = top||0
 			// left = left||0, top = top||0, height = can.base.Max(height, can.page.height()-top)-html.ACTION_HEIGHT-(can.isCmdMode()? 0: 20)
-			left = left||0, top = top||0
 			// , height = can.base.Max(height, can.page.height()-top)-(can.isCmdMode()? 0: 20)
 			if (layout.top+target.offsetHeight > top+height) {
 				if (!min || top+height-layout.top < min) {
@@ -1151,7 +1149,7 @@ Volcanos(chat.ONLAYOUT, {
 					layout.left = left+width-target.offsetWidth-1
 				}
 			}
-			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top-html.ACTION_HEIGHT)
+			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
 			can.page.style(can, target, html.MAX_WIDTH, can.base.Max(left+width-layout.left, can.user.isMobile && target.offsetWidth > 300? target.offsetWidth: 1000))
 			cb && cb(top+height-layout.top, left+width-layout.left)
 		}); can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
