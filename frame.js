@@ -537,7 +537,7 @@ Volcanos(chat.ONAPPEND, {
 				target._clear = function() { _input._show_img.src = can.misc.Resource(can, "usr/icons/icebergs.png"), _input._show_span.innerHTML = "" }
 				can.page.style(can, target, html.COLOR, html.TRANSPARENT)
 				// can.onappend.style(can, mdb.ICONS, target.parentNode)
-			} _input._show_img.src = can.misc.Resource(can, icons), _input._show_span.innerText = title||value
+			} _input._show_img.src = can.misc.ResourceIcons(can, icons), _input._show_span.innerText = title||value
 			target.value = value
 		}
 		return _input
@@ -1136,7 +1136,9 @@ Volcanos(chat.ONLAYOUT, {
 					} else if (rect.top-top-rect.height > top+height-rect.top) {
 						layout.top = can.base.Min(rect.top-target.offsetHeight, top)
 					} else {
-						layout.top = top+can.base.Min(height-target.offsetHeight, 0)
+						if (rect.top > 200) {
+							layout.top = top+can.base.Min(height-target.offsetHeight, 0)
+						}
 					}
 				}
 			}
@@ -1149,7 +1151,7 @@ Volcanos(chat.ONLAYOUT, {
 					layout.left = left+width-target.offsetWidth-1
 				}
 			}
-			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top)
+			can.page.style(can, target, html.MAX_HEIGHT, top+height-layout.top-html.ACTION_HEIGHT)
 			can.page.style(can, target, html.MAX_WIDTH, can.base.Max(left+width-layout.left, can.user.isMobile && target.offsetWidth > 300? target.offsetWidth: 1000))
 			cb && cb(top+height-layout.top, left+width-layout.left)
 		}); can.onmotion.move(can, target, layout), can.onmotion.slideGrow(can, target)
