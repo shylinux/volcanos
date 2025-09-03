@@ -83,7 +83,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		} can.user.info.sessid = can.misc.Search(can, ice.MSG_SESSID)
 		function lang(msg, cb) {
 			can.user.info.language = msg.Option(ice.MSG_LANGUAGE)||msg.SearchOrOption(aaa.LANGUAGE)
-			can.user.info.language? can.require([can.misc.Resource(can, nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js")], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
+			can.user.info.language? can.require(["/p/"+nfs.SRC_TEMPLATE+web.CHAT_HEADER+"/language/"+can.user.info.language+".js"], cb, function(can, name, sub) { can.base.Copy(can.user._trans, sub._trans) }): cb && cb()
 			can.onmotion.delay(can, function() { can.onimport._language(can) })
 		}
 		function show(msg) { var p = can.misc.Search(can, "redirect_uri")
@@ -136,7 +136,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 			name: data.name, river: can.Conf(chat.RIVER), storm: can.Conf(chat.STORM), theme: can._theme, title: can.user.title(), layout: can.getAction(html.LAYOUT),
 		}), code.WEBPACK, [], function(msg) { can.user.download(can, web.SHARE_LOCAL+msg.Result(), name, nfs.HTML), can.user.toastSuccess(can, "打包成功", code.WEBPACK) })
 	}) },
-	
+
 	title: function(event, can) { var args = {}; can.core.List(can.onaction._params, function(key) { var value = can.misc.Search(can, key); value && (args[key] = value) })
 		var msg = can.request(event); can.onengine.signal(can, "ontitle", msg), can.core.List(msg.Append(), function(key) { args[key] = msg.Append(key) })
 		can.user.jumps(can.misc.MergeURL(can, args, true))
@@ -170,7 +170,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	carte: function(event, can, list, cb, trans) { return can.user.carte(event, can, can.onaction, list, cb, null, trans) },
 	debug: function(event, can) { location.href = can.misc.MergeURL(can, {debug: "true"}) },
 	release: function(event, can) { location.href = can.misc.MergeURL(can, {debug: "false"}) },
-	
+
 	_params: [log.DEBUG, chat.TITLE],
 	_menus: [
 		cli.QRCODE, "shareuser",
@@ -184,7 +184,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 		aaa.USER, "用户信息", "setnick", "设置昵称", "setavatar", "设置头像", "setbackground", "设置背景", aaa.PASSWORD, "修改密码", web.CLEAR, "清除背景", aaa.LOGOUT, "退出登录",
 		"debug", "调试模式",
 		"release", "发布模式",
-		
+
 		"change language to zh-cn", "切换语言为中文",
 		"change language to en-us", "切换语言为英文",
 		"en-us", "英文", "zh-cn", "中文", "auto", "默认",

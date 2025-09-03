@@ -163,6 +163,7 @@ table.content.detail tr td:first-child { background-color:var(--plugin-bg-color)
 body:not(.mobile) table.content.detail tr:hover:not(.action) td:first-child { background-color:var(--hover-bg-color); }
 table.content.detail td i { display:none; }
 table.content.detail td { white-space:break-spaces; word-break:break-all; }
+table.content.detail tr.price td:last-child { color:var(--danger-bg-color); }
 table.content.detail tr.action input.icons { display:none; }
 table.content.detail tr.action input { color:var(--notice-bg-color); }
 table.content.detail tr.action input.danger { color:var(--danger-bg-color); }

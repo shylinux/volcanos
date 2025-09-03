@@ -717,6 +717,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
+			if (key == "price") { _value = "¥ "+value+" 元" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
