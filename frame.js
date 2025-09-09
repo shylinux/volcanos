@@ -712,6 +712,7 @@ Volcanos(chat.ONAPPEND, {
 			if ((key == aaa.AVATAR || can.base.endWith(key, "_avatar")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if ((key == aaa.BACKGROUND || can.base.endWith(key, "_background")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
+			if (key == html.VIDEO && value) { _value = "<video src='"+value+"' controls autoplay playsinline webkit-playsinline></video>" }
 			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), "share", "web.share", web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }

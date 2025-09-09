@@ -173,6 +173,7 @@ table.content.detail tr.action input.danger { color:var(--danger-bg-color); }
 table.content.detail tr.action input.notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 table.content.detail tr.action i { display:unset; color:var(--notice-bg-color); }
 table.content.detail tr.action i.bi-trash { color:var(--danger-bg-color); }
+table.content.detail tr td video { max-width:100%; max-height:600px; }
 body.width1 div.output div.video.width.bilibili iframe { height:200px; }
 div.output div.code.qrcode { position:relative; }
 div.output div.code.qrcode { text-align:center; display:inline-block; margin:10px 10px; }
@@ -447,7 +448,6 @@ body.widht1 div.input.float td:nth-child(1) { color:gray; font-size:var(--status
 body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
-body.width1 div.input.float tr.img td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; }
 body div.input.float tr.img td:last-child>div.item>div { background-color:var(--input-bg-color); color:gray; font-size:40px; display:flex; align-items:center; justify-content:center; position:relative; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; padding:0; }
 body div.input.float tr.img td:last-child>div.item>div img { max-width:100%; max-height:100%; }
@@ -459,6 +459,20 @@ body div.input.float tr.img td:last-child>div>span.icon { display:none; }
 body div.input.float tr.img td:last-child>div { width:var(--form-width) !important; justify-content:flex-start; }
 body div.input.float tr.img td:last-child>div { justify-content:flex-start; border:var(--box-border); }
 body.width1 div.input.float tr.img td:last-child>div { width:100% !important; }
+body.width1 div.input.float tr.img td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; }
+body div.input.float tr.video td:last-child>div.item { flex-wrap:wrap; }
+body div.input.float tr.video td:last-child>div.item>div { background-color:var(--input-bg-color); color:gray; font-size:40px; display:flex; align-items:center; justify-content:center; position:relative; }
+body div.input.float tr.video td:last-child>div.item>div video { padding:1.5px 1px; padding:0; }
+body div.input.float tr.video td:last-child>div.item>div video { max-width:100%; max-height:100%; }
+body div.input.float tr.video td:last-child>div.item>div>i { font-size:20px; position:absolute; top:0; right:0; }
+body div.input.float tr.video td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:20px; position:relative; }
+body div.input.float tr.video td:last-child>div.item>div>i:hover { background-color:var(--hover-bg-color); }
+body div.input.float tr.video td:last-child>div>span { font-size:var(--action-height); }
+body div.input.float tr.video td:last-child>div>span.icon { display:none; }
+body div.input.float tr.video td:last-child>div { width:var(--form-width) !important; justify-content:flex-start; }
+body div.input.float tr.video td:last-child>div { justify-content:flex-start; border:var(--box-border); }
+body.width1 div.input.float tr.video td:last-child>div { width:100% !important; }
+body.width1 div.input.float tr.video td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; }
 body.width1 div.inputs>div.input.float>div.action { display:flex; gap:10px; }
 body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
