@@ -613,18 +613,20 @@ Volcanos(chat.ONEXPORT, {
 				for (var j = 0; j < block.length; j += 2) { if (list.indexOf(block[j]) > -1) { deep++; break } }
 			}
 			if (can.base.isIn(parse, nfs.JS)) { var ls = [], last = " "
-				for (var i = 0; i < text.length; i++) { if (last == " " && text[i] == " ") { continue } ls.push(last = text[i]) } text = ls.join("")
-				// text = can.base.replaceAll(text, " :", ":", ":", ": ", ":  ", ": ")
-				// text = can.base.replaceAll(text, " ,", ",", ",", ", ", ",  ", ", ")
+				// for (var i = 0; i < text.length; i++) { if (last == " " && text[i] == " ") { continue } ls.push(last = text[i]) } text = ls.join("")
+				// text = can.base.replaceAll(text, " :", ":", ":", ": ", ": ", ": ")
+				// text = can.base.replaceAll(text, " ,", ",", ",", ", ", ", ", ", ")
 				// text = can.base.replaceAll(text, "[ ", "[", " ]", "]")
 			// text = can.base.replaceAll(text, "){", ") {")
-				text = can.base.replaceAll(text, "function (", "function(") // ))
-				text = can.base.replaceAll(text, "if(", "if (") // ))
+				// text = can.base.replaceAll(text, "function(", "function(") // ))
+				// text = can.base.replaceAll(text, "if (", "if (") // ))
 			}
 			if (can.base.isIn(parse, nfs.CSS)) { var ls = [], last = " "
-				for (var i = 0; i < text.length; i++) { if (last == " " && text[i] == " ") { continue } ls.push(last = text[i]) } text = ls.join("")
+			text = can.base.replaceAll(text, "{", " { ")
+			text = can.base.replaceAll(text, "}", " }")
 				text = can.base.replaceAll(text, " :", ":", ": ", ":")
-				text = can.base.replaceAll(text, " ;", ";", ";", "; ", ";  ", "; ")
+				text = can.base.replaceAll(text, " ;", ";", ";", "; ")
+				for (var i = 0; i < text.length; i++) { if (last == " " && text[i] == " ") { continue } ls.push(last = text[i]) } text = ls.join("")
 			}
 			text = can.base.trimSuffix(text, " ")
 			text = can.base.trimSuffix(text, "\t")

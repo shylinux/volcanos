@@ -718,6 +718,7 @@ Volcanos(chat.ONAPPEND, {
 			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "price") { _value = "¥ "+value+" 元" }
+			if (key == "amount") { _value = "¥ "+value+" 元" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
@@ -741,7 +742,7 @@ Volcanos(chat.ONAPPEND, {
 				}
 			}
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
-			return {className: option.indexOf(key) > -1? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
+			return {className: option.indexOf(key) > -1 && can.Option(key) == ""? ice.MSG_OPTION: key == ctx.ACTION? ctx.ACTION: "", text: [
 				msg.IsDetail() && key == mdb.KEY? can.user.trans(can, _value, null, html.INPUT):
 				can.base.replaceAll(can.user.trans(can, _value, null, "value."+can.base.trimPrefix(key, "from_", "to_")), "⚝", can.user.isMobile? "": "⚝"), html.TD,
 			], onclick: function(event) { if (onclick()) { return } var target = event.target
@@ -763,7 +764,8 @@ Volcanos(chat.ONAPPEND, {
 			}, _init: function(target) {
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
 				if (msg.IsDetail() && key != "key" && value == "") { can.onappend.style(can, "_void", target.parentNode) }
-				if (option.indexOf(key) > -1) {
+				if (msg.IsDetail() && can.base.endWith(key, "_uid")) { can.onappend.style(can, "hide", target.parentNode) }
+				if (option.indexOf(key) > -1 && can.Option(key) == "") {
 					can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode)
 					if (msg.IsDetail()) { can.onappend.style(can, html.OPTION, target.parentNode) }
 				}
@@ -791,8 +793,11 @@ Volcanos(chat.ONAPPEND, {
 		})
 		keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] }))
 		can.onappend.style(can, chat.CONTENT, table), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
-		if (can.core.List(option).length == 1) { can.onappend.style(can, html.OPTION, table) }
+		if (can.core.List(option).length == 1) {
+			can.onappend.style(can, html.OPTION, table)
+		}
 		if (msg.IsDetail()) { can.onappend.style(can, mdb.DETAIL, table), can.onappend.style(can, msg.Append(mdb.TYPE), table), can.onappend.style(can, msg.Append(mdb.STATUS), table) }
+		can.page.Select(can, table, html.IMG, function(target) { target.onclick = function(event) { can.page.ClassList.neg(can, target, "full") } })
 		can.onappend.style(can, html.FULL, table)
 		return table
 	},

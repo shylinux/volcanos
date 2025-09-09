@@ -334,24 +334,6 @@ Volcanos(chat.ONIMPORT, {
 	_float: function(can, index, args) { args = args||[]
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
-
-	typeStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
-	roleStyle: function(can, value, key) { return can.Conf("_trans.value."+key+".style."+value[key])||"" },
-	authView: function(can, value) { return can.base.isIn(value.auth_status, "issued", "2") && {view: [aaa.AUTH, html.SPAN], list: [{icon: "bi bi-patch-check-fill", style: {color: "var(--notice-bg-color)"}}]} },
-	titleAction: function(can, value, filter) { var filter = can.core.List(arguments).slice(2)
-		return {view: html.ACTION, _init: function(target) {
-			if (value.Option) { return can.onappend._action(can, value.Option(ice.MSG_ACTION), target) }
-			can.page.appendAction(can, value, target)
-			can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
-				target.value = can.user.trans(can, target.name)
-				if (filter.length > 0) {
-					filter.indexOf(target.name) == -1 && can.page.Remove(can, target)
-				} else {
-					can.page.tagis(target, "input.guiding") || can.page.tagis(target, "input.notice") || can.page.Remove(can, target)
-				}
-			})
-		}}
-	},
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },

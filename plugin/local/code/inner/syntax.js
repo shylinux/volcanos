@@ -16,7 +16,7 @@ Volcanos(chat.ONSYNTAX, {
 		"NAME": code.KEYWORD,
 		"SYNOPSIS": code.KEYWORD,
 		"DESCRIPTION": code.KEYWORD,
-		
+
 		"AUTHOR": code.KEYWORD,
 		"COPYRIGHT": code.KEYWORD,
 		"LIBRARY": code.KEYWORD,
@@ -48,7 +48,7 @@ Volcanos(chat.ONSYNTAX, {
 		"function": code.KEYWORD,
 		"return": code.KEYWORD,
 		"endfunction": code.KEYWORD,
-		
+
 		"autocmd": code.KEYWORD,
 		"command": code.KEYWORD,
 		"execute": code.KEYWORD,
@@ -58,7 +58,7 @@ Volcanos(chat.ONSYNTAX, {
 		"colorscheme": code.KEYWORD,
 		"highlight": code.KEYWORD,
 		"syntax": code.KEYWORD,
-		
+
 		"has": code.FUNCTION,
 		"type": code.FUNCTION,
 		"empty": code.FUNCTION,
@@ -84,16 +84,16 @@ Volcanos(chat.ONSYNTAX, {
 			"#include": code.KEYWORD, "#error": code.KEYWORD, "#line": code.KEYWORD,
 			"#define": code.KEYWORD, "#undef": code.KEYWORD, "#ifndef": code.KEYWORD, "#ifdef": code.KEYWORD,
 			"#if": code.KEYWORD, "#elif": code.KEYWORD, "#else": code.KEYWORD, "#endif": code.KEYWORD,
-			
+
 			"if": code.KEYWORD, "else": code.KEYWORD,
 			"for": code.KEYWORD, "while": code.KEYWORD, "do": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD,
 			"return": code.KEYWORD, "goto": code.KEYWORD,
-			
+
 			"void": code.DATATYPE, "char": code.DATATYPE, "int": code.DATATYPE, "float": code.DATATYPE, "double": code.DATATYPE,
 			"unsigned": code.DATATYPE, "signed": code.DATATYPE, "short": code.DATATYPE, "long": code.DATATYPE,
 			"struct": code.DATATYPE, "union": code.DATATYPE, "enum": code.DATATYPE,
-			
+
 			"auto": code.DATATYPE, "register": code.DATATYPE, "volatile": code.DATATYPE, "const": code.DATATYPE,
 			"static": code.DATATYPE, "extern": code.DATATYPE, "typedef": code.DATATYPE,
 			"sizeof": code.FUNCTION, "defined": code.FUNCTION,
@@ -108,12 +108,12 @@ Volcanos(chat.ONSYNTAX, {
 			"for": code.KEYWORD, "while": code.KEYWORD, "do": code.KEYWORD, "done": code.KEYWORD, "continue": code.KEYWORD, "break": code.KEYWORD,
 			"case": code.KEYWORD, "in": code.KEYWORD, "esac": code.KEYWORD,
 			"true": code.CONSTANT, "false": code.CONSTANT,
-			
+
 			"history": code.FUNCTION, "alias": code.FUNCTION, "complete": code.FUNCTION, "compgen": code.FUNCTION, "bind": code.FUNCTION,
 			"printf": code.FUNCTION, "echo": code.FUNCTION, "eval": code.FUNCTION, "test": code.FUNCTION, "trap": code.FUNCTION, "shift": code.FUNCTION,
 			"set": code.FUNCTION, "xargs": code.FUNCTION,
 			"/dev/null": code.CONSTANT, "/dev/stdout": code.CONSTANT, "/dev/stderr": code.CONSTANT,
-			
+
 			"mkdir": code.FUNCTION, "rmdir": code.FUNCTION, "mktemp": code.FUNCTION, "du": code.FUNCTION, "df": code.FUNCTION,
 			"cd": code.FUNCTION, "ls": code.FUNCTION, "ln": code.FUNCTION, "mv": code.FUNCTION, "rm": code.FUNCTION, "cp": code.FUNCTION,
 			"groupadd": code.FUNCTION, "useradd": code.FUNCTION, "chown": code.FUNCTION, "sudo": code.FUNCTION,
@@ -137,7 +137,7 @@ Volcanos(chat.ONSYNTAX, {
 			"create": code.FUNCTION, "modify": code.FUNCTION, "insert": code.FUNCTION,
 			"spide": code.DATATYPE, "serve": code.DATATYPE, "dream": code.DATATYPE,
 			"user": code.DATATYPE,
-			
+
 			"title": code.KEYWORD, "navmenu": code.KEYWORD, "premenu": code.KEYWORD, "chapter": code.KEYWORD, "section": code.KEYWORD, "endmenu": code.KEYWORD,
 			"refer": code.KEYWORD, "brief": code.KEYWORD, "spark": code.KEYWORD, "shell": code.KEYWORD, "parse": code.KEYWORD,
 			"order": code.KEYWORD, "table": code.KEYWORD, "chart": code.KEYWORD, "label": code.KEYWORD, "chain": code.KEYWORD, "sequence": code.KEYWORD,
@@ -148,7 +148,7 @@ Volcanos(chat.ONSYNTAX, {
 			"product": code.KEYWORD,
 			"material": code.KEYWORD,
 			"publish": code.KEYWORD,
-			
+
 			"username": code.FUNCTION, "usernick": code.FUNCTION,
 			"repos": code.FUNCTION, "binary": code.FUNCTION,
 			"language": code.FUNCTION, "avatar": code.FUNCTION,
@@ -172,18 +172,18 @@ Volcanos(chat.ONSYNTAX, {
 			"for": code.KEYWORD, "range": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"switch": code.KEYWORD, "case": code.KEYWORD, "default": code.KEYWORD, "fallthrough": code.KEYWORD,
 			"go": code.KEYWORD, "select": code.KEYWORD, "defer": code.KEYWORD, "return": code.KEYWORD,
-			
+
 			"iota": code.CONSTANT, "true": code.CONSTANT, "false": code.CONSTANT, "nil": code.CONSTANT,
 			"int": code.DATATYPE, "int8": code.DATATYPE, "int16": code.DATATYPE, "int32": code.DATATYPE, "int64": code.DATATYPE,
 			"uint": code.DATATYPE, "uint8": code.DATATYPE, "uint16": code.DATATYPE, "uint32": code.DATATYPE, "uint64": code.DATATYPE,
 			"float32": code.DATATYPE, "float64": code.DATATYPE, "complex64": code.DATATYPE, "complex128": code.DATATYPE,
 			"rune": code.DATATYPE, "string": code.DATATYPE, "byte": code.DATATYPE, "uintptr": code.DATATYPE,
 			"bool": code.DATATYPE, "error": code.DATATYPE, "chan": code.DATATYPE, "map": code.DATATYPE,
-			
+
 			"init": code.FUNCTION, "main": code.FUNCTION, "print": code.FUNCTION, "println": code.FUNCTION, "panic": code.FUNCTION, "recover": code.FUNCTION,
 			"new": code.FUNCTION, "make": code.FUNCTION, "len": code.FUNCTION, "cap": code.FUNCTION, "copy": code.FUNCTION, "append": code.FUNCTION, "delete": code.FUNCTION, "close": code.FUNCTION,
 			"complex": code.FUNCTION, "real": code.FUNCTION, "imag": code.FUNCTION,
-			
+
 			"If": code.KEYWORD, "For": code.KEYWORD, "Switch": code.KEYWORD,
 			"kit": code.PACKAGE, "ice": code.PACKAGE, "m": code.OBJECT, "msg": code.OBJECT,
 			"Any": code.DATATYPE, "List": code.DATATYPE, "Map": code.DATATYPE, "Maps": code.DATATYPE, "Message": code.DATATYPE,
@@ -218,7 +218,7 @@ Volcanos(chat.ONSYNTAX, {
 			"for": code.KEYWORD, "in": code.KEYWORD, "while": code.KEYWORD, "break": code.KEYWORD, "continue": code.KEYWORD,
 			"try": code.KEYWORD, "catch": code.KEYWORD, "debugger": code.KEYWORD,
 			"function": code.KEYWORD, "return": code.KEYWORD, "arguments": code.OBJECT, "callee": code.OBJECT, "this": code.OBJECT,
-			
+
 			"true": code.CONSTANT, "false": code.CONSTANT, "null": code.CONSTANT, "undefined": code.CONSTANT,
 			"parseInt": code.FUNCTION, "parseFloat": code.FUNCTION, "encodeURIComponent": code.FUNCTION, "decodeURIComponent": code.FUNCTION,
 			"setTimeout": code.FUNCTION, "alert": code.FUNCTION, "confirm": code.FUNCTION, "prompt": code.FUNCTION,
@@ -226,27 +226,27 @@ Volcanos(chat.ONSYNTAX, {
 			"location": code.OBJECT, "history": code.OBJECT,
 			"window": code.OBJECT, "navigator": code.OBJECT,
 			"localStorage": code.OBJECT, "sessionStorage": code.OBJECT,
-			
+
 			"typeof": code.KEYWORD, "new": code.KEYWORD, "delete": code.KEYWORD,
-			
+
 			"import": code.KEYWORD, "from": code.KEYWORD, "export": code.KEYWORD, "default": code.KEYWORD,
 			"class": code.KEYWORD, "static": code.KEYWORD,
 			"async": code.KEYWORD, "await": code.KEYWORD,
-			
+
 			"Array": code.DATATYPE, "JSON": code.DATATYPE, "Date": code.DATATYPE, "Math": code.DATATYPE, "XMLHttpRequest": code.DATATYPE, "WebSocket": code.DATATYPE,
-			
+
 			"hasOwnProperty": code.FUNCTION, "isArray": code.FUNCTION, "forEach": code.FUNCTION, "apply": code.FUNCTION, "call": code.FUNCTION,
 			"length": code.FUNCTION, "split": code.FUNCTION, "trim": code.FUNCTION, "toLowerCase": code.FUNCTION, "indexOf": code.FUNCTION, "lastIndexOf": code.FUNCTION,
 			"concat": code.FUNCTION, "reverse": code.FUNCTION, "slice": code.FUNCTION, "join": code.FUNCTION, "sort": code.FUNCTION, "push": code.FUNCTION, "pop": code.FUNCTION,
 			"stringify": code.FUNCTION, "parse": code.FUNCTION,
 			"require": code.FUNCTION,
-			
+
 			"kit": code.CONSTANT, "ice": code.CONSTANT,
 			"ctx": code.CONSTANT, "mdb": code.CONSTANT, "web": code.CONSTANT, "aaa": code.CONSTANT,
 			"tcp": code.CONSTANT, "nfs": code.CONSTANT, "cli": code.CONSTANT, "log": code.CONSTANT,
 			"code": code.CONSTANT, "wiki": code.CONSTANT, "chat": code.CONSTANT, "team": code.CONSTANT, "mall": code.CONSTANT,
 			"http": code.CONSTANT, "html": code.CONSTANT, "icon": code.CONSTANT, "svg": code.CONSTANT,
-			
+
 			"can": code.OBJECT, "msg": code.OBJECT, "cb": code.FUNCTION, "target": code.OBJECT, "event": code.OBJECT,
 			"Volcanos": code.FUNCTION, "shy": code.FUNCTION, "cbs": code.FUNCTION,
 			"res": code.OBJECT, "sub": code.OBJECT, "sup": code.OBJECT,
@@ -279,12 +279,12 @@ Volcanos(chat.ONSYNTAX, {
 		keyword: {
 			"not": code.DATATYPE, "first-child": code.DATATYPE, "last-child": code.DATATYPE, "nth-child": code.DATATYPE,
 			"placeholder": code.DATATYPE, "hover": code.DATATYPE, "focus": code.DATATYPE,
-			
+
 			"$body": code.KEYWORD, "$fieldset": code.KEYWORD, "$input": code.KEYWORD,
 			"$option": code.KEYWORD, "$action": code.KEYWORD, "$output": code.KEYWORD, "$status": code.KEYWORD,
 			"$content": code.KEYWORD, "$profile": code.KEYWORD, "$display": code.KEYWORD, "$project": code.KEYWORD,
 			"$story": code.KEYWORD,
-			
+
 			"output": code.KEYWORD,
 			"background-color": code.FUNCTION, "color": code.FUNCTION,
 			"font-family": code.FUNCTION, "font-weight": code.FUNCTION, "font-style": code.FUNCTION, "font-size": code.FUNCTION, "line-height": code.FUNCTION,
@@ -302,7 +302,10 @@ Volcanos(chat.ONSYNTAX, {
 			"@keyframes": code.KEYWORD, "animation": code.FUNCTION, "infinite": code.CONSTANT,
 			"transform": code.FUNCTION, "translate": code.FUNCTION, "rotate": code.FUNCTION,
 			"stroke-width": code.FUNCTION, "stroke": code.FUNCTION, "fill": code.FUNCTION,
-			
+			"object-fit": code.FUNCTION,
+			"cover": code.CONSTANT,
+			"contain": code.CONSTANT,
+
 			"transparent": code.CONSTANT,
 			"monospace": code.CONSTANT, "bold": code.CONSTANT, "italic": code.CONSTANT, "normal": code.CONSTANT,
 			"center": code.CONSTANT,
@@ -315,34 +318,34 @@ Volcanos(chat.ONSYNTAX, {
 			"relative": code.CONSTANT, "absolute": code.CONSTANT, "sticky": code.CONSTANT, "static": code.CONSTANT, "fixed": code.CONSTANT,
 			"left": code.FUNCTION, "top": code.FUNCTION, "right": code.FUNCTION, "bottom": code.FUNCTION,
 			"pointer": code.CONSTANT, "copy": code.CONSTANT,
-			
+
 			"black": code.CONSTANT, "white": code.CONSTANT,
 			"silver": code.CONSTANT, "gray": code.CONSTANT,
 			"red": code.CONSTANT, "blue": code.CONSTANT,
 			"cyan": code.CONSTANT, "aliceblue": code.CONSTANT,
-			
+
 			"--plugin-bg-color": code.CONSTANT, "--plugin-fg-color": code.CONSTANT,
 			"--input-bg-color": code.CONSTANT, "--output-bg-color": code.CONSTANT,
 			"--danger-bg-color": code.CONSTANT, "--notice-bg-color": code.CONSTANT,
 			"--hover-bg-color": code.CONSTANT, "--hover-fg-color": code.CONSTANT,
 			"--body-bg-color": code.CONSTANT, "--body-fg-color": code.CONSTANT,
-			
+
 			/*
 			"text-shadow": code.FUNCTION,
 			"caret-color": code.FUNCTION,
-			
+
 			"type": code.FUNCTION, "name": code.FUNCTION,
 			"background": code.FUNCTION, "background-position": code.FUNCTION, "background-size": code.FUNCTION,
-			
-			
+
+
 			"dark": code.CONSTANT, "light": code.CONSTANT,
 			"yellow": code.CONSTANT,
-			
+
 			"green": code.CONSTANT,
 			"purple": code.CONSTANT,
 			"navy": code.CONSTANT,
 			"teal": code.CONSTANT,
-			
+
 			"gold": code.CONSTANT,
 			"orange": code.CONSTANT,
 			"lavender": code.CONSTANT,
@@ -350,7 +353,7 @@ Volcanos(chat.ONSYNTAX, {
 			"dimgray": code.CONSTANT,
 			"brown": code.CONSTANT,
 			"snow": code.CONSTANT,
-			
+
 			"skyblue": code.CONSTANT,
 			"cadetblue": code.CONSTANT,
 			"cornflowerblue": code.CONSTANT,
@@ -363,9 +366,9 @@ Volcanos(chat.ONSYNTAX, {
 			"lightblue": code.CONSTANT,
 			"lightgray": code.CONSTANT,
 			"lightgreen": code.CONSTANT,
-			
+
 			"magenta": code.CONSTANT,
-			
+
 			"vertical-align": code.FUNCTION,
 			"url": code.FUNCTION,
 			"contexts": code.CONSTANT,
@@ -377,21 +380,21 @@ Volcanos(chat.ONSYNTAX, {
 		"DOCTYPE": code.KEYWORD, "html": code.KEYWORD, "head": code.KEYWORD, "body": code.KEYWORD,
 		"meta": code.KEYWORD, "title": code.KEYWORD, "link": code.KEYWORD, "script": code.KEYWORD,
 		"src": code.FUNCTION, "href": code.FUNCTION, "rel": code.FUNCTION, "style": code.FUNCTION,
-		
+
 		"h1": code.KEYWORD, "h2": code.KEYWORD, "h3": code.KEYWORD, "h4": code.KEYWORD,
 		"p": code.KEYWORD, "em": code.KEYWORD, "strong": code.KEYWORD, "sub": code.KEYWORD, "sup": code.KEYWORD, "i": code.KEYWORD, "b": code.KEYWORD, "u": code.KEYWORD,
 		"pre": code.KEYWORD, "code": code.KEYWORD, "var": code.KEYWORD, "kbd": code.KEYWORD, "samp": code.KEYWORD,
-		
+
 		"ul": code.KEYWORD, "ol": code.KEYWORD, "li": code.KEYWORD,
 		"table": code.KEYWORD, "thead": code.KEYWORD, "tbody": code.KEYWORD, "tfoot": code.KEYWORD,
 		"tr": code.KEYWORD, "th": code.KEYWORD, "td": code.KEYWORD,
 		"colgroup": code.KEYWORD, "col": code.KEYWORD, "colspan": code.FUNCTION, "rowspan": code.FUNCTION,
-		
+
 		"header": code.KEYWORD, "nav": code.KEYWORD, "main": code.KEYWORD, "aside": code.KEYWORD, "footer": code.KEYWORD, "article": code.KEYWORD, "section": code.KEYWORD,
 		"a": code.KEYWORD, "div": code.KEYWORD, "span": code.KEYWORD, "br": code.KEYWORD, "hr": code.KEYWORD,
 		"img": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD, "canvas": code.KEYWORD, "iframe": code.KEYWORD,
 		"svg": code.KEYWORD, "rect": code.KEYWORD, "circle": code.KEYWORD,
-		
+
 		"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD, "label": code.KEYWORD,
 		"select": code.KEYWORD, "option": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD, "button": code.KEYWORD,
 		"height": code.FUNCTION, "width": code.FUNCTION,
