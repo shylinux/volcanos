@@ -164,6 +164,8 @@ table.content.option.checkbox th.option { left:50px; }
 table.content.detail tr td:first-child { background-color:var(--plugin-bg-color); cursor:default; }
 body:not(.mobile) table.content.detail tr:hover:not(.action) td:first-child { background-color:var(--hover-bg-color); }
 table.content.detail td i { display:none; }
+table.content.detail td._modify i { font-size:20px; display:block; position:absolute; right:10px; bottom:10px; }
+table.content.detail td._modify { position:relative; }
 table.content.detail td { white-space:break-spaces; word-break:break-all; }
 table.content.detail tr.price td:last-child { color:var(--danger-bg-color); }
 table.content.detail tr.amount td:last-child { color:var(--danger-bg-color); }
@@ -239,14 +241,15 @@ div.item.card div.action input[type=button] { border:none; background-color:tran
 body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
 div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
-div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; white-space:pre; }
+div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; }
 div.item.card>div.output>img { border-radius:5px; padding:0; margin:0; margin-right:5px; height:40px; width:40px; min-width:40px; }
 body.width1 div.item.card div.output { width:100%; }
 body.width1 div.item.card>div.output { background-color:var(--output-bg-color); }
 div.item.card.select div.title { font-weight:bold; }
 div.item.card.select div.output { transition:left .5s; }
-div.item img[src*=".ico"] { padding:3px; }
-div.item img[src*=".jpg"] { padding:3px; }
+// div.item img[src*=".ico"] { padding:3px; }
+// div.item img[src*=".jpg"] { padding:3px; }
+img { vertical-align:top; }
 table.content tr>td img[src*=".jpg"] { padding:5px; }
 div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
 div.output.card>div.item>div.action { text-align:right; width:calc(100% - var(--plugin-padding)); display:flex; position:absolute; bottom:var(--plugin-padding); }
@@ -664,7 +667,7 @@ fieldset.input tr:hover { background-color:var(--tr-hover-bg-color); }
 fieldset.input td:hover { background-color:var(--td-hover-bg-color); }
 fieldset.input table.checkbox.content td:first-child { box-shadow:none; }
 fieldset.input table.checkbox.content th.select { border:none; }
-fieldset.input>span.close { line-height:16px; padding:var(--input-padding); position:absolute; top:0; right:0; z-index:5; }
+fieldset.input>span.close { line-height:22px; padding:var(--input-padding); position:absolute; top:0; right:0; z-index:5; }
 fieldset.input>span.close:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); cursor:pointer; }
 div.float { background-color:var(--float-bg-color); }
 div.carte div.item:hover { background-color:var(--hover-bg-color); }

@@ -145,7 +145,7 @@ var web = {
 }
 var aaa = {
 	USER: "user", AUTH: "auth", SESS: "sess", ROLE: "role",
-	EMAIL: "email", OFFER: "offer", APPLY: "apply",
+	PHONE: "phone", EMAIL: "email", OFFER: "offer", APPLY: "apply",
 	LOGIN: "login", LOGOUT: "logout",
 
 	BACKGROUND: "background", AVATAR: "avatar", MOBILE: "mobile", SECRET: "secret",
@@ -234,6 +234,7 @@ var nfs = {
 
 	DF: ice.DF, PS: ice.PS, PT: ice.PT,
 	BACKGROUND_JPG: "usr/icons/background.jpg",
+	BACKGROUND_PNG: "usr/icons/background.png",
 	AVATAR_JPG: "usr/icons/avatar.jpg",
 }
 var cli = {
@@ -547,11 +548,9 @@ var icon = {
 	app: "bi bi-box-arrow-down-left",
 	dev: "bi bi-git",
 	price: "bi bi-cash-stack",
-	from_user_uid: "bi bi-people",
-	to_user_uid: "bi bi-people",
-	from_auth_uid: "bi bi-people",
-	to_auth_uid: "bi bi-people",
-	auth_uid: "bi bi-patch-check-fill",
+	to_user_uid: "bi bi-people", from_user_uid: "bi bi-people",
+	to_auth_uid: "bi bi-people", from_auth_uid: "bi bi-people", auth_uid: "bi bi-patch-check-fill",
+	to_contact_uid: "bi bi-pin-map", from_contact_uid: "bi bi-pin-map",
 	domain_uid: "bi bi-ui-checks-grid",
 	thumb: "bi bi-heart",
 	share: "bi bi-box-arrow-up",

@@ -113,13 +113,14 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 		isCmdMode: function() { return can.Mode() == chat.CMD },
 		isAutoMode: function() { return can.Mode() == "" },
 		Mode: function(value) { return can.Conf(ice.MODE, value) },
-		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
-		ConfSpace: function(space) { if (space) { can.Conf(web.SPACE, space) } return can.Conf("_space")||can.Conf(web.SPACE)||can.Conf("pod")||"" },
+		ConfCmd: function(msg) { return (msg.Option("_input_cmd")||msg.Option("_other_cmd")||can.ConfIndex()).split(".").pop() },
 		ConfIndex: function(index) { if (index) { can.Conf(ctx.INDEX, index) } return can.Conf("_command")||can.Conf(ctx.INDEX)||can.Conf("_index")||"can" },
-		ConfIcons: function() { return can.Conf(mdb.ICONS) },
+		ConfSpace: function(space) { if (space) { can.Conf(web.SPACE, space) } return can.Conf("_space")||can.Conf(web.SPACE)||can.Conf("pod")||"" },
+		ConfDefault: function(value) { can.core.Item(value, function(k, v) { can.Conf(k) || can.Conf(k, v) }) },
 		ConfHeight: function(value) { return can.Conf(html.HEIGHT, value) },
 		ConfWidth: function(value) { return can.Conf(html.WIDTH, value)||can._output.offsetWidth },
-		ConfHelp: function() { return can.Conf("help") },
+		ConfIcons: function() { return can.Conf(mdb.ICONS) },
+		ConfHelp: function() { return can.Conf(mdb.HELP) },
 		Conf: function(key, value) { var res = can._conf
 			for (var i = 0; i < arguments.length; i += 2) {
 				if (typeof key == code.OBJECT) { res = can.core.Value(can._conf, arguments[i]), i--; continue }

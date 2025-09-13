@@ -711,10 +711,12 @@ Volcanos(chat.ONAPPEND, {
 			}
 			if ((key == aaa.AVATAR || can.base.endWith(key, "_avatar")) && value) { _value = img(can.misc.Resource(can, data[key])) }
 			if ((key == aaa.BACKGROUND || can.base.endWith(key, "_background")) && value) { _value = img(can.misc.Resource(can, data[key])) }
-			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
+			if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.Resource(can, item)) }).join("") }
+			// if (key == nfs.IMAGE && value) { _value = can.core.List(can.core.Split(data[key]), function(item) { return img(can.misc.ShareCache(can, item, data.space)) }).join("") }
 			if (key == html.VIDEO && value) { _value = "<video src='"+value+"' controls autoplay playsinline webkit-playsinline></video>" }
 			if (key == mdb.HASH && can.base.isIn(can.ConfIndex(), "share", "web.share", web.TOKEN, aaa.SESS)) { _value = value.slice(0, 4)+"****" }
 			if (key == "secret" && value) { _value = value.slice(0, 4)+"****" }
+			if (key == "secret_key" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "secretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "SecretKey" && value) { _value = value.slice(0, 4)+"****" }
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
@@ -1252,13 +1254,18 @@ Volcanos(chat.ONMOTION, {
 		}), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
 	},
 	modifys: function(can, target, cb, item) { var back = target.innerHTML
+		if (can.base.isIn(item.name, "status", "type") || can.base.endWith(item.name, "_status", "_type")) { return }
+		function submit() { target.innerHTML = ui.textarea.value, ui.textarea.value == back || cb(event, ui.textarea.value.trim(), back) }
+		can.onappend.style(can, "_modify", target)
 		var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {
-			height: can.base.Min(target.offsetHeight-20, 60), width: can.base.Max(target.offsetWidth-20, can.ConfWidth()),
+			// height: can.base.Min(target.offsetHeight-20, 60), width: can.base.Max(target.offsetWidth-20, can.ConfWidth()),
 		}, onkeydown: function(event) { switch (event.key) {
-			case code.ENTER: if (event.ctrlKey) { target.innerHTML = event.target.value, event.target.value == back || cb(event, event.target.value.trim(), back) } break
+			case code.ENTER: if (event.ctrlKey) { submit() } break
 			case code.ESCAPE: target.innerHTML = back; break
 			default: can.onkeymap.input(event, can)
-		} }, _init: function(target) { item && can.onappend.figure(can, item, target), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
+		} }, _init: function(target) {
+			item && can.onappend.figure(can, item, target), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() })
+		}}, {icon: "bi bi-send", onclick: function() { submit() }}])
 	},
 	highlight: function(can, value, target) { can.page.Select(can, target||can._output, [html.TBODY, html.TR], function(tr) {
 		can.page.ClassList.set(can, tr, html.HIDDEN, can.page.Select(can, tr, html.TD, function(td) { td._text = td._text||td.innerText
