@@ -238,9 +238,11 @@ div.item.card div.action { position:absolute; right:0; }
 div.item.card div.title div.action { top:0; }
 body:not(.width1) div.item.card div.action { z-index:1; }
 div.item.card div.action input[type=button] { border:none; background-color:transparent; color:var(--notice-bg-color); }
-body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
 div.item.card div.action input[type=button].danger { color:var(--danger-bg-color) }
-div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+// div.item.card div.action input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+body:not(.mobile) div.item.card div.action input[type=button]:hover { background-color:var(--hover-bg-color); }
+body:not(.mobile) div.item.card div.action input[type=button].danger:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+body:not(.mobile) div.item.card div.action input[type=button].notice:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 div.item.card div.output { padding:10px 0; display:flex; transition:left .2s; width:100%; }
 div.item.card>div.output>img { border-radius:5px; padding:0; margin:0; margin-right:5px; height:40px; width:40px; min-width:40px; }
 body.width1 div.item.card div.output { width:100%; }
