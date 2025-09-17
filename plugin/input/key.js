@@ -42,13 +42,26 @@ Volcanos(chat.ONFIGURE, {key: {
 			can.ui.img.src = can.misc.Resource(can, icons), can.ui.span.innerText = title||value
 			target.value = value, can.onmotion.hidden(can, can._target)
 		}
+		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
+		var args = msg._input_args||[]; display.name = args[0]||display.name, display.title = args[1]||display.title, display.icons = args[2]||display.icons
+		if (display.title && !msg[display.title]) { display.title = msg.append[1] }
 		if (msg.Option("_display") && !can.base.beginWith(msg.Option("_display"), "/plugin/input/key.js") && !can.base.contains(msg.Option("_display"), "src/gonganxitong/common.js")) {
 			target._selectonly = true, can.ConfWidth(target.offsetWidth)
 			can.run = function(event, cmds, cb) { var list = msg["_input_args"]||msg.append, _msg = can.request(event)
 				can.showIcons(_msg.Option(list[0]), _msg.Option(list[2]||mdb.ICONS)||_msg.Option(mdb.ICONS)||_msg.Option(mdb.ICON)||_msg.Option("user_avatar"), _msg.Option(list[1]))
 			}
 			can.Conf("feature", can.sup.Conf("feature"))
-			can.onappend._output(can, msg, (msg[ice.MSG_DISPLAY]||[]).concat("/plugin/table.js").join(","), function(msg) { can.layout(msg) })
+			can.onappend._output(can, msg, (msg[ice.MSG_DISPLAY]||[]).concat("/plugin/table.js").join(","), function(msg) {
+				can.page.style(can, can._output, html.MAX_HEIGHT, "1000"), can.page.style(can, can._target, html.MAX_HEIGHT, "1000")
+				can.layout(msg), can.onmotion.delay(can, function() {
+					can.page.style(can, can._output, html.MAX_HEIGHT, "1000"), can.page.style(can, can._target, html.MAX_HEIGHT, "1000")
+					can.layout(msg)
+				})
+				can.sub.onaction.carddetail = function(event, sub, value) {
+					can.showIcons(value[display.name], value[display.icons]||value.auth_avatar||value.user_avatar, value[display.title]||value.title||value.name)
+					return true
+				}
+			})
 			return
 		}
 		can.onmotion.clear(can), can.onappend.table(can.sup, msg, function(value, key, index, item) { value = item[key]
@@ -63,9 +76,6 @@ Volcanos(chat.ONFIGURE, {key: {
 			}}
 		}, can._output)
 		can.core.CallFunc([can.oninputs, "_show"], {event: event, can: can, msg: msg, target: target, name: name})
-		var display = msg.Option(ice.MSG_DISPLAY)? can.base.ParseURL(msg.Option(ice.MSG_DISPLAY)): {name: name}
-		var args = msg._input_args||[]; display.name = args[0]||display.name, display.title = args[1]||display.title, display.icons = args[2]||display.icons
-		if (display.title && !msg[display.title]) { display.title = msg.append[1] }
 		display.style && can.core.CallFunc([can.sup.sub, "oninputs", display.style], {
 			event: event, can: can, msg: msg, target: target,
 			name: display.name||name, title: display.title, icons: display.icons

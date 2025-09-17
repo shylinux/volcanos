@@ -280,7 +280,7 @@ Volcanos(chat.ONAPPEND, {
 				can.user.carte(event, can, {_trans: meta._trans||can._trans}, can.core.List(rest, function(item) { return item.name }), function(event, button) { run(event, button) })
 			}})
 		}
-		can.core.List(list, function(item) {
+		can.core.List(list, function(item) { if (!item) { return }
 			var value = can.sup && can.sup.onexport.session && can.sup.onexport.session(can.sup, "action:"+item.name||item[0]) || item.value
 			if (value) { item.value = value }
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
@@ -1060,11 +1060,20 @@ Volcanos(chat.ONAPPEND, {
 		var input = meta.action||(can.base.isIn(meta.name, mdb.ICON, mdb.ICONS)? meta.name: mdb.KEY), path = chat.PLUGIN_INPUT+input+nfs._JS; can.require([path], function(can) {
 			function _cb(sub, value, old) { if (value == old) { return } target.value = value, can.base.isFunc(cb) && cb(sub, value, old) }
 			target.onkeydown = function() {
-			if (event.key == code.ESCAPE && target._can) { return target._can.close(), target.blur(), meta._escape && meta._escape() } else if (event.key == code.ENTER) { can.base.isFunc(cb) && cb(event, target.value) } }
+				if (event.key == code.ESCAPE && target._can) {
+					return target._can.close(), target.blur(), meta._escape && meta._escape()
+				} else if (event.key == code.ENTER) {
+					can.base.isFunc(cb) && cb(event, target.value)
+				}
+			}
 			can.core.ItemCB(can.onfigure[input], function(key, on) { var last = target[key]||function() { }; target[key] = function(event) { can.misc.Event(event, can, function(msg) {
 				function show(sub, cb) { can.base.isFunc(cb) && cb(sub, _cb)
-					can.onlayout.figure(event, can, sub._target), can.onmotion.toggle(can, sub._target, true)
-					sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
+					can.page.style(can, sub._target, html.HEIGHT, "", html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
+					can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, can.page.height()/2)
+					can.onlayout.figure(event, can, sub._target, false, null, function(height, width) {
+						can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight-sub._action.offsetHeight)
+						sub.Status(html.HEIGHT, sub._output.offsetHeight), sub.Status(html.WIDTH, sub._output.offsetWidth)
+					}), can.onmotion.toggle(can, sub._target, true)
 					if (meta.action == "date" || sub._target.offsetTop > 300 && (!meta._selectonly || sub._target.offsetTop+sub._output.offsetHeight > 600)) {
 						can.user.isMobile && can.page.style(can, sub._target, html.LEFT, "0", html.BOTTOM, "0", html.RIGHT, "0", html.TOP, "", html.MAX_WIDTH, "")
 					}
@@ -1080,8 +1089,11 @@ Volcanos(chat.ONAPPEND, {
 						sub.layout = function(msg) {
 							can.onappend._status(sub, [mdb.TOTAL]), sub.Status(mdb.TOTAL, msg.Length()), can.onmotion.toggle(can, sub._status, msg.Length() > 5)
 							msg.append.length == 1 && can.page.ClassList.add(can, sub._target, chat.SIMPLE)
-							can.page.style(can, sub._target, html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
-							can.onlayout.figure({target: target}, can, sub._target, false, 200, function(height, width) {
+							show(sub, function() {})
+							return
+							can.page.style(can, sub._target, html.HEIGHT, "", html.MAX_HEIGHT, can.page.height()/2, html.MIN_WIDTH, target.offsetWidth, html.MAX_WIDTH, can.page.width()/2)
+							can.page.style(can, sub._output, html.HEIGHT, "", html.MAX_HEIGHT, can.page.height()/2)
+							can.onlayout.figure({target: target}, can, sub._target, false, null, function(height, width) {
 								can.page.style(can, sub._output, html.MAX_HEIGHT, height-sub._status.offsetHeight-sub._action.offsetHeight)
 								sub.Status(html.HEIGHT, parseInt(height-sub._status.offsetHeight)), sub.Status(html.WIDTH, parseInt(width))
 							})

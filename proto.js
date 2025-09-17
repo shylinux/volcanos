@@ -156,7 +156,10 @@ try { if (typeof(window) == code.OBJECT) { var meta = Volcanos.meta; meta.versio
 			if (can.user.isMobile && last === can.page.width() < can.page.height()) { return } last = can.page.width() < can.page.height()
 			can.onmotion.delayOnce(can, function() { can.onengine.signal(can, chat.ONRESIZE, can.request(event, kit.Dict(html.HEIGHT, window.innerHeight, html.WIDTH, window.innerWidth))) }, 100, can._delay_resize = can._delay_resize||[])
 		}) }
-		window.onerror = function(message, source, lineno, colno, error) { debug? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error) }
+		window.onerror = function(message, source, lineno, colno, error) {
+			if (message.indexOf("ResizeObserver") == 0) { return }
+			debug? alert([message].concat(can.misc._stacks(0, error)).join(lex.NL)): can.misc.Error(message, lex.NL+[source, lineno, colno].join(ice.DF), error)
+		}
 		window.onmousemove = function(event) { window._mousemove && (window._mousemove.onmousemove(event)) }
 		window.onmouseup = function(event) { window._mousemove && (window._mousemove.onmouseup(event)) }
 		window.onbeforeunload = function() { can.onengine.signal(can, chat.ONUNLOAD) }

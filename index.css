@@ -185,6 +185,9 @@ div.code>img.avatar { --qrcode-icon-height:32px; object-fit:cover; border-radius
 	height:var(--qrcode-icon-height) !important; width:var(--qrcode-icon-height) !important;
 	position:absolute; top:calc(50% - var(--qrcode-icon-height) / 2 - 12px); left:calc(50% - var(--qrcode-icon-height) / 2);
 }
+img {
+	object-fit:cover;
+}
 fieldset.plugin.cmd.output>div.output { top:0; }
 div.output._unload { position:absolute; }
 fieldset._process input { background-color:transparent !important; color:var(--disable-fg-color) !important; }
@@ -252,7 +255,7 @@ div.item.card.select div.output { transition:left .5s; }
 // div.item img[src*=".ico"] { padding:3px; }
 // div.item img[src*=".jpg"] { padding:3px; }
 img { vertical-align:top; }
-table.content tr>td img[src*=".jpg"] { padding:5px; }
+// table.content tr>td img[src*=".jpg"] { padding:5px; }
 div.output.card>div.item>div.content { white-space:pre; font-size:var(--status-font-size); padding:var(--input-padding); height:var(--header-height); }
 div.output.card>div.item>div.action { text-align:right; width:calc(100% - var(--plugin-padding)); display:flex; position:absolute; bottom:var(--plugin-padding); }
 div.output.card>div.item>div.action>input { padding:0 var(--button-padding); margin-right:var(--input-margin); }
@@ -455,7 +458,7 @@ body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
 body div.input.float tr.img td:last-child>div.item>div { background-color:var(--input-bg-color); color:gray; font-size:40px; display:flex; align-items:center; justify-content:center; position:relative; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; padding:0; }
-body div.input.float tr.img td:last-child>div.item>div img { max-width:100%; max-height:100%; }
+body div.input.float tr.img td:last-child>div.item>div img { max-width:100%; max-height:100%; width:100%; height:100%; }
 body div.input.float tr.img td:last-child>div.item>div>i { font-size:20px; position:absolute; top:0; right:0; }
 body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:20px; position:relative; }
 body div.input.float tr.img td:last-child>div.item>div>i:hover { background-color:var(--hover-bg-color); }
@@ -480,10 +483,12 @@ body.width1 div.input.float tr.video td:last-child>div { width:100% !important; 
 body.width1 div.input.float tr.video td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; }
 body.width1 div.inputs>div.input.float>div.action { display:flex; gap:10px; }
 body div.input.float tr.icon td:last-child { position:relative; }
+body div.input.float tr.icon.img td:last-child img { object-fit:contain; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
 body div.input.float tr td:last-child div.item.text:not(.image)>img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
 body div.input.float tr td:last-child div.item.text span:not(.icon) {
 	font-family:var(--code-font-family); line-height:var(--action-height); width:280px; overflow:hidden; position:absolute; left:33px;
+	white-space:pre;
 }
 body div.input.float tr.icon td:last-child input { padding-left:var(--action-height); }
 body div.input.float tr.icons td:last-child img { height:28px; width:28px; position:absolute; left:2px; top:2px; }
@@ -502,6 +507,7 @@ body div.input.float input[type=text] { width:var(--form-width) !important; padd
 body div.input.float div.prompt { font-size:12px; color:gray; }
 body:not(.mobile) div.input.float tr td:first-child { line-height:var(--action-height); vertical-align:top; }
 body div.input.float input[name=cancel] { border:var(--box-danger); background-color:transparent; color:var(--danger-bg-color); }
+body div.input.float input[name=submit] { border:var(--box-notice); background-color:transparent; color:var(--notice-bg-color); }
 body.mobile div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }

@@ -100,6 +100,7 @@ var web = {
 
 	WORKER: "worker", SERVER: "server", ORIGIN: "origin", VENDOR: "vendor",
 	GATEWAY: "gateway", ONLINE: "online", OFFLINE: "offline",
+	OAUTH: "oauth",
 
 	SHOW: "show",
 	FULL: "full", OPEN: "open", LINK: "link", HTTP: "http", DOMAIN: "domain", URL: "url",
