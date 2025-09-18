@@ -508,6 +508,7 @@ Volcanos(chat.ONAPPEND, {
 				can.onmotion.filter(can, event.target.value)
 			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) {
 				_input.value = "", input.onkeyup({target: event.target.previousSibling})
+				can.page.style(can, _input, html.COLOR, "")
 				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }

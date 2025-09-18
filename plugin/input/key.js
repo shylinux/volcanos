@@ -58,7 +58,10 @@ Volcanos(chat.ONFIGURE, {key: {
 					can.layout(msg)
 				})
 				can.sub.onaction.carddetail = function(event, sub, value) {
-					can.showIcons(value[display.name], value[display.icons]||value.auth_avatar||value.user_avatar, value[display.title]||value.title||value.name)
+					can.showIcons(value[display.name],
+						value[display.icons]||value.auth_avatar||value.user_avatar,
+						value[display.title]||value.title||value.auth_name||value.name,
+					)
 					return true
 				}
 			})
