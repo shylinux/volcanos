@@ -707,7 +707,7 @@ fieldset.plugin:hover { box-shadow:var(--notice-box-shadow); }
 body.dark fieldset.plugin:hover { animation:box-shadow-breathing 3s infinite; }
 @keyframes box-shadow-breathing { 0% { box-shadow:var(--notice-bg-color) 0px 0px 0; } 50% { box-shadow:var(--notice-bg-color) 0px 0px 50px; } 100% { box-shadow:var(--notice-bg-color) 0px 0px 0; } }
 body.light fieldset.plugin>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
-body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
+// body.light fieldset.story>legend { box-shadow:var(--legend-box-shadow); margin-right:var(--legend-margin); }
 body.light fieldset.vimer fieldset.story>legend { margin-right:var(--input-margin); padding:0 var(--input-padding); }
 fieldset.story>legend { border-top-left-radius:var(--plugin-radius); }
 fieldset.story.float>legend { padding:0 10px; }
