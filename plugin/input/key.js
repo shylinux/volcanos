@@ -57,7 +57,7 @@ Volcanos(chat.ONFIGURE, {key: {
 					can.page.style(can, can._output, html.MAX_HEIGHT, "1000"), can.page.style(can, can._target, html.MAX_HEIGHT, "1000")
 					can.layout(msg)
 				})
-				can.sub.onaction.carddetail = function(event, sub, value) {
+				can.sub.onaction.beforeDetail = function(event, sub, value) {
 					can.showIcons(value[display.name],
 						value[display.icons]||value.auth_avatar||value.user_avatar,
 						value[display.title]||value.title||value.auth_name||value.name,
