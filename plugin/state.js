@@ -225,7 +225,7 @@ Volcanos(chat.ONACTION, {
 		"ish_sys_dev_run_command "+args, "ish_sys_dev_run_action", "ish_sys_dev_run_source",
 	]; can.user.copy(event, can, list[0]) },
 	"生成图片": function(event, can) { can.user.toimage(can, can.name) },
-	
+
 	_view: function(can, cb) { var sub = can.sub; cb(sub), sub.onimport.layout(sub) },
 	"参数": function(event, can) { can.onaction._view(can, function(sub) { can.onmotion.toggle(can, can._option) }) },
 	"操作": function(event, can) { can.onaction._view(can, function(sub) { can.onmotion.toggle(can, can._action) }) },
@@ -243,7 +243,7 @@ Volcanos(chat.ONACTION, {
 			var sub = can.sub; sub.onimport.tool(sub, [data], function(sub) { sub.select() })
 		})
 	},
-	
+
 	"保存参数": function(event, can) { can.search(event, ["River.ondetail.保存参数"]) },
 	"清空参数": function(event, can) { can.page.SelectArgs(can, can._option, "", function(target) { return target.value = "" }) },
 	"复制数据": function(event, can) { var sub = can.sub; can.user.copy(event, can, sub.onexport.table(sub)||sub.onexport.board(sub)) },
@@ -251,7 +251,7 @@ Volcanos(chat.ONACTION, {
 		can.user.downloads(can, sub.onexport.table(sub), list[0], nfs.CSV), can.user.downloads(can, sub.onexport.board(sub), list[0], nfs.TXT)
 	}) },
 	"清空数据": function(event, can) { can.onmotion.clear(can, can._output) },
-	
+
 	"查看文档": function(event, can) { can.requests(event, {action: ice.HELP}), can.onengine.signal(can, chat.ONDEBUGS, can.requestPodCmd(event)) },
 	"查看脚本": function(event, can) { can.onappend._float(can, web.CODE_VIMER, can.misc.SplitPath(can, can.sub._path)) },
 	"查看源码": function(event, can) { can.requests(event, {action: nfs.SOURCE}), can.onengine.signal(can, chat.ONDEBUGS, can.requestPodCmd(event)) },
@@ -270,7 +270,7 @@ Volcanos(chat.ONACTION, {
 	"查看日志": function(event, can) { var logid = can.Status("log.id"); can.onappend._float(can, web.CODE_XTERM, ["sh", logid, "grep "+logid+" var/log/bench.log | grep -v grep | grep -v '"+logid+" $'"]) },
 	"打包页面": function(event, can) { can.onengine.signal(can, "onwebpack", can.request(event)) },
 	"删除工具": function(event, can) { can.onaction._close(event, can) },
-	
+
 	refresh: function(event, can) { can.onimport.size(can, can.ConfHeight(), can.ConfWidth(), true, can.Mode()) },
 	detail: function(event, can) { var msg = can.request(event)
 		can.core.Item(can.Option(), function(key, value) {
@@ -308,7 +308,7 @@ Volcanos(chat.ONACTION, {
 			can.user.toast(can, {title: msg.Append(mdb.NAME), duration: -1, content: msg.Append(mdb.TEXT), action: [cli.CLOSE, cli.OPEN]})
 		})
 	},
-	
+
 	getClipboardData: function(event, can, button) {
 		function add(text) { can.runAction(event, button, can.base.Simple(can.base.ParseJSON(text)), function() { can.Update() }) }
 		navigator.clipboard? navigator.clipboard.readText().then(add).catch(function(err) { can.misc.Log(err) }):
@@ -394,7 +394,7 @@ Volcanos(chat.ONEXPORT, {
 			if ((arguments.length == 1 || arguments.length == 2) && !can.base.isIn(can.ConfIndex(), code.VIMER, wiki.FEEL, wiki.WORD)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) }
 		}
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) })
-		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") && push(can.user.info.titles)
+		list.length < 3 && can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") && push(can.user.info.titles)
 		can.user.title(list.join(" "))
 	},
 	args: function(can) { return can.Option() },

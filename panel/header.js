@@ -198,7 +198,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 })
 Volcanos(chat.ONEXPORT, {
 	language: function(can) { return can.user.info.language },
-	avatar: function(can) { return can.misc.Resource(can, can.user.info.avatar == "void"? "": can.user.info.avatar) },
+	avatar: function(can) { return can.misc.ResourceIcons(can, can.user.info.avatar == "void"? "": can.user.info.avatar) },
 	background: function(can) { return can.user.info.background == "void"? "": can.user.info.background },
 	theme: function(can) { return can._theme || can.misc.SearchOrConf(can, chat.THEME) || can.__theme || "" },
 	height: function(can) { return can._target.offsetHeight },

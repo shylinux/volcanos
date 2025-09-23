@@ -1267,7 +1267,7 @@ Volcanos(chat.ONMOTION, {
 		}), can.onmotion.focus(can, target), can.onmotion.delay(can, function() { target.click() }) }}])
 	},
 	modifys: function(can, target, cb, item) { var back = target.innerHTML
-		if (can.base.isIn(item.name, "status", "type") || can.base.endWith(item.name, "_status", "_type")) { return }
+		// if (can.base.isIn(item.name, "status", "type") || can.base.endWith(item.name, "_status", "_type")) { return }
 		function submit() { target.innerHTML = ui.textarea.value, ui.textarea.value == back || cb(event, ui.textarea.value.trim(), back) }
 		can.onappend.style(can, "_modify", target)
 		var ui = can.page.Appends(can, target, [{type: html.TEXTAREA, value: target.innerText, style: {
