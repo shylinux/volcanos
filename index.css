@@ -285,7 +285,7 @@ div.output>div.layout>div.layout { position:relative; }
 /* project */
 div.output>div.project:not(.item) { background-color:var(--plugin-bg-color); }
 div.output>div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
-div.output>div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; border-left:none; }
+div.output>div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; }
 div.output>div.project div.action div.item.icons input { display:none; }
 div.project div.action div.item.icons { background-color:var(--plugin-bg-color); padding:0; }
 div.project div.expand { margin-right:var(--input-margin); width:5px; float:left; transform:translate(1px, -1px) rotate(0deg); transition:all .5s; }
