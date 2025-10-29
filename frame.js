@@ -1131,7 +1131,7 @@ Volcanos(chat.ONLAYOUT, {
 	},
 	expand: function(can, target, width, height, item) {
 		var margin = 2*html.PLUGIN_PADDING; width = width||html.CARD_WIDTH, height = height||html.CARD_HEIGHT
-		var n = parseInt(target.offsetWidth/(width+margin))||1; width = target.offsetWidth/n - margin
+		var n = parseInt((target.offsetWidth)/(width+margin))||1; width = parseInt((target.offsetWidth-2)/n - margin)
 		if (width+margin >= target.offsetWidth) { n = 1, width = target.offsetWidth - margin }
 		var m = parseInt(target.offsetHeight/(height+margin))||1; m > 2 && (height = target.offsetHeight/m - margin)
 		if (height+margin >= target.offsetHeight) { m = 1, height = target.offsetHeight - margin }

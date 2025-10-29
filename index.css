@@ -1046,7 +1046,7 @@ fieldset.web.code.docker.studio>div.output>fieldset>form.option>div:first-child 
 fieldset.web.code.system.unicode>div.output>table.content th { text-align:center; cursor:default; }
 fieldset.web.code.system.unicode>div.output>table.content td { text-align:center; cursor:default; }
 fieldset.web.wiki.word>div.output>fieldset.story:not(.float):not(.full) { margin:var(--title-margin) 0; border:var(--box-border); border-radius:10px; }
-fieldset.web.wiki.word>div.output>fieldset.story:not(.float):not(.full)>form.option>div.item.text input:not(:hover):not(:focus) { border-top:none; }
+fieldset.web.wiki.word>div.output>fieldset.story:not(.float):not(.full)>form.option>div.item.text input:not(:hover):not(:focus):not(:will) { border-top:none; }
 fieldset.web.wiki.word>div.output fieldset.story:not(.float):not(.full)>form.option>div.icon.delete { display:none; }
 fieldset.web.chat.wx.scan>div.output>table.content tr.expired { color:var(--disable-fg-color); }
 fieldset.web.chat.wx.ide>div.output>table.content tr.current { background-color:var(--hover-bg-color); }

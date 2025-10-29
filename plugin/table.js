@@ -13,6 +13,7 @@ Volcanos(chat.ONIMPORT, {
 		can.onappend.style(can, msg.Option("display.style"), can._fields)
 		can.sup.onexport.title(can)
 	},
+	_exit: function(can) {},
 	card: function(can, msg, target, filter) { target = target||can.ui.content||can._output
 		can.page.Append(can, target, msg.Table(function(value) { if (filter && filter(value)) { return }
 			var img = can.misc.ResourceIcons(can, value.icon = value.icons||value.icon||value.image)
@@ -384,14 +385,12 @@ Volcanos(chat.ONACTION, {
 		if (target.onslideright) { return target.onslideright(event) }
 		can.onaction._goback && can.onaction._goback(event)
 	},
-	onslidedown: function(event, can, data, direction) {
-		var target = can.ui.list||can.ui.output||can._output
+	onslidedown: function(event, can, data, direction) { var target = can.ui.list||can.ui.output||can._output
 		if (target.scrollTop < -100) {
 			can.Update(can.request(event, {_toast: "reload"}))
 		}
 	},
-	onslideup: function(event, can, data, direction) {
-		var target = can.ui.list||can.ui.output||can._output
+	onslideup: function(event, can, data, direction) { var target = can.ui.list||can.ui.output||can._output
 		if (target.offsetHeight+target.scrollTop > target.scrollHeight+100) {
 			can.Update(can.request(event, {_toast: "reload"}))
 		}
@@ -433,14 +432,11 @@ Volcanos(chat.ONINPUTS, {
 				can.sup.Conf("_trans.value."+name+".icons."+value[title])||
 				can.sup.Conf("_trans.value."+name+".icons."+value[name])
 			)
-			return {view: html.ITEM, list: [{icon: _icons},
-				{view: html.CONTAINER, list: [{view: [html.TITLE, "", _title]},
-					can.onappend.label(can, value, kit.Dict(
-						"version", icon.version, "time", icon.compile, name, icon.data,
-						"user_name", icon.username,
-					)),
-				]},
-			], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], _icons, _title) }}
+			return {view: html.ITEM, list: [{icon: _icons}, {view: html.CONTAINER, list: [
+				{view: [html.TITLE, "", _title]}, can.onappend.label(can, value, kit.Dict(
+					"version", icon.version, "time", icon.compile, name, icon.data, "user_name", icon.username,
+				)),
+			]}], onclick: function(event) { can.showIcons(value[name]||value[mdb.NAME], _icons, _title) }}
 		}))
 	},
 	dream: function(event, can, msg, target, name) { can.sup.sub.oninputs._nameicon(event, can, msg, target, name) },
