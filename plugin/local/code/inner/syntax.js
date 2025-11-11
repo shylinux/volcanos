@@ -144,6 +144,7 @@ Volcanos(chat.ONSYNTAX, {
 			"field": code.KEYWORD, "image": code.KEYWORD, "video": code.KEYWORD, "audio": code.KEYWORD,
 			"style": code.KEYWORD,
 			"inner": code.KEYWORD,
+			"qrcode": code.KEYWORD,
 			"project": code.KEYWORD,
 			"product": code.KEYWORD,
 			"material": code.KEYWORD,
