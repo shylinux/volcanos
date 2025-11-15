@@ -39,7 +39,7 @@ Volcanos(chat.ONENGINE, {
 			// toast && toast.close && toast.close()
 			toast = true
 			// delete(sub._toast), delete(sub.__toast)
-			can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
+			msg._method == http.GET || can.onmotion.delay(can, function() { can.page.ClassList.del(can, sub._target, "_process") }, 300)
 			can.base.isFunc(cb) && cb(msg), Volcanos.meta.pack[can.core.Keys(panel._name, cmds.join(mdb.FS))] = msg
 		})
 	},
@@ -512,7 +512,7 @@ Volcanos(chat.ONAPPEND, {
 				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
-			item.icon = item.icon||can.Conf(["_trans.input.icons", item.name])||can.Conf(["_icons", item.name])||icon[item.name]
+			item.icon = item.icon||can.Conf(["_trans.input.icons", item.name])||can.Conf(["_icons", item.name])||icon[item.name]||"bi bi-textarea-t"
 		}
 		if (item.type == html.MULTIPLE) {
 			input.data.type = html.BUTTON, input.value = can.user.trans(can, item.name)
@@ -723,6 +723,8 @@ Volcanos(chat.ONAPPEND, {
 			if (key == web.TOKEN && value) { _value = value.slice(0, 4)+"****" }
 			if (key == "price") { _value = "¥ "+value+" 元" }
 			if (key == "amount") { _value = "¥ "+value+" 元" }
+			if (can.base.endWith(key, "_amount")) { _value = "¥ "+value+" 元" }
+			if (can.base.endWith(key, "_price")) { _value = "¥ "+value+" 元" }
 			if (key == aaa.PASSWORD && value) { _value = "********" }
 			function onclick() { return false }
 			if (key == mdb.STATUS && can.base.isIn(value, mdb.DISABLE, ice.FALSE)) { _value = `<i class="${icon.enable}">`
@@ -766,6 +768,7 @@ Volcanos(chat.ONAPPEND, {
 			}, onmouseover: function(event) {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.set(can, target, "will", can.page.ClassList.has(can, target, key)) })
 			}, _init: function(target) {
+				if (can.base.contains(key, "_")) { can.onappend.style(can, key.split("_").pop(), target.parentNode) }
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
 				if (msg.IsDetail() && key != "key" && value == "") { can.onappend.style(can, "_void", target.parentNode) }
 				if (msg.IsDetail() && can.base.endWith(key, "_uid")) { can.onappend.style(can, "hide", target.parentNode) }
@@ -1506,12 +1509,12 @@ Volcanos(chat.ONMOTION, {
 Volcanos(chat.ONKEYMAP, {
 	_init: function(can, target) { target = target||document.body, can.onkeymap._build(can)
 		target.onkeydown = function(event) {
-			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			can.onengine.signal(can, "on"+event.type, can.request(event))
 		}, target.onkeyup = function(event) {
-			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			if (can.page.tagis(event.target, html.SELECT, html.INPUT, html.TEXTAREA)) { return }
+			if (can.user.isWindows && event.ctrlKey) { can.onkeymap.prevent(event) }
 			can.onengine.signal(can, "on"+event.type, can.request(event))
 		}
 	},

@@ -3,7 +3,7 @@ Volcanos(chat.ONFIGURE, {key: {
 		// if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
 		// can.onmotion.focus(can, target)
 		can.onmotion.hidden(can, can._target)
-		can.runAction(event, mdb.INPUTS, [name, value||""], function(msg) {
+		can.runAction(can.request(event, {_method: http.GET}), mdb.INPUTS, [name, value||""], function(msg) {
 			if (can.sup.ConfIndex() != "web.team.production.case") {
 				name == ctx.INDEX && can.core.Item(can.onengine.plugin.meta, function(key) { msg.Push(ctx.INDEX, can.core.Keys(ice.CAN, key)) })
 			}

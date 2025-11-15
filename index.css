@@ -163,7 +163,7 @@ table.content.option.checkbox td.option { left:50px; }
 table.content.option.checkbox th.option { left:50px; }
 table.content.detail tr td:first-child { background-color:var(--plugin-bg-color); cursor:default; }
 body:not(.mobile) table.content.detail tr:hover:not(.action) td:first-child { background-color:var(--hover-bg-color); }
-table.content.detail td i { display:none; }
+table.content.detail td:not(.modify) i { display:none; }
 table.content.detail td._modify i { font-size:20px; display:block; position:absolute; right:10px; bottom:10px; }
 table.content.detail td._modify { position:relative; }
 table.content.detail td { white-space:break-spaces; word-break:break-all; }
