@@ -1,6 +1,7 @@
 Volcanos(chat.ONFIGURE, {img: {
 	_init: function(can, meta, target) { target.value == meta.value && (target.value = ""); var images = can.core.Split(target.value)
 		var count = parseInt(meta.value||"9"), width = target.parentNode.offsetWidth-2; for (var n = 1; n < 10; n++) { if (n*n >= count) { width = (width/n); break } }
+		debugger
 		width = can.base.Max(width, 120), can.onmotion.hidden(can, target), can.onappend.style(can, html.FLEX, target.parentNode)
 		// function add(target, hash) { target._hash = hash, can.page.Appends(can, target, [{img: hash, height: width, width: width}, {icon: "bi bi-x-lg"}]) }
 		// function add(target, hash) { target._hash = hash, can.page.Appends(can, target, [{img: hash, height: width, width: width}]) }
