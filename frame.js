@@ -325,7 +325,7 @@ Volcanos(chat.ONAPPEND, {
 		); return meta
 	},
 	_output0: function(can, meta, event, cmds, cb, silent) { var msg = can.request(event); meta.feature = meta.feature||{}
-		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds, cb)) { return } }
+		if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && cmds && cmds[0] == ctx.ACTION) { if (msg.RunAction(event, can.sub, cmds)) { return } }
 		if (msg.RunAction(event, can, cmds)) { return } if (msg.Option(ice.MSG_HANDLE) != ice.TRUE && can.misc.Inputs(can, msg, cmds, cb, meta)) { return }
 		var p = can._history[can._history.length-1]; p && p._opts && can.request(event, p._opts)
 		return can.onengine._plugin(event, can, msg, can, cmds, cb) || can.run(event, cmds, function(msg) { var _can = can._fields? can.sup: can
@@ -536,9 +536,9 @@ Volcanos(chat.ONAPPEND, {
 				_input._show_img = can.page.insertBefore(can, [{type: html.IMG}], target)
 				_input._show_span = can.page.insertBefore(can, [{type: html.SPAN, onclick: function(event) { target.click() }}], target)
 				target._clear = function() { _input._show_img.src = can.misc.Resource(can, "usr/icons/icebergs.png"), _input._show_span.innerHTML = "" }
+				can.page.style(can, target, html.COLOR, html.TRANSPARENT)
+				// can.onappend.style(can, mdb.ICONS, target.parentNode)
 			} _input._show_img.src = can.misc.ResourceIcons(can, icons), _input._show_span.innerText = title||value
-			can.page.style(can, target, html.COLOR, html.TRANSPARENT)
-			can.onappend.style(can, mdb.ICONS, target.parentNode)
 			target.value = value
 		}
 		return _input

@@ -188,9 +188,6 @@ div.code>img.avatar { --qrcode-icon-height:32px; object-fit:cover; border-radius
 img {
 	object-fit:cover;
 }
-img.qrcode {
-	cursor:pointer;
-}
 fieldset.plugin.cmd.output>div.output { top:0; }
 div.output._unload { position:absolute; }
 fieldset._process input { background-color:transparent !important; color:var(--disable-fg-color) !important; }
@@ -625,9 +622,7 @@ body:not(.mobile) h1:hover { background-color:var(--hover-bg-color); color:var(-
 body:not(.mobile) h2:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 body:not(.mobile) h3:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 kbd:hover { background-color:var(--hover-bg-color); }
-samp:hover { background-color:white; color:black; }
-// a { color:unset; }
-a { color:var(--notice-bg-color); }
+samp:hover { background-color:white; color:black; } a { color:unset; }
 span.keyword { color:var(--code-keyword); } span.function { color:var(--code-function); }
 span.item.select { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }
 span.item:hover { background-color:var(--hover-bg-color); color:var(--hover-fg-color); }

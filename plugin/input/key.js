@@ -58,10 +58,9 @@ Volcanos(chat.ONFIGURE, {key: {
 					can.layout(msg)
 				})
 				can.sub.onaction.beforeDetail = function(event, sub, value) {
-					can.showIcons(
-						value[display.name]||value.uid||value.id||value.hash,
-						value[display.icons]||value.icons||value.icon||value.auth_avatar||value.user_avatar,
-						value[display.title]||value[can.ConfCmd()+"_title"]||value.title||value.name||value.auth_name,
+					can.showIcons(value[display.name],
+						value[display.icons]||value.auth_avatar||value.user_avatar,
+						value[display.title]||value.title||value.auth_name||value.name,
 					)
 					return true
 				}
