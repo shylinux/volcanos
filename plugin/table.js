@@ -272,7 +272,7 @@ Volcanos(chat.ONIMPORT, {
 		}, function() { delete(value._tabs), can.onmotion.cacheClear(can, value._hash, can.ui.content, can.ui.profile, can.ui.display) })
 	},
 	pluginVimer: function(can, key, value, file, target) {
-		can.onappend.plugin(can, {index: "vimer", args: ["src/", file, "1"], height: can.ConfHeight()-106, width: target? target.offsetWidth: can.ConfWidth()}, function(sub) {
+		can.onappend.plugin(can, {style: "float", index: "vimer", args: ["src/", file, "1"], height: can.ConfHeight()-106, width: target? target.offsetWidth: can.ConfWidth()}, function(sub) {
 			sub.run = function(event, cmds, cb) { var _msg =can.request(event)
 				if (cmds[0] != ctx.ACTION) {
 					_msg.Echo(value), _msg.Display("/plugin/local/code/vimer.js"), cb(_msg)
