@@ -349,7 +349,16 @@ Volcanos(chat.ONLAYOUT, {
 Volcanos(chat.ONEXPORT, {
 	action_value: function(can, key, def) { var value = can.Action(key); return can.base.isIn(value, ice.AUTO, key, undefined)? def: value },
 	table: function(can) { var msg = can._msg; if (msg.Length() == 0) { return } var res = [msg.append && msg.append.join(mdb.FS)]
-		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) { return value }).join(ice.FS)) })
+		msg.Table(function(line, index, array) { res.push(can.core.Item(line, function(key, value) {
+			if (value.indexOf("\n") > -1) {
+				value = can.base.replaceAll(value, "\n", "\\n")
+			}
+			if (value.indexOf("\"") > -1) {
+			}
+			if (value.indexOf(",") > -1) {
+			}
+			return value
+		}).join(ice.FS)) })
 		return res.join(lex.NL)
 	},
 	board: function(can) { var msg = can._msg; return msg.Result() },

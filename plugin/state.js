@@ -160,7 +160,7 @@ Volcanos(chat.ONACTION, {
 		function(can) { if (can.isCmdMode()) { return "打开首页" } },
 		function(can) { if (can.ConfSpace() || can.isCmdMode() && can.misc.Search(can, ice.POD)) { return "打开空间" } },
 		function(can) { if (!can.isCmdMode()) { return "打开链接" } },
-		"生成链接", "共享工具", "发送聊天",
+		"生成链接", "共享工具", "发送聊天", "下载数据",
 		function(can) { if (can.Conf("_help")) { return "查看文档" } },
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看脚本" } },
 		function(can) { if (can.misc.Search(can, ice.MSG_DEBUG)) { return "查看源码" } },
