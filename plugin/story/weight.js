@@ -1,9 +1,19 @@
 Volcanos(chat.ONIMPORT, {
-	_init: function(can, msg, cb) { can.ui = can.onappend.layout(can)
+	_init: function(can, msg, cb) {
+		if (msg.Length() == 0) { return }
+		can.ui = can.onappend.layout(can)
 		can.page.requireDraw(can, function() { can.db.delay = 50, can.onappend.style(can, "pie"), can.onaction.list = []
 			can.list = can.onimport._data(can, msg, can.Conf(mdb.FIELD)||msg.append[1]||mdb.VALUE)
-			can.core.List(can.list, function(item) { msg.Push("weight", item.value.weight = parseInt(item.span*100/360)+"%").Push(cli.COLOR, '<span style="background-color:'+item.color+'">    </span>') })
-			can.onappend.table(can, msg, null, can.ui.profile), can.page.Select(can, can.ui.profile, html.TR, function(tr, index) { can.ui.table = tr.parentNode
+			can.core.List(can.list, function(item) { var weight = parseFloat(item.span*100/360).toFixed(2)
+				msg.Push("weight", item.value.weight = weight+"%").Push(cli.COLOR, '<span style="background-color:'+item.color+'">    </span>')
+			})
+			if (can.user.isMobile) {
+				can.onappend.table(can, msg, null, can.ui.display)
+			} else {
+				can.onappend.table(can, msg, null, can.ui.profile)
+			}
+			can.page.Append(can, can._output, [{view: ["total", "", "总和："+can.db.total]}])
+			can.page.Select(can, can.user.isMobile? can.ui.display: can.ui.profile, html.TR, function(tr, index) { can.ui.table = tr.parentNode
 				can.page.Modify(can, tr, {onmouseenter: function(event) { can._draw(can.db.which = index-1) }})
 			}), can.base.isFunc(cb) && cb(msg), can.onappend._status(can, msg.append)
 		})
@@ -40,6 +50,7 @@ Volcanos(chat.ONIMPORT, {
 			"#0780cf",
 		]
 		var total = 0; msg.Table(function(value) { total += can.onimport._parseInt(can, value[field]) })
+		can.db.total = total
 		var begin = 0; msg[cli.COLOR] = [], msg["weight"] = [], msg.Table(function(value, index) {
 			list.push({span: can.onimport._parseInt(can, value[field])/total*360, color: color[index%color.length], value: value})
 		}); return list
@@ -70,10 +81,19 @@ Volcanos(chat.ONIMPORT, {
 		return parseInt(value)
 	},
 	layout: function(can) { if (!can.ui || !can.ui.svg) { return }
-		can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.display), can.onmotion.toggle(can, can.ui.profile, true)
+		if (can.user.isMobile) {
+			var width = can.ConfWidth(), height = can.ConfWidth(), margin = 10, r = can.base.Max(height, width)/2-1*margin-margin
+			can.ui.svg.Val(html.WIDTH, width), can.ui.svg.Val(html.HEIGHT, height)
+			can._draw = function(which) { can.onimport._draw(can, width/2-margin/2, height/2-margin/2, r, margin, which) }, can._draw(can.db.which||-1)
+			can.onmotion.toggle(can, can.ui.display, true)
+			can.page.style(can, can._output, "max-height", "unset")
+			return
+		}
+		can.onmotion.hidden(can, can.ui.project), can.onmotion.hidden(can, can.ui.display)
+		can.onmotion.toggle(can, can.ui.profile, true)
 		var _width = can.base.Max(can.ConfWidth()-can.ConfHeight(), 600, 200)
 		can.page.style(can, can.ui.profile, html.HEIGHT, can.ConfHeight(), html.WIDTH, _width, html.FLEX, "0 0 "+(_width)+"px")
-		var width = can.ConfWidth()-_width, height = can.ConfHeight()-4, margin = 40, r = can.base.Max(height, width)/2-1*margin-margin
+		var width = can.ConfWidth()-_width, height = can.ConfHeight()-4, margin = 10, r = can.base.Max(height, width)/2-1*margin-margin
 		can.page.style(can, can.ui.content, html.HEIGHT, can.ConfHeight(), html.WIDTH, width)
 		can.ui.svg.Val(html.WIDTH, width), can.ui.svg.Val(html.HEIGHT, height)
 		can._draw = function(which) { can.onimport._draw(can, width/2-margin/2, height/2-margin/2, r, margin, which) }, can._draw(can.db.which||-1)

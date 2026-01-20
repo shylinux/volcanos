@@ -1091,6 +1091,10 @@ fieldset.draw.spides>div.output>svg text { cursor:pointer; }
 fieldset.draw.spides>div.output>svg path { stroke-width:1; }
 fieldset.draw.trends>div.output { overflow:hidden; }
 fieldset.draw.pie>div.output>svg { float:left; }
+fieldset.draw.pie>div.output table td:not(:first-child) { text-align:right; }
+fieldset.draw.figureShow>div.output table td:not(:first-child) { text-align:right; }
+fieldset.draw.figureShow>div.output table tr { cursor:pointer; }
+fieldset.draw.figureShow>div.output div.total { font-weight:bold; font-size:18px; position:absolute; left:5px; top:5px; }
 fieldset.can.data>div.output { font-family:var(--code-font-family); font-size:var(--code-font-size); white-space:pre; }
 fieldset.can.data>div.output div.item:not(.hide) { display:flex; gap:5px; }
 fieldset.can.data>div.output div.view div.item:not(.hide) { display:block; }

@@ -26,7 +26,7 @@ Volcanos(chat.ONIMPORT, {
 		can.page.style(can, can._output, html.MAX_HEIGHT, "")
 		return {height: height, width: width, margin: margin, step: step}
 	},
-	layout: function(can) { can.db.data && can.core.CallFunc(can.onaction[can._msg.Option(html.VIEW)||can.Action(html.VIEW)||can.Conf(html.VIEW)], [{}, can]) },
+	layout: function(can) { can.db.data && can.core.CallFunc(can.onaction[can._msg.Option(html.VIEW)||can.Action(html.VIEW)||can.Conf(html.VIEW)||"百度趋势图"], [{}, can]) },
 	transform: function(can, target) { target.Value("transform", "translate(0, "+parseInt(can.ConfHeight())+") scale(1, -1)") },
 })
 Volcanos(chat.ONACTION, {
@@ -34,6 +34,44 @@ Volcanos(chat.ONACTION, {
 		[html.VIEW, "趋势图", "柱状图", "折线图", "数据源"],
 		[html.HEIGHT, html.HEIGHT, 100, 200, 400, 600, 800, "max"], [html.MARGIN, html.MARGIN, 10, 20, 50, 100], [html.SPEED, html.SPEED, 10, 20, 50, 100],
 	],
+	"百度趋势图": function(event, can) { var msg = can._msg
+		if (msg.Length() == 0) { return }
+		var ui = can.page.Appends(can, can._output, [
+			{view: "diagram", style: {height: can.ConfHeight(), width: can.ConfWidth()-240, float: "left"}},
+			{view: "table",  style: {height: can.ConfHeight(), width: 240, overflow: "auto", float: "left"}},
+		])
+		if (can.user.isMobile) {
+			var ui = can.page.Appends(can, can._output, [
+				{view: "diagram", style: {height: 240, width: can.ConfWidth()}},
+			])
+		}
+		var total = 0; msg.Table(function(value) { total += parseFloat(value[msg.append[1]]) })
+		// "https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"
+		can.require(["/publish/echarts.min.js"], function() {
+			const myChart = echarts.init(ui.diagram), option = {
+				title: {
+					text: "总和： "+(can.base.contains(total+"", ".")? total.toFixed(2): total),
+				},
+				xAxis: {
+					data: msg[msg.append[0]],
+					type: 'category',
+				},
+				yAxis: { type: 'value' },
+				series: [{
+					data: msg[msg.append[1]],
+					type: 'line', smooth: true,
+					itemStyle: {
+						color: '#409EFF'
+					},
+				}]
+			}
+			myChart.setOption(option)
+		})
+		if (can.user.isMobile) { return }
+		can.onappend.table(can, msg, null, ui.table)
+		// can.page.Append(can, ui.table, [{view: ["board", "", "总和： "+(can.base.contains(total+"", ".")? total.toFixed(2): total)], style: {"text-align": "center", "padding": "10px"}}])
+		can.onmotion.delay(can, function() { ui.table.scrollBy(0, 10000) })
+	},
 	"趋势图": function(event, can) { var args = can.onimport._layout(can)
 		function scale(y) { return (y - can.min)/(can.max - can.min)*(args.height-2*args.margin) }
 		function order(index, x, y) { return {x: args.margin+args.step*index+x, y: args.height-args.margin-scale(y)} }
