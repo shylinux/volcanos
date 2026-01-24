@@ -389,10 +389,12 @@ Volcanos(chat.ONEXPORT, {
 	},
 	title: function(can, title) { if (!can.isCmdMode()) { return }
 		var list = []; function push(p) { p && list.indexOf(p) == -1 && list.push(p) }
+		// var list = []; function push(p) { p && list.push(p) }
 		can.ConfIndex() == "web.team.guanlixitong.view" || can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") || push(can.user.info.titles)
 		if (!can.user.isMobile) { if ((arguments.length == 1 || arguments.length == 2) && !can.base.isIn(can.ConfIndex(), code.VIMER, wiki.FEEL, wiki.WORD)) { push(can.user.trans(can, can.ConfIndex().split(".").pop(), can.ConfHelp())) } }
 		can.core.List(arguments, function(title, index) { index > 0 && push(title) })
-		list.length < 3 && can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") && push(can.user.info.titles)
+		// list.length < 3 &&
+		can.base.beginWith(can.ConfIndex(), "web.team.") && can.base.endWith(can.ConfIndex(), ".portal") && push(can.user.info.titles)
 		if (list[0].indexOf(list[1]) > -1) { list[1] = "" }
 		can.user.title(list.join(" "))
 	},
