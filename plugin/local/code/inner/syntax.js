@@ -265,8 +265,12 @@ Volcanos(chat.ONSYNTAX, {
 				if (text.indexOf(chat._INIT) > -1) { push(opts.block+nfs.PT+chat._INIT) }
 			} else if (indent == 0 && can.base.beginWith(text, "var ")) {
 				opts.block = ls[1]
+			} else if (indent == 0 && can.base.beginWith(text, "App({")) {
+				opts.block = "app"
+			} else if (indent == 0 && can.base.beginWith(text, "Page(")) {
+				opts.block = "s"
 			} else if (indent == 4 && ls[1] == nfs.DF) {
-				ls[0] && push(opts.block+nfs.PT+ls[0])
+				ls[0] && push((opts.block||"s")+nfs.PT+ls[0])
 			}
 		},
 	}, json: {split: {operator: "{[:,]}"}, keyword: {"true": code.CONSTANT, "false": code.CONSTANT}},
@@ -286,7 +290,14 @@ Volcanos(chat.ONSYNTAX, {
 			"$content": code.KEYWORD, "$profile": code.KEYWORD, "$display": code.KEYWORD, "$project": code.KEYWORD,
 			"$story": code.KEYWORD,
 
+			"container": code.KEYWORD,
+			"plugin": code.KEYWORD,
+			"item": code.KEYWORD,
 			"output": code.KEYWORD,
+			"action": code.KEYWORD,
+			"status": code.KEYWORD,
+			"board": code.KEYWORD,
+
 			"background-color": code.FUNCTION, "color": code.FUNCTION,
 			"font-family": code.FUNCTION, "font-weight": code.FUNCTION, "font-style": code.FUNCTION, "font-size": code.FUNCTION, "line-height": code.FUNCTION,
 			"text-align": code.FUNCTION, "white-space": code.FUNCTION, "word-break": code.FUNCTION, "letter-space": code.FUNCTION, "tab-size": code.FUNCTION,
@@ -298,6 +309,7 @@ Volcanos(chat.ONSYNTAX, {
 			"height": code.FUNCTION, "width": code.FUNCTION, "min-width": code.FUNCTION, "max-width": code.FUNCTION, "min-height": code.FUNCTION, "max-height": code.FUNCTION,
 			"display": code.FUNCTION, "float": code.FUNCTION, "clear": code.FUNCTION, "visibility": code.FUNCTION, "overflow": code.FUNCTION,
 			"flex": code.FUNCTION, "align-items": code.FUNCTION, "justify-content": code.FUNCTION, "flex-direction": code.FUNCTION,
+			"gap": code.FUNCTION,
 			"flex-grow": code.FUNCTION, "flex-shrink": code.FUNCTION, "flex-wrap": code.FUNCTION,
 			"position": code.FUNCTION, "z-index": code.FUNCTION, "cursor": code.FUNCTION, "transition": code.FUNCTION,
 			"@keyframes": code.KEYWORD, "animation": code.FUNCTION, "infinite": code.CONSTANT,
@@ -399,5 +411,21 @@ Volcanos(chat.ONSYNTAX, {
 		"fieldset": code.KEYWORD, "legend": code.KEYWORD, "form": code.KEYWORD, "label": code.KEYWORD,
 		"select": code.KEYWORD, "option": code.KEYWORD, "input": code.KEYWORD, "textarea": code.KEYWORD, "button": code.KEYWORD,
 		"height": code.FUNCTION, "width": code.FUNCTION,
+
+		"include": code.KEYWORD,
+		"t-icon": code.KEYWORD,
+		"t-swiper": code.KEYWORD,
+		"t-fab": code.KEYWORD,
+		"t-progress": code.KEYWORD,
+		"t-tabs": code.KEYWORD, "t-tab-panel": code.KEYWORD,
+		"t-popup": code.KEYWORD, "t-drawer": code.KEYWORD,
+		"data-order": code.FUNCTION, "data-index": code.FUNCTION, "data-route": code.FUNCTION,
+		"data-space": code.FUNCTION, "data-place_uid": code.FUNCTION, "data-uid": code.FUNCTION,
+		"data-value": code.FUNCTION,
+		"visible": code.FUNCTION, "placement": code.FUNCTION,
+		"bind:tap": code.FUNCTION, "catch:tap": code.FUNCTION,
+		"bind:longpress": code.FUNCTION, "catch:longpress": code.FUNCTION,
+		"bind:click": code.FUNCTION, "catch:click": code.FUNCTION,
+		"bind:input": code.FUNCTION, "catch:input": code.FUNCTION,
 	}},
 })
