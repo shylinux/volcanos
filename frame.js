@@ -173,7 +173,7 @@ Volcanos(chat.ONAPPEND, {
 			Option: function(key, value) { return can.page.SelectArgs(can, option, key, value)[0] },
 			Update: function(event, cmds, cb, silent) { event = event||{}, sub.request(event)._caller(), event.metaKey && sub.request(event, {metaKey: ice.TRUE})
 				var msg = sub.request(event), list = can.core.Value(sub, "sub.db._checkbox"); can.core.Item(list, function(key, value) { msg.Option(key, value) })
-				sub._msg && sub._msg.IsDetail() && sub.request(event, sub._msg.TableDetail())
+				sub._msg && sub._msg.IsDetail() && cmds && sub.request(event, sub._msg.TableDetail())
 				sub.request(event, sub.Option(), sub.Conf("opts"), sub.Conf("option"))
 				if (event.isTrusted && cmds && cmds.length > 0 && cmds[0] == ctx.ACTION) {
 					can.onengine.signal(can, "onrecord", can.request({}, {cmds: [sub.ConfSpace(), sub.ConfIndex()].concat(cmds||[])}))
@@ -793,16 +793,12 @@ Volcanos(chat.ONAPPEND, {
 						can.Update(request(event)._event, [ctx.ACTION, target.name]), can.onkeymap.prevent(event)
 					}}], target.nextSibling, target.parentNode)
 				}), can.page.SelectOne(can, target, html.SPAN, function(span) { can.core.List(span.style, function(key) { target.style[key] = span.style[key] }) })
-				if (key == ctx.ACTION && msg.IsDetail() && value == "") {
-					can.onmotion.delay(can, function() { can.page.Remove(can, target.parentNode) })
-				}
+				if (key == ctx.ACTION && msg.IsDetail() && value == "") { can.onmotion.delay(can, function() { can.page.Remove(can, target.parentNode) }) }
 			}}
 		})
 		keys && can.page.RangeTable(can, table, can.core.List(keys, function(key) { return can.page.Select(can, table, html.TH, function(th, index) { if (th.innerHTML == key) { return index } })[0] }))
 		can.onappend.style(can, chat.CONTENT, table), msg.append && msg.append[msg.append.length-1] == ctx.ACTION && can.onappend.style(can, ctx.ACTION, table)
-		if (can.core.List(option).length == 1) {
-			can.onappend.style(can, html.OPTION, table)
-		}
+		if (can.core.List(option).length == 1) { can.onappend.style(can, html.OPTION, table) }
 		if (msg.IsDetail()) { can.onappend.style(can, mdb.DETAIL, table), can.onappend.style(can, msg.Append(mdb.TYPE), table), can.onappend.style(can, msg.Append(mdb.STATUS), table) }
 		can.page.Select(can, table, html.IMG, function(target) { target.onclick = function(event) { can.page.ClassList.neg(can, target, "full") } })
 		can.onappend.style(can, html.FULL, table)

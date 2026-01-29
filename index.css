@@ -226,7 +226,7 @@ div.output.card>div.item>div.title>div.title>span.exists { color:var(--notice-bg
 div.output.card>div.item>div.title>img { height:var(--header-height); width:var(--header-height); margin:0; float:left; }
 div.output.card>div.item>div.title>img.jpg { border-radius:10px; padding:var(--input-padding); }
 div.item.card:not(.hide) { position:relative; display:flex; align-items:center; padding:0; width:100%; }
-div.item.card:not(.hide) div.container { width:100%; }
+div.item.card:not(.hide) div.container { width:100%; overflow:hidden; }
 div.item.card img.avatar { border-radius:5px; padding:0; object-fit:cover; }
 div.item.card div.info { width:100%; }
 div.item.card div.title { font-size:16px; line-height:24px; }
