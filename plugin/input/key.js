@@ -1,6 +1,6 @@
 Volcanos(chat.ONFIGURE, {key: {
 	_load: function(event, can, cb, target, name, value) {
-		// if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
+		if (target._done && target.value) { return can.onmotion.hidden(can, can._target, can.Status("total") > 0)} target._done = true
 		// can.onmotion.focus(can, target)
 		can.onmotion.hidden(can, can._target)
 		can.runAction(can.request(event, {_method: http.GET}), mdb.INPUTS, [name, value||""], function(msg) {

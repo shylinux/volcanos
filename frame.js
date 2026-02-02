@@ -496,6 +496,12 @@ Volcanos(chat.ONAPPEND, {
 			input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
 			input.title = can.user.trans(can, input.title||input.placeholder||input.name, item._trans, html.INPUT)
 		}
+		if (item.type == html.TEXTAREA) {
+			_icon.push({icon: mdb.DELETE, onclick: function(event) {
+				_input.value = "", can.page.style(can, _input, html.COLOR, "")
+				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
+			}})
+		}
 		if (item.type == html.TEXT) {
 			if (!can.user.isMobile) {
 				input.placeholder = can.user.trans(can, input.placeholder||input.name, item._trans, html.INPUT)
@@ -506,9 +512,10 @@ Volcanos(chat.ONAPPEND, {
 			}
 			input.onkeyup = item.onkeyup||function(event) { if (item.name == html.FILTER) {
 				can.onmotion.filter(can, event.target.value)
-			} }, _icon.push({icon: mdb.DELETE, onclick: function(event) {
-				_input.value = "", input.onkeyup({target: event.target.previousSibling})
-				can.page.style(can, _input, html.COLOR, "")
+			} }
+			_icon.push({icon: mdb.DELETE, onclick: function(event) {
+				_input.value = "", can.page.style(can, _input, html.COLOR, "")
+				input.onkeyup({target: event.target.previousSibling})
 				can.core.CallFunc([event.target.previousSibling, "_clear"], {})
 			}})
 			if (item.name == html.FILTER) { item.icon = item.icon||icon.search }
@@ -776,8 +783,8 @@ Volcanos(chat.ONAPPEND, {
 					can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode)
 					if (msg.IsDetail()) { can.onappend.style(can, html.OPTION, target.parentNode) }
 				}
-				if (key == mdb.TYPE) { can.onappend.style(can, value, target.parentNode) }
-				if (key == mdb.STATUS) { can.onappend.style(can, value, target.parentNode) }
+				if (key == mdb.TYPE || can.base.endWith(key, "_type")) { can.onappend.style(can, value, target.parentNode) }
+				if (key == mdb.STATUS || can.base.endWith(key, "_status")) { can.onappend.style(can, value, target.parentNode) }
 				if (key == mdb.ENABLE) { can.onappend.style(can, value == ice.FALSE? mdb.DISABLE: mdb.ENABLE, target.parentNode) }
 				if (key == mdb.DISABLE) { can.onappend.style(can, value == ice.TRUE? mdb.ENABLE: mdb.DISABLE, target.parentNode) }
 				if (key == ctx.ACTION && msg.IsDetail()) { can.onappend.style(can, ctx.ACTION, target.parentNode) }

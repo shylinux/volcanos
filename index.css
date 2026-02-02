@@ -840,6 +840,8 @@ div.item.text.will>input { border:var(--box-notice); }
 div.item.text>i:first-child { color:var(--label-fg-color); line-height:22px; padding:var(--input-padding); position:absolute; left:0; }
 body:mobile(.mobile) div.item.text:hover>i:first-child { color:unset; }
 div.item.text>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
+div.item.textarea>span.icon { font-size:var(--icon-font-size); padding:var(--input-padding); position:absolute; right:0; visibility:hidden; }
+div.item.textarea { position:relative; }
 body:not(.mobile) div.item.text:hover>span.icon { visibility:visible; }
 div.item.button { position:relative; height:var(--action-height); }
 div.item.button.icons.state { margin-right:var(--input-margin); }
