@@ -4,6 +4,8 @@ body {
 	--notice-color:blue; --danger-color:red; --label-fg-color:gray; --disable-fg-color:gray;
 	// --shadow-color:var(--disable-fg-color); --border-color:var(--disable-fg-color);
 	--shadow-color:transparent; --border-color:var(--disable-fg-color);
+	--prepare-bg-color:green; --prepare-fg-color:white;
+	--finish-bg-color:gray; --prepare-fg-color:white;
 	--notice-bg-color:var(--notice-color); --notice-fg-color:white;
 	--danger-bg-color:var(--danger-color); --danger-fg-color:var(--notice-fg-color);
 	--progress-bg-color:var(--danger-bg-color);

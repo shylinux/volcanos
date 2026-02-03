@@ -537,6 +537,8 @@ Volcanos(chat.ONAPPEND, {
 				item._init && item._init(target)
 			}
 			item.style && can.onappend.style(can, item.style, target)
+		}, onclick: function(event) {
+			can.onkeymap.prevent(event)
 		}}])[item.name]
 		_input._show_icons_title = function(value, icons, title) { var target = _input
 			if (!_input._show_img) {
@@ -578,9 +580,9 @@ Volcanos(chat.ONAPPEND, {
 	_filter: function(can) {
 		can.page.insertBefore(can, can.onappend.filter(can, can._action, can.ui.content||can._output).parentNode, (can.page.SelectOne(can, can._action, "div.item._space")||{}).nextSibling, can._action)
 	},
-	filter: function(can, target, output) { output = output||can.ui.content||target
+	filter: function(can, target, output, placeholder) { output = output||can.ui.content||target
 		if (can.page.SelectOne(can, target, "div.item.filter")) { return {} }
-		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
+		return can.onappend.input(can, {type: html.TEXT, name: web.FILTER, icon: icon.SEARCH, placeholder: placeholder||can.user.trans(can, "search in n items", "搜索"), onkeydown: function() {}, onkeyup: function(event) {
 			if (window.iscomposition) {
 				debugger
 			}
