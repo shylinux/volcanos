@@ -169,7 +169,7 @@ Volcanos(chat.ONIMPORT, {
 				{view: [[html.ITEM, "card"]], list: [{view: html.OUTPUT, list: [
 					{icon: can.misc.Resource(can, can.user.info.favicon, can.ConfSpace()), className: "avatar"},
 					{view: html.CONTAINER, list: [
-						{view: html.TITLE, list: [{text: can.user.info.titles}, can.misc.Search(can, html.TITLE) && {text: can.misc.Search(can, html.TITLE)}]},
+						{view: html.TITLE, list: [{text: "ContextOS " + can.user.info.titles}, can.misc.Search(can, html.TITLE) && {text: can.misc.Search(can, html.TITLE)}]},
 						{view: html.STATUS, list: [{text: can.user.info.nodename}]},
 					]},
 				]}], onclick: function(event) {
