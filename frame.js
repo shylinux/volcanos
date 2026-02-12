@@ -538,7 +538,7 @@ Volcanos(chat.ONAPPEND, {
 			}
 			item.style && can.onappend.style(can, item.style, target)
 		}, onclick: function(event) {
-			can.onkeymap.prevent(event)
+			event.target.type != "file" && can.onkeymap.prevent(event)
 		}}])[item.name]
 		_input._show_icons_title = function(value, icons, title) { var target = _input
 			if (!_input._show_img) {
