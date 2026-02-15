@@ -210,7 +210,9 @@ Volcanos(chat.ONAPPEND, {
 			can.user.agent.cmd = sub, can.user.agent.init && can.user.agent.init(sub)
 		}); return sub
 	},
-	_option: function(can, meta, option, skip) { var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
+	_option: function(can, meta, option, skip) {
+		// var index = -1, args = can.base.Obj(meta.args||meta.arg, can.isCmdMode? [can.misc.Search(can, "place_uid")]: []), opts = can.base.Obj(meta.opts, {})
+		var index = -1, args = can.base.Obj(meta.args||meta.arg, []), opts = can.base.Obj(meta.opts, {})
 		meta.inputs = can.base.Obj(meta.inputs, []), meta.inputs.length == 0 && (!can.Conf("_ismain") || can.Conf("_role") || can.misc.Search(can, log.DEBUG) == ice.TRUE) && can.onmotion.delay(can, function() { can.Update() })
 		can.core.List(["", "project"].concat(meta.inputs), function(item) {
 			if (typeof item != code.STRING && item.type != html.BUTTON) { return }
