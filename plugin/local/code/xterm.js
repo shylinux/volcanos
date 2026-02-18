@@ -44,7 +44,7 @@ Volcanos(chat.ONIMPORT, {
 		term = can.db[arg[0]], can.onimport._input(can, term, arg[1])
 	},
 	grow: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]], term = can.db[arg[0]]
-		if (arg[1] == "~~~end~~~") {
+		if (text == "~~~end~~~" || text == "exit\r\n") {
 			if (can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.sup.onimport._exit(can.sup) }
 			arg[0] == "current"? can.sup.onmotion._close({}, can.sup): can.sup.onimport._back(can.sup)
 		} else { term.write(arg[1]) }

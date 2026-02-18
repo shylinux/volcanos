@@ -125,7 +125,9 @@ Volcanos(chat.ONIMPORT, {
 		can.page.Select(can, input.parentNode, "span.value", function(target) { target.innerText = value })
 		return input.value = value, can.Update(event, can.Input([], true, data), cb), input
 	})[0] },
-	_exit: function(can) { can.sub.onimport._exit(can.sub), can.page.Remove(can, can._target) },
+	_exit: function(can) {
+		can.sub.onimport._exit(can.sub), can.page.Remove(can, can._target)
+	},
 	_size: function(can, height, width, auto, mode) {},
 	size: function(can, height, width, auto, mode) { typeof width == code.STRING && (width = can.base.ParseSize(width))
 		can.Conf("_auto", auto), can.Mode(mode), can.ConfHeight(height), can.ConfWidth(width), height -= can.onexport.actionHeight(can)+(can.onexport.statusHeight(can)||(can.sub? 0: 1))
