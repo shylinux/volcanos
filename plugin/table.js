@@ -335,6 +335,12 @@ Volcanos(chat.ONIMPORT, {
 	_float: function(can, index, args) { args = args||[]
 		can.user.isMobile? can.user.jumps(can.misc.MergePodCmd(can, {cmd: index+"/"+args.join("/")})): can.onappend._float(can, index, args)
 	},
+	myView: function(can, msg) {
+		can.onappend.table(can, msg)
+	},
+	myViewTabs: function(can, msg) {
+		can.onappend.table(can, msg)
+	},
 })
 Volcanos(chat.ONLAYOUT, {
 	_init: function(can, height, width) { can.core.CallFunc([can.onimport, html.LAYOUT], {can: can, height: height, width: width}) },

@@ -364,7 +364,8 @@ Volcanos(chat.ONAPPEND, {
 			sub.run = function(event, cmds, cb, silent) { var msg = sub.request(event)._caller()
 				msg.RunAction(event, sub, cmds) || can.Update(event, cmds||can.Input(cmds, !silent), cb, silent)
 			}, can._outputs = can._outputs||[], can._outputs.push(sub), sub.sup = can, can.sub = sub
-			sub._index = can._index, can._msg = sub._msg = msg, sub.Conf(sub._args = can.base.ParseURL(display.split(",")[0]))
+			sub._index = can._index, can._msg = sub._msg = msg
+			sub.Conf(sub._args = can.base.ParseURL(display.split(",")[0]))
 			sub._trans = can.base.Copy(can.base.Copy(sub._trans||{}, can._trans), can.core.Value(sub, [chat.ONACTION, chat._TRANS]))
 			if (sub.onimport && can.base.isArray(sub.onimport.list) && sub.onimport.list.length > 0) {
 				can.onmotion.clear(can, can._option), can.onappend._option(can, {inputs: can.page.inputs(can, sub.onimport.list, html.TEXT) })
@@ -414,14 +415,19 @@ Volcanos(chat.ONAPPEND, {
 		status = status||can._status, can.onmotion.clear(can, status)
 		can.core.List((can.base.Obj(list, can.core.Value(can, [chat.ONEXPORT, mdb.LIST]))||[]).concat([
 			can.ConfSpace() && {name: web.SPACE, value: can.ConfSpace()},
+			{name: ctx.INDEX, value: can.ConfIndex(), onclick: function() { can.user.open(can.sup.onexport.link(can)) }},
 		], can.misc.Search(can, log.DEBUG) == ice.TRUE && can.ConfIndex() != code.VIMER? [
 			fileline && {name: nfs.SOURCE, value: can.base.trimPrefix(fileline.split("?")[0], nfs.REQUIRE, nfs.P), onclick: function(event) { can.onkeymap.prevent(event)
 				var ls = can.misc.SplitPath(can, fileline); if (event.metaKey) {
 					can.user.open(can.misc.MergePodCmd(can, {pod: can.ConfSpace(), cmd: web.CODE_VIMER, path: ls[0], file: ls[1]}))
 				} else { can.onappend._float(can, web.CODE_VIMER, ls) }
 			}},
-			{name: html.HEIGHT, value: parseInt(can.ConfHeight()||0), onclick: function(event) { can.onappend._float(can, {index: "can.view", _target: can._fields||can._target}) }},
-			{name: html.WIDTH, value: parseInt(can.ConfWidth()||0), onclick: function(event) { can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can}) }},
+			{name: html.HEIGHT, value: parseInt(can.ConfHeight()||0), onclick: function(event) {
+				can.onappend._float(can, {index: "can.data", _target: can._fields? can.sup: can})
+			}},
+			{name: html.WIDTH, value: parseInt(can.ConfWidth()||0), onclick: function(event) {
+				can.onappend._float(can, {index: "can.view", _target: can._fields||can._target})
+			}},
 		]: []), function(item) { if (!item) { return } item = can.base.isString(item)? {name: item}: item
 			if (item && item.name == web.SPACE && item.value) { item.value = can.page.Format(html.A, can.misc.MergePodCmd(can, {pod: item.value}), item.value) }
 			if (can.base.beginWith(item.value, nfs.PS, ice.HTTP)) { item.value = can.page.Format(html.A, item.value, item.value.split("?")[0]) }
@@ -559,15 +565,20 @@ Volcanos(chat.ONAPPEND, {
 		if (!_icon) { return } can.onappend.style(can, "icons", target.parentNode)
 		can.page.Append(can, target.parentNode, [{icon: _icon, title: can.user.trans(can, name), onclick: can.base.isFunc(cb)? cb: target.onclick||function(event) { can.Update(event, [ctx.ACTION, cb||name]) }}])
 	},
-	mores: function(can, target, value, limit) {
+	mores: function(can, target, value, limit) { var _rest = []
 		var list = can.page.Select(can, target, html.INPUT_BUTTON, function(target) {
 			target.name == target.value && (target.value = can.user.trans(can, target.value))
 			var _style = can.page.buttonStyle(can, target.name); _style && can.onappend.style(can, _style, target)
 			can.user.trans(can, kit.Dict(target.name, target.value))
+			if (can.user.isMobile && (!target.className || [mdb.REMOVE].indexOf(target.name) > -1)) {
+				_rest.push({type: html.BUTTON, name: target.name, value: target.value, style: _style})
+				return
+			}
 			return {type: html.BUTTON, name: target.name, value: target.value, style: _style}
 		})
+		var rest = list.slice(limit-1).concat(_rest)
 		function run(event, button) { button && can.run(can.request(event, value, can.Option(), {_toast: can.user.trans(can, button), action: button})._event, [ctx.ACTION, button]), can.onkeymap.prevent(event) }
-		if (list.length <= limit) {
+		if (rest.length == 0) {
 			target.onclick = function(event) { run(event, event.target.name) }
 		} else {
 			can.page.Appends(can, target, can.core.List(list.slice(0, limit-1), function(item) {
@@ -575,7 +586,7 @@ Volcanos(chat.ONAPPEND, {
 			}))
 			can.page.Append(can, target, [{type: html.INPUT, data: {type: html.BUTTON}, name: html.MORE, value: can.user.trans(can, html.MORE), className: can.page.buttonStyle(can, html.MORE), onclick: function(event) {
 				can.onengine.signal(can, "onevent", can.request(event))
-				can.user.carte(event, can, {}, can.core.List(list.slice(limit-1), function(item) { return item.name }), function(event, button) { run(event, button) })
+				can.user.carte(event, can, {}, can.core.List(rest, function(item) { return item.name }), function(event, button) { run(event, button) })
 			}}])
 		}
 	},
@@ -1327,7 +1338,7 @@ Volcanos(chat.ONMOTION, {
 		var height = can.base.Max(can.Conf("_height")||html.FLOAT_HEIGHT, can.page.height()-can.getHeaderHeight()-can.getFooterHeight()-2*html.PLUGIN_MARGIN), width = can.base.Max(can.Conf("_width")||html.FLOAT_WIDTH, can.page.width()-can.getRiverWidth()-2*html.PLUGIN_MARGIN)
 		sup.onimport.size(sup, height, width, false), can.onappend.style(can, html.FLOAT)
 		can.onmotion.resize(can, target, function(height, width) { sup.onimport.size(sup, height, width, false) }, can.getHeaderHeight(), can.getRiverWidth())
-		var left = can.page.width()-width-html.PLUGIN_MARGIN, top = can.page.height()-height-can.getFooterHeight()-html.PLUGIN_MARGIN
+		var left = can.page.width()-width-html.PLUGIN_MARGIN, top = can.page.height()-height-can.getFooterHeight()-html.PLUGIN_MARGIN-(can.user.isMobile? 32: 0)
 		can.page.style(can, target, html.LEFT, left, html.TOP, top)
 		target.onclick = function(event) {
 			can.page.Select(can, document.body, html.FIELDSET_FLOAT, function(_target) {

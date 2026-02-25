@@ -514,7 +514,7 @@ body div.input.float input[name=submit] { border:var(--box-notice); background-c
 body.mobile div.input.float input[name=submit] { border:var(--box-notice); background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=submit]:hover { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
 body div.input.float input[name=cancel]:hover { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
-body div.input.float div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; flex-direction:row-reverse; cursor:move; }
+body div.input.float div.action { padding:var(--table-padding); width:100%; position:sticky; bottom:0; cursor:move; }
 fieldset.input.key>div.action { display:none !important; }
 body div.input.float div.action>div.item { float:right; flex-grow:1; }
 body div.input.float div.action>div.item>input[type=button] { min-width:112px; width:100%; }
@@ -945,7 +945,7 @@ body.mobile:not(.landscape) fieldset.plugin.cmd:not(.output)>div.header { displa
 body.mobile div.output.card { overflow-x:hidden; }
 body.mobile div.output>div.project:not(.item) { position:absolute; left:0; top:0; z-index:2; }
 body.mobile div.output>div.project:not(.item) { background-color:var(--plugin-bg-color); }
-body.mobile fieldset>div.output>div.code>img { max-width:390px; }
+// body.mobile fieldset>div.output>div.code>img { max-width:390px; }
 body.mobile fieldset>div.output>div.code>div.form input[type=button] { width:100%; }
 body.mobile fieldset>div.status { overflow:hidden; }
 body.mobile fieldset.plugin:not(.float):not(.full):not(.cmd)>form.option>div.icon:not(.delete):not(.menu) { display:block; }

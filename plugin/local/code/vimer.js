@@ -122,7 +122,7 @@ Volcanos(chat.ONACTION, {_trans: {input: {main: "程序", top: "顶域"}},
 	"扩展": function(event, can) { can.user.input(can.request(event, {action: "extension"}), can, ["url"], function(list) {
 		var sub = can.db.toolkit[list[0]]; sub? sub.select(): can.onimport.exts(can, list[0])
 	}) },
-	
+
 	insertLine: function(can, text, before) {
 		var line = can.onaction.appendLine(can, text)
 		before && can.ui.content.insertBefore(line, can.onaction._getLine(can, before))
@@ -222,7 +222,7 @@ Volcanos(chat.ONKEYMAP, {
 			c: shy("编译项目", function(event, can) { can.onaction.compile(event, can, code.COMPILE) }),
 			v: shy("渲染界面", function(event, can) { can.onaction.show(event, can) }),
 			r: shy("执行命令", function(event, can) { can.onaction.exec(event, can) }),
-			
+
 			Escape: shy("切换模式", function(can) { can.onkeymap._plugin(can) }),
 			ArrowLeft: shy("光标左移", function(can, target) { can.onkeymap.cursorMove(target, -1) }),
 			ArrowRight: shy("光标右移", function(can, target) { can.onkeymap.cursorMove(target, 1) }),
@@ -234,7 +234,7 @@ Volcanos(chat.ONKEYMAP, {
 			l: shy("光标右移", function(can, target) { can.onkeymap.cursorMove(target, 1) }),
 			j: shy("光标下移", function(can, target) { can.onkeymap.cursorDown(can, target) }),
 			k: shy("光标上移", function(can, target) { can.onkeymap.cursorUp(can, target) }),
-			
+
 			I: shy("插入行首", function(event, can) { can.onkeymap._insert(event, can, 0, 0) }),
 			A: shy("插入行尾", function(event, can) { can.onkeymap._insert(event, can, 0, -1) }),
 			i: shy("插入模式", function(event, can) { can.onkeymap._insert(event, can) }),
@@ -249,7 +249,7 @@ Volcanos(chat.ONKEYMAP, {
 				can.onaction.selectLine(can, can.onaction.insertLine(can, text, can.current.line))
 				can.onkeymap._insert(event, can, 0, -1)
 			}),
-			
+
 			yy: shy("复制当前行", function(event, can, target, count) { var list = [], line = can.current.line
 				for (var i = 0; i < count; i++) { list.push(can.onexport.text(can, line)), line = line.nextSibling } can.db._last_text = list; return true
 			}),
@@ -277,7 +277,7 @@ Volcanos(chat.ONKEYMAP, {
 			}),
 			".": shy("重复操作", function(can) { var cb = can.db.redo.pop(); cb && cb() }),
 			u: shy("撤销操作", function(can) { var cb = can.db.undo.pop(); cb && cb() }),
-			
+
 			gg: shy("跳到某行", function(can, count) { return can.onaction.selectLine(can, count), true }),
 			G: shy("跳到某行", function(can, count) { return can.onaction.selectLine(can, count = count>1? count: can.db.max), true }),
 			zt: shy("屏幕最上", function(can, count) { return can.current.scroll(can.current.scroll()-(count>1? count: 3)), true }),

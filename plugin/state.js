@@ -376,7 +376,7 @@ Volcanos(chat.ONEXPORT, {
 		can._status.innerHTML == "" && !can.page.ClassList.has(can, can._target, html.PLUG)? 0: html.STATUS_HEIGHT
 	},
 	session: function(can, key, value) { if (value) { value = JSON.stringify(value) }
-		return can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
+		return (!value && can.isCmdMode()? can.misc.Search(can, key): "")|| can.misc.sessionStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key, location.pathname], value)
 	},
 	storage: function(can, key, value) { if (value) { value = JSON.stringify(value) }
 		return can.misc.localStorage(can, [can.ConfSpace()||can.misc.Search(can, ice.POD), can.ConfIndex(), key], value)
