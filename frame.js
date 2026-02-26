@@ -764,9 +764,9 @@ Volcanos(chat.ONAPPEND, {
 			}
 			if (key == mdb.ENABLE) {
 				if (value == ice.FALSE) { _value = `<i class="${icon.enable}">`
-					function onclick() { run(event, mdb.MODIFY, [key, ice.TRUE]); return true }
+					function onclick() { run(can.request(event, {"_handle": "true"}), mdb.MODIFY, [key, ice.TRUE]); return true }
 				} else { _value = `<i class="${icon.disable}">`
-					function onclick() { run(event, mdb.MODIFY, [key, ice.FALSE]); return true }
+					function onclick() { run(can.request(event, {"_handle": "true"}), mdb.MODIFY, [key, ice.FALSE]); return true }
 				}
 			}
 			if (key == mdb.STATUS && value) { _value = can.user.trans(can, value, "", key) }
@@ -783,7 +783,7 @@ Volcanos(chat.ONAPPEND, {
 			}, ondblclick: function(event) { if (can.base.isIn(key, mdb.KEY, mdb.HASH, mdb.ID)) { return } if (can.user.isMobile) { return }
 				var item = can.core.List(can.Conf([ctx.FEATURE, mdb.INSERT]), function(item) { if (item.name == key) { return item } })[0]||{name: key, value: value}
 				item.run = function(event, cmds, cb) { can.run(request(event), cmds, cb, true) }
-				item._enter = function(event, value) { if (event.ctrlKey) { run(event, mdb.MODIFY, [key, value.trimRight()]) } }
+				item._enter = function(event, value) { if (event.ctrlKey) { run(can.request(event, {"_handle": "true"}), mdb.MODIFY, [key, value.trimRight()]) } }
 				can.onmotion.modifys(can, event.target, function(event, value, old) { run(event, mdb.MODIFY, [key, value]) }, item)
 			}, onmouseout: function() {
 				can.page.SelectChild(can, can._option, html.DIV_ITEM_TEXT, function(target) { can.page.ClassList.del(can, target, "will") })
