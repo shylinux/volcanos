@@ -34,6 +34,7 @@ Volcanos(chat.ONENGINE, {
 		can.user.info.sessid && msg.Option(ice.MSG_SESSID, can.user.info.sessid)
 		names = can.base.MergeURL(names, ice.MSG_INDEX, sub.ConfIndex()), can.page.exportValue(sub, msg)
 		can.onengine.signal(panel, chat.ONREMOTE, can.request({}, {_follow: panel._follow, _msg: msg, _cmds: cmds, names: names}))
+		msg.Option(log.DEBUG, can.misc.Search(can, log.DEBUG))
 		can.misc.Run(event, can, {names: names}, cmds, function(msg) {
 			msg.IsErr() || toast && can.user.toastSuccess(msg._can, _toast)
 			// toast && toast.close && toast.close()
@@ -253,7 +254,7 @@ Volcanos(chat.ONAPPEND, {
 				can.core.ItemCB(sub.onaction, function(key, cb) { sub._target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, sub, sub._target) })} })
 				can.core.ItemCB(item, function(key, cb) { sub._target[key] = function(event) { can.misc.Event(event, can, function(msg) { cb(event, sub, sub._target) })} })
 				item.action && can.onappend.figure(sub, item, sub._target, function(_sub, value) { can.Update() }); if (skip === true) { return }
-				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next()
+				item.type == html.BUTTON && item.action == ice.AUTO && can.base.isUndefined(can._delay_init) && (auto = sub._target), next && next()
 				can.Conf(ice.AUTO) == item.name && (auto = sub._target), can._auto = auto
 			})
 		};
@@ -288,9 +289,10 @@ Volcanos(chat.ONAPPEND, {
 			can.base.isUndefined(item) || can.onappend.input(can, item == ""? /* 1.空白 */ {type: html.BR}:
 				can.base.isString(item)? /* 2.按键 */ {type: html.BUTTON, name: item, value: can.user.trans(can, item, meta._trans), onclick: function(event) {
 					run(event, item)
-				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], value: item.value, values: item.slice(1), onchange: function(event) { can.misc.Event(event, can, function(msg) {
+				}}: item.length > 0? /* 3.列表 */ {type: html.SELECT, name: item[0], value: item.value, values: item.slice(1), onchange: function(event, button) { can.misc.Event(event, can, function(msg) {
 					if (!can.onexport) { return }
-					var button = event.target.value; can.onexport.session && can.onexport.session(can, "action:"+(item.name||item[0]), button)
+					// var button = event.target.value;
+					can.onexport.session && can.onexport.session(can, "action:"+(item.name||item[0]), button)
 					can.onaction._select && can.onaction._select(event, can, item[0], button)
 					meta[item[0]]? can.core.CallFunc(meta[item[0]], [event, can, item[0], button]):
 					meta[button]? can.core.CallFunc(meta[button], [event, can, button]): can.Action(item[0], button)
@@ -625,7 +627,7 @@ Volcanos(chat.ONAPPEND, {
 			var carte = can.user.carte(event, can, {}, can.core.List(item.values, function(item) {
 				return can.user.trans(can, item, null, html.VALUE)
 			}), function(event, button) { carte.close()
-				if (target.value != button) { target.value = button, select.value = trans[button], select.onchange && select.onchange(event) }
+				if (target.value != button) { target.value = button, select.value = trans[button], select.onchange && select.onchange(event, button) }
 				return true
 			}); can.onappend.style(can, [html.SELECT, item.name], carte._target), can.page.style(can, carte._target, html.MIN_WIDTH, event.target.offsetWidth)
 			can.page.Select(can, carte._target, html.DIV_ITEM, function(item) {
