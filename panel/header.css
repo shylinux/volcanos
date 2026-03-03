@@ -22,7 +22,8 @@ fieldset.Header>div.output div.item.search { padding:7px 5px; }
 fieldset.Header>div.output div.item.search>i { color:unset; padding:7px; left:3px; }
 fieldset.Header>div.output div.item.search>input { padding-left:25px; }
 fieldset.Header>div.output div.item.search>span.icon { padding:var(--input-padding) var(--button-padding); }
-fieldset.Header>div.output div.Action>div._tabs { white-space:pre; padding-left:100px; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
+body fieldset.Header>div.output div.Action>div._tabs { white-space:pre; height:100%; overflow:auto; display:flex; flex-wrap:wrap; }
+body:not(.width1):not(.width2) fieldset.Header>div.output div.Action>div._tabs { padding-left:100px; }
 fieldset.Header>div.output div.Action>div._tabs div.tabs { font-style:italic; padding:13.5px 20px; display:flex; align-items:center; }
 fieldset.Header>div.output div.Action>div._tabs div.tabs:only-child { display:none; }
 body.mobile fieldset.Header>div.output div.item.usernick { display:none; }

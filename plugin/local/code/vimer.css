@@ -1,4 +1,5 @@
 fieldset.vimer>div.output.source>div.project div.item.select { border-right:var(--box-border3); }
+fieldset.vimer>div.output.source>div.project>div.item.card.select:first-child { border-right:none !important; }
 fieldset.vimer>div.output.source>div.layout>div.tabs>div.tabs>div.tabs.select { border-top:var(--box-border3); }
 fieldset.vimer>div.output.source.normal>div.project div.expand.open { color:var(--notice-bg-color); }
 fieldset.vimer>div.output.source.normal>div.project div.item.select { border-right:var(--box-notice3); }
