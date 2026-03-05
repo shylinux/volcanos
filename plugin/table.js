@@ -289,8 +289,7 @@ Volcanos(chat.ONIMPORT, {
 	tool: function(can, list, cb, target, status) { target = target||can._status, status = status||can._status
 		var height = can.base.Max(html.PLUG_HEIGHT, can.ConfHeight()-3*html.ACTION_HEIGHT, 240), width = can.base.Max(html.PLUG_WIDTH, can.ConfWidth()-(can.user.isMobile? 0: html.PROJECT_WIDTH))
 		can.core.Next(list.reverse(), function(meta, next) { can.base.isString(meta) && (meta = {index: meta}), meta.mode = html.FLOAT
-			meta.opts = can.Option()
-			meta.opts.uid = ""
+			meta.opts = can.Option(), meta.opts.uid = ""
 			can.onimport.plug(can, meta, function(sub) {
 				sub.onexport._output = function(_sub, msg) {
 					can.onaction.beforesuboutput && can.onaction.beforesuboutput(can, msg, _sub)
@@ -311,9 +310,19 @@ Volcanos(chat.ONIMPORT, {
 				if (can.base.beginWith(sub.ConfIndex(), "can.") || sub.Conf("_role") == "ok") { status.appendChild(sub._legend) }
 				sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, "legend.select", function(target) {
-					can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT); return target }) == sub._legend) { return }
+						can.page.ClassList.del(can, target._target, "shake")
+						can.onmotion.delay(can, function() {
+							can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT)
+						}, 300)
+						return target
+					}) == sub._legend) { return }
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
-					can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
+					can.onmotion.delay(can, function() {
+						can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
+						can.onmotion.delay(can, function() {
+							can.page.ClassList.add(can, sub._target, "shake")
+						}, 300)
+					}, 300)
 					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, (sub._inputs && sub._inputs.list || sub._inputs && sub._inputs.refresh) && sub.Update() }
 				}) }, sub._delay_init = true, sub.select = function(show) {
