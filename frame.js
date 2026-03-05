@@ -378,18 +378,14 @@ Volcanos(chat.ONAPPEND, {
 			if (can.page.tagis(can._target, "fieldset.cmd.form.output")) {
 				can.page.ClassList.del(can, can._target, html.FORM), can.page.ClassList.del(can, can._target, html.OUTPUT)
 			} can.page.ClassList.add(can, can._output, "_prepare")
-			// output_old.innerHTML
-			// can.page.style(can, can._output, "visibility", "hidden")
 			output_old.offsetHeight && can.page.style(can, can._output, "visibility", "hidden", "position", "absolute")
 			can.onexport._output && can.onexport._output(sub, msg)
-			// output_old.innerHTML == "" && can.onmotion.hidden(can, output_old)
 			can.core.CallFunc([sub, chat.ONIMPORT, chat._INIT], {can: sub, msg: msg, cb: function(msg) {
 				can.onappend.style(sub, sub.Conf(ctx.STYLE)), can.onmotion.story.auto(can, can._output), sub.onmotion.touchAction(sub)
 				if (action !== false) { can.onkeymap._build(sub)
 					var list = can.base.Obj(msg.Option(ice.MSG_ACTION)||can.Conf(ice.MSG_ACTION), sub.onaction.list||[])
 					can.onmotion.clear(can, can._action), sub.onappend._action(sub, [{view: "_space"}].concat(list), action||can._action)
 					sub.onappend._status(sub, sub.onexport&&sub.onexport.list||msg.Option(ice.MSG_STATUS), null, msg), can.user.isMobile || sub.onappend.tools(sub, msg)
-					// if (msg.Option("sess.online") == ice.TRUE) { can.ondaemon._online(can) }
 					if (!msg.IsDetail() && msg.Length() > 9 && !sub.ui.project && !can.user.isMobile) {
 						can.base.endWith(sub.ConfIndex(), ".portal") || can.onmotion.delay(can, function() { can.onappend._filter(can) }, 300)
 					}
@@ -401,8 +397,6 @@ Volcanos(chat.ONAPPEND, {
 					can.isCmdMode() && can.page.style(can, can._output, html.HEIGHT, sub.ConfHeight())
 					can.onexport.output(sub, msg); if (can.Conf("_output")) { can.Conf("_output")(sub, msg) }
 				} msg.Defer(), can.base.isFunc(cb) && cb(msg)
-
-				// can.isCmdMode() && can.user.agent.init(can, can.user.info.titles)
 				can._output.scrollTop = output_old.scrollTop, can._output.scrollLeft = output_old.scrollLeft
 				can.onmotion.delay(can, function() {
 					can.page.style(can, can._target, "visibility", ""), can.page.style(can, can._output, "visibility", "", "position", "")
@@ -1060,6 +1054,8 @@ Volcanos(chat.ONAPPEND, {
 		meta.index = value.index||meta.index, meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.space = value.space||meta.space, meta._space = value._space||meta._space
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
+			meta.style == html.FLOAT && can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake") }, 300)
+			// meta.style = html.FLOAT && can.page.ClassList.add(can, sub._target, "shake")
 			sub.run = function(event, cmds, cb) {
 				if (can.base.isFunc(value)) {
 					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
@@ -1077,7 +1073,10 @@ Volcanos(chat.ONAPPEND, {
 	},
 	_float: function(can, index, args, cb) {
 		can.onappend.plugin(can, typeof index == code.OBJECT? (index.style = chat.FLOAT, index.args = args, index): {index: index, args: args, style: chat.FLOAT}, function(sub) {
-			sub.onaction.close = function() { can.page.Remove(can, sub._target) }, cb && cb(sub)
+			// can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake") }, 300)
+			sub.onaction.close = function() { can.page.ClassList.del(can, sub._target, "shake")
+				can.onmotion.delay(can, function() { can.page.Remove(can, sub._target) }, 300)
+			}, cb && cb(sub)
 		}, can._root._target)
 	},
 	figure: function(can, meta, target, cb, parent) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }
@@ -1446,12 +1445,12 @@ Volcanos(chat.ONMOTION, {
 		}, function() { can.page.style(can, target, html.HEIGHT, "") })
 	},
 	slideIn: function(can) { var target = can._target
-		can.page.style(can, target, html.LEFT, target.offsetWidth, html.OPACITY, "0", "transition-property", "all", "transition-duration", "0.5s")
+		can.page.style(can, target, html.LEFT, target.offsetWidth, html.OPACITY, "0", "transition-property", "all", "transition-duration", can.user.isMobile? ".5s": ".7s")
 		can.onmotion.delay(can, function() { can.page.style(can, target, "left", "0", html.OPACITY, "1") })
 	},
 	slideOut: function(can, cb, skip) { if (skip) { return cb() }
 		var target = can._target; if (can._output.innerHTML == "") { return can.page.Remove(can, target), cb && cb() }
-		can.page.style(can, target, html.LEFT, "0", "transition-property", "all", "transition-duration", "0.5s")
+		can.page.style(can, target, html.LEFT, "0", "transition-property", "all", "transition-duration", can.user.isMobile? ".5s": ".7s")
 		can.onmotion.delay(can, function() { can.page.style(can, target, html.LEFT, target.offsetWidth, html.OPACITY, "1") })
 		can.onmotion.delay(can, function() { can.page.Remove(can, target), cb && cb() }, 500)
 	},

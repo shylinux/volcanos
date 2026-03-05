@@ -444,8 +444,24 @@ body>div.carte.select.float>div.item { text-align:center; }
 body>div.carte.header.avatar img { width:370px; }
 body div.input.float.process input { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color) !important; border:var(--box-border) !important; }
 body div.input.float.process input:hover { background-color:var(--disable-bg-color) !important; color:var(--disable-fg-color) !important; border:var(--box-border) !important; }
-body div.input.float { padding:var(--plugin-padding); }
-body:not(.mobile) div.input.float { border:var(--box-border); }
+body.width1 div.input.float { padding:var(--plugin-padding); opacity:0; transform:scale(0.8); transition:opacity 0.3s ease, transform 0.3s ease; }
+body.width1 div.input.float.shake { opacity:1; transform:scale(1); }
+body.width1 div.input.float.shake { animation:shake 0.5s ease 0.2s; }
+body:not(.width1) div.input.float { padding:var(--plugin-padding); opacity:0; transform:scale(0.1); transition:opacity 0.3s ease, transform 0.3s ease; }
+body:not(.width1) div.input.float.shake { opacity:1; transform:scale(1); }
+body:not(.width1) div.input.float.shake { animation:shake 0.5s ease 0.2s; }
+body:not(.width1) fieldset.float:not(.input) { opacity:0; transform:scale(0.1); transition:opacity 0.3s ease, transform 0.3s ease; }
+body:not(.width1) fieldset.float:not(.input).shake { opacity:1; transform:scale(1); }
+body:not(.width1) fieldset.float:not(.input).shake { animation:shake 0.5s ease 0.2s; }
+@keyframes shake {
+	0% { transform:scale(1) rotate(0deg); }
+	20% { transform:scale(1.02) rotate(2deg); }
+	40% { transform:scale(1.02) rotate(-2deg); }
+	60% { transform:scale(1.01) rotate(1deg); }
+	80% { transform:scale(1.01) rotate(-1deg); }
+	100% { transform:scale(1) rotate(0deg); }
+}
+body:not(.mobile) div.input.float { border:var(--box-border); border-radius:10px; }
 body div.input.float>legend { background-color:var(--input-bg-color); float:right; padding:0; }
 body div.input.float tr { margin:var(--button-margin); }
 body div.input.float.modify tr.uid { display:none; }
@@ -456,15 +472,18 @@ body.width1 div.input.float table { width:100%; }
 body.width1 div.input.float tr:not(.hide) { display:flex; flex-direction:column; margin:var(--button-margin); }
 body.width1 div.input.float tr:not(.hide) { margin:var(--button-margin); }
 body.width1 div.input.float td { padding:0; margin:var(--button-margin); }
+body div.input.float td>div.item { border-radius:5px; overflow:hidden; }
+body div.input.float td>div.item input { border-radius:5px; }
+body div.input.float td>div.item textarea { border-radius:5px; }
 body.widht1 div.input.float td:nth-child(1) { color:gray; font-size:var(--status-font-size); padding-left:var(--button-padding); margin-bottom:0; }
 body.width1 div.input.float td:nth-child(2) { display:none; }
 body div.input.float tr.img td:last-child>span { display:none; }
 body div.input.float tr.img td:last-child>div.item { flex-wrap:wrap; }
-body div.input.float tr.img td:last-child>div.item>div { background-color:var(--input-bg-color); color:gray; font-size:40px; display:flex; align-items:center; justify-content:center; position:relative; }
+body div.input.float tr.img td:last-child>div.item>div { background-color:var(--input-bg-color); color:gray; overflow:hidden; font-size:40px; display:flex; align-items:center; justify-content:center; position:relative; }
 body div.input.float tr.img td:last-child>div.item>div img { padding:1.5px 1px; padding:0; }
 body div.input.float tr.img td:last-child>div.item>div img { max-width:100%; max-height:100%; width:100%; height:100%; }
 body div.input.float tr.img td:last-child>div.item>div>i { font-size:20px; position:absolute; top:0; right:0; }
-body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:20px; position:relative; }
+body div.input.float tr.img td:last-child>div.item>div>i.bi.bi-plus-square-dotted { font-size:40px; padding:40px; position:relative; }
 body div.input.float tr.img td:last-child>div.item>div>i:hover { background-color:var(--hover-bg-color); }
 body div.input.float tr.img td:last-child>div>span { font-size:var(--action-height); }
 body div.input.float tr.img td:last-child>div>span.icon { display:none; }
@@ -485,7 +504,7 @@ body div.input.float tr.video td:last-child>div { width:var(--form-width) !impor
 body div.input.float tr.video td:last-child>div { justify-content:flex-start; border:var(--box-border); }
 body.width1 div.input.float tr.video td:last-child>div { width:100% !important; }
 body.width1 div.input.float tr.video td:last-child>div.item>div { display:flex; align-items:center; justify-content:center; }
-body.width1 div.inputs>div.input.float>div.action { display:flex; gap:10px; }
+body.width1 div.inputs>div.input.float>div.action { display:flex; gap:10px; flex-direction:row-reverse; }
 body div.input.float tr.icon td:last-child { position:relative; }
 body div.input.float tr.icon.img td:last-child img { object-fit:contain; }
 body div.input.float tr.icon:not(.img) td:last-child img:first-child { height:28px; width:28px; position:absolute; left:12px; top:12px; }
@@ -1119,7 +1138,9 @@ fieldset.form>div.output>div.code>div.info { font-size:20px; text-align:center; 
 fieldset.form>div.output>div.code>div.info>span.title { font-style:italic; }
 fieldset.form>div.output>div.code>input[type=button] { font-size:24px; border:var(--box-notice); height:48px; width:240px; margin:20px; display:block; }
 fieldset.form>div.output>div.code>input[type=button].danger { border:var(--box-danger); }
-fieldset.form>div.output>div.code>input[type=button].danger { border:var(--box-danger); background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
+// fieldset.form>div.output>div.code>input[type=button].guiding:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+// fieldset.form>div.output>div.code>input[type=button].notice:not(:hover) { background-color:var(--notice-bg-color); color:var(--notice-fg-color); }
+// fieldset.form>div.output>div.code>input[type=button].danger:not(:hover) { background-color:var(--danger-bg-color); color:var(--danger-fg-color); }
 fieldset>div.output.form { padding:20px; display:flex; flex-direction:column; align-items:center; }
 fieldset>div.output.form>div.item { text-align:left; margin:10px; height:unset; }
 fieldset>div.output.form>div.item>div.item { height:unset; }
