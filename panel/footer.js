@@ -6,7 +6,7 @@ Volcanos(chat.ONIMPORT, {
 		can.Conf(nfs.VERSION, can.base.trimPrefix(window._version, "?_v=").split("&")[0])
 		can.ConfHeight(can.page.height()), can.ConfWidth(can.page.width())
 		can.Conf(NKEY, can.core.Item(can.misc.localStorage(can)).length)
-		
+
 		can.onimport._title(can, msg, target)
 		can.onimport._storm(can, msg, target)
 		can.core.List([
@@ -81,7 +81,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onrecord: function(can, msg) { var zone = can.misc.sessionStorage(can, "web.chat.script:zone"); zone && can.runAction(can.request(), nfs.SCRIPT, [zone].concat(msg.cmds[0])) },
 	onaction_cmd: function(can) { can.onappend.style(can, html.HIDE) },
 	onstorm_select: function(event, can, river, storm) { event.isTrusted != undefined && can.onimport._data(can, chat.TUTOR, {time: can.base.Time(), type: chat.STORM, text: [river, storm].join(",")}) },
-	
+
 	ontheme: function(event, can, theme) { can.onimport.tutor(event, can, chat.THEME, theme) },
 	onevent: function(event, can, query) { var msg = can.request(event)
 		can.onimport.tutor(event, can, msg.Option("_type")||event.type, query||can.page.getquery(can, event.currentTarget||event.target))
@@ -89,7 +89,7 @@ Volcanos(chat.ONACTION, {_init: function(can) {},
 	onindex: function(event, can, index) { can.onimport.tutor(event, can, ctx.INDEX, index) },
 	onproject: function(event, can, query) { can.onimport.tutor(event, can, html.ITEM, query) },
 	onremove: function(event, can, query) { can.onimport.tutor(event, can, mdb.REMOVE, query) },
-	
+
 	oncommand_focus: function(can) { can.page.Select(can, can._output, ["div.cmd", html.INPUT], function(target) { can.onmotion.focus(can, target) }) },
 	onlayout: function(can, layout, before) { if (can.user.isMobile) { return }
 		can.page.ClassList.del(can, can._target, before), can.page.ClassList.add(can, can._target, layout)
@@ -110,7 +110,7 @@ Volcanos(chat.ONEXPORT, {list: [cli.BEGIN, nfs.VERSION],
 	begin: function(can) { can.onexport._float(can, NKEY, "can.data") },
 	version: function(can) { can.onexport._float(can, NKEY, "can.runtime") },
 	_float: function(can, name, index, args, cb) { can.ui[name]? can.ui[name].onaction.close(): can.onappend._float(can, index, args||[], function(sub) { can.ui[name] = sub
-		can.base.isFunc(cb) && cb(sub), can.onmotion.delay(can, function() { sub.onaction.close = function() { can.page.Remove(can, sub._target), delete(can.ui[name]) } })
+		can.base.isFunc(cb) && cb(sub), can.onmotion.delay(can, function() { sub.onaction.close = function() { sub.onaction._close({}, sub), delete(can.ui[name]) } })
 	}) },
 })
 Volcanos(chat.ONPLUGIN, {

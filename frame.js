@@ -156,6 +156,7 @@ Volcanos(chat.ONAPPEND, {
 		can.isCmdMode() && meta.style != "float" && (can.base.isIn(meta.index, web.WIKI_PORTAL)) && can.onappend.style(can, html.OUTPUT, field)
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, field, "visibility", "hidden")
 		can.isCmdMode() && meta.index && meta.index.indexOf("can.") != 0 && can.page.style(can, output, "visibility", "hidden")
+		meta.style == html.FLOAT && can.page.ClassList.add(can, field, "shake_init")
 		var legend = can.page.SelectOne(can, field, html.LEGEND); legend.innerHTML = legend.innerHTML || meta.index
 		var option = can.page.SelectOne(can, field, html.FORM_OPTION)
 		var action = can.page.SelectOne(can, field, html.DIV_ACTION)
@@ -462,14 +463,21 @@ Volcanos(chat.ONAPPEND, {
 
 	field: function(can, type, item, target) { type = type||html.STORY, item = item||{}
 		var name = can.core.Split(item.nick||item.index||"", " .").pop()||""; can.base.isIn(name,
-			"cluster", "launchTemplate",
-			tcp.SERVER, tcp.CLIENT, web.STUDIO, mdb.SEARCH, web.SERVICE,
+			"cluster",
+			"launchTemplate",
+			tcp.SERVER,
+			tcp.CLIENT,
+			web.STUDIO,
+			web.PORTAL,
+			web.SERVICE,
+			mdb.SEARCH,
 			can.core.Split(can.ConfIndex(), nfs.PT).pop()
 		) && (name = (item.index||"").split(nfs.PT).slice(-2).join(nfs.PT))
+		name = can.base.trimSuffix(name, ".portal")
 		type == html.PLUG || (type == html.STORY && item.style != html.FLOAT) ||
 		// can.base.isIn(can.ConfIndex(), web.DESKTOP, web.MESSAGE, web.VIMER) ||
 		(name = can.core.Keys(can.base.trimPrefix(item.space||item._space, can.ConfSpace()), name))
-		item.index && (item.help = item.help||can.user.trans(can, item.index.split(".").pop(), ""))
+		item.index && (item.help = item.help||can.user.trans(can, (can.base.trimSuffix(item.index, ".portal")).split(".").pop(), ""))
 		var title = item.title || can.user.isMobile && (can.user.isEnglish(can)? name: (item.help||name)) || (!item.help || name == item.help || can.user.isEnglish(can)? name: name+"("+can.core.Split(item.help)[0]+")")
 		target = can.base.isFunc(target)? target(): target
 		return can.page.Append(can, target||can._output, [{view: [type, html.FIELDSET], style: item.style, list: [{type: html.LEGEND, list: [
@@ -1054,8 +1062,7 @@ Volcanos(chat.ONAPPEND, {
 		meta.index = value.index||meta.index, meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.space = value.space||meta.space, meta._space = value._space||meta._space
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
-			meta.style == html.FLOAT && can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake") }, 300)
-			// meta.style = html.FLOAT && can.page.ClassList.add(can, sub._target, "shake")
+			meta.style == html.FLOAT && can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake_done") }, 300)
 			sub.run = function(event, cmds, cb) {
 				if (can.base.isFunc(value)) {
 					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
@@ -1073,10 +1080,7 @@ Volcanos(chat.ONAPPEND, {
 	},
 	_float: function(can, index, args, cb) {
 		can.onappend.plugin(can, typeof index == code.OBJECT? (index.style = chat.FLOAT, index.args = args, index): {index: index, args: args, style: chat.FLOAT}, function(sub) {
-			// can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake") }, 300)
-			sub.onaction.close = function() { can.page.ClassList.del(can, sub._target, "shake")
-				can.onmotion.delay(can, function() { can.page.Remove(can, sub._target) }, 300)
-			}, cb && cb(sub)
+			sub.onaction.close = function() { sub.onaction._close({}, sub) }, cb && cb(sub)
 		}, can._root._target)
 	},
 	figure: function(can, meta, target, cb, parent) { if (meta.type == html.SELECT || meta.type == html.BUTTON) { return }

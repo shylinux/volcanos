@@ -292,9 +292,9 @@ Volcanos(chat.ONACTION, {
 		}
 	},
 	_close: function(event, can) {
-		can.onengine.signal(can, "onremove", can.request(event, {query: can.page.getquery(can, can._target)}))
-		can.page.ClassList.del(can, can._target, "shake")
+		can.page.ClassList.del(can, can._target, "shake_done")
 		can.onmotion.delay(can, function() { can.page.Remove(can, can._target) }, 300)
+		can.onengine.signal(can, "onremove", can.request(event, {query: can.page.getquery(can, can._target)}))
 	},
 	clear: function(event, can) { can.onmotion.clear(can, can._output) },
 	actions: function(event, can) { can.onmotion.toggle(can, can._action) },

@@ -310,7 +310,7 @@ Volcanos(chat.ONIMPORT, {
 				if (can.base.beginWith(sub.ConfIndex(), "can.") || sub.Conf("_role") == "ok") { status.appendChild(sub._legend) }
 				sub._legend.oncontextmenu = sub._legend.onclick, sub._legend.onclick = function(event) { can.misc.Event(event, can, function(msg) {
 					if (can.page.SelectOne(can, status, "legend.select", function(target) {
-						can.page.ClassList.del(can, target._target, "shake")
+						can.page.ClassList.del(can, target._target, "shake_done")
 						can.onmotion.delay(can, function() {
 							can.onmotion.hidden(can, target._target), can.page.ClassList.del(can, target, html.SELECT)
 						}, 300)
@@ -319,9 +319,8 @@ Volcanos(chat.ONIMPORT, {
 					can.onmotion.select(can, status, html.LEGEND, sub._legend), can.onmotion.toggle(can, sub._target, true)
 					can.onmotion.delay(can, function() {
 						can.onmotion.select(can, target, html.FIELDSET_PLUG, sub._target)
-						can.onmotion.delay(can, function() {
-							can.page.ClassList.add(can, sub._target, "shake")
-						}, 300)
+						can.page.ClassList.add(can, sub._target, "shake_init")
+						can.onmotion.delay(can, function() { can.page.ClassList.add(can, sub._target, "shake_done") }, 300)
 					}, 300)
 					sub.onimport.size(sub, sub.ConfHeight(), sub.ConfWidth(), false)
 					if (sub._delay_init || meta.msg) { sub._delay_init = false, meta.msg = false, (sub._inputs && sub._inputs.list || sub._inputs && sub._inputs.refresh) && sub.Update() }
