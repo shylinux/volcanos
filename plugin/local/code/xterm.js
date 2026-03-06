@@ -38,13 +38,7 @@ Volcanos(chat.ONIMPORT, {
 		can.runAction(can.request({}, size, term._item), web.RESIZE, [], function(msg) {})
 	},
 	_input: function(can, term, data) {
-		function encode(str) {
-			const encoder = new TextEncoder();
-			const uint8Array = encoder.encode(str); // 步骤2：将二进制数组转为 Latin 字符串
-			const latinStr = String.fromCharCode(...uint8Array); // 步骤3：btoa 编码
-			return btoa(latinStr);
-		}
-		can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [encode(data)], function(msg) {})
+		can.runAction(can.request({}, {rows: term.rows, cols: term.cols}, term._item), html.INPUT, [btoa(data)], function(msg) {})
 	},
 	input: function(can, msg, hash, text) { var arg = msg.detail.slice(1); arg = [hash||arg[0], text||arg[1]]
 		term = can.db[arg[0]], can.onimport._input(can, term, arg[1])
