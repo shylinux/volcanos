@@ -372,5 +372,11 @@ Volcanos(chat.ONSYNTAX, {
 		"bind:longpress": code.FUNCTION, "catch:longpress": code.FUNCTION,
 		"bind:click": code.FUNCTION, "catch:click": code.FUNCTION,
 		"bind:input": code.FUNCTION, "catch:input": code.FUNCTION,
+		"hover-class": code.FUNCTION,
+		"web-view": code.KEYWORD,
+		"s-warn": code.KEYWORD,
+		"s-activity": code.KEYWORD,
+		"s-special": code.KEYWORD,
+		"s-footer": code.KEYWORD,
 	}},
 })
