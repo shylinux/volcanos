@@ -177,7 +177,7 @@ table.content.detail tr td video { max-width:100%; max-height:600px; }
 h1 { text-align:center; margin:var(--title-margin) 0; } h2 { margin:var(--title-margin) 0; }
 h3 { margin:var(--title-margin) 0; }
 h4 { margin:var(--title-margin) 0; }
-p { margin:var(--title-margin) 0; }
+// p { margin:var(--title-margin) 0; }
 ol, ul { margin-left:var(--title-margin); }
 kbd { padding:0 var(--input-padding); }
 img { object-fit:cover; vertical-align:top; }
@@ -252,7 +252,10 @@ fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>form
 fieldset.studio>div.output>div.layout>div.layout>div.content>fieldset.story>div.action>div.item.state.button.full.icons { display:none; }
 /* project */
 div.output>div.project:not(.item) { background-color:var(--plugin-bg-color); }
-div.output>div.project div.action:not(.hide) { width:100%; display:flex; overflow:hidden; }
+div.output>div.project div.action:not(.hide) {
+	width:100%; display:flex; overflow:hidden;
+	position:sticky; top:0; z-index:1;
+}
 div.output>div.project div.action div.item input:not(:hover):not(:focus) { border-right:none; }
 div.output>div.project div.action div.item.icons input { display:none; }
 div.output>div.project div.item:not(.hide) { white-space:pre; line-height:24px; cursor:pointer; display:flex; align-items:center; }

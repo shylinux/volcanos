@@ -294,7 +294,9 @@ Volcanos(chat.ONIMPORT, {
 	layout: function(can) {
 		if (can.Conf(ctx.STYLE) == html.OUTPUT) { return can.page.style(can, can.ui.content, html.WIDTH, can.base.ParseSize((can.Conf("__width")||can.ConfWidth()+""))-(can.user.isMobile? 5: 5)) }
 		if (can.isSimpleMode() && !can.page.tagis(can._fields, html.FIELDSET_FLOAT)) { can.page.style(can, can._output, html.MAX_HEIGHT, "") }
-		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth()); return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth()) }
+		if (can.isSimpleMode()) { can.ui.layout(can.ConfHeight(), can.ConfWidth());
+			return can.page.style(can, can.ui.content, html.WIDTH, can.ConfWidth(), html.HEIGHT, "")
+		}
 		if (can.isCmdMode()) { can.page.style(can, can._output, html.HEIGHT, can.ConfHeight(can.page.height())) }
 		can.ui.size = {profile: can._msg.Option(html.WIDTH), display: can._msg.Option(html.HEIGHT)}
 		can.ui.layout(can.ConfHeight(), can.ConfWidth(), 0, function(height, width) { var _width = width
@@ -340,13 +342,15 @@ Volcanos(chat.ONFIGURE, {
 			}) }, function() {}, target, null, ctx.INDEX, nfs.PT), zone._total(msg.Length())
 		}) }, zone.toggle(false)
 	},
-	plugin: function(can, target, zone, hash) { zone._delay_init = function() { var total = 0
-		can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { if (key[0] != "_") {
-			return total++, {index: key, expand: hash[2] == ctx.INDEX && hash[1] == "can."+key}
-		} }), function(event, item, target) { can.onimport.tabview(can, "", can.core.Keys(ice.CAN, item.index), ctx.INDEX, function(msg) {
-			msg._item = target
-		}) }, function() {}, target, null, ctx.INDEX, nfs.PT), zone._total(total)
-	}, zone.toggle(false) },
+	plugin: function(can, target, zone, hash) {
+		zone._delay_init = function() { var total = 0
+			can.onimport.tree(can, can.core.ItemKeys(can.onengine.plugin.meta, function(key) { if (key[0] != "_") {
+				return total++, {index: key, expand: hash[2] == ctx.INDEX && hash[1] == "can."+key}
+			} }), function(event, item, target) { can.onimport.tabview(can, "", can.core.Keys(ice.CAN, item.index), ctx.INDEX, function(msg) {
+				msg._item = target
+			}) }, function() {}, target, null, ctx.INDEX, nfs.PT), zone._total(total)
+		}, zone.toggle(false)
+	},
 })
 Volcanos(chat.ONSYNTAX, {
 	_init: function(can, msg, cb) { var key = can.onexport.keys(can)
