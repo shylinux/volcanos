@@ -2,8 +2,8 @@ fieldset.Header div.Action { display:contents; }
 fieldset.Action { min-width:var(--project-width); }
 fieldset.Action>div.output { overflow-x:hidden; border-radius:10px; }
 fieldset.Action.cmd>div.output { border-radius:0; }
-fieldset.Action>div.output>fieldset.plugin:only-child { border:none !important; border-radius:0; }
-fieldset.Action>div.output>fieldset.plugin:only-child>div.output { border:none !important; border-radius:0; }
+body.width1 fieldset.Action>div.output>fieldset.plugin:only-child { border:none !important; border-radius:0; }
+body.width1 fieldset.Action>div.output>fieldset.plugin:only-child>div.output { border:none !important; border-radius:0; }
 fieldset.Action>div.action:not(.flex) { width:100%; display:none; background-color:var(--plugin-bg-color); }
 fieldset.Action>div.action div.item { font-style:italic; font-size:1.1rem; padding:10px 20px; }
 fieldset.Action.tabs>div.action { display:flex; justify-content:center; display:none; }

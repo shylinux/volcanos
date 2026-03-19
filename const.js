@@ -294,7 +294,8 @@ var chat = {
 	HEADER: "Header", ACTION: "Action", FOOTER: "Footer",
 	libs: ["base.js", "core.js", "date.js", "misc.js", "page.js", "user.js"].map(function(p) { return "/lib/"+p }),
 	panel_list: [{name: "Header", style: "head"}, {name: "River", style: "left"}, {name: "Action", style: "main"}, {name: "Search", style: "auto"}, {name: "Footer", style: "foot"}],
-	plugin_list: ["state.js", "input.js", "table.js",
+	plugin_list: [
+		"state.js", "table.js", "table.js?style=card", "input.js",
 		"input/key.js",
 		"input/img.js",
 		"input/date.js",
