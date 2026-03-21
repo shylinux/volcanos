@@ -686,7 +686,7 @@ fieldset>form.option>div.item.text.cmd { width:100%; }
 fieldset>form.option>div.item.text.cmd>input { width:100%; }
 fieldset>form.option>div.item.select>input { min-width:var(--button-width); }
 fieldset>form.option>div.item.textarea { height:var(--textarea-height); width:100%; }
-fieldset>div.action div.item.filter input { padding-left:24px; }
+fieldset>div.action div.item.filter input { padding-left:24px; border-radius:10px; }
 fieldset>div.action div.item.state.filter input { width:120px; transition:all 0.8s; }
 fieldset>div.action div.item.state.filter input:focus { width:240px; transition:all 0.5s; }
 fieldset>div.action div.item { height:var(--action-height); display:flex; align-items:center; }
@@ -746,7 +746,7 @@ div.item.button.refresh { display:flex; align-items:flex-start; }
 div.item.button.create>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 div.item.button.insert>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
 div.item.button.refresh>span.icon { font-size:28px; line-height:26px; height:var(--action-height); }
-div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
+fieldset>div.action>div.item.button._space.icons { flex-grow:1; min-width:var(--button-margin); }
 div.item.button._space.icons:hover { background-color:unset; cursor:unset; }
 div.tabs>span { font-style:italic; white-space:pre; padding-right:var(--input-padding); }
 div.tabs>i:first-child { margin-right:var(--input-margin); }
@@ -1006,6 +1006,7 @@ fieldset.vimer>div.output>div.project>div.zone.space div.item.stop { color:var(-
 fieldset.vimer>div.output>div.project>div.zone.space fieldset>div.output>div.item { height:42px; }
 fieldset.inner fieldset.story div.item.button._space.icons { margin-left:0; flex-grow:1; }
 fieldset.inner.float>form.option>div.text { display:none; }
+fieldset.inner.float>div.action>._space { flex-grow:1; min-width:var(--button-margin); }
 fieldset.inner.float>div.status { display:none; }
 fieldset.inner.result>div.output { border-left:var(--box-danger3); }
 fieldset.inner>div.output>div.project>div.zone.space>div.list:not(.item) { margin-left:0; }

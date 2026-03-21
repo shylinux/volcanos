@@ -1062,10 +1062,7 @@ Volcanos(chat.ONAPPEND, {
 		meta.index = value.index||meta.index, meta.args = can.base.getValid(can.base.Obj(meta.args), can.base.Obj(meta.arg), can.base.Obj(value.args), can.base.Obj(value.arg))||[]
 		meta.space = value.space||meta.space, meta._space = value._space||meta._space
 		can.onappend._init(can, meta, [chat.PLUGIN_STATE_JS], function(sub, skip) {
-			meta.style == html.FLOAT && can.onmotion.delay(can, function() {
-				can.page.ClassList.del(can, sub._target, "shake_init")
-				can.page.ClassList.add(can, sub._target, "shake_done")
-			}, 300)
+			meta.style == html.FLOAT && can.onmotion.shakeIn(can, sub._target)
 			sub.run = function(event, cmds, cb) {
 				if (can.base.isFunc(value)) {
 					can.onengine._plugin(event, can._root, can.request(event), value.can, [meta.index].concat(cmds), cb)
@@ -1530,6 +1527,16 @@ Volcanos(chat.ONMOTION, {
 			if (msg.Option(ice.MSG_HANDLE) == ice.TRUE) { return } msg.Option(ice.MSG_HANDLE, ice.TRUE)
 			data && can.onaction["onslide"+direction()](event, can, data, direction(), target)
 		}
+	},
+	shakeIn: function(can, target) {
+		can.page.ClassList.add(can, target, "shake_init")
+		can.onmotion.delay(can, function() {
+			can.page.ClassList.add(can, target, "shake_done")
+		}, 300)
+	},
+	shakeOut: function(can, target, cb) {
+		can.page.ClassList.del(can, target, "shake_done")
+		can.onmotion.delay(can, cb, 300)
 	},
 })
 Volcanos(chat.ONKEYMAP, {
