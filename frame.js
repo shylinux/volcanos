@@ -937,7 +937,6 @@ Volcanos(chat.ONAPPEND, {
 				} else { can.page.Append(can, target, [item]) }
 			}
 		}); return list } ui.list = append(target, type, list)
-
 		function calc(item, size, total) { return ui.size[item]? ui.size[item] < 1? total*ui.size[item]: ui.size[item]: can.base.isString(size)? parseInt(can.base.trimSuffix(size, "px")): size }
 		var defer = [], content_height, content_width; function layout(type, list, height, width) { var _width = width, _height = height; can.core.List(list, function(item) {
 			var meta = {}
@@ -962,7 +961,6 @@ Volcanos(chat.ONAPPEND, {
 		}), can.core.List(list, function(item) {
 			if (can.base.isArray(item)) { layout(type == FLEX? FLOW: FLEX, item, height, width) }
 		}) }
-
 		ui.project && can.page.Select(can, can._option, "div.item.menu", function(target) { can.page.style(can, target, "display", "unset") })
 		if (ui.project) { can.user.isMobile && can.onmotion.hidden(can, ui.project)
 			var _action = can.page.Append(can, ui.project, [{view: html.ACTION}])._target; ui.filter = can.onappend.filter(can, _action)

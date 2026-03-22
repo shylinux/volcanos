@@ -128,7 +128,7 @@ Volcanos(chat.ONIMPORT, {
 	_nick: function(can, item) {
 		if (can.base.isArray(item.nick)) { return item.nick }
 		if (can.base.isObject(item.nick)) { return item.nick }
-		return {text: [(item.help? item.help+" ": "")+(item.nick||item.name||item.zone||item.sess), "", html.NAME], className: html.NAME}
+		return {text: [(item.help? item.help+" ": "")+(item.nick||item.title||item.name||item.zone||item.sess), "", html.NAME], className: html.NAME}
 	},
 	_menu: function(event, can, item, cbs, target) { target = target||event.currentTarget
 		if (can.base.isFunc(cbs)) { var menu = cbs(event, item, target); if (menu) { return can.user.carteRight(event, can, menu.meta, menu.list, menu) } }

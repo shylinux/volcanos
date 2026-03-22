@@ -6,16 +6,19 @@ Volcanos(chat.ONIMPORT, {
 			can.db.undo = [], can.db.redo = [], can.onimport._input(can), cb && cb(msg)
 		}) })
 	},
-	_input: function(can) { var ui = can.page.Append(can, can.ui.content.parentNode, [
-		{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
-			can.onimport._value(can), can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.ui.current)
-			if (can.db.mode == mdb.INSERT) { can.ui.current._keylist = [] }
-			if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event) }
-		}, onkeyup: function(event) { if (event.metaKey) { return }
-			can.onimport._value(can); can.onkeymap._complete(event, can)
-		}, onclick: function(event) { can.onkeymap._insert(event, can)
-		}}, {view: [[code.COMPLETE]]},
-	]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._plugin(can) },
+	_input: function(can) {
+		var ui = can.page.Append(can, can.ui.content.parentNode, [
+			{view: [code.CURRENT, html.INPUT], spellcheck: false, onkeydown: function(event) { if (event.metaKey) { return }
+				can.onimport._value(can), can.onkeymap._parse(event, can, can.db.mode+(event.ctrlKey? "_ctrl": ""), can.ui.current)
+				if (can.db.mode == mdb.INSERT) { can.ui.current._keylist = [] }
+				if (can.db.mode == mdb.NORMAL) { can.onkeymap.prevent(event) }
+			}, onkeyup: function(event) { if (event.metaKey) { return }
+				can.onimport._value(can); can.onkeymap._complete(event, can)
+			}, onclick: function(event) { can.onkeymap._insert(event, can)
+			}}, {view: [[code.COMPLETE]]},
+		]); can.ui.current = ui.current, can.ui.complete = ui.complete, can.onkeymap._plugin(can)
+		can.onaction.selectLine(can, 1)
+	},
 	_value: function(can) { can.onimport.__tabPath(can, true)
 		can.db.mode == mdb.INSERT && can.onmotion.delay(can, function() { can.current.text(can.ui.current.value) })
 	},
