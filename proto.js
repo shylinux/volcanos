@@ -43,6 +43,7 @@ var Volcanos = shy({iceberg: "", volcano: "", frame: chat.FRAME_JS, _cache: {}, 
 			if (name.indexOf("/require/") == 0 && meta.iceberg) { name = meta.iceberg+name }
 			if (name.indexOf("/p/") == 0 && meta.iceberg) { name = meta.iceberg+name }
 			if (name.indexOf("/v/") == 0 && meta.iceberg) { name = meta.iceberg+name }
+			if (name.indexOf("/m/") == 0 && meta.iceberg) { name = meta.iceberg+name }
 			(!can._follow || name.indexOf("/p/src/") == -1 || can._follow.indexOf("/plugin/local/code/vimer.js") == -1) && meta.cache[name]? next(): meta._load(name, next)
 		},
 		request: function(event) { event = event||{}, event = event._event||event
