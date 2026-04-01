@@ -144,8 +144,14 @@ Volcanos(chat.ONIMPORT, {
 				if (item._hash[i] != can.db.hash[i]) { item._select = false; break }
 			}
 		}
+		var type = can.core.Item(item, function(key) {
+			if (key == "type" || key.endsWith("_type")) {
+				return key
+			}
+		})[0]
 		return {view: [[html.ITEM, item.type, item.role, item.status].concat(item._style)], title: item.title||item.nick, list: [
 			can.onimport._icons(can, item),
+			item[type] && {text: [can.user.trans(can, item[type], "", "value."+type), "", ["type", can.Conf("feature._trans.value."+type+".style."+item[type])]]},
 		].concat(can.onimport._nick(can, item), item._label||[], [
 			(item.action||cbs) && {icon: "bi bi-three-dots", onclick: function(event) { can.onimport._menu(event, can, item, cbs) }},
 		]), _init: function(target) { target._item = item, item._item = target, can.ui[item.path] = target

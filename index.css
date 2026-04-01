@@ -180,7 +180,8 @@ h4 { margin:var(--title-margin) 0; }
 // p { margin:var(--title-margin) 0; }
 ol, ul { margin-left:var(--title-margin); }
 kbd { padding:0 var(--input-padding); }
-img { object-fit:cover; vertical-align:top; }
+img { object-fit:cover; vertical-align:top; max-width:100%; }
+video { max-width:100%; }
 img.qrcode { width:var(--qrcode-width); }
 /* output style */
 div.title>div.status { color:gray; line-height:20px; display:flex; }
@@ -308,7 +309,7 @@ div.output>div.layout { flex-grow:1; }
 div.output>div.layout>div.layout { position:relative; }
 div.output>div.layout>div.layout>div.content { flex-grow:1; }
 div.output>div.project:not(.toggle) { width:var(--project-width); flex:0 0 var(--project-width); }
-div.layout>div.profile:not(.toggle) { width:50%; flex:0 0 50%; }
+div.layout>div.profile:not(.toggle) { width:50%; flex:1 0 50%; }
 div.layout>div.toggle.profile { top:20%; right:0; border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.layout>div.toggle.display { left:20%; bottom:-52px; transform:rotate(90deg); border-top-left-radius:var(--plugin-radius); border-bottom-left-radius:var(--plugin-radius); }
 div.layout:not(:hover)>div.toggle { display:none; }

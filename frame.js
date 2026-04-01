@@ -558,7 +558,6 @@ Volcanos(chat.ONAPPEND, {
 				_input._show_span = can.page.insertBefore(can, [{type: html.SPAN, onclick: function(event) { target.click() }}], target)
 				target._clear = function() { _input._show_img.src = can.misc.Resource(can, "usr/icons/icebergs.png"), _input._show_span.innerHTML = "" }
 				can.page.style(can, target, html.COLOR, html.TRANSPARENT)
-				// can.onappend.style(can, mdb.ICONS, target.parentNode)
 			} _input._show_img.src = can.misc.ResourceIcons(can, icons), _input._show_span.innerText = title||value
 			target.value = value
 		}
@@ -1166,7 +1165,12 @@ Volcanos(chat.ONLAYOUT, {
 	},
 	background: function(can, url, target) { can.page.style(can, target||can._root._target, "background-image", url == "" || url == "void"? "": url) },
 	figure: function(event, can, target, right, min, cb) { if (!event || !event.target) { return {} } target = target||can._fields||can._target
-		var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}: (event.currentTarget||event.target).getBoundingClientRect()
+		try {
+			var rect = event.target == document.body? {left: can.page.width()/2, top: can.page.height()/2, right: can.page.width()/2, bottom: can.page.height()/2}:
+		(event.currentTarget||event.target).getBoundingClientRect()
+		} catch (e) {
+			var rect = {left: event.clientX, top: event.clientY, right: event.clientX+10, bottom: event.clientY+10}
+		}
 		var layout = right? {left: rect.right, top: rect.top}: {left: rect.left, top: rect.bottom}
 		// can.page.tagis(target, "div.input") && can.user.isMobile && (layout.top = 40)
 		// can.page.style(can, target, html.TOP, "0", html.MAX_HEIGHT, "")

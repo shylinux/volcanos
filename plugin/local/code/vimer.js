@@ -44,7 +44,7 @@ Volcanos(chat.ONFIGURE, {
 					if (path == nfs.SRC && can.base.isIn(value.path, "main.html", "main.css", "main.js", "main.sh") && msg.Option(ice.MSG_USERPOD)) { return }
 					if (path == nfs.SRC && can.base.isIn(value.path,
 						"main.svg", "main.ico", "main.png", "main.jpg", "qrcode.jpg",
-						"version.go", "binpack.go", "binpack_usr.go",
+						"version.go", "option.go", "binpack.go", "binpack_usr.go",
 					)) { return }
 					if (path == nfs.USR_RELEASE && can.base.isIn(value.path, "conf.go", "binpack.go")) { return }
 					if (path == args[0] && args[1] == value.path) { value.expand = true }
