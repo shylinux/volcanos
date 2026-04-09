@@ -796,7 +796,7 @@ Volcanos(chat.ONAPPEND, {
 				if (can.base.contains(key, "_")) { can.onappend.style(can, key.split("_").pop(), target.parentNode) }
 				if (msg.IsDetail() && key != "key") { can.onappend.style(can, key, target.parentNode) }
 				if (msg.IsDetail() && key != "key" && value == "") { can.onappend.style(can, "_void", target.parentNode) }
-				if (msg.IsDetail() && can.base.endWith(key, "_uid")) { can.onappend.style(can, "hide", target.parentNode) }
+				// if (msg.IsDetail() && can.base.endWith(key, "_uid")) { can.onappend.style(can, "hide", target.parentNode) }
 				if (option.indexOf(key) > -1 && can.Option(key) == "") {
 					can.onappend.style(can, "k-"+(value.split(">").pop()), target.parentNode)
 					if (msg.IsDetail()) { can.onappend.style(can, html.OPTION, target.parentNode) }
