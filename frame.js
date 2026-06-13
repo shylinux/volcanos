@@ -689,11 +689,9 @@ Volcanos(chat.ONAPPEND, {
 		}}
 	},
 	label: function(can, value, icons) {
-		return {view: html.STATUS, list: can.core.Item(icons||{
-			version: "bi bi-tags",
+		return {view: html.STATUS, list: can.core.Item(icons||{version: "bi bi-tags",
 			time: can.base.isIn(can.ConfIndex(), web.DREAM, web.STORE)? "bi bi-tools": "bi bi-clock-history",
-			restart: "bi bi-bootstrap-reboot",
-			access: "bi bi-file-lock",
+			size: "bi bi-file-earmark-binary", restart: "bi bi-bootstrap-reboot", access: "bi bi-file-lock",
 		}, function(name, icon) { var text = value[name]
 			if (name == nfs.VERSION && text) { text = text.split("-").slice(0, 2).join("-") }
 			if (name == mdb.TIME && text) { text = can.base.TimeTrim(text) }

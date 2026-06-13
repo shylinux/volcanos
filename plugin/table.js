@@ -20,7 +20,7 @@ Volcanos(chat.ONIMPORT, {
 			return {view: [[html.ITEM, value.type, value.status, "s-"+value.name]], list: [
 				{view: ["title", html.DIV], list: [
 					img && {className: can.base.contains(img, ".jpg")? "jpg": "", img: img},
-					{view: wiki.TITLE, list: [value.help && {text: value.help}, {text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}]},
+					{view: wiki.TITLE, list: [value.help && value.name.indexOf(value.help) == -1 && {text: value.help}, {text: value.name}, value.exists == "true" && {text: ["●", "", "exists"]}]},
 					// value.help && {view: wiki.TITLE, list: [{text: value.help}]},
 					can.onappend.label(can, value),
 				]}, {view: [wiki.CONTENT, html.DIV, value.text]},
